@@ -1,0 +1,11 @@
+[Unit]
+Description=Shairport Sync Metadata 
+After=network.target redis.target shairport-sync.service
+
+[Service]
+ExecStart=/srv/http/shairportmeta.php
+User=http
+Group=http
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+export XDG_CACHE_HOME="/tmp/.cache" &
+export DISPLAY=":0" &
+
+xset dpms 0 0 0 &
+xset s off &
+xset -dpms &
+
+matchbox-window-manager -use_cursor yes &
+chromium --app=http://localhost --kiosk --incognito --disable-gpu --force-device-scale-factor=1
+
+# keyboard shortcuts
+#xbindkeys -X ":0" &

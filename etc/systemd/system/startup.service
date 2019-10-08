@@ -1,0 +1,11 @@
+[Unit]
+Description=RuneUIe Startup
+After=sound.target
+Requires=sound.target
+
+[Service]
+Type=idle
+ExecStart=/srv/http/startup.sh
+
+[Install]
+WantedBy=multi-user.target
