@@ -12,7 +12,7 @@ On Linux
 | primary | #2  | ROOT  | ext4   | the rest |
 
 **Download**
-- list: http://os.archlinuxarm.org/os/
+- list: https://archlinuxarm.org/about/downloads
 ```sh
 # get user
 whoami
@@ -20,8 +20,10 @@ whoami
 sudo su
 user=<user> # from previous command
 
-# download - RPi2,3
-file=ArchLinuxARM-rpi-2-latest.tar.gz
+# download
+#file=ArchLinuxARM-rpi-4-latest.tar.gz  # RPi4
+#file=ArchLinuxARM-rpi-3-latest.tar.gz  # RPi3B+
+file=ArchLinuxARM-rpi-2-latest.tar.gz   # RPi2, RPi3
 wget http://os.archlinuxarm.org/os/$file
 ```
 
