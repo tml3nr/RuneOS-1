@@ -113,5 +113,8 @@ mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
 
 # cron addons updates ( &> /dev/null suppress 1st crontab -l > no entries yet )
-( crontab -l; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab - &> /dev/null
+( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab -
+
+# motd
+rm /etc/motd
 ```
