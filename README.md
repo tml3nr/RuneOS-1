@@ -63,8 +63,12 @@ pacman-key --populate archlinuxarm
 pacman -Syu
 
 # packages
-pacman -S alsa-utils avahi chromium dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc parted php-fpm python python-pip samba shairport-sync sudo udevil wget
+pacman -S alsa-utils avahi chromium dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc parted php-fpm samba shairport-sync sudo udevil wget
 #cifs-utils nfs-utils
+
+# python (optional)
+pacman -S  python python-pip
+pip install RPi.GPIO
 
 # fix - mpd - log
 touch /var/log/mpd.log
