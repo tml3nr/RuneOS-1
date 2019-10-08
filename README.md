@@ -90,11 +90,6 @@ ln -s /lib/libjsoncpp.so.{21,20} # fix - older link
 hostname runeaudio
 echo runeaudio > /etc/hostname
 
-# user and group
-userdel alarm
-usermod -u 1000 mpd
-groupmod -g 92 audio
-
 mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
 
