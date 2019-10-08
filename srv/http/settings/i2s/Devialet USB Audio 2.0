@@ -1,0 +1,5 @@
+sysname:Devialet USB Audio 2.0
+extlabel:Devialet Audio
+mixer_numid:3
+mixer_control:Devialet Clock Selector
+type:usb

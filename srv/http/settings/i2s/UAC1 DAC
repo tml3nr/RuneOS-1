@@ -1,0 +1,5 @@
+sysname:UAC1 DAC
+extlabel:ObjectiveDAC (ODAC)
+mixer_numid:3
+mixer_control:PCM
+type:usb

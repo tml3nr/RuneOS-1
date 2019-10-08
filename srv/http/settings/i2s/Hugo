@@ -1,0 +1,5 @@
+sysname:Hugo
+extlabel:Chord Hugo
+mixer_numid:4
+mixer_control:Hugo
+type:usb

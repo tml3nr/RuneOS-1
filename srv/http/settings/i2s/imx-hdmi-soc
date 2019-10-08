@@ -1,0 +1,4 @@
+sysname:imx-hdmi-soc
+extlabel:Utilite HDMI Out
+hwplatformid:05
+type:integrated

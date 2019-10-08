@@ -1,0 +1,5 @@
+sysname:USB Audio CODEC
+extlabel:Behringer U-CONTROL UCA202
+mixer_numid:3
+mixer_control:PCM
+type:usb
