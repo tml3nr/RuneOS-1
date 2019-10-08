@@ -64,41 +64,35 @@ pacman -S alsa-utils avahi chromium cronie dnsmasq ffmpeg gcc hostapd ifplugd mp
 #cifs-utils nfs-utils
 
 # custom packages
-file=kid3-cli-3.7.1-1-armv7h.pkg.tar.xz
-wget https://github.com/rern/RuneAudio/raw/master/kid3-cli/$file
-pacman -U $file
-rm $file
-
-file=nginx-mainline-pushstream-1.17.3-1-armv7h.pkg.tar.xz
-wget https://github.com/rern/RuneAudio/raw/master/nginx/$file
-pacman -U $file
-rm $file
-mkdir -p /var/lib/nginx/client-body # fix - no directory found
-
+kid3=kid3-cli-3.7.1-1-armv7h.pkg.tar.xz
+nginx=nginx-mainline-pushstream-1.17.3-1-armv7h.pkg.tar.xz
 libupnpp=libupnpp-0.17.1-1-armv7h.pkg.tar.xz
 upmpdcli=upmpdcli-1.4.2-2-armv7h.pkg.tar.xz
+wget https://github.com/rern/RuneAudio/raw/master/kid3-cli/$kid3
+wget https://github.com/rern/RuneAudio/raw/master/nginx/$nginx
 wget https://github.com/rern/RuneAudio/raw/master/upmpdcli/$libupnpp
 wget https://github.com/rern/RuneAudio/raw/master/upmpdcli/$upmpdcli
-pacman -U $libupnpp $upmpdcli
-rm $libupnpp $upmpdcli
-ln -s /lib/libjsoncpp.so.{21,20} # fix - older link
+pacman -U $kid3 $nginx $libupnpp $upmpdcli
+rm $kid3 $nginx $libupnpp $upmpdcli
+mkdir -p /var/lib/nginx/client-body  # fix - no directory found
+ln -s /lib/libjsoncpp.so.{21,20}     # fix - older link
 ```
 
 ### Configurations
 ```sh
+# config files
+wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
+bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
+chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
+chown -R http:http /srv/http
+systemctl daemon-reload
+
 # set hostname
 hostname runeaudio
 echo runeaudio > /etc/hostname
 
 mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
-
-# copy config files
-wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
-bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
-chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
-chown -R http:http /srv/http
-systemctl daemon-reload
 
 systemctl enable avahi-daemon cronie nginx php-fpm startup udevil
 ```
