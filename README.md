@@ -78,7 +78,7 @@ chown mpd:audio /var/log/mpd.log
 ### Custom packages
 - Not support some features
 	- `nginx-mainline` - pushstream
-- Not available as standard packages
+- AUR only (Not available as standard packages)
 	- `kid3-cli`
 	- `matchbox-window-manager`
 	- `upmpdcli`
