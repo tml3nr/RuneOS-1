@@ -92,7 +92,7 @@ ln -s /lib/libjsoncpp.so.{21,20}     # fix - older link
 
 # enable startup services
 systemctl daemon-reload
-systemctl enable avahi-daemon cronie nginx php-fpm startup udevil
+systemctl enable avahi-daemon cronie devmon@root nginx php-fpm startup
 ```
 
 ### Configurations
