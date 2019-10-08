@@ -1,2 +1,2 @@
-ACTION=="add", KERNEL=="card*", SUBSYSTEM=="sound", RUN+="/usr/bin/systemctl start usbdacon.service"
-ACTION=="remove", KERNEL=="card*", SUBSYSTEM=="sound", RUN+="/usr/bin/systemctl start usbdacoff.service"
+ACTION=="add", KERNEL=="card*", SUBSYSTEM=="sound", RUN+="/usr/local/bin/usbdac.sh on &"
+ACTION=="remove", KERNEL=="card*", SUBSYSTEM=="sound", RUN+="/usr/local/bin/usbdac.sh &"

@@ -187,9 +187,11 @@
 	outline: none;
 }
 html {
+	height: 100%;
 	padding: env( safe-area-inset ); /* disable iPhone X rounded corner padding */
 }
 body {
+	height: 100%;
 	margin: 0;
 	font-family: "Lato";
 	font-size: 14px;
@@ -202,10 +204,6 @@ a,
 a:hover {
 	color: #e0e7ee;
 	text-decoration: none !important;
-}
-input {
-	background-color: #000000 !important;
-	border: 1px solid hsl(200,3%,30%)/*cg*/ !important;
 }
 ul {
 	margin: 0;
@@ -664,9 +662,7 @@ svg path.st1 {
 	text-align: center;
 	font-size: 30px !important;
 	color: #e0e7ee !important;
-}
-.emptyadd i {
-	cursor: pointer;
+	z-index: 1;
 }
 #divartist,
 #divalbum {
@@ -1588,14 +1584,13 @@ p.hrbl {
 	margin-top: 4px;
 	z-index: 1001
 }
-#db-search input,
-#pl-search input {
+input[type=text] {
 	display: inline-block;
 	height: 32px;
 	margin: 0;
+	padding: 0 5px;
 	border: 1px solid hsl(200,3%,30%)/*cg*/;
-	border-bottom-right-radius: 0;
-	border-top-right-radius: 0;
+	border-radius: 5px;
 	background-color: #000000;
 }
 #db-search-close,
