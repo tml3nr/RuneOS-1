@@ -1,6 +1,0 @@
-[Unit]
-Description=Hotplug USB DAC
-After=multi-user.target
-[Service]
-Type=oneshot
-ExecStart=/usr/local/bin/usbdac.sh on
