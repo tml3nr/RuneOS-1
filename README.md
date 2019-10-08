@@ -50,10 +50,11 @@ sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 systemctl reload sshd
 
 # initialize pgp key (May have to wait for "haveged" to make enough entropy.)
-pacman-key --init && pacman-key --populate archlinuxarm
+pacman-key --init
+pacman-key --populate archlinuxarm
 
 # Or temporarily bypass key verifications
-sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
+#sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
 ```
 
 ### Install packages
