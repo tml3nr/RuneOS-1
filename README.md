@@ -95,8 +95,8 @@ chown -R mpd:audio /mnt/MPD
 
 # copy config files
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
-bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*md -C /
-chmod -R 755 srv/http /usr/local/bin
+bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
+chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 systemctl daemon-reload
 
