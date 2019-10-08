@@ -64,21 +64,33 @@ pacman -S alsa-utils avahi chromium cronie dnsmasq ffmpeg gcc hostapd ifplugd mp
 #cifs-utils nfs-utils
 ```
 
-### Custom packages and Configurations
+### Custom packages
+- Not support some features
+	- `nginx-mainline` - pushstream
+- Not available as standard packages
+	- `kid3-cli`
+	- `matchbox-window-manager`
+	- `upmpdcli`
 ```sh
-# config files
+# custom packages and config files
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
 chmod 755 /root/* /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 
-# custom packages
+# install custom packages
 pacman -U *.pkg.tar.xz
-
 rm *.pkg.tar.xz
 mkdir -p /var/lib/nginx/client-body  # fix - no directory found
 ln -s /lib/libjsoncpp.so.{21,20}     # fix - older link
 
+# enable startup services
+systemctl daemon-reload
+systemctl enable avahi-daemon cronie nginx php-fpm startup udevil
+```
+
+### Configurations
+```sh
 # set hostname
 hostname runeaudio
 echo runeaudio > /etc/hostname
@@ -89,7 +101,4 @@ chown -R mpd:audio /mnt/MPD
 
 # cron addons updates ( &> /dev/null suppress 1st crontab -l > no entries yet )
 ( crontab -l; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab - &> /dev/null
-
-systemctl daemon-reload
-systemctl enable avahi-daemon cronie nginx php-fpm startup udevil
 ```
