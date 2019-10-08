@@ -60,7 +60,7 @@ sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
 pacman -Syu
 
 # packages
-pacman -S alsa-utils avahi chromium cronie dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc parted php-fpm python python-pip samba shairport-sync sudo udevil wget
+pacman -S alsa-utils avahi chromium dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc parted php-fpm python python-pip samba shairport-sync sudo udevil wget
 #cifs-utils nfs-utils
 
 # fix - mpd - log
@@ -92,7 +92,7 @@ ln -s /lib/libjsoncpp.so.{21,20}     # fix - older link
 
 # enable startup services
 systemctl daemon-reload
-systemctl enable avahi-daemon cronie devmon@root nginx php-fpm startup
+systemctl enable avahi-daemon devmon@root nginx php-fpm startup
 ```
 
 ### Configurations
