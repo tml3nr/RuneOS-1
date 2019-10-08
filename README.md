@@ -91,8 +91,12 @@ systemctl daemon-reload
 hostname runeaudio
 echo runeaudio > /etc/hostname
 
+# mpd directories
 mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
+
+# addons updates check ( &> /dev/null suppress 1st crontab -l > no entries yet )
+( crontab -l; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab - &> /dev/null
 
 systemctl enable avahi-daemon cronie nginx php-fpm startup udevil
 ```
