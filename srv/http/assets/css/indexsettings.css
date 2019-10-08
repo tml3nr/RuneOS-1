@@ -344,10 +344,12 @@ input[type=image] {
 	background: hsl(200,3%,30%)/*cg*/ !important;
 }
 /* switch: https://codepen.io/mburnette/pen/LxNxNg */
-.container input[type=checkbox]{
-	height: 0;
-	width: 0;
-	display: none;
+.container input[type=checkbox] {
+	position: absolute;
+	height: 40px;
+	width: 80px;
+	opacity: 0;
+	z-index: 1;
 }
 .switchlabel {
 	display: inline-block;

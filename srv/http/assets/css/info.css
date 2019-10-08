@@ -167,12 +167,12 @@ input::-moz-focus-inner { /* dotted outline */
 	color: #e0e7ee;
 }
 .infoinput {
-	margin: 2px 5px 0 0;
-	height: 36px;
+	margin: 2px 5px 2px 0 !important;
+	height: 36px !important;
 	padding: 0 10px;
 	color: #e0e7ee;
 	background-color: #000000;
-	border-radius: 4px;
+	border-radius: 5px;
 	border: 1px solid hsl(200,3%,30%)/*cg*/;
 	font-size: 16px;
 	font-family: "Lato";
@@ -203,6 +203,7 @@ input::-moz-focus-inner { /* dotted outline */
 #infoOverlay input[type=checkbox] {
 	width: 24px;
 	height: 24px;
+	margin: 3px 0;
 	vertical-align: -5px;
 }
 #infoSelect button {

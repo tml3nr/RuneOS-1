@@ -802,21 +802,6 @@ $( '.btn-cmd' ).click( function() {
 	var $this = $( this );
 	var cmd = this.id;
 	if ( $this.hasClass( 'btn-toggle' ) ) {
-		if ( GUI.status.consume ) {
-			info( {
-				  icon    : 'flash'
-				, title   : 'Consume mode'
-				, message : 'Consume mode is on.'
-						   +'<br>Turn it off and continue?'
-				, ok      : function() {
-					$this.addClass( 'active' );
-					$.post( 'commands.php', { mpc: 'mpc consume 0; mpc '+ cmd } );
-				}
-			} )
-			return
-			
-		}
-		
 		var onoff = GUI.status[ cmd ] ? 0 : 1;
 		GUI.status[ cmd ] = onoff;
 		command = 'mpc '+ cmd +' '+ onoff;
@@ -1492,8 +1477,8 @@ $( '#plconsume' ).click( function() {
 		$.post( 'commands.php', { mpc: 'mpc consume 0' } );
 	} else {
 		$( this ).addClass( 'bl' );
-		notify( 'Consume Mode', 'On - Remove each song after played.<br>Turn off repeat, random and single mode', 'list-ul' );
-		$.post( 'commands.php', { mpc: 'mpc consume 1; mpc repeat 0; mpc random 0; mpc single 0' } );
+		notify( 'Consume Mode', 'On - Remove each song after played.', 'list-ul' );
+		$.post( 'commands.php', { mpc: 'mpc consume 1' } );
 	}
 } );
 $( '#pllibrandom' ).click( function() {

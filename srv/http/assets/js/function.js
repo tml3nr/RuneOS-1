@@ -1256,6 +1256,7 @@ function renderLibrary() {
 	$( 'html, body' ).scrollTop( 0 );
 }
 function renderLsPlaylists( lsplaylists ) {
+	$( '.emptyadd' ).addClass( 'hide' );
 	var content = '';
 	$.each( lsplaylists, function( key, val ) {
 		if ( val.index ) {
@@ -1954,6 +1955,7 @@ function switchPage( page ) {
 			$( 'html, body' ).scrollTop( scrolltop );
 		}
 	} else if ( GUI.playlist && GUI.pleditor ) {
+		$( '.emptyadd' ).addClass( 'hide' );
 		$( 'html, body' ).scrollTop( GUI.playlistscrolltop );
 	}
 }
