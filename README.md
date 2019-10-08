@@ -75,7 +75,7 @@ pacman -S alsa-utils avahi chromium cronie dnsmasq ffmpeg gcc hostapd ifplugd mp
 # custom packages and config files
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
-chmod 755 /root/* /srv/http/* /srv/http/settings/* /usr/local/bin/*
+chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
 
 # install custom packages
