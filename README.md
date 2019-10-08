@@ -62,6 +62,10 @@ pacman -Syu
 # packages
 pacman -S alsa-utils avahi chromium cronie dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc parted php-fpm python python-pip samba shairport-sync sudo udevil wget
 #cifs-utils nfs-utils
+
+# fix - mpd - log
+touch /var/log/mpd.log
+chown mpd:audio /var/log/mpd.log
 ```
 
 ### Custom packages
@@ -81,6 +85,8 @@ chown -R http:http /srv/http
 # install custom packages
 pacman -U *.pkg.tar.xz
 rm *.pkg.tar.xz
+
+# fixes
 mkdir -p /var/lib/nginx/client-body  # fix - no directory found
 ln -s /lib/libjsoncpp.so.{21,20}     # fix - older link
 
