@@ -99,7 +99,7 @@ ln -s /lib/libjsoncpp.so.{21,20}     # fix - older link
 
 # enable startup services
 systemctl daemon-reload
-systemctl enable avahi-daemon devmon@root nginx php-fpm startup
+systemctl enable avahi-daemon bootsplash devmon@root nginx php-fpm startup
 ```
 
 ### Configurations
