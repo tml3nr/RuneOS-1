@@ -60,8 +60,12 @@ sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
 pacman -Syu
 
 # packages
-pacman -S alsa-utils avahi chromium cronie dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc parted php-fpm python python-pip samba shairport-sync sudo udevil wget
+pacman -S alsa-utils avahi chromium dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc parted php-fpm python python-pip samba shairport-sync sudo udevil wget
 #cifs-utils nfs-utils
+
+# fix - mpd - log
+touch /var/log/mpd.log
+chown mpd:audio /var/log/mpd.log
 ```
 
 ### Custom packages
@@ -75,18 +79,20 @@ pacman -S alsa-utils avahi chromium cronie dnsmasq ffmpeg gcc hostapd ifplugd mp
 # custom packages and config files
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
-chmod 755 /root/* /srv/http/* /srv/http/settings/* /usr/local/bin/*
+chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
 
 # install custom packages
 pacman -U *.pkg.tar.xz
 rm *.pkg.tar.xz
+
+# fixes
 mkdir -p /var/lib/nginx/client-body  # fix - no directory found
 ln -s /lib/libjsoncpp.so.{21,20}     # fix - older link
 
 # enable startup services
 systemctl daemon-reload
-systemctl enable avahi-daemon cronie nginx php-fpm startup udevil
+systemctl enable avahi-daemon devmon@root nginx php-fpm startup
 ```
 
 ### Configurations
