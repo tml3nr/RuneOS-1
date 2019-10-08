@@ -62,30 +62,22 @@ pacman -Syu
 # packages
 pacman -S alsa-utils avahi chromium cronie dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc parted php-fpm python python-pip samba shairport-sync sudo udevil wget
 #cifs-utils nfs-utils
-
-# custom packages
-kid3=kid3-cli-3.7.1-1-armv7h.pkg.tar.xz
-nginx=nginx-mainline-pushstream-1.17.3-1-armv7h.pkg.tar.xz
-libupnpp=libupnpp-0.17.1-1-armv7h.pkg.tar.xz
-upmpdcli=upmpdcli-1.4.2-2-armv7h.pkg.tar.xz
-wget https://github.com/rern/RuneAudio/raw/master/kid3-cli/$kid3
-wget https://github.com/rern/RuneAudio/raw/master/nginx/$nginx
-wget https://github.com/rern/RuneAudio/raw/master/upmpdcli/$libupnpp
-wget https://github.com/rern/RuneAudio/raw/master/upmpdcli/$upmpdcli
-pacman -U $kid3 $nginx $libupnpp $upmpdcli
-rm $kid3 $nginx $libupnpp $upmpdcli
-mkdir -p /var/lib/nginx/client-body  # fix - no directory found
-ln -s /lib/libjsoncpp.so.{21,20}     # fix - older link
 ```
 
-### Configurations
+### Custom packages and Configurations
 ```sh
 # config files
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
-chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
+chmod 755 /root/* /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
-systemctl daemon-reload
+
+# custom packages
+pacman -U *.pkg.tar.xz
+
+rm *.pkg.tar.xz
+mkdir -p /var/lib/nginx/client-body  # fix - no directory found
+ln -s /lib/libjsoncpp.so.{21,20}     # fix - older link
 
 # set hostname
 hostname runeaudio
@@ -95,8 +87,9 @@ echo runeaudio > /etc/hostname
 mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
 
-# addons updates check ( &> /dev/null suppress 1st crontab -l > no entries yet )
+# cron addons updates ( &> /dev/null suppress 1st crontab -l > no entries yet )
 ( crontab -l; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab - &> /dev/null
 
+systemctl daemon-reload
 systemctl enable avahi-daemon cronie nginx php-fpm startup udevil
 ```
