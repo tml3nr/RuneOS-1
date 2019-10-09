@@ -1,10 +1,7 @@
-ArchLinuxArm
+RuneOS
 ---
 
-On Linux
-
-**Partition SD Card**
-- Gparted
+**Partition SD Card** ( 4GB or more )
 
 | Type    | No. | Label | Format | Size     |
 |---------|-----|-------|--------|----------|
