@@ -72,7 +72,8 @@ touch /var/log/mpd.log
 chown mpd:audio /var/log/mpd.log
 
 # fix - alsa - Process '/usr/bin/alsactl restore 0' failed
-alsactl store
+chmod -R 666 /var/lib/alsa
+# alsactl store
 
 # fix - avahi - Failed to open /etc/resolv.conf + chroot.c: open() failed
 sed -i '/Requires/ a\After=systemd-resolved.service' /usr/lib/systemd/system/avahi-daemon.service
