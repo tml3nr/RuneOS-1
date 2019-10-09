@@ -49,11 +49,11 @@ passwd
 sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 systemctl reload sshd
 
-# initialize pgp key (May have to wait for "haveged" to make enough entropy.)
+# initialize pgp key
 pacman-key --init
 pacman-key --populate archlinuxarm
 
-# Or temporarily bypass key verifications
+# if errors occured, temporarily bypass key verifications
 #sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
 ```
 
@@ -63,10 +63,8 @@ pacman-key --populate archlinuxarm
 pacman -Syu
 
 # packages
-pacman -S alsa-utils avahi chromium dosfstools dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm samba shairport-sync sudo udevil wget xirg-server xorg-xinit xf86-video-fbdev xf86-video-vesa
+pacman -S alsa-utils avahi chromium dosfstools dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xirg-server xorg-xinit xf86-video-fbdev xf86-video-vesa
 
-# python (optional)
-pacman -S  python python-pip
 pip install RPi.GPIO
 
 # fix - mpd - log
@@ -87,6 +85,7 @@ sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 	- `kid3-cli`
 	- `matchbox-window-manager`
 	- `upmpdcli`
+	- `ply-image` (single binary file in `/usr/local/bin`)
 ```sh
 # custom packages and config files
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
