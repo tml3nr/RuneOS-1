@@ -120,7 +120,5 @@ rm /etc/motd
 
 # bootsplash
 mkdir /usr/share/bootsplash
-ln -s /srv/http/assets/img/NORMAL.png /usr/share/bootsplash/start.png
-ln -s /usr/share/bootsplash/{start,reboot}.png
-ln -s /usr/share/bootsplash/{start,shutdown}.png
+ln -s /srv/http/assets/img/{NORMAL,start}.png
 ```

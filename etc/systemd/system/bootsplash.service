@@ -1,12 +1,11 @@
 [Unit]
-Description = Splash screen during startup
+Description = Splash screen on startup
 DefaultDependencies=no
 After=systemd-vconsole-setup.service
 Before=sysinit.target
 
 [Service]
 Type=oneshot
-RemainAfterExit=yes
 ExecStart=/usr/local/bin/ply-image /srv/http/assets/img/start.png
 
 [Install]
