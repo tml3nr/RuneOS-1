@@ -119,9 +119,8 @@ systemctl enable avahi-daemon bootsplash devmon@root nginx php-fpm startup
 hostname runeaudio
 echo runeaudio > /etc/hostname
 
-# mpd directories
-mkdir -p /mnt/MPD/{USB,NAS}
-chown -R mpd:audio /mnt/MPD
+# ntp
+sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
 
 # cron addons updates ( &> /dev/null suppress 1st crontab -l > no entries yet )
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab -
@@ -131,4 +130,8 @@ rm /etc/motd
 
 # bootsplash
 ln -s /srv/http/assets/img/{NORMAL,start}.png
+
+# mpd directories
+mkdir -p /mnt/MPD/{USB,NAS}
+chown -R mpd:audio /mnt/MPD
 ```
