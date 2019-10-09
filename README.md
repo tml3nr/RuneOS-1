@@ -40,7 +40,7 @@ rm -r /media/$user/ROOT/boot/*
 
 **Boot**
 - Remove all USB drives
-- SCP/SSH with user|password : alarm|alarm
+- SCP/SSH with user-password : alarm-alarm
 ```sh
 # set root's password to "rune"
 su # password: root
