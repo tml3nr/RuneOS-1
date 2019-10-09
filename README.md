@@ -119,6 +119,5 @@ chown -R mpd:audio /mnt/MPD
 rm /etc/motd
 
 # bootsplash
-mkdir /usr/share/bootsplash
 ln -s /srv/http/assets/img/{NORMAL,start}.png
 ```
