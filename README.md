@@ -1,5 +1,8 @@
 RuneOS
 ---
+**Need**
+- Micro SD card - 4GB or more
+- USB thumb drive - 1GB or more
 
 **Arch Linux Arm**
 - list: https://archlinuxarm.org/about/downloads
@@ -36,6 +39,7 @@ rm -r /media/$user/ROOT/boot/*
 ```
 
 **Boot**
+- Remove all USB drives
 - SCP/SSH with user|password : alarm|alarm
 ```sh
 # set root's password to "rune"
@@ -135,5 +139,16 @@ chown -R mpd:audio /mnt/MPD
 ```sh
 systemctl daemon-reload
 systemctl enable avahi-daemon bootsplash devmon@root nginx php-fpm startup
+```
+
+**Reboot**
+- Plug in the USB drive. **All data in this drive will be deleted.**
+```sh
+# format
+umount -l /dev/sda1
+mkfs.ext4 -n thumb /dev/sda1
+
+# reboot
+shutdown -r now
 ```
 
