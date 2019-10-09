@@ -148,7 +148,7 @@ systemctl enable avahi-daemon bootsplash devmon@root nginx php-fpm startup
 - Plug in the USB drive.
 - All data in this drive will be deleted.
 ```sh
-# format
+# format usb drive
 umount -l /dev/sda1
 mkfs.ext4 -n thumb /dev/sda1
 
