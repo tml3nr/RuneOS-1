@@ -110,14 +110,14 @@ ln -s /lib/libjsoncpp.so.{21,20}
 
 **Configurations**
 ```sh
-# set hostname
+# hostname
 hostname runeaudio
 echo runeaudio > /etc/hostname
 
 # ntp
 sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
 
-# cron addons updates ( &> /dev/null suppress 1st crontab -l > no entries yet )
+# cron - addons updates
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab -
 
 # motd
