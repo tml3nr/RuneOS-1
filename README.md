@@ -1,14 +1,7 @@
 RuneOS
 ---
 
-**Partition SD Card** ( 4GB or more )
-
-| Type    | No. | Label | Format | Size     |
-|---------|-----|-------|--------|----------|
-| primary | #1  | BOOT  | fat32  | 100MB    |
-| primary | #2  | ROOT  | ext4   | the rest |
-
-**Download**
+**Arch Linux Arm**
 - list: https://archlinuxarm.org/about/downloads
 ```sh
 # get user
@@ -24,7 +17,14 @@ file=ArchLinuxARM-rpi-2-latest.tar.gz   # RPi2, RPi3
 wget http://os.archlinuxarm.org/os/$file
 ```
 
-### Flash SD card
+### Write to SD card
+4GB or more
+
+| Type    | No. | Label | Format | Size     |
+|---------|-----|-------|--------|----------|
+| primary | #1  | BOOT  | fat32  | 100MB    |
+| primary | #2  | ROOT  | ext4   | the rest |
+
 ```sh
 # install bsdtar ("tar" will show lots of errors.)
 apt install bsdtar
