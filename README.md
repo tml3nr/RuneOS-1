@@ -17,8 +17,8 @@ file=ArchLinuxARM-rpi-2-latest.tar.gz   # RPi2, RPi3
 wget http://os.archlinuxarm.org/os/$file
 ```
 
-### Write to SD card
-4GB or more
+**Write to SD card**
+- 4GB or more
 
 | Type    | No. | Label | Format | Size     |
 |---------|-----|-------|--------|----------|
@@ -35,7 +35,7 @@ cp -rv --no-preserve=mode,ownership /media/$user/ROOT/boot/* /media/$user/BOOT
 rm -r /media/$user/ROOT/boot/*
 ```
 
-### Boot
+**Boot**
 - SCP/SSH with user|password : alarm|alarm
 ```sh
 # set root's password to "rune"
@@ -54,7 +54,7 @@ pacman-key --populate archlinuxarm
 #sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
 ```
 
-### Install packages
+**Packages**
 ```sh
 # full upgrade
 pacman -Syu
@@ -65,7 +65,7 @@ pacman -S alsa-utils avahi chromium dosfstools dnsmasq ffmpeg gcc hostapd ifplug
 pip install RPi.GPIO
 ```
 
-### Fixes
+**Fixes**
 ```sh
 # fix - mpd - log
 touch /var/log/mpd.log
@@ -82,7 +82,7 @@ sed -i '/Requires/ a\After=systemd-resolved.service' /usr/lib/systemd/system/ava
 sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 ```
 
-### Custom packages
+**Custom packages**
 - Not support some features
 	- `nginx-mainline` - pushstream
 - AUR only (Not available as standard packages)
@@ -110,7 +110,7 @@ systemctl daemon-reload
 systemctl enable avahi-daemon bootsplash devmon@root nginx php-fpm startup
 ```
 
-### Configurations
+**Configurations**
 ```sh
 # set hostname
 hostname runeaudio
