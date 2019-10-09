@@ -76,6 +76,9 @@ chown mpd:audio /var/log/mpd.log
 
 # fix - avahi - Failed to open /etc/resolv.conf + chroot.c: open() failed
 sed -i '/Requires/ a\After=systemd-resolved.service' /usr/lib/systemd/system/avahi-daemon.service
+
+# fix - lvm - Invalid value
+sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 ```
 
 ### Custom packages
