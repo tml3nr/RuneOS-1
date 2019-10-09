@@ -66,7 +66,10 @@ pacman -Syu
 pacman -S alsa-utils avahi chromium dosfstools dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xirg-server xorg-xinit xf86-video-fbdev xf86-video-vesa
 
 pip install RPi.GPIO
+```
 
+### Fixes
+```sh
 # fix - mpd - log
 touch /var/log/mpd.log
 chown mpd:audio /var/log/mpd.log
