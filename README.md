@@ -65,23 +65,6 @@ pacman -S alsa-utils avahi chromium dosfstools dnsmasq ffmpeg gcc hostapd ifplug
 pip install RPi.GPIO
 ```
 
-**Fixes**
-```sh
-# fix - mpd - log
-touch /var/log/mpd.log
-chown mpd:audio /var/log/mpd.log
-
-# fix - alsa - Process '/usr/bin/alsactl restore 0' failed
-chmod -R 666 /var/lib/alsa
-# alsactl store
-
-# fix - avahi - Failed to open /etc/resolv.conf + chroot.c: open() failed
-sed -i '/Requires/ a\After=systemd-resolved.service' /usr/lib/systemd/system/avahi-daemon.service
-
-# fix - lvm - Invalid value
-sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
-```
-
 **Custom packages**
 - Not support some features
 	- `nginx-mainline` - pushstream
@@ -100,14 +83,29 @@ chown -R http:http /srv/http
 # install custom packages
 pacman -U *.pkg.tar.xz
 rm *.pkg.tar.xz
+```
 
-# fixes
-mkdir -p /var/lib/nginx/client-body  # fix - no directory found
-ln -s /lib/libjsoncpp.so.{21,20}     # fix - older link
+**Fixes**
+```sh
+# alsa - Process '/usr/bin/alsactl restore 0' failed
+chmod -R 666 /var/lib/alsa
+# alsactl store
 
-# enable startup services
-systemctl daemon-reload
-systemctl enable avahi-daemon bootsplash devmon@root nginx php-fpm startup
+# avahi - Failed to open /etc/resolv.conf + chroot.c: open() failed
+sed -i '/Requires/ a\After=systemd-resolved.service' /usr/lib/systemd/system/avahi-daemon.service
+
+# lvm - Invalid value
+sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
+
+# mpd - file not found
+touch /var/log/mpd.log
+chown mpd:audio /var/log/mpd.log
+
+# nginx - - directory not found
+mkdir -p /var/lib/nginx/client-body
+
+# upmpdcli - older symlink
+ln -s /lib/libjsoncpp.so.{21,20}
 ```
 
 **Configurations**
@@ -132,3 +130,10 @@ ln -s /srv/http/assets/img/{NORMAL,start}.png
 mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
 ```
+
+**Startup services**
+```sh
+systemctl daemon-reload
+systemctl enable avahi-daemon bootsplash devmon@root nginx php-fpm startup
+```
+
