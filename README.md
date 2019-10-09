@@ -66,7 +66,7 @@ pacman -Syu
 # packages
 packages='alsa-utils avahi chromium dosfstools dnsmasq ffmpeg gcc hostapd ifplugd'
 packages+=' mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo'
-packages+=' udevil wget xorg-server xorg-xinit xf86-video-fbdev xf86-video-vesa'
+packages+=' udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 pacman -S $packages
 
 pip install RPi.GPIO
@@ -117,25 +117,25 @@ ln -s /lib/libjsoncpp.so.{21,20}
 
 **Configurations**
 ```sh
+# bootsplash
+ln -s /srv/http/assets/img/{NORMAL,start}.png
+
 # hostname
 hostname runeaudio
 echo runeaudio > /etc/hostname
 
-# ntp
-sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
-
 # cron - addons updates
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab -
-
-# motd
-rm /etc/motd
-
-# bootsplash
-ln -s /srv/http/assets/img/{NORMAL,start}.png
 
 # mpd directories
 mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
+
+# motd
+rm /etc/motd
+
+# ntp
+sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
 ```
 
 **Startup services**
@@ -155,4 +155,3 @@ mkfs.ext4 -n thumb /dev/sda1
 # reboot
 shutdown -r now
 ```
-
