@@ -73,6 +73,9 @@ pip install RPi.GPIO
 # fix - mpd - log
 touch /var/log/mpd.log
 chown mpd:audio /var/log/mpd.log
+
+# fix - avahi - Failed to open /etc/resolv.conf + chroot.c: open() failed
+sed -i '/Requires/ a\After=systemd-resolved.service' /usr/lib/systemd/system/avahi-daemon.service
 ```
 
 ### Custom packages
