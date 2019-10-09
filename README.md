@@ -63,8 +63,7 @@ pacman-key --populate archlinuxarm
 pacman -Syu
 
 # packages
-pacman -S alsa-utils avahi chromium dosfstools dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc parted php-fpm samba shairport-sync sudo udevil wget xirg-server xorg-xinit xf86-video-fbdev xf86-video-vesa
-#cifs-utils nfs-utils
+pacman -S alsa-utils avahi chromium dosfstools dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm samba shairport-sync sudo udevil wget xirg-server xorg-xinit xf86-video-fbdev xf86-video-vesa
 
 # python (optional)
 pacman -S  python python-pip
