@@ -346,7 +346,7 @@ EndSection
 				, "sed -i 's/xset dpms .*/xset dpms 0 0 "+ ( screenoff * 60 ) +" \\\&/' /etc/X11/xinit/xinitrc"
 				, cmdrotate
 				, cmdoverscan
-				, 'ln -sf /srv/http/assets/img/'+ rotate +'.png /usr/share/bootsplash/start.png'
+				, 'ln -sf /srv/http/assets/img/{'+ rotate +',start}.png'
 				, 'systemctl try-restart localbrowser'
 				, 'echo '+ ( cursor ? 'yes' : 'no' ) +' > '+ dirsystem +'/localbrowser-cursor'
 				, 'echo '+ ( screenoff * 60 ) +' > '+ dirsystem +'/localbrowser-screenoff'
