@@ -49,7 +49,7 @@ while ( $line !== false ) {
 if ( !isset( $status[ 'song' ] ) ) $status[ 'song' ] = 0;
 $status[ 'updating_db' ] = isset( $status[ 'updating_db' ] ) ? 1 : 0;
 
-if ( !$status[ 'playlistlength' ] ) {
+if ( !isset( $status[ 'playlistlength' ] ) || !$status[ 'playlistlength' ] ) {
 	echo json_encode( $status, JSON_NUMERIC_CHECK );
 	exit();
 }
