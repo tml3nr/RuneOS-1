@@ -66,10 +66,17 @@ pacman -Syu
 pacman -S alsa-utils avahi chromium dosfstools dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xirg-server xorg-xinit xf86-video-fbdev xf86-video-vesa
 
 pip install RPi.GPIO
+```
 
+### Fixes
+```sh
 # fix - mpd - log
 touch /var/log/mpd.log
 chown mpd:audio /var/log/mpd.log
+
+# fix - alsa - Process '/usr/bin/alsactl restore 0' failed
+chmod -R 666 /var/lib/alsa
+# alsactl store
 
 # fix - avahi - Failed to open /etc/resolv.conf + chroot.c: open() failed
 sed -i '/Requires/ a\After=systemd-resolved.service' /usr/lib/systemd/system/avahi-daemon.service
@@ -112,9 +119,8 @@ systemctl enable avahi-daemon bootsplash devmon@root nginx php-fpm startup
 hostname runeaudio
 echo runeaudio > /etc/hostname
 
-# mpd directories
-mkdir -p /mnt/MPD/{USB,NAS}
-chown -R mpd:audio /mnt/MPD
+# ntp
+sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
 
 # cron addons updates ( &> /dev/null suppress 1st crontab -l > no entries yet )
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab -
@@ -124,4 +130,8 @@ rm /etc/motd
 
 # bootsplash
 ln -s /srv/http/assets/img/{NORMAL,start}.png
+
+# mpd directories
+mkdir -p /mnt/MPD/{USB,NAS}
+chown -R mpd:audio /mnt/MPD
 ```
