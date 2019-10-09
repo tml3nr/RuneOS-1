@@ -64,7 +64,10 @@ pacman-key --populate archlinuxarm
 pacman -Syu
 
 # packages
-pacman -S alsa-utils avahi chromium dosfstools dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xirg-server xorg-xinit xf86-video-fbdev xf86-video-vesa
+packages='alsa-utils avahi chromium dosfstools dnsmasq ffmpeg gcc hostapd ifplugd'
+packages+=' mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo'
+packages+=' udevil wget xorg-server xorg-xinit xf86-video-fbdev xf86-video-vesa'
+pacman -S $packages
 
 pip install RPi.GPIO
 ```
