@@ -7,7 +7,6 @@ Type=idle
 User=http
 ExecStart=/usr/bin/startx
 ExecStop=/usr/bin/killall Xorg
-Restart=always
 
 [Install]
 WantedBy=multi-user.target
