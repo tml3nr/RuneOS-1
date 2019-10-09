@@ -67,4 +67,4 @@ done
 
 echo "$mpdconf" > $file
 
-systemctl restart mpd mpdidle
+systemctl restart mpd
