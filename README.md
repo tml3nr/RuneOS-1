@@ -142,7 +142,8 @@ systemctl enable avahi-daemon bootsplash devmon@root nginx php-fpm startup
 ```
 
 **Reboot**
-- Plug in the USB drive. **All data in this drive will be deleted.**
+- Plug in the USB drive.
+- All data in this drive will be deleted.
 ```sh
 # format
 umount -l /dev/sda1
