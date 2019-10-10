@@ -43,8 +43,8 @@ rm -r /path/to/ROOT/boot/*
 - SCP/SSH with user-password : alarm-alarm
 ```sh
 # set root's password to "rune"
-su # password: root
-passwd
+su      # password: root
+passwd  # new password: rune
 
 # permit root SSH login
 sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
