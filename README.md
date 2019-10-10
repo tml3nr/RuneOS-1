@@ -226,12 +226,11 @@ shutdown -h now
 ```sh
 # get device and verify
 part=$( df | grep BOOT | awk '{print $1}' )
-dev=${dev:0:-1}
+dev=${part:0:-1}
 df | grep BOOT
 echo device = $dev
 
 # create image
-umount -l $dev
 dd if=$dev of=RuneAudio+Re2.img bs=100M conv=notrunc
 ```
 - OR create image file on Windows
