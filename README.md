@@ -4,7 +4,6 @@ RuneOS
 - Linux PC
 - Micro SD card - 4GB+
 - USB thumb drive - 1GB+
-- Know how to get IP address of RPi and connect via SCP/SSH
 
 **Arch Linux Arm** https://archlinuxarm.org/about/downloads
 ```sh
@@ -31,7 +30,7 @@ wget http://os.archlinuxarm.org/os/$file
 \* **Label** - Important
 
 ```sh
-# install bsdtar
+# install bsdtar and nmap
 apt install bsdtar
 
 # expand to sd card
@@ -44,9 +43,19 @@ rm -r $ROOT/boot/*
 
 **Boot**
 - Remove all USB drives
+- Insert the SD card
 - Connect wired LAN
-- SCP/SSH with user-password : alarm-alarm
+- Power on
+
+**SSH to RPi**
 ```sh
+# get RPi IP address
+pcip=$( ip route get 1 | cut -d' ' -f3 )
+rpiip=$( nmap -sP ${ip%.*}.* | grep -B2 Raspberry | head -1 | awk '{print $NF}' )
+
+# connect - password: alarm
+ssh alarm@$rpiip
+
 # set root's password to "rune"
 su      # password: root
 passwd  # new password: rune
