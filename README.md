@@ -47,7 +47,7 @@ rm -r $ROOT/boot/*
 - Connect wired LAN
 - Power on
 
-**SSH to RPi**
+**Connect PC to RPi**
 ```sh
 # get RPi IP address
 routerip=$( ip route get 1 | cut -d' ' -f3 )
@@ -57,27 +57,21 @@ rpiip=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry | head -1 | awk '{print 
 # nmap -sP ${routerip%.*}.* | grep -B2 Raspberry
 # rpiip=<ip>
 
-# connect - password: alarm
-ssh alarm@$rpiip
+# connect
+ssh alarm@$rpiip  password: alarm
+```
 
-# set root's password to "rune"
-su      # password: root
-passwd  # new password: rune
-
-# permit root SSH login
-sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
-systemctl reload sshd
+**Packages**
+```sh
+su  # password: root
 
 # initialize pgp key
 pacman-key --init
 pacman-key --populate archlinuxarm
 
 # if errors occured, temporarily bypass key verifications
-#sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
-```
+# sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
 
-**Packages**
-```sh
 # full upgrade
 pacman -Syu
 
@@ -137,12 +131,11 @@ ln -s /lib/libjsoncpp.so.{21,20}
 # bootsplash
 ln -s /srv/http/assets/img/{NORMAL,start}.png
 
-# hostname
-hostname runeaudio
-echo runeaudio > /etc/hostname
-
 # cron - addons updates
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab -
+
+# hostname
+echo runeaudio > /etc/hostname
 
 # mpd directories
 mkdir -p /mnt/MPD/{USB,NAS}
@@ -153,6 +146,12 @@ rm /etc/motd
 
 # ntp
 sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
+
+# root's password
+passwd  # new password: rune
+
+# root's ssh
+sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 ```
 
 **Startup services**
@@ -162,8 +161,7 @@ systemctl enable avahi-daemon bootsplash devmon@root nginx php-fpm startup
 ```
 
 **Reboot**
-- Plug in the USB drive.
-- All data in this drive will be deleted.
+- Plug in the USB drive. **Warning** All data in this drive will be deleted.
 ```sh
 # format usb drive
 umount -l /dev/sda1
