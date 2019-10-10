@@ -1,9 +1,10 @@
-RuneOS
+RuneAudio+R
 ---
+Build RuneAudio+R from Arch Linux Arm source.
+
 **Need**
 - Linux PC
 - Micro SD card - 4GB+
-- USB thumb drive - 1GB+
 
 **Arch Linux Arm** https://archlinuxarm.org/about/downloads
 ```sh
@@ -25,7 +26,7 @@ wget http://os.archlinuxarm.org/os/$file
 | Type    | No. | Label* | Format | Size     |
 |---------|-----|--------|--------|----------|
 | primary | #1  | BOOT   | fat32  | 100MB    |
-| primary | #2  | ROOT   | ext4   | the rest |
+| primary | #2  | ROOT   | ext4   | 3.5GB    |
 
 \* **Label** - Important
 
@@ -167,8 +168,14 @@ shutdown -h now
 ```
 - Power off / disconnect RPi power
 
-**Start**
-- Plug in a USB drive:
-- At least one is required.
-- This can be the same drive that stores music files.
+**Create image file**
+- Windows
+	- Win32 Disk Imager > Read only allocated partitions
+- Linux
+	- 
+
+**Start RuneAudio+R**
+- Plug in a USB drive
+	- At least one is required. (1GB+)
+	- This can be the same drive that stores music files.
 - Power on
