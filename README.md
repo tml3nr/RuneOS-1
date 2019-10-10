@@ -32,9 +32,14 @@ wget http://os.archlinuxarm.org/os/$file
 # install bsdtar and nmap
 apt install bsdtar namp
 
-# expand to sd card
+# get partitions and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
+df | grep 'ROOT\|BOOT'
+echo ROOT = $ROOT
+echo BOOT = $BOOT
+
+# expand to sd card
 bsdtar xpvf $file -C $ROOT
 cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
 rm -r $ROOT/boot/*
@@ -48,12 +53,15 @@ rm -r $ROOT/boot/*
 
 **Connect PC to RPi**
 ```sh
-# get RPi IP address
+# get RPi IP address and verify
 routerip=$( ip route get 1 | cut -d' ' -f3 )
-rpiip=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry | head -1 | awk '{print $NF}' )
+nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
+rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' )
+echo List:
+echo "$nmap"
+echo RPi IP = $rpiip
 
 # if there's more than 1 RPi, set rpiip manually
-# nmap -sP ${routerip%.*}.* | grep -B2 Raspberry
 # rpiip=<ip>
 
 # connect
@@ -215,8 +223,12 @@ shutdown -h now
 	- Win32 Disk Imager > Read only allocated partitions
 - Linux
 ```sh
+# get device and verify
 part=$( df | grep BOOT | awk '{print $1}' )
 dev=${dev:0:-1}
+df | grep BOOT
+echo device = $dev
+
 umount -l $dev
 dd if=$dev of=RuneAudio+Re2.img bs=100M conv=notrunc
 ```
