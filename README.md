@@ -76,14 +76,38 @@ pacman-key --populate archlinuxarm
 # full upgrade
 pacman -Syu
 
-# packages
-pacman -S alsa-utils avahi dosfstools dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm samba shairport-sync sudo udevil wget
+# package list
+packages='alsa-utils avahi chromium dnsmasq dosfstools ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 
-# chromium - optional for browser on rpi
-pacman -S chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit
+# remove optional - access point
+packages=${packages/ dnsmasq}
+packages=${packages/ hostapd}
 
-# python - optional for any python scripts (python3)
-pacman -S python python-pip
+# remove optional - airplay
+packages=${packages/ shairport-sync}
+
+# remove optional - browser on rpi
+packages=${packages/ chromium}
+packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
+
+# remove optional - extended audio format:
+#   16sv 3g2 3gp 4xm 8svx aa3 aac ac3 adx afc aif aifc aiff al alaw amr anim apc ape asf atrac au aud avi avm2 avs 
+#   bap bfi c93 cak cin cmv cpk daud dct divx dts dv dvd dxa eac3 film flac flc fli fll flx flv g726 gsm gxf iss 
+#   m1v m2v m2t m2ts m4a m4b m4v mad mj2 mjpeg mjpg mka mkv mlp mm mmf mov mp+ mp1 mp2 mp3 mp4 mpc mpeg mpg mpga mpp mpu mve mvi mxf 
+#   nc nsv nut nuv oga ogm ogv ogx oma ogg omg opus psp pva qcp qt r3d ra ram rl2 rm rmvb roq rpl rvc shn smk snd sol son spx str swf 
+#   tak tgi tgq tgv thp ts tsp tta xa xvid uv uv2 vb vid vob voc vp6 vmd wav webm wma wmv wsaud wsvga wv wve
+packages=${packages/ ffmpeg}
+
+# remove optional - file sharing
+packages=${packages/ samba}
+
+# remove optional - python (python3)
+packages=${packages/ python python-pip}
+
+# install packages
+pacman -S $packages
+
+# install optional - RPi.GPIO
 pip install RPi.GPIO
 ```
 
@@ -101,6 +125,12 @@ wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
+
+# optional - metadata tag editor - exclude from install
+rm kid3-cli*
+
+# remove optional - UPnP
+rm upmpdcli*
 
 # install custom packages
 pacman -U *.pkg.tar.xz
@@ -136,7 +166,15 @@ ln -s /srv/http/assets/img/{NORMAL,start}.png
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab -
 
 # hostname
-echo runeaudio > /etc/hostname
+name=RuneAudio
+namecl=runeaudio
+echo $namecl > /etc/hostname
+sed -i "s/^\(ssid=\).*/\1$name/" /etc/hostapd/hostapd.conf
+sed -i 's/\(zeroconf_name           "\).*/\1$name"/' /etc/mpd.conf
+sed -i "s/\(netbios name = \).*/\1$name/" /etc/samba/smb.conf
+sed -i "s/^\(friendlyname = \).*/\1$name/" /etc/upmpdcli.conf
+sed -i "s/\(.*\[\).*\(\] \[.*\)/\1$namelc\2/" /etc/avahi/services/runeaudio.service
+sed -i "s/\(.*localdomain \).*/\1$namelc.local $namelc/" /etc/hosts
 
 # mpd directories
 mkdir -p /mnt/MPD/{USB,NAS}
