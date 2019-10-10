@@ -26,6 +26,8 @@ wget http://os.archlinuxarm.org/os/$file
 | primary | #1  | BOOT  | fat32  | 100MB    |
 | primary | #2  | ROOT  | ext4   | the rest |
 
+* LABEL - Important (or targets must be changed on "expand to sd card")
+
 ```sh
 sudo su
 
