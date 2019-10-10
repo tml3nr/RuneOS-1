@@ -215,8 +215,10 @@ shutdown -h now
 	- Win32 Disk Imager > Read only allocated partitions
 - Linux
 ```sh
-dev=$( df | grep BOOT | awk '{print $1}' )
-dd if=${dev:0:-1} of=RuneAudio+Re2.img
+part=$( df | grep BOOT | awk '{print $1}' )
+dev=${dev:0:-1}
+umount -l $dev
+dd if=$dev of=RuneAudio+Re2.img bs=4M
 ```
 
 **Start RuneAudio+R**
