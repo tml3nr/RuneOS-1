@@ -8,6 +8,8 @@ RuneOS
 
 **Arch Linux Arm** https://archlinuxarm.org/about/downloads
 ```sh
+sudo su
+
 # download - uncomment a version
 #file=ArchLinuxARM-rpi-4-latest.tar.gz  # RPi4
 #file=ArchLinuxARM-rpi-3-latest.tar.gz  # RPi3B+
@@ -18,19 +20,17 @@ wget http://os.archlinuxarm.org/os/$file
 
 **Write to SD card**
 - Create partitions
-	- GUI - Gparted
-	- CLI - `fdisk`
+	- GUI - Gparted or
+	- CLI - `fdisk` + `fatlabel` + `e2label`
 
-| Type    | No. | Label | Format | Size     |
-|---------|-----|-------|--------|----------|
-| primary | #1  | BOOT  | fat32  | 100MB    |
-| primary | #2  | ROOT  | ext4   | the rest |
+| Type    | No. | Label* | Format | Size     |
+|---------|-----|--------|--------|----------|
+| primary | #1  | BOOT   | fat32  | 100MB    |
+| primary | #2  | ROOT   | ext4   | the rest |
 
-* LABEL - Important (or targets must be changed on "expand to sd card")
+\* **Label** - Important
 
 ```sh
-sudo su
-
 # install bsdtar
 apt install bsdtar
 
