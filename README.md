@@ -27,8 +27,9 @@ wget http://os.archlinuxarm.org/os/$file
 | primary | #2  | ROOT  | ext4   | the rest |
 
 ```sh
+sudo su
+
 # install bsdtar
-# arch linux: pacman -S bsdtar
 apt install bsdtar
 
 # expand to sd card
