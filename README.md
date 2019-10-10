@@ -19,6 +19,8 @@ wget http://os.archlinuxarm.org/os/$file
 
 **Write to SD card**
 - Create partitions
+	- GUI - Gparted
+	- CLI - `fdisk`
 
 | Type    | No. | Label | Format | Size     |
 |---------|-----|-------|--------|----------|
@@ -30,7 +32,7 @@ wget http://os.archlinuxarm.org/os/$file
 # arch linux: pacman -S bsdtar
 apt install bsdtar
 
-# extract
+# expand to sd card
 bsdtar xpvf $file -C /path/to/ROOT
 cp -rv --no-preserve=mode,ownership /path/to/ROOT/boot/* /path/to/BOOT
 rm -r /path/to/ROOT/boot/*
