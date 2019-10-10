@@ -31,7 +31,7 @@ wget http://os.archlinuxarm.org/os/$file
 
 ```sh
 # install bsdtar and nmap
-apt install bsdtar
+apt install bsdtar namp
 
 # expand to sd card
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
@@ -50,8 +50,12 @@ rm -r $ROOT/boot/*
 **SSH to RPi**
 ```sh
 # get RPi IP address
-pcip=$( ip route get 1 | cut -d' ' -f3 )
-rpiip=$( nmap -sP ${ip%.*}.* | grep -B2 Raspberry | head -1 | awk '{print $NF}' )
+routerip=$( ip route get 1 | cut -d' ' -f3 )
+rpiip=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry | head -1 | awk '{print $NF}' )
+
+# if there's more than 1 RPi, set rpiip manually
+# nmap -sP ${routerip%.*}.* | grep -B2 Raspberry
+# rpiip=<ip>
 
 # connect - password: alarm
 ssh alarm@$rpiip
