@@ -45,7 +45,7 @@ rm -r $ROOT/boot/*
 - Remove all USB drives
 - Insert the SD card
 - Connect wired LAN
-- Power on
+- Power on / connect RPi power
 
 **Connect PC to RPi**
 ```sh
@@ -160,13 +160,15 @@ systemctl daemon-reload
 systemctl enable avahi-daemon bootsplash devmon@root nginx php-fpm startup
 ```
 
-**Reboot**
-- Plug in the USB drive. **Warning** All data in this drive will be deleted.
+**Finish**
 ```sh
-# format usb drive
-umount -l /dev/sda1
-mkfs.ext4 -n thumb /dev/sda1
-
-# reboot
-shutdown -r now
+# shutdown
+shutdown -h now
 ```
+- Power off / disconnect RPi power
+
+**Start**
+- Plug in a USB drive:
+- At least one is required.
+- This can be the same drive that stores music files.
+- Power on
