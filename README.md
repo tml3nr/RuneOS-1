@@ -5,6 +5,7 @@ Build RuneAudio+R from Arch Linux Arm source.
 **Need**
 - Linux PC
 - Micro SD card - 4GB+
+- Card reader
 
 **Arch Linux Arm** https://archlinuxarm.org/about/downloads
 ```sh
@@ -219,8 +220,7 @@ shutdown -h now
 - Power off / disconnect RPi power
 
 **Create image file**
-- Windows
-	- Win32 Disk Imager > Read only allocated partitions
+- Insert the micro SD card in PC
 - Linux
 ```sh
 # get device and verify
@@ -232,9 +232,13 @@ echo device = $dev
 umount -l $dev
 dd if=$dev of=RuneAudio+Re2.img bs=100M conv=notrunc
 ```
+- Or on Windows
+	- Win32 Disk Imager > Read only allocated partitions
 
 **Start RuneAudio+R**
+- Insert the micro SD card
 - Plug in a USB drive
 	- At least one is required. (1GB+)
+	- Must be formatted to **`ext4`**
 	- This can be the same drive that stores music files.
 - Power on
