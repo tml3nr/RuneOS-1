@@ -153,6 +153,9 @@ chown mpd:audio /var/log/mpd.log
 
 # upmpdcli - older symlink
 ln -s /lib/libjsoncpp.so.{21,20}
+
+# wireless-regdom - /usr/bin/set-wireless-regdom failed
+sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 ```
 
 **Configurations**
