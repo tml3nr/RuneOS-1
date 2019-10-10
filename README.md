@@ -151,6 +151,9 @@ sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 touch /var/log/mpd.log
 chown mpd:audio /var/log/mpd.log
 
+# systemd-random-seed - Kernel entropy pool is not initialized
+systemctl start systemd-random-seed
+
 # upmpdcli - older symlink
 ln -s /lib/libjsoncpp.so.{21,20}
 
