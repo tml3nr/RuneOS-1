@@ -115,9 +115,6 @@ sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 touch /var/log/mpd.log
 chown mpd:audio /var/log/mpd.log
 
-# nginx - - directory not found
-mkdir -p /var/lib/nginx/client-body
-
 # upmpdcli - older symlink
 ln -s /lib/libjsoncpp.so.{21,20}
 ```
