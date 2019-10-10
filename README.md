@@ -172,7 +172,7 @@ shutdown -h now
 - Windows
 	- Win32 Disk Imager > Read only allocated partitions
 - Linux
-	- 
+	- ?
 
 **Start RuneAudio+R**
 - Plug in a USB drive
