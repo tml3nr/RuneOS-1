@@ -69,7 +69,7 @@ pacman -S alsa-utils avahi dosfstools dnsmasq ffmpeg gcc hostapd ifplugd mpd mpc
 # chromium - optional for browser on rpi
 pacman -S chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit
 
-# python - optional for custom scripts
+# python - optional for any python scripts (python3)
 pacman -S python python-pip
 pip install RPi.GPIO
 ```
