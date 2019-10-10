@@ -6,7 +6,7 @@ RuneOS
 - USB thumb drive - 1GB+
 - Know how to get IP address of RPi and connect via SCP/SSH
 
-**Arch Linux Arm**
+**Arch Linux Arm** https://archlinuxarm.org/about/downloads
 ```sh
 # download - uncomment a version
 #file=ArchLinuxARM-rpi-4-latest.tar.gz  # RPi4
@@ -15,7 +15,6 @@ RuneOS
 #file=ArchLinuxARM-rpi-latest.tar.gz    # RPi1, RPi Zero
 wget http://os.archlinuxarm.org/os/$file
 ```
-list: https://archlinuxarm.org/about/downloads
 
 **Write to SD card**
 - Create partitions
