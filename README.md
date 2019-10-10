@@ -214,7 +214,10 @@ shutdown -h now
 - Windows
 	- Win32 Disk Imager > Read only allocated partitions
 - Linux
-	- ?
+```sh
+dev=$( df | grep BOOT | awk '{print $1}' )
+dd if=${dev:0:-1} of=RuneAudio+Re2.img
+```
 
 **Start RuneAudio+R**
 - Plug in a USB drive
