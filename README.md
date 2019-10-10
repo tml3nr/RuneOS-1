@@ -31,10 +31,12 @@ wget http://os.archlinuxarm.org/os/$file
 # arch linux: pacman -S bsdtar
 apt install bsdtar
 
-# expand to sd card - replace "/path/to" with actual path
-bsdtar xpvf $file -C /path/to/ROOT
-cp -rv --no-preserve=mode,ownership /path/to/ROOT/boot/* /path/to/BOOT
-rm -r /path/to/ROOT/boot/*
+# expand to sd card
+ROOT=$( df | grep ROOT | awk '{print $NF}' )
+BOOT=$( df | grep BOOT | awk '{print $NF}' )
+bsdtar xpvf $file -C $ROOT
+cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
+rm -r $ROOT/boot/*
 ```
 
 **Boot**
