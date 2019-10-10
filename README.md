@@ -1,13 +1,13 @@
 RuneOS
 ---
-Build RuneAudio+R from Arch Linux Arm source.
+Build RuneAudio+R from [Arch Linux Arm](https://archlinuxarm.org/about/downloads) source
 
 **Need**
-- Linux PC
+- Linux PC (or Linux in VirtualBox on Windows)
 - Micro SD card - 4GB+
 - Card reader
 
-**Arch Linux Arm** https://archlinuxarm.org/about/downloads
+**Arch Linux Arm**
 ```sh
 sudo su
 
@@ -221,7 +221,6 @@ shutdown -h now
 
 **Create image file**
 - Insert the micro SD card in PC
-- Linux
 ```sh
 # get device and verify
 part=$( df | grep BOOT | awk '{print $1}' )
@@ -229,11 +228,12 @@ dev=${dev:0:-1}
 df | grep BOOT
 echo device = $dev
 
+# create image
 umount -l $dev
 dd if=$dev of=RuneAudio+Re2.img bs=100M conv=notrunc
 ```
 - Or on Windows
-	- Win32 Disk Imager > Read only allocated partitions
+	- [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
 
 **Start RuneAudio+R**
 - Insert the micro SD card
