@@ -218,7 +218,7 @@ shutdown -h now
 part=$( df | grep BOOT | awk '{print $1}' )
 dev=${dev:0:-1}
 umount -l $dev
-dd if=$dev of=RuneAudio+Re2.img bs=4M
+dd if=$dev of=RuneAudio+Re2.img bs=100M conv=notrunc
 ```
 
 **Start RuneAudio+R**
