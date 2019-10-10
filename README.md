@@ -221,7 +221,6 @@ shutdown -h now
 
 **Create image file**
 - Insert the micro SD card in PC
-- Resize `ROOT` partition to smallest size possible with **GParted**.
 - Create image file
 ```sh
 # get device and verify
@@ -233,8 +232,9 @@ echo device = $dev
 # create image
 dd if=$dev of=RuneAudio+Re2.img bs=100M conv=notrunc
 ```
-- OR create image file on Windows
-	- [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
+OR 
+- Resize `ROOT` partition to smallest size possible with **GParted**.
+- create image file on Windows - [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
 
 **Start RuneAudio+R**
 - Insert the micro SD card
