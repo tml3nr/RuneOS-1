@@ -1,27 +1,24 @@
 RuneOS
 ---
 **Need**
-- Micro SD card - 4GB or more
-- USB thumb drive - 1GB or more
+- Linux PC
+- Micro SD card - 4GB+
+- USB thumb drive - 1GB+
+- Know how to get IP address of RPi and connect via SCP/SSH
 
 **Arch Linux Arm**
 - list: https://archlinuxarm.org/about/downloads
 ```sh
-# get user
-whoami
-
-sudo su
-user=<user> # from previous command
-
-# download
+# download - uncomment a version
 #file=ArchLinuxARM-rpi-4-latest.tar.gz  # RPi4
 #file=ArchLinuxARM-rpi-3-latest.tar.gz  # RPi3B+
-file=ArchLinuxARM-rpi-2-latest.tar.gz   # RPi2, RPi3
+#file=ArchLinuxARM-rpi-2-latest.tar.gz  # RPi2, RPi3
+#file=ArchLinuxARM-rpi-latest.tar.gz    # RPi1, RPi Zero
 wget http://os.archlinuxarm.org/os/$file
 ```
 
 **Write to SD card**
-- 4GB or more
+- Create partitions
 
 | Type    | No. | Label | Format | Size     |
 |---------|-----|-------|--------|----------|
@@ -29,17 +26,19 @@ wget http://os.archlinuxarm.org/os/$file
 | primary | #2  | ROOT  | ext4   | the rest |
 
 ```sh
-# install bsdtar ("tar" will show lots of errors.)
+# install bsdtar
+# arch linux: pacman -S bsdtar
 apt install bsdtar
 
 # extract
-bsdtar xpvf $file -C /media/$user/ROOT
-cp -rv --no-preserve=mode,ownership /media/$user/ROOT/boot/* /media/$user/BOOT
-rm -r /media/$user/ROOT/boot/*
+bsdtar xpvf $file -C /path/to/ROOT
+cp -rv --no-preserve=mode,ownership /path/to/ROOT/boot/* /path/to/BOOT
+rm -r /path/to/ROOT/boot/*
 ```
 
 **Boot**
 - Remove all USB drives
+- Connect wired LAN
 - SCP/SSH with user-password : alarm-alarm
 ```sh
 # set root's password to "rune"
