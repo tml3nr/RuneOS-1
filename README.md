@@ -20,7 +20,7 @@ wget http://os.archlinuxarm.org/os/$file
 ```
 
 **Write to SD card**
-- Create partitions - GUI - GParted (or CLI - `fdisk` + `fatlabel` + `e2label`)
+- Create partitions with **GParted** (or CLI - `fdisk` + `fatlabel` + `e2label`)
 
 | Type    | No. | Label* | Format | Size       |
 |---------|-----|--------|--------|------------|
@@ -221,7 +221,7 @@ shutdown -h now
 
 **Create image file**
 - Insert the micro SD card in PC
-- Resize ROOT partition to smallest possible with GParted.
+- Resize ROOT partition to smallest size possible with **GParted**.
 - Create image file
 ```sh
 # get device and verify
