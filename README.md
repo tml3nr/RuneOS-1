@@ -86,7 +86,7 @@ pip install RPi.GPIO
 	- `kid3-cli`
 	- `matchbox-window-manager`
 	- `upmpdcli`
-	- `ply-image` (single binary file in `/usr/local/bin`)
+	- `ply-image` (single binary file)
 ```sh
 # custom packages and config files
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
