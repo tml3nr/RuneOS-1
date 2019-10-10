@@ -19,7 +19,7 @@ wget http://os.archlinuxarm.org/os/$file
 ```
 
 **Write to SD card**
-- Create partitions - GUI - Gparted (or CLI - `fdisk` + `fatlabel` + `e2label`)
+- Create partitions - GUI - GParted (or CLI - `fdisk` + `fatlabel` + `e2label`)
 
 | Type    | No. | Label* | Format | Size     |
 |---------|-----|--------|--------|----------|
