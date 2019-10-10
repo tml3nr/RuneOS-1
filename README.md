@@ -86,18 +86,18 @@ pacman -Syu
 # package list
 packages='alsa-utils avahi chromium dnsmasq dosfstools ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 
-# remove optional - access point
+# optional - remove access point
 packages=${packages/ dnsmasq}
 packages=${packages/ hostapd}
 
-# remove optional - airplay
+# optional - remove airplay
 packages=${packages/ shairport-sync}
 
-# remove optional - browser on rpi
+# optional - remove browser on rpi
 packages=${packages/ chromium}
 packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
 
-# remove optional - extended audio format:
+# optional - remove extended audio format:
 #   16sv 3g2 3gp 4xm 8svx aa3 aac ac3 adx afc aif aifc aiff al alaw amr anim apc ape asf atrac au aud avi avm2 avs 
 #   bap bfi c93 cak cin cmv cpk daud dct divx dts dv dvd dxa eac3 film flac flc fli fll flx flv g726 gsm gxf iss 
 #   m1v m2v m2t m2ts m4a m4b m4v mad mj2 mjpeg mjpg mka mkv mlp mm mmf mov mp+ mp1 mp2 mp3 mp4 mpc mpeg mpg mpga mpp mpu mve mvi mxf 
@@ -105,16 +105,16 @@ packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
 #   tak tgi tgq tgv thp ts tsp tta xa xvid uv uv2 vb vid vob voc vp6 vmd wav webm wma wmv wsaud wsvga wv wve
 packages=${packages/ ffmpeg}
 
-# remove optional - file sharing
+# optional - remove file sharing
 packages=${packages/ samba}
 
-# remove optional - python (python3)
+# optional - remove python
 packages=${packages/ python python-pip}
 
 # install packages
 pacman -S $packages
 
-# install optional - RPi.GPIO
+# optional - install RPi.GPIO
 pip install RPi.GPIO
 ```
 
@@ -133,10 +133,10 @@ bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
 
-# optional - metadata tag editor - exclude from install
+# optional - remove metadata tag editor
 rm kid3-cli*
 
-# remove optional - UPnP
+# optional - remove UPnP
 rm upmpdcli*
 
 # install custom packages
