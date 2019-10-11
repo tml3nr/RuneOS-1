@@ -23,4 +23,4 @@ fi
 source=${source// /\\040} # escape spaces in fstab
 name=$( basename "$mountpoint" )
 mountpoint=${mountpoint// /\\040}
-echo "$source  $mountpoint  $cifsnfs  $options  0  0" | tee -a /etc/fstab "/srv/http/settings/fstab-$name" &> /dev/null
+echo "$source  $mountpoint  $cifsnfs  $options  0  0" | tee -a /etc/fstab "/srv/http/data/system/fstab-$name" &> /dev/null
