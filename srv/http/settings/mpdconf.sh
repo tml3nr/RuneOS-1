@@ -1,6 +1,11 @@
 #!/bin/bash
 
-# run on startup and usb dac detected
+{
+
+dirsystem=/srv/http/data/system
+
+# for startup udev before /dev/sda1 ounted
+[[ ! -e $dirsystem/audiooutput ]] && exit
 
 aplay=$( aplay -l | grep '^card' )
 
@@ -67,4 +72,21 @@ done
 
 echo "$mpdconf" > $file
 
-systemctl restart mpd
+systemctl restart mpd mpdidle
+
+if [[ $( cat $dirsystem/audiooutput ) != "$sysname" ]]; then
+	if [[ -e $dirsystem/audiooutput0 ]]; then
+		mv -f $dirsystem/audiooutput{0,}
+	else
+		mv -f $dirsystem/audiooutput{,0}
+		echo $sysname > $dirsystem/audiooutput
+	fi
+fi
+
+file="/srv/http/settings/i2s/$sysname"
+[[ -e "$file" ]] && name=$( grep extlabel "$file" | cut -d: -f2- ) || name=$sysname
+	
+curl -s -X POST 'http://localhost/pub?id=notify' -d '{ "title": "Audio Output Switched", "text": "'"$name"'", "icon": "output" }'
+curl -s -X POST 'http://localhost/pub?id=page' -d '{ "p": "mpd" }'
+
+} &
