@@ -227,7 +227,7 @@ var cmdpower = [
 	  'umount -l /boot' // fix - FAT-fs (mmcblk0p1): Volume was not properly unmounted.
 	, 'umount -l /mnt/MPD/NAS/* &> /dev/null'
 	, 'sleep 3'
-	, '/root/gpiooff.py 2> /devnull'
+	, '/usr/local/bin/gpiooff.py 2> /devnull'
 	, 'systemctl stop localbrowser 2> /devnull'
 	, '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
 	, 'curl -s -X POST "http://localhost/pub?id=reload" -d 2'
