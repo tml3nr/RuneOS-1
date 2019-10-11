@@ -2,7 +2,7 @@
 
 dirsystem=/srv/http/data/system
 
-# for startup udev before /dev/sda1 ounted
+# for startup udev before /dev/sda1 mounted
 [[ ! -e $dirsystem/audiooutput ]] && exit
 
 /srv/http/settings/mpdconf.sh
