@@ -1,11 +1,8 @@
 #!/bin/bash
 
-dirsystem=/srv/http/data/system
-
-# for startup udev before /dev/sda1 mounted
-[[ ! -e $dirsystem/audiooutput ]] && exit
-
 /srv/http/settings/mpdconf.sh
+
+dirsystem=/srv/http/data/system
 
 if (( $# > 0 )); then
 	mv -f $dirsystem/audiooutput{,0}

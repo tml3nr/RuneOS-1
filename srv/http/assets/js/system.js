@@ -89,7 +89,7 @@ $( '#i2smodule' ).change( function() {
 					+" -e '$ a\dtoverlay="+ sysname +"'"
 					+' /boot/config.txt'
 			, "echo 'Enable "+ name +"' > "+ filereboot
-			, "echo '"+ name +"' > "+ dirsystem +'/i2sname'
+			, "echo '"+ name +"' > "+ dirsystem +'/audiooutput'
 			, 'echo '+ sysname +' > '+ dirsystem +'/i2ssysname'
 			, 'rm -f '+ dirsystem +'/onboard-audio'
 			, pstream( 'system' )
@@ -105,7 +105,8 @@ $( '#i2smodule' ).change( function() {
 				+" -e 's/dtparam=audio=.*/dtparam=audio=on/'"
 				+' /boot/config.txt'
 			, "echo 'Disable I&#178;S Module' > "+ filereboot
-			, 'rm -f '+ dirsystem +'/{i2sname,i2ssysname}'
+			, 'echo bcm2835 ALSA_1 > '+ dirsystem +'/audiooutput'
+			, 'rm -f '+ dirsystem +'/i2ssysname'
 			, 'echo 1 > '+ dirsystem +'/onboard-audio'
 			, pstream( 'system' )
 		] }, resetlocal );

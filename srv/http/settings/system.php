@@ -1,6 +1,6 @@
 <?php
 $hostname = getData( 'hostname' );
-$i2sname = getData( 'i2sname' );
+$audiooutput = getData( 'audiooutput' );
 $i2ssysname = getData( 'i2ssysname' );
 $soundprofile = getData( 'soundprofile' ) === 'default';
 $password = getData( 'login' ) ? 'checked' : '';
@@ -33,7 +33,7 @@ foreach( $timezonelist as $key => $zone ) {
 include '/srv/http/settings/system_i2smodules.php';
 $optioni2smodule = '';
 foreach( $i2slist as $name => $sysname ) {
-	$selected = ( $name === $i2sname && $sysname === $i2ssysname ) ? ' selected' : '';
+	$selected = ( $name === $audiooutput && $sysname === $i2ssysname ) ? ' selected' : '';
 	$optioni2smodule.= "<option value=\"$sysname\"$selected>$name</option>";
 }
 ?>

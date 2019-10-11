@@ -189,6 +189,9 @@ sed -i "s/^\(friendlyname = \).*/\1$name/" /etc/upmpdcli.conf
 sed -i "s/\(.*\[\).*\(\] \[.*\)/\1$namelc\2/" /etc/avahi/services/runeaudio.service
 sed -i "s/\(.*localdomain \).*/\1$namelc.local $namelc/" /etc/hosts
 
+# remove login
+systemctl disable getty@tty1
+
 # mpd directories
 mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
