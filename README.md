@@ -221,7 +221,8 @@ shutdown -h now
 
 **Create image file**
 - Insert the micro SD card in PC
-- Create image file - somewhat slow (copy even unpartition space)
+- Resize `ROOT` partition to smallest size possible with **GParted**.
+- Create image file
 ```sh
 # get device and verify
 part=$( df | grep BOOT | awk '{print $1}' )
@@ -229,12 +230,16 @@ dev=${part:0:-1}
 df | grep BOOT
 echo device = $dev
 
+# get partition end and verify
+fdisk -u -l $dev
+end=$( fdisk -u -l $dev | tail -1 | awk '{print $3}' )
+echo end = $end
+
 # create image
-dd if=$dev of=RuneAudio+Re2.img bs=100M conv=notrunc
+dd if=$dev of=RuneAudio+Re2.img count=$(( end + 1 ))
 ```
-OR much faster with:
-- Resize `ROOT` partition to smallest size possible with **GParted**.
-- Create image file on Windows - [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
+OR on Windows (much faster):
+- [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
 
 **Start RuneAudio+R**
 - Insert the micro SD card
