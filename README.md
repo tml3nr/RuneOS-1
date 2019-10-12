@@ -87,9 +87,7 @@ pacman -Syu
 packages='alsa-utils avahi chromium dnsmasq dosfstools ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 ```
 
-**Remove optional packages**
-- Remove optional packages.
-- Skip to install all.
+**Remove optional packages** (Skip to install all)
 ```sh
 # optional - remove access point
 packages=${packages/ dnsmasq}
@@ -142,9 +140,7 @@ chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
 ```
 
-**Remove optional packages**
-- Remove optional packages.
-- Skip to install all.
+**Remove optional packages** (Skip to install all)
 ```sh
 # optional - remove metadata tag editor
 rm kid3-cli*
