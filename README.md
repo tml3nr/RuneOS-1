@@ -75,10 +75,7 @@ ssh alarm@$rpiip  # password: alarm
 **Packages**
 ```sh
 # switch user to root
-su  # password: root
-
-# change directory
-cd
+su - # password: root
 
 # initialize pgp key
 pacman-key --init
