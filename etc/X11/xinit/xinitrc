@@ -9,3 +9,6 @@ xset -dpms &
 
 matchbox-window-manager -use_cursor yes &
 chromium --app=http://localhost --kiosk --incognito --disable-gpu --no-sandbox --force-device-scale-factor=1
+
+# keyboard shortcuts
+#xbindkeys -X ":0" &
