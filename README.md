@@ -129,6 +129,9 @@ pacman -S $packages
 
 # optional - install RPi.GPIO
 pip install RPi.GPIO
+
+# remove cache
+rm /var/cache/pacman/pkg/*
 ```
 
 **Web interface, custom packages and config files**
