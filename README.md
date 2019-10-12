@@ -60,7 +60,7 @@ rm -r $ROOT/boot/*
 # get RPi IP address and verify
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
-rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' )
+rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
 echo List:
 echo "$nmap"
 echo RPi IP = $rpiip
