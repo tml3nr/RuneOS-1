@@ -22,7 +22,8 @@ while $( sleep 1 ); do
 	fi
 done
 
-rm -f /srv/http/data/system/audiooutput0
+# if not properly shutdown, restore audio output
+mv -f /srv/http/data/system/audiooutput{0,} &> /dev/null
 
 if [[ -e /srv/http/runonce.sh ]]; then
 	/srv/http/runonce.sh          # includes mpdconf.sh

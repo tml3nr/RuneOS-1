@@ -4,10 +4,10 @@
 
 dirsystem=/srv/http/data/system
 
-# for startup udev before /dev/sda1 ounted
-[[ ! -e $dirsystem/audiooutput ]] && exit
+# do not run on startup
+! systemctl -q is-active mpd && exit
 
-aplay=$( aplay -l | grep '^card' )
+aplay=$( aplay -l | grep '^card' | grep -v 'bcm2835 IEC958/HDMI1' )
 
 # reenable on-board audio if nothing available for aplay
 if [[ -z $aplay ]]; then
@@ -33,13 +33,7 @@ for line in "${lines[@]}"; do
 	subdevice=${device: -1}
 	name=$( echo $line | awk -F'[][]' '{print $2}' )
 	nameL=$( echo "$aplay" | grep "$name" | wc -l )
-	if (( $nameL > 1 ));then
-		sysname="$name"_$(( subdevice + 1 ))
-	else
-		sysname=$name
-	fi
-	[[ $sysname == 'bcm2835 ALSA_3' ]] && continue
-	
+	(( $nameL > 1 )) && sysname="$name"_$(( subdevice + 1 )) || sysname=$name
 	i2sfile="/srv/http/settings/i2s/$sysname"
 	[[ -e "$i2sfile" ]] && mixer_control=$( grep mixer_control "$i2sfile"  | cut -d: -f2- )
 	
