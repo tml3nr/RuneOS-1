@@ -9,7 +9,7 @@ Build RuneAudio+R from [Arch Linux Arm](https://archlinuxarm.org/about/downloads
 
 **Arch Linux Arm**
 ```sh
-sudo su
+sudo su -
 
 # download
 #file=ArchLinuxARM-rpi-4-latest.tar.gz  # RPi4
@@ -19,11 +19,13 @@ sudo su
 
 # replace with required version
 file=ArchLinuxARM-rpi-2-latest.tar.gz
+
+### download ### -----------------------------------
 wget http://os.archlinuxarm.org/os/$file
 ```
 
 **Write to SD card**
-- Create partitions with **GParted** (or CLI - `fdisk` + `fatlabel` + `e2label`)
+- Create partitions with **GParted** (or command line with: `fdisk` + `fatlabel` + `e2label`)
 
 | Type    | No. | Label* | Format | Size       |
 |---------|-----|--------|--------|------------|
@@ -43,7 +45,7 @@ df | grep 'ROOT\|BOOT'
 echo ROOT = $ROOT
 echo BOOT = $BOOT
 
-# expand to sd card
+### expand to sd card ### -----------------------------------
 bsdtar xpvf $file -C $ROOT
 cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
 rm -r $ROOT/boot/*
@@ -57,7 +59,7 @@ rm -r $ROOT/boot/*
 
 **Connect PC to RPi**
 ```sh
-# get RPi IP address and verify
+# get RPi IP address and verify - skip to ### connect ### if already known the IP
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
 rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
@@ -68,7 +70,7 @@ echo RPi IP = $rpiip
 # if there's more than 1 RPi, set rpiip manually
 # rpiip=<ip>
 
-# connect
+### connect ### -----------------------------------
 ssh alarm@$rpiip  # password: alarm
 ```
 
@@ -84,7 +86,7 @@ pacman-key --populate archlinuxarm
 # if errors occured, temporarily bypass key verifications
 # sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
 
-# full upgrade
+### full upgrade ### -----------------------------------
 pacman -Syu
 
 # package list
@@ -121,7 +123,7 @@ packages=${packages/ python python-pip}
 
 **Install packages**
 ```sh
-# install packages
+### install packages ### -----------------------------------
 pacman -S $packages
 
 # optional - install RPi.GPIO
@@ -142,7 +144,7 @@ rm /var/cache/pacman/pkg/*
 - Configuration files set to default
 - `Runonce.sh` for initial boot setup
 ```sh
-# download
+### download ### -----------------------------------
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
 chmod -R 755 /srv/http /usr/local/bin
@@ -160,7 +162,7 @@ rm upmpdcli*
 
 **Install custom packages**
 ```sh
-# install custom packages
+### install custom packages ### -----------------------------------
 pacman -U *.pkg.tar.xz
 rm *.pkg.tar.xz
 ```
