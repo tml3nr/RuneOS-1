@@ -4,7 +4,7 @@
 
 dirsystem=/srv/http/data/system
 
-# do not run on startup
+# skip on startup
 [[ ! -e /srv/http/data/system/audiooutput ]] && exit
 
 aplay=$( aplay -l | grep '^card' | grep -v 'bcm2835 IEC958/HDMI1' )
