@@ -4,9 +4,6 @@
 
 dirsystem=/srv/http/data/system
 
-# skip on startup
-[[ ! -e /srv/http/data/system/audiooutput ]] && exit
-
 aplay=$( aplay -l | grep '^card' | grep -v 'bcm2835 IEC958/HDMI1' )
 
 # reenable on-board audio if nothing available for aplay
@@ -67,6 +64,13 @@ done
 echo "$mpdconf" > $file
 
 systemctl restart mpd mpdidle
+
+# skip on startup
+startup=/srv/http/data/tmp/startup
+if [[ -e $startup ]]; then
+	rm $startup
+	exit
+fi
 
 if [[ -e $dirsystem/audiooutput0 ]]; then
 	mv -f $dirsystem/audiooutput{0,} &> /dev/null
