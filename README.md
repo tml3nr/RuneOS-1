@@ -85,7 +85,12 @@ pacman -Syu
 
 # package list
 packages='alsa-utils avahi chromium dnsmasq dosfstools ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
+```
 
+**Optional packages removal**
+- Remove optional packages.
+- Skip to install all.
+```sh
 # optional - remove access point
 packages=${packages/ dnsmasq}
 packages=${packages/ hostapd}
@@ -110,7 +115,10 @@ packages=${packages/ samba}
 
 # optional - remove python
 packages=${packages/ python python-pip}
+```
 
+**Install**
+```sh
 # install packages
 pacman -S $packages
 
@@ -132,13 +140,21 @@ wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
+```
 
+**Optional packages removal**
+- Remove optional packages.
+- Skip to install all.
+```sh
 # optional - remove metadata tag editor
 rm kid3-cli*
 
 # optional - remove UPnP
 rm upmpdcli*
+```
 
+**Install**
+```sh
 # install custom packages
 pacman -U *.pkg.tar.xz
 rm *.pkg.tar.xz
