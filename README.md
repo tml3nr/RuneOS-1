@@ -87,7 +87,7 @@ pacman -Syu
 packages='alsa-utils avahi chromium dnsmasq dosfstools ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 ```
 
-**Remove optional packages** (Skip to install all)
+**Exclude optional packages** (Skip to install all)
 ```sh
 # optional - remove access point
 packages=${packages/ dnsmasq}
@@ -124,23 +124,25 @@ pacman -S $packages
 pip install RPi.GPIO
 ```
 
-**Custom packages**
-- Not support some features
-	- `nginx-mainline` - pushstream
-- AUR only (Not available as standard packages)
-	- `kid3-cli`
-	- `matchbox-window-manager`
-	- `upmpdcli`
+**Web interface, custom packages and config files**
+- RuneAudio Enhancement interface
+- Custom packages
+	- `nginx-mainline` - support pushstream
+	- `kid3-cli` - not available as standard package
+	- `matchbox-window-manager` - not available as standard package
+	- `upmpdcli` - not available as standard package
 	- `ply-image` (single binary file)
+- Configuration files set to default
+- `Runonce.sh` for initial boot setup
 ```sh
-# custom packages and config files
+# download
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
 ```
 
-**Remove optional packages** (Skip to install all)
+**Exclude optional packages** (Skip to install all)
 ```sh
 # optional - remove metadata tag editor
 rm kid3-cli*
