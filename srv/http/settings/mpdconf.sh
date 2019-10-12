@@ -5,7 +5,7 @@
 dirsystem=/srv/http/data/system
 
 # do not run on startup
-! systemctl -q is-active mpd && exit
+[[ ! -e /srv/http/data/system/audiooutput ]] && exit
 
 aplay=$( aplay -l | grep '^card' | grep -v 'bcm2835 IEC958/HDMI1' )
 

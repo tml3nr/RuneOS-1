@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=e1.2
+version=e2
 
 mnt=$( df | grep /dev/sda1 | awk '{print $NF}' )
 if [[ -z $mnt ]]; then
