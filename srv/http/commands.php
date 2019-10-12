@@ -624,7 +624,7 @@ function lsPlaylists() {
 }
 function playlistInfo( $save = '' ) { // fix -  mpd unable to save cue/m3u properly
 	// 2nd sleep: varied with length, 1000track/0.1s
-	$playlistinfo = shell_exec( '{ sleep 0.05; echo playlistinfo; sleep $( awk "BEGIN { printf \"%.1f\n\", $( mpc playlist | wc -l ) / 10000 + 0.1 }" ); } | telnet localhost 6600 | sed -n "/^file\|^Range\|^AlbumArtist:\|^Title\|^Album\|^Artist\|^Track\|^Time/ p"' ); // grep cannot be used here
+	$playlistinfo = shell_exec( '{ sleep 0.05; echo playlistinfo; sleep $( awk "BEGIN { printf \"%.1f\n\", $( mpc playlist | wc -l ) / 10000 + 0.1 }" ); } | telnet 127.0.0.1 6600 | sed -n "/^file\|^Range\|^AlbumArtist:\|^Title\|^Album\|^Artist\|^Track\|^Time/ p"' ); // grep cannot be used here
 	if ( !$playlistinfo ) return '';
 	
 	$content = preg_replace( '/\nfile:/', "\n^^file:", $playlistinfo );
@@ -687,7 +687,7 @@ function playlistInfo( $save = '' ) { // fix -  mpd unable to save cue/m3u prope
 	return $list;
 }
 function pushstream( $channel, $data ) {
-	$ch = curl_init( 'http://localhost/pub?id='.$channel );
+	$ch = curl_init( 'http://127.0.0.1/pub?id='.$channel );
 	curl_setopt( $ch, CURLOPT_HTTPHEADER, array( 'Content-Type:application/json' ) );
 	curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $data, JSON_NUMERIC_CHECK ) );
 	curl_exec( $ch );

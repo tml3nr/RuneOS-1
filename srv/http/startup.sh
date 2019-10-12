@@ -17,10 +17,12 @@ while $( sleep 1 ); do
 	
 	(( i++ ))
 	if (( i > 10 )); then
-		curl -s -X POST 'http://localhost/pub?id=notify' -d '{ "title": "USB Drive", "text": "No USB drive found.", "icon": "usbdrive" }'
+		curl -s -X POST 'http://127.0.0.1/pub?id=notify' -d '{ "title": "USB Drive", "text": "No USB drive found.", "icon": "usbdrive" }'
 		break
 	fi
 done
+
+rm -f /srv/http/data/system/audiooutput0
 
 if [[ -e /srv/http/runonce.sh ]]; then
 	/srv/http/runonce.sh          # includes mpdconf.sh
@@ -52,7 +54,7 @@ if [[ -n "$mountpoints" ]]; then
 		(( i++ ))
 		if (( i > 20 )); then
 			echo 'NAS mount failed.<br><br><gr>Try reboot again.</gr>' > /srv/http/data/tmp/reboot
-			curl -s -X POST 'http://localhost/pub?id=reload' -d 1
+			curl -s -X POST 'http://127.0.0.1/pub?id=reload' -d 1
 			exit
 		fi
 	done

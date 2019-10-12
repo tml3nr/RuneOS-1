@@ -278,7 +278,7 @@ $( '#setting-localbrowser' ).click( function() {
 		, buttonlabel : '<i class="fa fa-refresh"></i>Refresh'
 		, buttoncolor : '#de810e'
 		, button      : function() {
-			$.post( 'commands.php', { bash: 'curl -s -X POST "http://localhost/pub?id=reload" -d 1' } );
+			$.post( 'commands.php', { bash: 'curl -s -X POST "http://127.0.0.1/pub?id=reload" -d 1' } );
 		}
 		, buttonwidth : 1
 		, ok          : function() {
@@ -367,7 +367,7 @@ $( '#password' ).click( function() {
 		local = 1;
 		$.post( 'commands.php', { bash: [
 			  'echo 1 > '+ dirsystem +'/login'
-			, "sed -i 's/bind_to_address.*/bind_to_address         \"localhost\"/' /etc/mpd.conf"
+			, "sed -i 's/bind_to_address.*/bind_to_address         \"127.0.0.1\"/' /etc/mpd.conf"
 			, pstream( 'system' )
 		] }, resetlocal );
 		$( '#setting-password' ).removeClass( 'hide' );

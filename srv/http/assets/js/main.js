@@ -230,7 +230,7 @@ var cmdpower = [
 	, '/usr/local/bin/gpiooff.py 2> /devnull'
 	, 'systemctl stop localbrowser 2> /devnull'
 	, '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
-	, 'curl -s -X POST "http://localhost/pub?id=reload" -d 2'
+	, 'curl -s -X POST "http://127.0.0.1/pub?id=reload" -d 2'
 ];
 var jsonpower = {
 	  buttonlabel : '<i class="fa fa-reboot"></i>Reboot'
@@ -1488,7 +1488,7 @@ $( '#pllibrandom' ).click( function() {
 		notify( 'Roll The Dice', 'Off', 'dice' );
 		$.post( 'commands.php', { bash: [
 			  'systemctl stop libraryrandom'
-			, 'curl -s -X POST "http://localhost/pub?id=idle" -d \'{ "changed": "options" }\''
+			, 'curl -s -X POST "http://127.0.0.1/pub?id=idle" -d \'{ "changed": "options" }\''
 		] } );
 	} else {
 		GUI.status.librandom = 1;
@@ -1501,7 +1501,7 @@ $( '#pllibrandom' ).click( function() {
 			, "mpc add \"$( mpc listall | sed '"+ Math.floor( Math.random() * GUI.countsong ) +"q;d' )\""
 			, "mpc add \"$( mpc listall | sed '"+ Math.floor( Math.random() * GUI.countsong ) +"q;d' )\""
 			, 'systemctl start libraryrandom'
-			, 'curl -s -X POST "http://localhost/pub?id=idle" -d \'{ "changed": "options" }\''
+			, 'curl -s -X POST "http://127.0.0.1/pub?id=idle" -d \'{ "changed": "options" }\''
 		], pushstream: 'options' } );
 	}
 } );
@@ -1989,7 +1989,7 @@ pushstreams.reload.onmessage = function( data ) {
 	} else if ( data[ 0 ] === 2 ) { // shutdown
 		$( '#loader' ).removeClass( 'hide' );
 		if ( $( '#bannerTitle .fa-power' ).length ) bannerHide();
-	} else { // bash: curl -s -X POST 'http://localhost/pub?id=reload' -d '{"content":"xxx"}'
+	} else { // bash: curl -s -X POST 'http://127.0.0.1/pub?id=reload' -d '{"content":"xxx"}'
 		if ( GUI.localhost && data[ 0 ].content === 'runonce' ) { 
 			info( {
 				  icon    : 'rune'

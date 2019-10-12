@@ -80,7 +80,7 @@ pushstream.onmessage = function( data ) {
 	if ( !local && location.search === '?p='+ data[0].p ) location.reload();
 }
 function pstream( page ) {
-	return 'curl -s -X POST "http://localhost/pub?id=page" -d \'{ "p": "'+ page +'" }\'';
+	return 'curl -s -X POST "http://127.0.0.1/pub?id=page" -d \'{ "p": "'+ page +'" }\'';
 }
 function resetlocal() {
 	setTimeout( function() { local = 0 }, 1000 );

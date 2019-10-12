@@ -16,7 +16,7 @@ function setMixerType( mixer, reloadpage ) {
 		, setmpdconf
 		, pstream( 'mpd' )
 	];
-	if ( reloadpage ) cmd.push( 'curl -s -X POST "http://localhost/pub?id=reload" -d 1' );
+	if ( reloadpage ) cmd.push( 'curl -s -X POST "http://127.0.0.1/pub?id=reload" -d 1' );
 	local = 1;
 	$.post( 'commands.php', { bash: cmd }, resetlocal );
 	$( '#audiooutput' ).data( 'mixertype', mixer );
@@ -113,7 +113,7 @@ $( '#novolume' ).click( function() {
 					, 'mpc crossfade 0'
 					, setmpdconf
 					, pstream( 'mpd' )
-					, 'curl -s -X POST "http://localhost/pub?id=reload" -d 1'
+					, 'curl -s -X POST "http://127.0.0.1/pub?id=reload" -d 1'
 				] }, resetlocal );
 				$( '#crossfade, #normalization, #replaygain' ).prop( 'checked', 0 );
 				$( '#crossfade' ).val( 0 );

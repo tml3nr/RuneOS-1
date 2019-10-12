@@ -1,6 +1,0 @@
-[Unit]
-Description=Hotplug USB DAC
-
-[Service]
-Type=oneshot
-ExecStart=/srv/http/settings/mpdconf.sh
