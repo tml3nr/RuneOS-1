@@ -63,7 +63,7 @@ done
 
 echo "$mpdconf" > $file
 
-systemctl restart mpd mpdidle
+systemctl restart mpd
 
 # skip on startup
 startup=/srv/http/data/tmp/startup
