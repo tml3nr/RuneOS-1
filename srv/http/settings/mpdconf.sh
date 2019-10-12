@@ -84,7 +84,7 @@ fi
 
 file="/srv/http/settings/i2s/$sysname"
 [[ -e "$file" ]] && name=$( grep extlabel "$file" | cut -d: -f2- ) || name=$sysname
-	
+
 curl -s -X POST 'http://127.0.0.1/pub?id=notify' -d '{ "title": "Audio Output Switched", "text": "'"$name"'", "icon": "output" }'
 curl -s -X POST 'http://127.0.0.1/pub?id=page' -d '{ "p": "mpd" }'
 
