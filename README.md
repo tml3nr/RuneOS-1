@@ -34,7 +34,7 @@ wget http://os.archlinuxarm.org/os/$file
 
 ```sh
 # install bsdtar and nmap
-apt install bsdtar namp
+apt install bsdtar nmap
 
 # get partitions and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
