@@ -150,9 +150,6 @@ rm *.pkg.tar.xz
 alsactl store
 chmod -R 666 /var/lib/alsa
 
-# avahi - Failed to open /etc/resolv.conf + chroot.c: open() failed
-sed -i '/Requires/ a\After=systemd-resolved.service' /usr/lib/systemd/system/avahi-daemon.service
-
 # lvm - Invalid value
 sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 
@@ -172,13 +169,13 @@ sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 
 **Configurations**
 ```sh
-# bootsplash
+# bootsplash - set default image
 ln -s /srv/http/assets/img/{NORMAL,start}.png
 
-# cron - addons updates
+# cron - for addons updates
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab -
 
-# hostname
+# hostname - set default
 name=RuneAudio
 namecl=runeaudio
 echo $namecl > /etc/hostname
@@ -189,23 +186,23 @@ sed -i "s/^\(friendlyname = \).*/\1$name/" /etc/upmpdcli.conf
 sed -i "s/\(.*\[\).*\(\] \[.*\)/\1$namelc\2/" /etc/avahi/services/runeaudio.service
 sed -i "s/\(.*localdomain \).*/\1$namelc.local $namelc/" /etc/hosts
 
-# remove login
+# login prompt - remove
 systemctl disable getty@tty1
 
-# mpd directories
+# mpd - music directories
 mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
 
-# motd
+# motd - remove default
 rm /etc/motd
 
-# ntp
+# ntp - set default
 sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
 
-# root's password
+# password - set default
 passwd  # new password: rune
 
-# root's ssh
+# ssh - permit root
 sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 ```
 
