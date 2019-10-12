@@ -11,11 +11,14 @@ Build RuneAudio+R from [Arch Linux Arm](https://archlinuxarm.org/about/downloads
 ```sh
 sudo su
 
-# download - uncomment a version
+# download
 #file=ArchLinuxARM-rpi-4-latest.tar.gz  # RPi4
 #file=ArchLinuxARM-rpi-3-latest.tar.gz  # RPi3B+
 #file=ArchLinuxARM-rpi-2-latest.tar.gz  # RPi2, RPi3
 #file=ArchLinuxARM-rpi-latest.tar.gz    # RPi1, RPi Zero
+
+# replace with required version
+file=ArchLinuxARM-rpi-2-latest.tar.gz
 wget http://os.archlinuxarm.org/os/$file
 ```
 
