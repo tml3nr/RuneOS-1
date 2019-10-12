@@ -69,7 +69,7 @@ echo RPi IP = $rpiip
 # rpiip=<ip>
 
 # connect
-ssh alarm@$rpiip  password: alarm
+ssh alarm@$rpiip  # password: alarm
 ```
 
 **Packages**
