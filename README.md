@@ -217,7 +217,7 @@ chown -R mpd:audio /mnt/MPD
 # motd - remove default
 rm /etc/motd
 
-# nginx - 50x.html
+# nginx - custom 50x.html
 mv -f /etc/nginx/html/50x.html{.custom,}
 
 # ntp - set default
