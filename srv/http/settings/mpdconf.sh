@@ -63,16 +63,18 @@ done
 
 echo "$mpdconf" > $file
 
-systemctl restart mpd mpdidle
+systemctl restart mpd
 
-# skip on startup
+# skip notify on startup
 startup=/srv/http/data/tmp/startup
 if [[ -e $startup ]]; then
-	rm $startup
+	# if not properly shutdown, restore audio output
+	[[ -s /srv/http/data/system/audiooutput0 ]] && mv -f /srv/http/data/system/audiooutput{0,} &> /dev/null
+	rm -f $startup /srv/http/data/system/audiooutput0
 	exit
 fi
 
-if [[ -e $dirsystem/audiooutput0 ]]; then
+if [[ -s $dirsystem/audiooutput0 ]]; then
 	mv -f $dirsystem/audiooutput{0,} &> /dev/null
 	sysname=$( cat $dirsystem/audiooutput )
 else
