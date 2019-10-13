@@ -19,7 +19,15 @@ chmod -R 666 /var/lib/alsa
 dirdata="$mnt/data"
 dirdisplay=/srv/http/data/display
 dirsystem=/srv/http/data/system
-if [[ -e "$dirdata" ]]; then
+if [[ ! -e "$dirdata" ]]; then
+	# no existings / migrate previous version
+	mkdir "$dirdata"
+	ln -s "$dirdata" /srv/http
+
+	for dir in addons bookmarks coverarts display gpio lyrics mpd playlists sampling system tmp webradios; do
+		mkdir "$dirdata/$dir"
+	done
+else
 	ln -s "$dirdata" /srv/http
 	
 ### hostname
@@ -137,19 +145,6 @@ if [[ -e "$dirdata" ]]; then
 		
 		systemctl enable --now upmpdcli
 	fi
-else
-	# no existings / migrate previous version
-	mkdir "$dirdata"
-	ln -s "$dirdata" /srv/http
-
-	for dir in addons bookmarks coverarts display gpio lyrics mpd playlists sampling system tmp webradios; do
-		direxist=$( find "$mnt" -maxdepth 1 -type d -name "$dir" )
-		if [[ -e $direxist ]]; then
-			mv $direxist "$dirdata"
-		else
-			mkdir "$dirdata/$dir"
-		fi
-	done
 fi
 
 ### preset data in extra directories

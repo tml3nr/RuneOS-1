@@ -109,10 +109,9 @@ if ( count( $files ) ) {
 	}
 }
 // browse by coverart
-$thumbbyartist = file_exists( '/srv/http/data/display/thumbbyartist' );
-$files = file_exists( $dir ) ? array_slice( scandir( '/srv/http/data/coverarts' ), 2 ) : [];
-$coverarthtml = '';
+$files = array_slice( scandir( '/srv/http/data/coverarts' ), 2 );
 if ( count( $files ) ) {
+	$thumbbyartist = file_exists( '/srv/http/data/display/thumbbyartist' );
 	foreach( $files as $file ) {
 		$name = substr( $file, 0, -4 );
 		$ext = substr( $file, -3 );
