@@ -22,6 +22,7 @@ $( '#hostname' ).click( function() {
 				, 'sed -i "s/^ssid=.*/ssid='+ hostname +'/" /etc/hostapd/hostapd.conf'
 				, "sed -i 's/zeroconf_name.*/zeroconf_name           \""+ hostname +"\"/' /etc/mpd.conf"
 				, 'sed -i "s/netbios name = .*/netbios name = '+ hostname +'/" /etc/samba/smb.conf'
+				, 'sed -i "/name = .%H./ iname = '+ hostname +' /etc/shairport-sync.conf'
 				, 'sed -i "s/^friendlyname.*/friendlyname = '+ hostname +'/" /etc/upmpdcli.conf'
 				, 'sed -i "s/\\(.*\\[\\).*\\(\\] \\[.*\\)/\\1'+ hostnamelc +'\\2/" /etc/avahi/services/runeaudio.service'
 				, 'sed -i "s/\\(.*localdomain \\).*/\\1'+ hostnamelc +'.local '+ hostnamelc +'/" /etc/hosts'
