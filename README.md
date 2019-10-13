@@ -33,7 +33,7 @@ wget http://os.archlinuxarm.org/os/$file
 | primary | #2  | ROOT   | ext4   | (the rest) |
 
 \* **Label** - Important  
-- Mount the 2 partitions by browsing them in Files/Nautilus.
+- Click them in Files/Nautilus to mount.
 
 ```sh
 # install bsdtar and nmap
