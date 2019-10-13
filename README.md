@@ -53,6 +53,7 @@ bsdtar xpvf $file -C $ROOT  # if errors - install missing package
 cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
 rm -r $ROOT/boot/*
 ```
+- Remove the SD card
 
 **Boot**
 - Remove all USB drives
