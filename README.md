@@ -252,6 +252,11 @@ shutdown -h now
 **Create image file**
 - Insert the micro SD card in PC
 - Resize `ROOT` partition to smallest size possible with **GParted**.
+	- menu: GParted > Devices > /dev/sd?
+	- right-click `ROOT` partiton > Unmount
+	- right-click `ROOT` partiton > Resize/Move
+	- drag rigth triangle to fit minimum size
+	- Apply
 - Create image file
 ```sh
 # get device and verify
