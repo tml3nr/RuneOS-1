@@ -9,7 +9,7 @@ Build RuneAudio+R from [Arch Linux Arm](https://archlinuxarm.org/about/downloads
 
 **Arch Linux Arm**
 ```sh
-sudo su -
+sudo su
 
 # download
 #file=ArchLinuxARM-rpi-4-latest.tar.gz  # RPi4
@@ -85,7 +85,10 @@ ssh-keygen -R $rpiip
 **Packages**
 ```sh
 # switch user to root
-su - # password: root
+su # password: root
+
+# change directory to root
+cd
 
 # initialize pgp key
 pacman-key --init
