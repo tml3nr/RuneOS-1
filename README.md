@@ -91,7 +91,7 @@ su - # password: root
 pacman-key --init
 pacman-key --populate archlinuxarm
 
-### full upgrade ### -----------------------------------
+### full system-wide upgrade ### -----------------------------------
 pacman -Syu
 
 # package list
