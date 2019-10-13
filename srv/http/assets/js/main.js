@@ -224,13 +224,10 @@ $( '#system, #credits' ).click( function( e ) {
 	location.href = 'indexsettings.php?p='+ ( $( e.target ).prop( 'id' ) === 'credits' ? 'credits' : 'system' );
 } );
 var cmdpower = [
-	  'umount -l /boot' // fix - FAT-fs (mmcblk0p1): Volume was not properly unmounted.
+	  '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
+	, '/usr/local/bin/gpiooff.py 2> /devnull'
 	, 'umount -l /mnt/MPD/NAS/* &> /dev/null'
 	, 'sleep 3'
-	, '/usr/local/bin/gpiooff.py 2> /devnull'
-	, 'systemctl stop localbrowser 2> /devnull'
-	, '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
-	, 'curl -s -X POST "http://127.0.0.1/pub?id=reload" -d 2'
 ];
 var jsonpower = {
 	  buttonlabel : '<i class="fa fa-reboot"></i>Reboot'
