@@ -181,8 +181,10 @@ rm *.pkg.tar.xz
 **Fixes**
 ```sh
 # account expired
-chage -E -1 http
-chage -E -1 mpd
+users=$( cut -d: -f1 /etc/passwd )
+for user in $users; do
+	chage -E -1 $user
+done
 
 # lvm - Invalid value
 sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
