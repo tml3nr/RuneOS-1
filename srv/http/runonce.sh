@@ -10,6 +10,10 @@ fi
 
 rm $0
 
+# fix - alsa restore failed
+alsactl store
+chmod -R 666 /var/lib/alsa
+
 # data dirs
 dirdata="$mnt/data"
 dirdisplay=/srv/http/data/display
