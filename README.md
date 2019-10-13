@@ -62,6 +62,7 @@ rm -r $ROOT/boot/*
 - Power on / connect RPi power
 
 **Connect PC to RPi**
+- Wait for login prompt (no connected display - wait 30 seconds)
 ```sh
 # get RPi IP address and verify - skip to ### connect ### if already known the IP
 routerip=$( ip route get 1 | cut -d' ' -f3 )
@@ -77,7 +78,7 @@ echo RPi IP = $rpiip
 ### connect ### -----------------------------------
 ssh alarm@$rpiip  # password: alarm
 
-# if ECDSA key errors - remove key
+# if WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! - remove existing key
 ssh-keygen -R $rpiip
 ```
 
