@@ -95,7 +95,7 @@ pacman-key --populate archlinuxarm
 pacman -Syu
 
 # package list
-packages='alsa-utils avahi chromium dnsmasq dosfstools ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
+packages='alsa-utils avahi chromium cronie dnsmasq dosfstools ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 ```
 
 **Exclude optional packages** (Skip to install all)
@@ -239,7 +239,7 @@ sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 **Startup services**
 ```sh
 systemctl daemon-reload
-systemctl enable avahi-daemon bootsplash devmon@mpd nginx php-fpm startup
+systemctl enable avahi-daemon bootsplash cronie devmon@mpd nginx php-fpm startup
 ```
 
 **Finish**
