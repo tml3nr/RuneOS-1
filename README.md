@@ -180,6 +180,10 @@ rm *.pkg.tar.xz
 
 **Fixes**
 ```sh
+# account expired
+chage -E -1 http
+chage -E -1 mpd
+
 # lvm - Invalid value
 sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 
