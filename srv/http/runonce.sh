@@ -177,7 +177,7 @@ fi
 
 # preset addons
 rm -f /srv/http/data/addons/*
-echo 20190917 > /srv/http/data/addons/rre1
+echo 201910081 > /srv/http/data/addons/rre1
 
 echo $version > $dirsystem/version
 
