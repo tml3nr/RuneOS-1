@@ -4,8 +4,9 @@ Build RuneAudio+R from [Arch Linux Arm](https://archlinuxarm.org/about/downloads
 
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows)
-- Micro SD card - 4GB+
-- Card reader
+- Raspberry Pi
+- Micro SD card - 4GB+ (with card reader)
+- USB drive - 1GB+
 
 **Arch Linux Arm**
 ```sh
