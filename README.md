@@ -212,10 +212,11 @@ ln -s /srv/http/assets/img/{NORMAL,start}.png
 name=RuneAudio
 namecl=runeaudio
 echo $namecl > /etc/hostname
-sed -i "s/^\(ssid=\).*/\1$name/" /etc/hostapd/hostapd.conf
+sed -i "s/^\(ssid=\).*/\1$name/" /etc/hostapd/hostapd.conf &> /dev/null
 sed -i 's/\(zeroconf_name           "\).*/\1$name"/' /etc/mpd.conf
-sed -i "s/\(netbios name = \).*/\1$name/" /etc/samba/smb.conf
-sed -i "s/^\(friendlyname = \).*/\1$name/" /etc/upmpdcli.conf
+sed -i "s/\(netbios name = \).*/\1$name/" /etc/samba/smb.conf &> /dev/null
+sed -i "/name = .%H./ i\name = $name" /etc/shairport-sync.conf
+sed -i "s/^\(friendlyname = \).*/\1$name/" /etc/upmpdcli.conf &> /dev/null
 sed -i "s/\(.*\[\).*\(\] \[.*\)/\1$namelc\2/" /etc/avahi/services/runeaudio.service
 sed -i "s/\(.*localdomain \).*/\1$namelc.local $namelc/" /etc/hosts
 
