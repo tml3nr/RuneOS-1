@@ -266,7 +266,7 @@ shutdown -h now
 	- right-click `ROOT` partiton > Unmount
 	- right-click `ROOT` partiton > Resize/Move
 	- drag rigth triangle to fit minimum size
-	- Apply
+	- menu: Edit > Apply all operations
 - Create image file
 ```sh
 # get device and verify
