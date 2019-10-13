@@ -134,6 +134,9 @@ pacman -S $packages
 # if errors - temporarily bypass key verifications
 # sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
 
+# start systemd-random-seed (fix - Kernel entropy pool is not initialized)
+systemctl start systemd-random-seed
+
 # optional - install RPi.GPIO
 pip install RPi.GPIO
 
@@ -184,14 +187,8 @@ sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 touch /var/log/mpd.log
 chown mpd:audio /var/log/mpd.log
 
-# systemd-random-seed - Kernel entropy pool is not initialized
-systemctl start systemd-random-seed
-
 # upmpdcli - older symlink
 ln -s /lib/libjsoncpp.so.{21,20}
-
-# wireless-regdom - /usr/bin/set-wireless-regdom failed
-sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 ```
 
 **Configurations**
@@ -234,6 +231,9 @@ passwd  # new password: rune
 
 # ssh - permit root
 sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# wireless-regdom - /usr/bin/set-wireless-regdom failed
+sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 ```
 
 **Startup services**
