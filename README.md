@@ -91,9 +91,6 @@ su - # password: root
 pacman-key --init
 pacman-key --populate archlinuxarm
 
-# if errors - temporarily bypass key verifications
-# sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
-
 ### full upgrade ### -----------------------------------
 pacman -Syu
 
@@ -133,6 +130,9 @@ packages=${packages/ python python-pip}
 ```sh
 ### install packages ### -----------------------------------
 pacman -S $packages
+
+# if errors - temporarily bypass key verifications
+# sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
 
 # optional - install RPi.GPIO
 pip install RPi.GPIO
