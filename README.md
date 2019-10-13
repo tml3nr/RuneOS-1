@@ -177,10 +177,6 @@ rm *.pkg.tar.xz
 
 **Fixes**
 ```sh
-# alsa - Process '/usr/bin/alsactl restore 0' failed
-alsactl store
-chmod -R 666 /var/lib/alsa
-
 # lvm - Invalid value
 sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 
