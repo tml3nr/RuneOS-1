@@ -39,6 +39,7 @@ else
 		sed -i "s/^\(ssid=\).*/\1$name/" /etc/hostapd/hostapd.conf &> /dev/null
 		sed -i 's/\(zeroconf_name           "\).*/\1$name"/' /etc/mpd.conf
 		sed -i "s/\(netbios name = \).*/\1$name/" /etc/samba/smb.conf &> /dev/null
+		sed -i "/name = .%H./ i\name = $name" /etc/shairport-sync.conf &> /dev/null
 		sed -i "s/^\(friendlyname = \).*/\1$name/" /etc/upmpdcli.conf &> /dev/null
 		sed -i "s/\(.*\[\).*\(\] \[.*\)/\1$namelc\2/" /etc/avahi/services/runeaudio.service
 		sed -i "s/\(.*localdomain \).*/\1$namelc.local $namelc/" /etc/hosts
