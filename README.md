@@ -6,9 +6,10 @@ Build RuneAudio+R from [Arch Linux Arm](https://archlinuxarm.org/about/downloads
 - Linux PC (or Linux in VirtualBox on Windows)
 - Raspberry Pi
 - Micro SD card - 4GB+ (with card reader)
-- USB drive - 1GB+
+- USB drive - 1GB+ (**`ext4`** format only)
 
 **Arch Linux Arm**
+- On Linux PC
 ```sh
 sudo su
 
@@ -26,6 +27,7 @@ wget http://os.archlinuxarm.org/os/$file
 ```
 
 **Write to SD card**
+- Insert Micro SD card
 - Create partitions with **GParted** (or command line with: `fdisk` + `fatlabel` + `e2label`)
 
 | Type    | No. | Label* | Format | Size       |
@@ -54,11 +56,11 @@ bsdtar xpvf $file -C $ROOT  # if errors - install missing package
 cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
 rm -r $ROOT/boot/*
 ```
-- Remove the SD card
+- 
 
 **Boot**
 - Remove all USB drives
-- Insert the SD card
+- Move micro SD card to RPi
 - Connect wired LAN
 - Power on / connect RPi power
 
@@ -265,7 +267,7 @@ shutdown -h now
 - Power off / disconnect RPi power
 
 **Create image file**
-- Insert the micro SD card in PC
+- Move micro SD card to PC
 - Resize `ROOT` partition to smallest size possible with **GParted**.
 	- menu: GParted > Devices > /dev/sd?
 	- right-click `ROOT` partiton > Unmount
@@ -292,9 +294,6 @@ OR on Windows (much faster):
 - [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
 
 **Start RuneAudio+R**
-- Insert the micro SD card
-- Plug in a USB drive
-	- At least one is required. (1GB+)
-	- Must be formatted to **`ext4`**
-	- This can be the same drive that stores music files.
+- Move micro SD card to RPi
+- Plug in USB drive
 - Power on
