@@ -232,7 +232,7 @@ echo root:rune | chpasswd
 # ssh - permit root
 sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# wireless-regdom - /usr/bin/set-wireless-regdom failed
+# wireless-regdom
 sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 ```
 
