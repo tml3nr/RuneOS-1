@@ -23,6 +23,7 @@ file=ArchLinuxARM-rpi-2-latest.tar.gz
 ### download ### -----------------------------------
 wget http://os.archlinuxarm.org/os/$file
 ```
+- Continue to next step while downloading.
 
 **Write to SD card**
 - Create partitions with **GParted** (or command line with: `fdisk` + `fatlabel` + `e2label`)
