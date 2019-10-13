@@ -150,15 +150,11 @@ fi
 ### preset data in extra directories
 # preset display
 if [[ ! -e $dirdisplay/bars ]]; then
-	playback="bars barsauto buttons cover coverlarge radioelapsed time volume"
+	playback="bars buttons cover time volume"
 	library="album artist albumartist composer coverart genre nas sd usb webradio"
-	miscel="count label plclear playbackswitch tapaddplay thumbbyartist"
+	miscel="count label plclear playbackswitch"
 	for item in $playback $library $miscel; do
-		echo checked > $dirdisplay/$item
-	done
-	unchecked="barsauto coverlarge radioelapsed tapaddplay thumbbyartist"
-	for item in $unchecked; do
-		> $dirdisplay/$item
+		echo 1 > $dirdisplay/$item
 	done
 fi
 
