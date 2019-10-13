@@ -256,6 +256,7 @@ systemctl enable avahi-daemon bootsplash cronie devmon@mpd nginx php-fpm startup
 # shutdown
 shutdown -h now
 ```
+- Wait until green LED stop flashing and off.
 - Power off / disconnect RPi power
 
 **Create image file**
