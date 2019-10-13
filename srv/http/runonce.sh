@@ -1,6 +1,7 @@
 #!/bin/bash
 
 version=e2
+addoversion=201910081
 
 mnt=$( df | grep /dev/sda1 | awk '{print $NF}' )
 if [[ -z $mnt ]]; then
@@ -177,7 +178,7 @@ fi
 
 # preset addons
 rm -f /srv/http/data/addons/*
-echo 201910081 > /srv/http/data/addons/rre1
+echo $addoversion > /srv/http/data/addons/rre1
 
 echo $version > $dirsystem/version
 
