@@ -227,7 +227,7 @@ mv -f /etc/nginx/html/50x.html{.custom,}
 sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
 
 # password - set default
-passwd  # new password: rune
+echo root:rune | chpasswd
 
 # ssh - permit root
 sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
