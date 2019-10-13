@@ -72,6 +72,9 @@ echo RPi IP = $rpiip
 
 ### connect ### -----------------------------------
 ssh alarm@$rpiip  # password: alarm
+
+# if key errors - remove key
+ssh-keygen -R $rpiip
 ```
 
 **Packages**
@@ -83,7 +86,7 @@ su - # password: root
 pacman-key --init
 pacman-key --populate archlinuxarm
 
-# if errors occured, temporarily bypass key verifications
+# if errors - temporarily bypass key verifications
 # sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
 
 ### full upgrade ### -----------------------------------
