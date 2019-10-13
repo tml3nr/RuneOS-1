@@ -47,7 +47,9 @@ echo ROOT = $ROOT
 echo BOOT = $BOOT
 
 ### expand to sd card ### -----------------------------------
-bsdtar xpvf $file -C $ROOT
+bsdtar xpvf $file -C $ROOT  # if errors - install missing package
+
+# move boot directory
 cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
 rm -r $ROOT/boot/*
 ```
