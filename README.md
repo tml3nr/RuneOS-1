@@ -76,7 +76,7 @@ echo RPi IP = $rpiip
 ### connect ### -----------------------------------
 ssh alarm@$rpiip  # password: alarm
 
-# if key errors - remove key
+# if ECDSA key errors - remove key
 ssh-keygen -R $rpiip
 ```
 
