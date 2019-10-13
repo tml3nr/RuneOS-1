@@ -62,9 +62,9 @@ rm -r $ROOT/boot/*
 - Power on / connect RPi power
 
 **Connect PC to RPi**
-- Wait for login prompt (no connected display - wait 30 seconds)
+- Wait for login prompt (If no connected display, wait 30 seconds)
 ```sh
-# get RPi IP address and verify - skip to ### connect ### if already known the IP
+# get RPi IP address and verify - skip to ### connect ### for known IP
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
 rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
@@ -72,10 +72,10 @@ echo List:
 echo "$nmap"
 echo RPi IP = $rpiip
 
-# if there's more than 1 RPi, set rpiip manually
-# rpiip=<ip>
-
 ### connect ### -----------------------------------
+# already known IP or if there's more than 1 RPi, set rpiip manually
+# rpiip=<IP>
+
 ssh alarm@$rpiip  # password: alarm
 
 # if WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! - remove existing key
