@@ -1501,7 +1501,7 @@ function renderPlaylist() {
 	GUI.status.playlistlength = GUI.pllist.length;
 	if ( !GUI.pllist.length ) {
 		$( '#pl-count' ).html( '<span class="title">PLAYLIST</span>' );
-		$( '#plsave, #plcrop, #plconsume, #plclear, #pl-searchbtn' ).addClass( 'disable' );
+		$( '#plsave, #plcrop, #plclear, #pl-searchbtn' ).addClass( 'disable' );
 		$( '#pl-entries' ).empty();
 		$( '.playlist, .emptyadd' ).removeClass( 'hide' );
 		$( 'html, body' ).scrollTop( 0 );
