@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 0. wait for usb mount 10 sec
+# set startup flag > suppress audio output notification
 # 1. mpdconf.sh
 #   - probe sound devices
 #   - populate mpd.conf
@@ -10,17 +10,6 @@
 # 4. autoplay
 # 5. check addons update
 # 6. disable wlan power saving
-
-i=0
-while $( sleep 1 ); do
-	grep -q '/mnt/MPD/USB' /proc/mounts && break
-	
-	(( i++ ))
-	if (( i > 10 )); then
-		curl -s -X POST 'http://127.0.0.1/pub?id=notify' -d '{ "title": "USB Drive", "text": "No USB drive found.", "icon": "usbdrive" }'
-		break
-	fi
-done
 
 touch /srv/http/data/tmp/startup  # flag for mpdconf.sh
 
