@@ -1,1 +1,1 @@
-http ALL=NOPASSWD: ALL
+http ALL=(ALL) NOPASSWD: ALL
