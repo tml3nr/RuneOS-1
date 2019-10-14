@@ -4,12 +4,14 @@ Build RuneAudio+R from [Arch Linux Arm](https://archlinuxarm.org/about/downloads
 
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows)
-- Micro SD card - 4GB+
-- Card reader
+- Raspberry Pi
+- Micro SD card - 4GB+ (with card reader)
+- USB drive - 1GB+ (**`ext4`** format only)
 
 **Arch Linux Arm**
+- On Linux PC
 ```sh
-sudo su -
+sudo su
 
 # download
 #file=ArchLinuxARM-rpi-4-latest.tar.gz  # RPi4
@@ -25,6 +27,7 @@ wget http://os.archlinuxarm.org/os/$file
 ```
 
 **Write to SD card**
+- Insert Micro SD card
 - Create partitions with **GParted** (or command line with: `fdisk` + `fatlabel` + `e2label`)
 
 | Type    | No. | Label* | Format | Size       |
@@ -53,18 +56,18 @@ bsdtar xpvf $file -C $ROOT  # if errors - install missing package
 cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
 rm -r $ROOT/boot/*
 ```
-- Remove the SD card
+- 
 
 **Boot**
 - Remove all USB drives
-- Insert the SD card
+- Move micro SD card to RPi
 - Connect wired LAN
 - Power on / connect RPi power
 
 **Connect PC to RPi**
-- Wait for login prompt (no connected display - wait 30 seconds)
+- Wait for login prompt (If no connected display, wait 30 seconds)
 ```sh
-# get RPi IP address and verify - skip to ### connect ### if already known the IP
+# get RPi IP address and verify - skip to ### connect ### for known IP
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
 rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
@@ -72,10 +75,10 @@ echo List:
 echo "$nmap"
 echo RPi IP = $rpiip
 
-# if there's more than 1 RPi, set rpiip manually
-# rpiip=<ip>
-
 ### connect ### -----------------------------------
+# already known IP or if there's more than 1 RPi, set rpiip manually
+# rpiip=<IP>
+
 ssh alarm@$rpiip  # password: alarm
 
 # if WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! - remove existing key
@@ -85,7 +88,10 @@ ssh-keygen -R $rpiip
 **Packages**
 ```sh
 # switch user to root
-su - # password: root
+su # password: root
+
+# change directory to root
+cd
 
 # initialize pgp key
 pacman-key --init
@@ -209,10 +215,11 @@ ln -s /srv/http/assets/img/{NORMAL,start}.png
 name=RuneAudio
 namecl=runeaudio
 echo $namecl > /etc/hostname
-sed -i "s/^\(ssid=\).*/\1$name/" /etc/hostapd/hostapd.conf
+sed -i "s/^\(ssid=\).*/\1$name/" /etc/hostapd/hostapd.conf &> /dev/null
 sed -i 's/\(zeroconf_name           "\).*/\1$name"/' /etc/mpd.conf
-sed -i "s/\(netbios name = \).*/\1$name/" /etc/samba/smb.conf
-sed -i "s/^\(friendlyname = \).*/\1$name/" /etc/upmpdcli.conf
+sed -i "s/\(netbios name = \).*/\1$name/" /etc/samba/smb.conf &> /dev/null
+sed -i "/name = .%H./ i\name = $name" /etc/shairport-sync.conf
+sed -i "s/^\(friendlyname = \).*/\1$name/" /etc/upmpdcli.conf &> /dev/null
 sed -i "s/\(.*\[\).*\(\] \[.*\)/\1$namelc\2/" /etc/avahi/services/runeaudio.service
 sed -i "s/\(.*localdomain \).*/\1$namelc.local $namelc/" /etc/hosts
 
@@ -260,7 +267,7 @@ shutdown -h now
 - Power off / disconnect RPi power
 
 **Create image file**
-- Insert the micro SD card in PC
+- Move micro SD card to PC
 - Resize `ROOT` partition to smallest size possible with **GParted**.
 	- menu: GParted > Devices > /dev/sd?
 	- right-click `ROOT` partiton > Unmount
@@ -287,9 +294,6 @@ OR on Windows (much faster):
 - [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
 
 **Start RuneAudio+R**
-- Insert the micro SD card
-- Plug in a USB drive
-	- At least one is required. (1GB+)
-	- Must be formatted to **`ext4`**
-	- This can be the same drive that stores music files.
+- Move micro SD card to RPi
+- Plug in USB drive
 - Power on

@@ -36,15 +36,16 @@ else
 		namelc=$( echo $name | tr '[:upper:]' '[:lower:]' )
 		hostname $namelc
 		echo $namelc > /etc/hostname
-		sed -i "s/^\(ssid=\).*/\1$name/" /etc/hostapd/hostapd.conf
+		sed -i "s/^\(ssid=\).*/\1$name/" /etc/hostapd/hostapd.conf &> /dev/null
 		sed -i 's/\(zeroconf_name           "\).*/\1$name"/' /etc/mpd.conf
-		sed -i "s/\(netbios name = \).*/\1$name/" /etc/samba/smb.conf
-		sed -i "s/^\(friendlyname = \).*/\1$name/" /etc/upmpdcli.conf
+		sed -i "s/\(netbios name = \).*/\1$name/" /etc/samba/smb.conf &> /dev/null
+		sed -i "s/^\(name = \).*/\1$name" /etc/shairport-sync.conf &> /dev/null
+		sed -i "s/^\(friendlyname = \).*/\1$name/" /etc/upmpdcli.conf &> /dev/null
 		sed -i "s/\(.*\[\).*\(\] \[.*\)/\1$namelc\2/" /etc/avahi/services/runeaudio.service
 		sed -i "s/\(.*localdomain \).*/\1$namelc.local $namelc/" /etc/hosts
 	fi
 ### accesspoint
-	if [[ -e $dirsystem/accesspoint ]]; then
+	if [[ -e $dirsystem/accesspoint && -e /etc/hostapd/hostapd.conf ]]; then
 		if [[ -e $dirsystem/accesspoint-passphrase ]]; then
 			passphrase=$( cat $dirsystem/accesspoint-passphrase )
 			ip=$( cat $dirsystem/accesspoint-ip )
@@ -59,7 +60,7 @@ else
 		fi
 	fi
 ### airplay
-	[[ -e $dirsystem/airplay ]] && systemctl enable --now shairport-sync
+	[[ -e $dirsystem/airplay && -e /etc/shairport-sync.conf ]] && systemctl enable --now shairport-sync
 ### color
 	if [[ -e $dirdisplay/color ]]; then
 		. /srv/http/addonsfunctions.sh
@@ -75,7 +76,7 @@ else
 		mount -a
 	fi
 ### localbrowser
-	if [[ -e $dirsystem/localbrowser ]]; then
+	if [[ -e $dirsystem/localbrowser && -e /usr/bin/chromium ]]; then
 		if [[ -e $dirsystem/localbrowser-cursor ]]; then
 			sed -i -e "s/\(-use_cursor \).*/\1$( cat $dirsystem/localbrowser-cursor ) \&/
 				 " -e "s/\(xset dpms 0 0 \).*/\1$( cat $dirsystem/localbrowser-screenoff ) \&/" /etc/X11/xinit/xinitrc
@@ -113,7 +114,7 @@ else
 		systemctl disable netctl-auto@wlan0
 	fi
 ### samba
-	if [[ -e $dirsystem/samba ]]; then
+	if [[ -e $dirsystem/samba && -e /etc/samba ]]; then
 		[[ -e $dirsystem/samba-writesd ]] && sed -i '/path = .*USB/ a\tread only = no' /etc/samba/smb.conf
 		[[ -e $dirsystem/samba-writeusb ]] && sed -i '/path = .*LocalStorage/ a\tread only = no' /etc/samba/smb.conf
 		
@@ -122,17 +123,17 @@ else
 ### timezone
 	[[ -e $dirsystem/timezone ]] && timedatectl set-timezone $( cat $dirsystem/timezone )
 ### upnp
-	setUpnp() {
-		user=( $( cat $dirsystem/upnp-$1user ) )
-		pass=( $( cat $dirsystem/upnp-$1pass ) )
-		quality=( $( cat $dirsystem/upnp-$1quality 2> /dev/null ) )
-		[[ $1 == qobuz ]] && qlty=formatid || qlty=quallity
-		sed -i -e "s/#*\($1user = \).*/\1$user/
-			 " -e "s/#*\($1pass = \).*/\1$pass/
-			 " -e "s/#*\($1$qlty = \).*/\1$quality/
-			 " /etc/upmpdcli.conf
-	}
-	if [[ -e $dirsystem/upnp ]]; then
+	if [[ -e $dirsystem/upnp && /etc/upmpdcli.conf ]]; then
+		setUpnp() {
+			user=( $( cat $dirsystem/upnp-$1user ) )
+			pass=( $( cat $dirsystem/upnp-$1pass ) )
+			quality=( $( cat $dirsystem/upnp-$1quality 2> /dev/null ) )
+			[[ $1 == qobuz ]] && qlty=formatid || qlty=quallity
+			sed -i -e "s/#*\($1user = \).*/\1$user/
+			 	" -e "s/#*\($1pass = \).*/\1$pass/
+			 	" -e "s/#*\($1$qlty = \).*/\1$quality/
+				 " /etc/upmpdcli.conf
+		}
 		[[ -e $dirsystem/upnp-gmusicuser ]] && setUpnp gmusic
 		[[ -e $dirsystem/upnp-qobuzuser ]] && setUpnp qobuz
 		[[ -e $dirsystem/upnp-tidaluser ]] && setUpnp tidal
@@ -150,15 +151,11 @@ fi
 ### preset data in extra directories
 # preset display
 if [[ ! -e $dirdisplay/bars ]]; then
-	playback="bars barsauto buttons cover coverlarge radioelapsed time volume"
+	playback="bars buttons cover time volume"
 	library="album artist albumartist composer coverart genre nas sd usb webradio"
-	miscel="count label plclear playbackswitch tapaddplay thumbbyartist"
+	miscel="count label plclear playbackswitch"
 	for item in $playback $library $miscel; do
-		echo checked > $dirdisplay/$item
-	done
-	unchecked="barsauto coverlarge radioelapsed tapaddplay thumbbyartist"
-	for item in $unchecked; do
-		> $dirdisplay/$item
+		echo 1 > $dirdisplay/$item
 	done
 fi
 
