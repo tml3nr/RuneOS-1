@@ -217,10 +217,12 @@ $( '#sources' ).click( function( e ) {
 		} );
 		return
 	} else {
+		$( '#loader' ).removeClass( 'hide' );
 		location.href = 'indexsettings.php?p=sources';
 	}
 } );
 $( '#system, #credits' ).click( function( e ) {
+	$( '#loader' ).removeClass( 'hide' );
 	location.href = 'indexsettings.php?p='+ ( $( e.target ).prop( 'id' ) === 'credits' ? 'credits' : 'system' );
 } );
 var cmdpower = [
