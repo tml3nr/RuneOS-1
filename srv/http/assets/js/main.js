@@ -1168,6 +1168,7 @@ $( '#home-coverart' ).click( function() { // fix - 'tap' also fire .coverart cli
 	$( '#home-blocks' ).addClass( 'hide' );
 	$( '#divcoverarts, #db-back, #db-index' ).removeClass( 'hide' );
 	$( '#db-index li' ).not( ':eq( 0 )' ).addClass( 'gr' );
+	$( '#db-list' ).css( 'padding-top', GUI.bars ? '80px' : '' );
 	var index = $( '#indexcover' ).data().index;
 	index.forEach( function( index ) {
 		$( '#db-index .index-'+ index ).removeClass( 'gr' );
