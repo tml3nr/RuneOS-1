@@ -629,7 +629,7 @@ function tag( counts ) {
 		}
 	}
 	$.post( 'commands.php', { bash: cmd }, function( data ) {
-		var tags = data.slice( 0, -1 ).split( '^^' );
+		var tags = data[ 0 ].slice( 0, -1 ).split( '^^' );
 		var file = tags[ 7 ].replace( /"/g, '\"' );
 		var ext = file.split( '.' ).pop();
 		var path = file.substr( 0, file.lastIndexOf( '/' ) );
@@ -724,5 +724,5 @@ function tag( counts ) {
 				}
 			}
 		} );
-	} );
+	}, 'json' );
 }
