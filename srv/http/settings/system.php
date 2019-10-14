@@ -92,12 +92,14 @@ if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 				<span class="help-block hide">3.5mm phone and HDMI outputs.</span>
 			</div>
 		</div>
+<?php if ( file_exists( '/usr/bin/bluetoothctl' ) ) { ?>
 		<div class="col-l">Bluetooth</div>
 		<div class="col-r">
 			<input id="bluetooth" type="checkbox" <?=$data->bluetooth?>>
 			<div class="switchlabel" for="bluetooth"></div>
 			<span class="help-block hide">Should be disabled if not used.</span>
 		</div>
+<?php } ?>
 		<div class="col-l">Wi-Fi</div>
 		<div class="col-r">
 			<input id="wlan" type="checkbox" <?=$data->wlan?>>
