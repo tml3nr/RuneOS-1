@@ -30,7 +30,7 @@ $( '#hostname' ).click( function() {
 			}
 			if ( $( '#airplay' ).length ) {
 				cmd.push( 'sed -i "s/^name =.*/name = '+ hostname +'/" /etc/shairport-sync.conf' );
-				service += ' shairport-sync';
+				service += ' shairport-sync shairport-meta';
 			}
 			if ( $( '#samba' ).length ) {
 				cmd.push( 'sed -i "s/netbios name = .*/netbios name = '+ hostname +'/" /etc/samba/smb.conf' );
@@ -236,7 +236,7 @@ $( '#airplay' ).click( function() {
 	var O = getCheck( $( this ) );
 	local = 1;
 	$.post( 'commands.php', { bash: [
-		  'systemctl '+ O.enabledisable +' --now shairport-sync'
+		  'systemctl '+ O.enabledisable +' --now shairport-sync shairport-meta'
 		, ( O.onezero ? 'echo 1 > ' : 'rm -f ' ) + dirsystem +'/airplay'
 		, pstream( 'system' )
 	] }, resetlocal );

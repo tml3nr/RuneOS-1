@@ -6,6 +6,6 @@ if (( $# > 0 )); then # stop
 	curl -s -X POST 'http://127.0.0.1/pub?id=airplay' -d 0
 	exec( '/usr/bin/sudo /usr/bin/rm -f /srv/http/data/tmp/airplay*' );
 else
-	systemctl stop mpd
+	systemctl stop mpd mpdidle
 	curl -s -X POST 'http://127.0.0.1/pub?id=airplay' -d 1
 fi

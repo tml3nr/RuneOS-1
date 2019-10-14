@@ -3,7 +3,7 @@ $( function() { // document ready start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 $( '#audiooutput' ).selectric( { maxWidth: 230 } );
 
 var dirsystem = '/srv/http/data/system';
-var restartmpd = 'systemctl restart mpd';
+var restartmpd = 'systemctl restart mpd mpdidle';
 var setmpdconf = '/srv/http/settings/mpdconf.sh';
 var warning = '<wh><i class="fa fa-warning fa-lg"></i>&ensp;Lower amplifier volume.</wh>'
 			 +'<br>(If current level in MPD is not 100%.)'
@@ -12,7 +12,7 @@ var warning = '<wh><i class="fa fa-warning fa-lg"></i>&ensp;Lower amplifier volu
 function setMixerType( mixer, reloadpage ) {
 	var cmd = [
 		  "sed -i 's/mixer_type.*/mixer_type              \""+ mixer +"\"/' /etc/mpd.conf"
-		, 'echo "'+ mixer +'" > '+ dirsystem +'/mpd-mixertype'
+		, 'echo '+ mixer +' > '+ dirsystem +'/mpd-mixertype'
 		, setmpdconf
 		, pstream( 'mpd' )
 	];
@@ -36,8 +36,8 @@ $( '#audiooutput' ).change( function() {
 	var index = $selected.data( 'index' );
 	var cmd = [
 		  "sed -i 's/output_device = .*/output_device = \"hw:"+ index +"\";/' /etc/shairport-sync.conf"
-		, 'echo "'+ name +'" > '+ dirsystem +'/audiooutput'
-		, 'systemctl try-restart shairport-sync'
+		, 'echo '+ name +' > '+ dirsystem +'/audiooutput'
+		, 'systemctl try-restart shairport-sync shairport-meta'
 		, pstream( 'mpd' )
 	];
 	var routecmd = $selected.data( 'routecmd' );

@@ -1,7 +1,6 @@
 [Unit]
 Description=Shairport Sync Metadata 
 After=network.target redis.target shairport-sync.service
-BindsTo=shairport-sync.service
 
 [Service]
 ExecStart=/srv/http/shairportmeta.php
