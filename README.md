@@ -1,14 +1,22 @@
 RuneOS
 ---
 Build RuneAudio+R from [Arch Linux Arm](https://archlinuxarm.org/about/downloads) source
+- Download Arch Linux Arm from source and write to SD card
+- Start Arch Linux Arm
+- Upgrade to latest kernel and packages
+- Install packages
+- Download web interface, custom packages and config files
+- Install custom packages
+- Fix and set configurations
+- Create image file
 
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows)
 - Raspberry Pi
 - Micro SD card - 4GB+ (with card reader)
-- USB drive - 1GB+ (**`ext4`** format only)
+- USB drive - 1GB+ (**`ext4`** format only) for running RuneAudio+R
 
-**Arch Linux Arm**
+**Download Arch Linux Arm**
 - On Linux PC
 ```sh
 sudo su
@@ -58,7 +66,7 @@ rm -r $ROOT/boot/*
 ```
 - 
 
-**Boot**
+**Start Arch Linux Arm**
 - Remove all USB drives
 - Move micro SD card to RPi
 - Connect wired LAN
