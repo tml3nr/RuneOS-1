@@ -1,9 +1,6 @@
 /*======================================
 	Selectric
 ======================================*/
-select {
-	display: none;
-}
 .selectric-wrapper {
 	position: relative;
 	display: inline-block;
