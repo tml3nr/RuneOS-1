@@ -95,7 +95,7 @@ $( '.contextmenu a' ).click( function( e ) {
 		GUI.local = 1;
 		setTimeout( function() { GUI.local = 0 }, 2000 );
 		$.post( 'commands.php', { bash: [
-			  'echo "'+ dir +'" >> '+ pathfile
+			  'echo '+ dir +' | /usr/bin/tee -a '+ pathfile
 			, 'mpc update "'+ mpdpath +'"' // get .mpdignore into database
 			, 'mpc update "'+ mpdpath +'"' // after .mpdignore was in database
 		] }, function() {
