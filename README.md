@@ -258,10 +258,8 @@ timedatectl set-timezone UTC
 
 # wireless-regdom
 sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
-```
 
-**Startup services**
-```sh
+# startup services
 systemctl daemon-reload
 systemctl enable avahi-daemon bootsplash cronie devmon@mpd nginx php-fpm startup
 ```
