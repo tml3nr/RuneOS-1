@@ -63,8 +63,11 @@ bsdtar xpvf $file -C $ROOT  # if errors - install missing package
 # move boot directory
 cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
 rm -r $ROOT/boot/*
+
+# unmount sd card
+umount -l $BOOT
+umount -l $ROOT
 ```
-- 
 
 **Start Arch Linux Arm**
 - Remove all USB drives
@@ -109,7 +112,7 @@ pacman-key --populate archlinuxarm
 pacman -Syu
 
 # package list
-packages='alsa-utils avahi chromium cronie dnsmasq dosfstools ffmpeg gcc hostapd ifplugd mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
+packages='alsa-utils avahi chromium cronie dnsmasq dosfstools ffmpeg gcc hostapd ifplugd imagemagick mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 ```
 
 **Exclude optional packages** (Skip to install all)
