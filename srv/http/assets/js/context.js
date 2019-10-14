@@ -23,9 +23,7 @@ $( '.contextmenu a' ).click( function( e ) {
 	
 	if ( cmd === 'update' ) {
 		GUI.list.li.find( '.db-icon' ).addClass( 'blink' );
-		$.post( 'commands.php', { bash: [
-			, 'mpc update "'+ GUI.list.path +'"'
-			] } );
+		$.post( 'commands.php', { bash: 'mpc update "'+ GUI.list.path +'"' } );
 	} else if ( cmd === 'tag' ) {
 		setTag();
 	} else if ( cmd === 'remove' ) {
