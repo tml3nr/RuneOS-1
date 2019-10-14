@@ -3,15 +3,16 @@ $data = json_decode( shell_exec( '/srv/http/settings/systemdata.sh' ) );
 
 date_default_timezone_set( $data->timezone );
 $timezonelist = timezone_identifiers_list();
-$optiontimezone = '';
+$selecttimezone = '<select id="timezone">';
 foreach( $timezonelist as $key => $zone ) {
 	$selected = $zone === $data->timezone ? ' selected' : '';
 	$datetime = new DateTime( 'now', new DateTimeZone( $zone ) );
 	$offset = $datetime->format( 'P' );
 	$zonename = preg_replace( array( '/_/', '/\//' ), array( ' ', ' <gr>&middot;</gr> ' ), $zone );
 	if ( $selected ) $zonestring = $data->timezone === 'UTC' ? 'UTC' : explode( ' <gr>&middot;</gr> ', $zonename, 2 )[ 1 ];
-	$optiontimezone.= '<option value="'.$zone.'"'.$selected.'>'.$zonename.'&ensp;'.$offset."</option>\n";
+	$selecttimezone.= '<option value="'.$zone.'"'.$selected.'>'.$zonename.'&ensp;'.$offset."</option>\n";
 }
+$selecttimezone.= '</select>';
 
 // set value
 //   - append '/boot/config.txt' with 'dtoverlay' file names in '/boot/overlays/*'
@@ -57,9 +58,7 @@ if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 		</div>
 		<div class="col-l">Timezone</div>
 		<div class="col-r">
-			<select id="timezone" data-style="btn-default btn-lg">
-				<?=$optiontimezone?>
-			</select>
+			<?=$selecttimezone?>
 			<i id="setting-ntp" data-ntp="<?=$data->ntp?>" class="settingedit fa fa-gear"></i><br>
 			<span class="help-block hide">Network Time Protocol server.</span></span>
 		</div>
