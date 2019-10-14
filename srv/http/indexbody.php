@@ -133,6 +133,7 @@ if ( count( $files ) ) {
 	}
 }
 // browse by coverart
+$coverartshtml = '';
 $files = array_slice( scandir( '/srv/http/data/coverarts' ), 2 );
 if ( count( $files ) ) {
 	$thumbbyartist = file_exists( '/srv/http/data/display/thumbbyartist' );
@@ -160,7 +161,6 @@ if ( count( $files ) ) {
 		return strnatcmp( $a[ 0 ], $b[ 0 ] ) ?: strnatcmp( $a[ 1 ], $b[ 1 ] );
 	} );
 	$index = array_keys( array_flip( $index ) );
-	$coverartshtml = '';
 	foreach( $lists as $list ) {
 		$lipath = $list[ 5 ] ? '<a class="lipath">'.$list[ 5 ].'</a>' : '';
 		$coverfile = preg_replace( array( '/%/', '/"/', '/#/' ), array( '%25', '%22', '%23' ), $list[ 4 ] );
