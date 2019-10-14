@@ -406,7 +406,8 @@ input:checked + .switchlabel:after {
 	cursor: pointer;
 }
 .settingedit {
-	left: 240px;
+	position: relative;
+	left: 5px;
 }
 .cg {
 	background: hsl(200,3%,30%)/*cg*/;
