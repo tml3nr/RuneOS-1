@@ -1,7 +1,6 @@
 [Unit]
 Description=RuneUIe Startup
-After=sound.target
-Requires=sound.target
+ConditionDirectoryNotEmpty=/srv/http/data
 
 [Service]
 Type=idle
