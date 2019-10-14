@@ -614,7 +614,7 @@ function displayTopBottom() {
 	if ( !( 'bars' in GUI.display ) || ( GUI.screenS && !( 'barsauto' in GUI.display ) ) ) {
 		GUI.bars = 0;
 		$( '#menu-top, #menu-bottom' ).addClass( 'hide' );
-		$( '#db-list, #pl-list' ).css( 'padding', '40px 0' );
+		$( '#db-list, #pl-list' ).css( 'padding-top', '40px' );
 		$( '.btnlist-top' ).css( 'top', 0 );
 		$( '#home-blocks' ).css( 'padding-top', '50px' );
 		$( '.emptyadd' ).css( 'top', '90px' );
@@ -622,7 +622,7 @@ function displayTopBottom() {
 		GUI.bars = 1;
 		$( '#menu-top, #menu-bottom' ).removeClass( 'hide' );
 		$( '#pause' ).toggleClass( 'hide', GUI.status.ext === 'radio' );
-		$( '#db-list, #pl-list' ).css( 'padding', '' );
+		$( '#db-list, #pl-list' ).css( 'padding-top', '' );
 		$( '.btnlist-top' ).css( 'top', '40px' );
 		$( '#home-blocks' ).css( 'padding-top', '' );
 		$( '.emptyadd' ).css( 'top', '' );
@@ -630,6 +630,7 @@ function displayTopBottom() {
 	var menuH = ( $( '#settings a' ).length - $( '#settings a.hide' ).length ) * 42 - 2;
 	$( '#settings .menushadow' ).css( 'height', menuH +'px' );
 	$( '.menu' ).addClass( 'hide' );
+	if ( GUI.library && !$( '#home-blocks' ).hasClass( 'hide' ) ) $( '#db-list' ).css( 'padding-top', GUI.bars ? '40px' : 0 );
 }
 function flag( iso ) { // from: https://stackoverflow.com/a/11119265
 	var iso0 = ( iso.toLowerCase().charCodeAt( 0 ) - 97 ) * -15;
