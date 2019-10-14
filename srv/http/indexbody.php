@@ -3,9 +3,33 @@ include 'logosvg.php';
 
 if ( $login && !$_SESSION[ 'login' ] ) {
 ?>
+<style>
+#pwd {
+	text-align: center;
+	width: 230px;
+	height: 40px;
+	margin-bottom: 10px;
+	padding: 10px;
+	font-family: "Lato";
+	font-size: 15px;
+	color: #e0e7ee;
+	background-color: #000000 !important;
+	border-radius: 4px;
+	border: 1px solid hsl(200,3%,30%)/*cg*/ !important;
+}
+#login {
+	display: block;
+	margin: 0 auto;
+	width: 60px;
+	line-height: 34px;
+	background: -webkit-radial-gradient(50% -50%, 160% 200%, hsla(0,0%,100%,.3) 50%, hsla(0,0%,100%,0) 55%);
+	background: radial-gradient(160% 100% at 50% 0% ,hsla(0,0%,100%,.3) 50%,hsla(0,0%,100%,0) 55%);
+	background-color: hsl(200,100%,40%)/*c*/;
+}
+</style>
 <div id="divlogin" style="text-align: center">
 	<svg viewBox="0 0 480.2 144.2" style="margin: 100px auto 20px; width: 200px;"><?=$logo ?></svg><br>
-	<input type="password" id="pwd" class="form-control input-lg">
+	<input type="password" id="pwd">
 	<a id="login" class="btn btn-primary">Login</a>
 </div>
 <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>

@@ -1,7 +1,7 @@
 <?php
-$audiooutput = getData( 'audiooutput' );
-$dop = getData( 'dop' );
-$autoplay = getData( 'autoplay' ) === 'yes' ? 'checked' : '';
+$audiooutput = trim( @file_get_contents( '/srv/http/data/system/audiooutput' ) );
+$dop = file_exists( '/srv/http/data/system/dop' ) ? 'checked' : '';
+$autoplay = file_exists( '/srv/http/data/system/autoplay' ) ? 'checked' : '';
 
 exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
 $outputs = array_diff( $outputs, array( 'bcm2835 ALSA_3' ) ); // remove 2nd hdmi
@@ -21,7 +21,7 @@ $replaygain = exec( "$sudo/grep 'replaygain' /etc/mpd.conf | cut -d'\"' -f2" );
 $novolume = ( $mixertype !== 'none' || $crossfade || $normalization !== 'no' || $replaygain !== 'off' ) ? 0 : 1;
 $autoupdate = exec( "$sudo/grep 'auto_update' /etc/mpd.conf | cut -d'\"' -f2" );
 $buffer = exec( "$sudo/grep 'audio_buffer_size' /etc/mpd.conf | cut -d'\"' -f2" );
-$ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" ) === 'yes' ? 'checked' : '';
+if ( file_exists( '/usr/bin/ffmpeg' ) ) $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" ) === 'yes' ? 'checked' : '';
 ?>
 <div class="container">
 	<heading>Audio Output</heading>
@@ -89,6 +89,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 			<i id="setting-buffer" class="setting fa fa-gear <?=( $buffer === '4096' ? 'hide' : '' )?>"></i>
 			<span class="help-block hide">Default buffer size: 4096KB (24 seconds of CD-quality audio)</span>
 		</div>
+<?php if ( isset( $ffmpeg ) ) { ?>
 		<div class="col-l">FFmpeg</div>
 		<div class="col-r">
 			<input id="ffmpeg" type="checkbox" <?=$ffmpeg?>>
@@ -102,6 +103,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 				tak tgi tgq tgv thp ts tsp tta xa xvid uv uv2 vb vid vob voc vp6 vmd wav webm wma wmv wsaud wsvga wv wve 
 			</span>
 		</div>
+<?php } ?>
 		<div class="col-l">Play on startup</div>
 		<div class="col-r">
 			<input id="autoplay" type="checkbox" <?=$autoplay?>>

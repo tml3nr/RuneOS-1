@@ -436,16 +436,6 @@ svg path.st1 {
 #context-menu-file {
 	right: 50px;
 }
-/* ---------------------- login ---------------------- */
-#pwd, #pwdnew {
-	margin: 15px auto 10px;
-	width: 230px;
-	text-align: center;
-	border-radius: 4px;
-}
-#login, #pwdset {
-	width: 60px;
-}
 /* ---------------------- menu-top ----------------------*/
 #menu-top,
 #menu-bottom,

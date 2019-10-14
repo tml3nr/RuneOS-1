@@ -35,9 +35,6 @@ function headhtml( $icon, $title ) {
 		</div>
 	';
 }
-function getData( $key ) {
-	return trim( @file_get_contents( "/srv/http/data/system/$key" ) );
-}
 $p = $_GET[ 'p' ];
 $icon = array(
 	  'credits' => 'rune'

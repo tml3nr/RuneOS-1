@@ -1,12 +1,4 @@
 <?php
-$hostname = getData( 'hostname' );
-$audiooutput = getData( 'audiooutput' );
-$i2ssysname = getData( 'i2ssysname' );
-$soundprofile = getData( 'soundprofile' ) === 'default';
-$password = getData( 'login' ) ? 'checked' : '';
-$passworddefault = password_verify( 'rune', getData( 'password' ) ) ? ' data-default="1"' : '';
-$version = getData( 'version' );
-
 $data = json_decode( shell_exec( '/srv/http/settings/systemdata.sh' ) );
 
 date_default_timezone_set( $data->timezone );
@@ -33,9 +25,10 @@ foreach( $timezonelist as $key => $zone ) {
 include '/srv/http/settings/system_i2smodules.php';
 $optioni2smodule = '';
 foreach( $i2slist as $name => $sysname ) {
-	$selected = ( $name === $audiooutput && $sysname === $i2ssysname ) ? ' selected' : '';
+	$selected = ( $name === $data->audiooutput && $sysname === $data->i2ssysname ) ? ' selected' : '';
 	$optioni2smodule.= "<option value=\"$sysname\"$selected>$name</option>";
 }
+if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 ?>
 <div class="container">
 	<heading>System Status</heading>
@@ -48,7 +41,7 @@ foreach( $i2slist as $name => $sysname ) {
 			Since
 		</div>
 		<div class="col-r text">
-			<i class="fa fa-addons gr"></i> <?=$version?><br>
+			<i class="fa fa-addons gr"></i> <?=$data->version?><br>
 			<?=$data->kernel?><br>
 			<?=$data->hardware?><br>
 			<?=$data->date?><gr>&emsp;@ </gr><?=$zonestring?><br>
@@ -58,7 +51,7 @@ foreach( $i2slist as $name => $sysname ) {
 	<heading>Environment</heading>
 		<div class="col-l">Player name</div>
 		<div class="col-r">
-			<input type="text" id="hostname" value="<?=$hostname?>" readonly style="cursor: pointer">
+			<input type="text" id="hostname" value="<?=$data->hostname?>" readonly style="cursor: pointer">
 			<span class="help-block hide">Set the player hostname. This will change the address used to reach the RuneUI. Local access point, AirPlay, Samba and UPnP/upnp will broadcast this name when enabled.<br>
 			(No spaces or special charecters allowed in the name.)</span>
 		</div>
@@ -73,11 +66,11 @@ foreach( $i2slist as $name => $sysname ) {
 	<heading>Audio</heading>
 		<div class="col-l">I&#178;S Module</div>
 		<div class="col-r i2s">
-			<div id="divi2smodulesw"<?=( $i2ssysname ? ' class="hide"' : '' )?>>
+			<div id="divi2smodulesw"<?=( $data->i2ssysname ? ' class="hide"' : '' )?>>
 				<input id="i2smodulesw" type="checkbox">
 				<div class="switchlabel" for="i2smodulesw"></div>
 			</div>
-			<div id="divi2smodule"<?=( $i2ssysname ? '' : ' class="hide"' )?>>
+			<div id="divi2smodule"<?=( $data->i2ssysname ? '' : ' class="hide"' )?>>
 				<select id="i2smodule" data-style="btn-default btn-lg">
 					<?=$optioni2smodule?>
 				</select>
@@ -86,13 +79,13 @@ foreach( $i2slist as $name => $sysname ) {
 		</div>
 		<div class="col-l">Sound Profile</div>
 		<div class="col-r">
-			<input id="soundprofile" type="checkbox" value="<?=$soundprofile?>"<?=( $soundprofile ? '' : ' checked' )?>>
+			<input id="soundprofile" type="checkbox" value="<?=$soundprofile?>"<?=( $data->soundprofile === 'default' ? '' : ' checked' )?>>
 			<div class="switchlabel" for="soundprofile"></div>
-			<i id="setting-soundprofile" class="setting fa fa-gear<?=( $soundprofile ? ' hide' : '' )?>"></i>
+			<i id="setting-soundprofile" class="setting fa fa-gear<?=( $data->soundprofile === 'default' ? ' hide' : '' )?>"></i>
 			<span class="help-block hide">System kernel parameters tweak: eth0 mtu, eth0 txqueuelen, swappiness and sched_latency_ns.</span>
 		</div>
 	<heading>On-board devices</heading>
-		<div id="divonboardaudio"<?=( $i2ssysname ? '' : ' class="hide"' )?>>
+		<div id="divonboardaudio"<?=( $data->i2ssysname ? '' : ' class="hide"' )?>>
 			<div class="col-l">Audio</div>
 			<div class="col-r">
 				<input id="onboardaudio" type="checkbox" <?=$data->onboardaudio?>>
@@ -113,12 +106,15 @@ foreach( $i2slist as $name => $sysname ) {
 			<span class="help-block hide">Should be disabled if not used.</span>
 		</div>
 	<heading>Features</heading>
+<?php if ( file_exists( '/usr/bin/shairport-sync' ) ) { ?>
 		<div class="col-l gr">AirPlay<i class="fa fa-airplay fa-lg wh"></i></div>
 		<div class="col-r">
 			<input id="airplay" type="checkbox" <?=$data->airplay?>>
 			<div class="switchlabel" for="airplay"></div>
 			<span class="help-block hide"><wh>Shairport Sync</wh> - Receive audio streaming via AirPlay protocol.</span>
 		</div>
+<?php } 
+	  if ( file_exists( '/usr/bin/chromium' ) ) { ?>
 		<div class="col-l gr">Browser on RPi<i class="fa fa-chromium fa-lg wh"></i></div>
 		<div class="col-r">
 			<input id="localbrowser" type="checkbox" data-cursor="<?=$data->cursor?>" data-overscan="<?=$data->overscan?>" data-rotate="<?=$data->rotate?>" data-screenoff="<?=$data->screenoff?>" data-zoom="<?=$data->zoom?>" <?=$data->localbrowser?>>
@@ -126,6 +122,8 @@ foreach( $i2slist as $name => $sysname ) {
 			<i id="setting-localbrowser" class="setting fa fa-gear <?=( $data->localbrowser === 'checked' ? '' : 'hide' )?>"></i>
 			<span class="help-block hide"><wh>Chromium</wh> - Browser on RPi connected screen. Overscan change needs a reboot.</span>
 		</div>
+<?php } 
+	  if ( file_exists( '/usr/bin/smbd' ) ) { ?>
 		<div class="col-l gr">File sharing<i class="fa fa-network fa-lg wh"></i></div>
 		<div class="col-r">
 			<input id="samba" type="checkbox" data-usb="<?=$data->readonlyusb?>" data-sd="<?=$data->readonlysd?>" <?=$data->samba?>>
@@ -133,13 +131,15 @@ foreach( $i2slist as $name => $sysname ) {
 			<i id="setting-samba" class="setting fa fa-gear <?=( $data->samba === 'checked' ? '' : 'hide' )?>"></i>
 			<span class="help-block hide"><wh>Samba</wh> - Share your files in USB drives and SD card on your network.</span>
 		</div>
+<?php } ?>
 		<div class="col-l gr">Password login<i class="fa fa-lock fa-lg wh"></i></div>
 		<div class="col-r">
-			<input id="password" type="checkbox"<?=$passworddefault?> <?=$password?>>
+			<input id="password" type="checkbox"<?=( password_verify( 'rune', $data->password ) ? ' data-default="1"' : '' )?> <?=$data->login?>>
 			<div class="switchlabel" for="password"></div>
-			<i id="setting-password" class="setting fa fa-gear <?=( $password === 'checked' ? '' : 'hide' )?>"></i>
+			<i id="setting-password" class="setting fa fa-gear <?=( $data->login ? '' : 'hide' )?>"></i>
 			<span class="help-block hide">Protect the UI with a password. (Default is "rune")</span>
 		</div>
+<?php if ( file_exists( '/usr/bin/upmpdcli' ) ) { ?>
 		<div class="col-l gr">UPnP<i class="fa fa-upnp fa-lg wh"></i></div>
 		<div class="col-r">
 			<input id="upnp" type="checkbox"
@@ -160,5 +160,6 @@ foreach( $i2slist as $name => $sysname ) {
 			<i id="setting-upnp" class="setting fa fa-gear <?=( $data->upnp === 'checked' ? '' : 'hide' )?>"></i>
 			<span class="help-block hide"><wh>upmpdcli</wh> - Receive audio streaming via UPnP / DLNA.</span>
 		</div>
+<?php } ?>
 	<div style="clear: both"></div>
 </div>

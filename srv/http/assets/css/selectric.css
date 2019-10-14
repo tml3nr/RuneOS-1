@@ -1,6 +1,9 @@
 /*======================================
 	Selectric
 ======================================*/
+select {
+	display: none;
+}
 .selectric-wrapper {
 	position: relative;
 	display: inline-block;
@@ -23,7 +26,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	margin: 0 40px 0 10px;
-	line-height: 40px;
+	line-height: 42px;
 	height: 40px;
 }
 .selectric .label,

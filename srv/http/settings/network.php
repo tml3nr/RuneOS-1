@@ -1,8 +1,10 @@
 <?php
-$hostapd = exec( "$sudo/systemctl is-active hostapd" ) === 'active' ? 1 : 0;
-$ssid = exec( "$sudo/grep ssid= /etc/hostapd/hostapd.conf | cut -d= -f2" );
-$passphrase = exec( "$sudo/grep '^wpa_passphrase' /etc/hostapd/hostapd.conf | cut -d'=' -f2" );
-$ipwebuiap = exec( "$sudo/grep 'router' /etc/dnsmasq.conf | cut -d',' -f2" );
+if ( file_exists( '/usr/bin/hostapd' ) ) { ?>
+	$hostapd = exec( "$sudo/systemctl is-active hostapd" ) === 'active' ? 1 : 0;
+	$ssid = exec( "$sudo/grep ssid= /etc/hostapd/hostapd.conf | cut -d= -f2" );
+	$passphrase = exec( "$sudo/grep '^wpa_passphrase' /etc/hostapd/hostapd.conf | cut -d'=' -f2" );
+	$ipwebuiap = exec( "$sudo/grep 'router' /etc/dnsmasq.conf | cut -d',' -f2" );
+}
 ?>
 <div class="container">
 	<div id="divinterface">
@@ -28,6 +30,7 @@ $ipwebuiap = exec( "$sudo/grep 'router' /etc/dnsmasq.conf | cut -d',' -f2" );
 			<span class="help-block hide">Scan QR code or use IP address to connect RuneAudio web user interface.</span>
 		</div>
 	</div>
+<?php if ( isset( $hostapd ) ) { ?>
 	<div id="divaccesspoint">
 		<heading>RPi access point</heading>
 		<div class="col-l">Enable</div>
@@ -58,5 +61,6 @@ $ipwebuiap = exec( "$sudo/grep 'router' /etc/dnsmasq.conf | cut -d',' -f2" );
 			</div>
 		</div>
 	</div>
+<?php } ?>
 	<div style="clear: both"></div>
 </div>

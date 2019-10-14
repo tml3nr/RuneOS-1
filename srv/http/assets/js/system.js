@@ -16,19 +16,36 @@ $( '#hostname' ).click( function() {
 			var hostnamelc = hostname.toLowerCase();
 			$( '#hostname' ).val( hostname );
 			local = 1;
-			$.post( 'commands.php', { bash: [
+			var cmd = [
 				  'hostname "'+ hostnamelc +'"'
 				, 'echo '+ hostname +' | tee /etc/hostname '+ dirsystem +'/hostname'
-				, 'sed -i "s/^ssid=.*/ssid='+ hostname +'/" /etc/hostapd/hostapd.conf'
 				, "sed -i 's/zeroconf_name.*/zeroconf_name           \""+ hostname +"\"/' /etc/mpd.conf"
-				, 'sed -i "s/netbios name = .*/netbios name = '+ hostname +'/" /etc/samba/smb.conf'
-				, 'sed -i "s/^friendlyname.*/friendlyname = '+ hostname +'/" /etc/upmpdcli.conf'
 				, 'sed -i "s/\\(.*\\[\\).*\\(\\] \\[.*\\)/\\1'+ hostnamelc +'\\2/" /etc/avahi/services/runeaudio.service'
 				, 'sed -i "s/\\(.*localdomain \\).*/\\1'+ hostnamelc +'.local '+ hostnamelc +'/" /etc/hosts'
-				, 'rm /srv/http/.config/chromium/SingletonLock'
-				, 'systemctl try-restart avahi-daemon hostapd mpd nmb smb shairport-sync upmpdcli'
+			];
+			var service = 'systemctl try-restart avahi-daemon mpd';
+			if ( $( '#accesspoint' ).length ) {
+				cmd.push( 'sed -i "s/^ssid=.*/ssid='+ hostname +'/" /etc/hostapd/hostapd.conf' );
+				service += ' hostapd';
+			}
+			if ( $( '#airplay' ).length ) {
+				cmd.push( 'sed -i "s/^name =.*/name = '+ hostname +'/" /etc/shairport-sync.conf' );
+				service += ' shairport-sync';
+			}
+			if ( $( '#samba' ).length ) {
+				cmd.push( 'sed -i "s/netbios name = .*/netbios name = '+ hostname +'/" /etc/samba/smb.conf' );
+				service += ' nmb smb';
+			}
+			if ( $( '#localbrowser' ).length ) cmd.push( 'rm /srv/http/.config/chromium/SingletonLock' );
+			if ( $( '#upnp' ).length ) {
+				cmd.push( 'sed -i "s/^friendlyname.*/friendlyname = '+ hostname +'/" /etc/upmpdcli.conf' );
+				service += ' upmpdcli';
+			}
+			cmd.push(
+				  'systemctl try-restart '+ service
 				, pstream( 'system' )
-			] }, resetlocal );
+			);
+			$.post( 'commands.php', { bash: cmd }, resetlocal );
 		}
 	} );
 } );
