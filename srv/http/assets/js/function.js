@@ -455,7 +455,7 @@ function dbContextmenu( $li, $target ) {
 	$( '.replace' ).toggleClass( 'hide', !GUI.status.playlistlength );
 	$( '.folder-refresh' ).toggleClass( 'hide', GUI.status.updating_db !== 0 );
 	$( '.tag' ).addClass( 'hide' );
-	if ( [ 'cue', 'm3u' ].indexOf( GUI.list.path.slice( -3 ) ) === -1 ) {
+	if ( [ 'cue', 'm3u' ].indexOf( GUI.list.path.slice( -3 ) ) === -1 || $li.hasClass( 'licover' ) ) {
 		if ( GUI.list.isfile ) {
 			$( '.tag' ).removeClass( 'hide' );
 		} else if ( $( '.licover' ).length ) {
