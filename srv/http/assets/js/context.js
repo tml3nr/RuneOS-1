@@ -89,11 +89,11 @@ $( '.contextmenu a' ).click( function( e ) {
 		var path = GUI.list.path.split( '/' );
 		var dir = path.pop();
 		var mpdpath = path.join( '/' );
-		var pathfile = '"/mnt/MPD/'+ mpdpath +'/.mpdignore"';
+		var pathfile = '/mnt/MPD/'+ mpdpath +'/.mpdignore';
 		GUI.local = 1;
 		setTimeout( function() { GUI.local = 0 }, 2000 );
 		$.post( 'commands.php', { bash: [
-			  'echo '+ dir +' | /usr/bin/sudo /usr/bin/tee -a '+ pathfile
+			  "echo '"+ dir +"' | /usr/bin/sudo /usr/bin/tee -a '"+ pathfile +"'"
 			, 'mpc update "'+ mpdpath +'"' // get .mpdignore into database
 			, 'mpc update "'+ mpdpath +'"' // after .mpdignore was in database
 		] }, function() {
