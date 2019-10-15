@@ -25,7 +25,9 @@ $( '.contextmenu a' ).click( function( e ) {
 		GUI.list.li.find( '.db-icon' ).addClass( 'blink' );
 		$.post( 'commands.php', { bash: 'mpc update "'+ GUI.list.path +'"' } );
 	} else if ( cmd === 'tag' ) {
-		setTag();
+		$.post( 'commands.php', { counttag: GUI.list.path }, function( counts ) {
+			tag( counts );
+		}, 'json' );
 	} else if ( cmd === 'remove' ) {
 		GUI.contextmenu = 1;
 		setTimeout( function() { GUI.contextmenu = 0 }, 500 );
@@ -200,34 +202,6 @@ $( '.contextmenu a' ).click( function( e ) {
 	}
 } );
 
-function updateThumbnails() {
-	// enclosed in double quotes entity &quot;
-	var path = '&quot;/mnt/MPD/'+ GUI.list.path.replace( /"/g, '\"' ) +'&quot;';
-	info( {
-		  icon     : 'coverart'
-		, title    : 'Coverart Thumbnails Update'
-		, message  : 'Update thumbnails in:'
-					+'<br><w>'+ GUI.list.path +'</w>'
-					+'<br>&nbsp;'
-		, checkbox : {
-			  'Replace existings'       : 1
-			, 'Update Library database' : 1
-		}
-		, ok       : function() {
-			$( 'body' ).append(
-				'<form id="formtemp" action="addonsbash.php" method="post">'
-					+'<input type="hidden" name="alias" value="cove">'
-					+'<input type="hidden" name="type" value="scan">'
-				+'</form>' );
-			$( '#infoCheckBox input' ).each( function() {
-				path += $( this ).prop( 'checked' ) ? ' 1': ' 0';
-			} );
-			$( '#formtemp' )
-				.append( '<input type="hidden" name="opt" value="'+ path +'">' )
-				.submit();
-		}
-	} );
-}
 function addReplace( cmd, command, title ) {
 	var playbackswitch = 'playbackswitch' in GUI.display && ( cmd === 'addplay' || cmd === 'replaceplay' );
 	$.post( 'commands.php', { mpc: command }, function() {
@@ -245,6 +219,27 @@ function addReplace( cmd, command, title ) {
 				var msg = GUI.list.li.find( '.lipath' ).text();
 			}
 			notify( title, msg, 'list-ul' );
+		}
+	} );
+}
+function bookmarkDelete( path, name, $block ) {
+	var $img = $block.find( 'img' );
+	var src = $img.attr( 'src' );
+	if ( src ) {
+		var icon = '<img src="'+ src +'">'
+	} else {
+		var icon = '<i class="fa fa-bookmark bookmark"></i>'
+				  +'<br><a class="bklabel">'+ name +'</a>'
+	}
+	info( {
+		  icon    : 'bookmark'
+		, title   : 'Remove Bookmark'
+		, message : icon
+		, oklabel : 'Remove'
+		, ok      : function() {
+			GUI.bookmarkedit = 1;
+			$.post( 'commands.php', { bookmarks: name, path: path, delete: 1 } );
+			$block.parent().remove();
 		}
 	} );
 }
@@ -328,240 +323,7 @@ function bookmarkRename( name, path, $block ) {
 		}
 	} );
 }
-function bookmarkDelete( path, name, $block ) {
-	var $img = $block.find( 'img' );
-	var src = $img.attr( 'src' );
-	if ( src ) {
-		var icon = '<img src="'+ src +'">'
-	} else {
-		var icon = '<i class="fa fa-bookmark bookmark"></i>'
-				  +'<br><a class="bklabel">'+ name +'</a>'
-	}
-	info( {
-		  icon    : 'bookmark'
-		, title   : 'Remove Bookmark'
-		, message : icon
-		, oklabel : 'Remove'
-		, ok      : function() {
-			GUI.bookmarkedit = 1;
-			$.post( 'commands.php', { bookmarks: name, path: path, delete: 1 } );
-			$block.parent().remove();
-		}
-	} );
-}
-function removeRadioCoverart() {
-	var name = GUI.list.name;
-	var urlname = GUI.list.path.replace( /\//g, '|' );
-	info( {
-		  icon        : 'webradio'
-		, title       : 'Remove Coverart'
-		, message     : '<img src="'+ $( '#cover-art' ).prop( 'src' ) +'">'
-					   +'<span class="bkname"><br><w>'+ name +'</w><span>'
-		, ok          : function() {
-			$.post( 'commands.php', { bash: 'echo "'+ name +'" > "/srv/http/data/webradios/'+ urlname +'"' } );
-			$( '#cover-art' ).attr( 'src', GUI.status.state === 'play' ? vu : vustop );
-		}
-	} );
-}
-function webRadioCoverart() {
-	var urlname = GUI.list.path.replace( /\//g, '|' );
-	var img = 'li' in GUI.list ? GUI.list.li.find( 'img' ).prop( 'src' ) : '';
-	var name = GUI.list.name;
-	var $img = img ? '<img src="'+ img +'">' : '<img src="'+ vu +'" style="border-radius: 9px">';
-	var infojson = {
-		  icon        : 'webradio'
-		, title       : 'Change Coverart'
-		, message     : ( img ? '<img src="'+ img +'">' : '<img src="'+ vu +'" style="border-radius: 9px">' )
-					   +'<span class="bkname"><br><w>'+ name +'</w><span>'
-		, fileoklabel : 'Replace'
-		, ok         : function() {
-			var newimg = $( '#infoMessage .newimg' ).attr( 'src' );
-			var picacanvas = document.createElement( 'canvas' );
-			picacanvas.width = picacanvas.height = 80;
-			pica.resize( $( '#infoMessage .newimg' )[ 0 ], picacanvas, picaOption ).then( function() {
-				var newthumb = picacanvas.toDataURL( 'image/jpeg', 0.9 );
-				$.post( 'commands.php', { imagefile: urlname, base64webradio: name +'\n'+ newthumb +'\n'+ newimg }, function( result ) {
-					if ( result != -1 ) {
-						if ( GUI.playback ) {
-							$( '#cover-art' ).attr( 'src', newimg );
-						} else {
-							GUI.list.li.find( '.db-icon' ).remove();
-							GUI.list.li.find( '.lisort' ).after( '<img class="radiothumb db-icon" src="'+ newthumb +'" data-target="#context-menu-radio">' );
-						}
-					} else {
-						info( {
-							  icon    : 'webradio'
-							, title   : 'Change Coverart'
-							, message : '<i class="fa fa-warning fa-lg"></i>&ensp;Upload image failed.'
-						} );
-					}
-				} );
-			} );
-		}
-	}
-	if ( img ) {
-		infojson.buttonlabel = 'Remove'
-		infojson.button      = function() {
-			$.post( 'commands.php', { bash: 'echo "'+ name +'" > "/srv/http/data/webradios/'+ urlname +'"' } );
-			if ( GUI.playback ) {
-				$( '#cover-art' ).attr( 'src', GUI.status.state === 'play' ? vu : vustop );
-			} else {
-				GUI.list.li.find( 'img' ).remove();
-				GUI.list.li.find( '.lisort' ).after( '<i class="fa fa-webradio db-icon" data-target="#context-menu-webradio"></i>' );
-			}
-		}
-	}
-	info( infojson );
-}
-function webRadioSave( name, url ) {
-	var urlname = url.replace( /\//g, '|' );
-	var thumb = GUI.list.thumb;
-	var img = GUI.list.img;
-	$.post( 'commands.php', { bash: "test -e '/srv/http/data/webradios/"+ urlname +"' && echo 1" }, function( data ) {
-		if ( data ) {
-			var nameimg = data.split( "\n" );
-			info( {
-				  icon    : 'webradio'
-				, title   : 'Save Webradio'
-				, message : ( img ? '<br><img src="'+ img +'">' : '<br><i class="fa fa-webradio bookmark"></i>' )
-						   +'<br><w>'+ name +'</w>'
-						   +'<br>'+ url
-						   +'<br>Already exists.'
-			} );
-			return false
-		}
-	} );
-	info( {
-		  icon         : 'webradio'
-		, title        : 'Save Webradio'
-		, width        : 500
-		, message      : ( img ? '<br><img src="'+ img +'">' : '<br><i class="fa fa-webradio bookmark"></i>' )
-						+'<br><w>'+ url +'</w>'
-						+'<br>As:'
-		, textlabel    : ''
-		, textvalue    : name
-		, textrequired : 0
-		, textalign    : 'center'
-		, boxwidth     : 'max'
-		, ok           : function() {
-			var newname = $( '#infoTextBox' ).val();
-			notify( 'Webradio saved', newname, 'webradio' );
-			if ( thumb ) newname += "\n"+ thumb +"\n"+ img;
-			$.post( 'commands.php', { webradios: newname, url: url, save: 1 } );
-		}
-	} );
-}
-function webRadioNew( name, url ) {
-	info( {
-		  icon         : 'webradio'
-		, title        : 'Add Webradio'
-		, width        : 500
-		, message      : 'Add new Webradio:'
-		, textlabel    : [ 'Name', 'URL' ]
-		, textvalue    : [ ( name || '' ), ( url || '' ) ]
-		, textrequired : [ 0, 1 ]
-		, textalign    : 'center'
-		, boxwidth     : 'max'
-		, ok           : function() {
-			var newname = $( '#infoTextBox' ).val();
-			var url = $( '#infoTextBox1' ).val();
-			$.post( 'commands.php', { webradios: newname, url: url, new: 1 }, function( exist ) {
-				if ( exist ) {
-					var nameimg = exist.split( "\n" );
-					info( {
-						  icon    : 'webradio'
-						, title   : 'Add Webradio'
-						, message : ( nameimg[ 2 ] ? '<img src="'+ nameimg[ 2 ] +'">' : '<i class="fa fa-webradio bookmark"></i>' )
-								   +'<br><w>'+ nameimg[ 0 ] +'</w>'
-								   +'<br>'+ url
-								   +'<br>Already exists.'
-						, ok      : function() {
-							webRadioNew( newname, url );
-						}
-					} );
-				}
-			} );
-		}
-	} );
-}
-function webRadioRename() {
-	var name = GUI.list.name;
-	var img = GUI.list.li.find( 'img' ).prop( 'src' );
-	var url = GUI.list.path;
-	var urlname = url.replace( /\//g, '|' );
-	info( {
-		  icon         : 'webradio'
-		, title        : 'Rename Webradio'
-		, width        : 500
-		, message      : ( img ? '<br><img src="'+ img +'">' : '<br><i class="fa fa-webradio bookmark"></i>' )
-						+'<br><w>'+ name +'</w>'
-						+'<br>'+ url
-						+'<br>To:'
-		, textvalue    : name
-		, textrequired : 0
-		, textalign    : 'center'
-		, boxwidth     : 'max'
-		, oklabel      : 'Rename'
-		, ok           : function() {
-			var newname = $( '#infoTextBox' ).val();
-			$.post( 'commands.php', { webradios: newname, url: url, rename: 1 } );
-		}
-	} );
-}
-function webRadioDelete() {
-	var name = GUI.list.name;
-	var img = GUI.list.li.find( 'img' ).prop( 'src' );
-	var url = GUI.list.path;
-	var urlname = url.replace( /\//g, '|' );
-	info( {
-		  icon    : 'webradio'
-		, title   : 'Delete Webradio'
-		, width   : 500
-		, message : ( img ? '<br><img src="'+ img +'">' : '<br><i class="fa fa-webradio bookmark"></i>' )
-				   +'<br><w>'+ name +'</w>'
-				   +'<br>'+ url
-		, oklabel : 'Delete'
-		, ok      : function() {
-			if ( $( '#db-entries li' ).length === 1 ) $( '#db-home' ).click();
-			$.post( 'commands.php', { webradios: name, url: url, delete: 1 } );
-		}
-	} );
-}
-function playlistNew() {
-	info( {
-		  icon         : 'list-ul'
-		, title        : 'Add Playlist'
-		, message      : 'Save current playlist as:'
-		, textlabel    : 'Name'
-		, textrequired : 0
-		, textalign    : 'center'
-		, boxwidth     : 'max'
-		, ok           : function() {
-			addPlaylist( $( '#infoTextBox' ).val() );
-		}
-	} );
-}
-function playlistRename() {
-	var name = GUI.list.name;
-	info( {
-		  icon         : 'list-ul'
-		, title        : 'Rename Playlist'
-		, message      : 'Rename:'
-						+'<br><w>'+ name +'</w>'
-						+'<br>To:'
-		, textvalue    : name
-		, textrequired : 0
-		, textalign    : 'center'
-		, boxwidth     : 'max'
-		, oklabel      : 'Rename'
-		, ok           : function() {
-			var newname = $( '#infoTextBox' ).val();
-			addPlaylist( newname, name );
-			GUI.list.li.find( '.plname' ).text( newname );
-		}
-	} );
-}
-function addPlaylist( name, oldname ) {
+function playlistAdd( name, oldname ) {
 	if ( oldname ) {
 		var path = '/srv/http/data/playlists/'
 		var oldfile = path + oldname.replace( /"/g, '\\"' );
@@ -579,7 +341,7 @@ function addPlaylist( name, oldname ) {
 					, button      : playlistNew
 					, oklabel     : 'Replace'
 					, ok          : function() {
-						oldname ? addPlaylist( name, oldname ) : addPlaylist( name );
+						oldname ? playlistAdd( name, oldname ) : playlistAdd( name );
 					}
 				} );
 			} else {
@@ -606,10 +368,39 @@ function playlistDelete() {
 		}
 	} );
 }
-function setTag() {
-	$.post( 'commands.php', { counttag: GUI.list.path }, function( counts ) {
-		tag( counts );
-	}, 'json' );
+function playlistNew() {
+	info( {
+		  icon         : 'list-ul'
+		, title        : 'Add Playlist'
+		, message      : 'Save current playlist as:'
+		, textlabel    : 'Name'
+		, textrequired : 0
+		, textalign    : 'center'
+		, boxwidth     : 'max'
+		, ok           : function() {
+			playlistAdd( $( '#infoTextBox' ).val() );
+		}
+	} );
+}
+function playlistRename() {
+	var name = GUI.list.name;
+	info( {
+		  icon         : 'list-ul'
+		, title        : 'Rename Playlist'
+		, message      : 'Rename:'
+						+'<br><w>'+ name +'</w>'
+						+'<br>To:'
+		, textvalue    : name
+		, textrequired : 0
+		, textalign    : 'center'
+		, boxwidth     : 'max'
+		, oklabel      : 'Rename'
+		, ok           : function() {
+			var newname = $( '#infoTextBox' ).val();
+			playlistAdd( newname, name );
+			GUI.list.li.find( '.plname' ).text( newname );
+		}
+	} );
 }
 function tag( counts ) {
 	var cue = GUI.list.path.split( '.' ).pop() === 'cue';
@@ -723,4 +514,196 @@ function tag( counts ) {
 			}
 		} );
 	}, 'json' );
+}
+function updateThumbnails() {
+	// enclosed in double quotes entity &quot;
+	var path = '&quot;/mnt/MPD/'+ GUI.list.path.replace( /"/g, '\"' ) +'&quot;';
+	info( {
+		  icon     : 'coverart'
+		, title    : 'Coverart Thumbnails Update'
+		, message  : 'Update thumbnails in:'
+					+'<br><w>'+ GUI.list.path +'</w>'
+					+'<br>&nbsp;'
+		, checkbox : {
+			  'Replace existings'       : 1
+			, 'Update Library database' : 1
+		}
+		, ok       : function() {
+			$( 'body' ).append(
+				'<form id="formtemp" action="addonsbash.php" method="post">'
+					+'<input type="hidden" name="alias" value="cove">'
+					+'<input type="hidden" name="type" value="scan">'
+				+'</form>' );
+			$( '#infoCheckBox input' ).each( function() {
+				path += $( this ).prop( 'checked' ) ? ' 1': ' 0';
+			} );
+			$( '#formtemp' )
+				.append( '<input type="hidden" name="opt" value="'+ path +'">' )
+				.submit();
+		}
+	} );
+}
+function webRadioCoverart() {
+	var urlname = GUI.list.path.replace( /\//g, '|' );
+	var img = 'li' in GUI.list ? GUI.list.li.find( 'img' ).prop( 'src' ) : '';
+	var name = GUI.list.name;
+	var $img = img ? '<img src="'+ img +'">' : '<img src="'+ vu +'" style="border-radius: 9px">';
+	var infojson = {
+		  icon        : 'webradio'
+		, title       : 'Change Coverart'
+		, message     : ( img ? '<img src="'+ img +'">' : '<img src="'+ vu +'" style="border-radius: 9px">' )
+					   +'<span class="bkname"><br><w>'+ name +'</w><span>'
+		, fileoklabel : 'Replace'
+		, ok         : function() {
+			var newimg = $( '#infoMessage .newimg' ).attr( 'src' );
+			var picacanvas = document.createElement( 'canvas' );
+			picacanvas.width = picacanvas.height = 80;
+			pica.resize( $( '#infoMessage .newimg' )[ 0 ], picacanvas, picaOption ).then( function() {
+				var newthumb = picacanvas.toDataURL( 'image/jpeg', 0.9 );
+				$.post( 'commands.php', { imagefile: urlname, base64webradio: name +'\n'+ newthumb +'\n'+ newimg }, function( result ) {
+					if ( result != -1 ) {
+						if ( GUI.playback ) {
+							$( '#cover-art' ).attr( 'src', newimg );
+						} else {
+							GUI.list.li.find( '.db-icon' ).remove();
+							GUI.list.li.find( '.lisort' ).after( '<img class="radiothumb db-icon" src="'+ newthumb +'" data-target="#context-menu-radio">' );
+						}
+					} else {
+						info( {
+							  icon    : 'webradio'
+							, title   : 'Change Coverart'
+							, message : '<i class="fa fa-warning fa-lg"></i>&ensp;Upload image failed.'
+						} );
+					}
+				} );
+			} );
+		}
+	}
+	if ( img ) {
+		infojson.buttonlabel = 'Remove'
+		infojson.button      = function() {
+			$.post( 'commands.php', { bash: 'echo "'+ name +'" > "/srv/http/data/webradios/'+ urlname +'"' } );
+			if ( GUI.playback ) {
+				$( '#cover-art' ).attr( 'src', GUI.status.state === 'play' ? vu : vustop );
+			} else {
+				GUI.list.li.find( 'img' ).remove();
+				GUI.list.li.find( '.lisort' ).after( '<i class="fa fa-webradio db-icon" data-target="#context-menu-webradio"></i>' );
+			}
+		}
+	}
+	info( infojson );
+}
+function webRadioDelete() {
+	var name = GUI.list.name;
+	var img = GUI.list.li.find( 'img' ).prop( 'src' );
+	var url = GUI.list.path;
+	var urlname = url.replace( /\//g, '|' );
+	info( {
+		  icon    : 'webradio'
+		, title   : 'Delete Webradio'
+		, width   : 500
+		, message : ( img ? '<br><img src="'+ img +'">' : '<br><i class="fa fa-webradio bookmark"></i>' )
+				   +'<br><w>'+ name +'</w>'
+				   +'<br>'+ url
+		, oklabel : 'Delete'
+		, ok      : function() {
+			if ( $( '#db-entries li' ).length === 1 ) $( '#db-home' ).click();
+			$.post( 'commands.php', { webradios: name, url: url, delete: 1 } );
+		}
+	} );
+}
+function webRadioNew( name, url ) {
+	info( {
+		  icon         : 'webradio'
+		, title        : 'Add Webradio'
+		, width        : 500
+		, message      : 'Add new Webradio:'
+		, textlabel    : [ 'Name', 'URL' ]
+		, textvalue    : [ ( name || '' ), ( url || '' ) ]
+		, textrequired : [ 0, 1 ]
+		, textalign    : 'center'
+		, boxwidth     : 'max'
+		, ok           : function() {
+			var newname = $( '#infoTextBox' ).val();
+			var url = $( '#infoTextBox1' ).val();
+			$.post( 'commands.php', { webradios: newname, url: url, new: 1 }, function( exist ) {
+				if ( exist ) {
+					var nameimg = exist.split( "\n" );
+					info( {
+						  icon    : 'webradio'
+						, title   : 'Add Webradio'
+						, message : ( nameimg[ 2 ] ? '<img src="'+ nameimg[ 2 ] +'">' : '<i class="fa fa-webradio bookmark"></i>' )
+								   +'<br><w>'+ nameimg[ 0 ] +'</w>'
+								   +'<br>'+ url
+								   +'<br>Already exists.'
+						, ok      : function() {
+							webRadioNew( newname, url );
+						}
+					} );
+				}
+			} );
+		}
+	} );
+}
+function webRadioRename() {
+	var name = GUI.list.name;
+	var img = GUI.list.li.find( 'img' ).prop( 'src' );
+	var url = GUI.list.path;
+	var urlname = url.replace( /\//g, '|' );
+	info( {
+		  icon         : 'webradio'
+		, title        : 'Rename Webradio'
+		, width        : 500
+		, message      : ( img ? '<br><img src="'+ img +'">' : '<br><i class="fa fa-webradio bookmark"></i>' )
+						+'<br><w>'+ name +'</w>'
+						+'<br>'+ url
+						+'<br>To:'
+		, textvalue    : name
+		, textrequired : 0
+		, textalign    : 'center'
+		, boxwidth     : 'max'
+		, oklabel      : 'Rename'
+		, ok           : function() {
+			var newname = $( '#infoTextBox' ).val();
+			$.post( 'commands.php', { webradios: newname, url: url, rename: 1 } );
+		}
+	} );
+}
+function webRadioSave( name, url ) {
+	var urlname = url.replace( /\//g, '|' );
+	var thumb = GUI.list.thumb;
+	var img = GUI.list.img;
+	$.post( 'commands.php', { bash: "test -e '/srv/http/data/webradios/"+ urlname +"' && echo 1" }, function( data ) {
+		if ( data ) {
+			var nameimg = data.split( "\n" );
+			info( {
+				  icon    : 'webradio'
+				, title   : 'Save Webradio'
+				, message : ( img ? '<br><img src="'+ img +'">' : '<br><i class="fa fa-webradio bookmark"></i>' )
+						   +'<br><w>'+ name +'</w>'
+						   +'<br>'+ url
+						   +'<br>Already exists.'
+			} );
+			return false
+		}
+	} );
+	info( {
+		  icon         : 'webradio'
+		, title        : 'Save Webradio'
+		, width        : 500
+		, message      : ( img ? '<br><img src="'+ img +'">' : '<br><i class="fa fa-webradio bookmark"></i>' )
+						+'<br><w>'+ url +'</w>'
+						+'<br>As:'
+		, textlabel    : ''
+		, textvalue    : name
+		, textrequired : 0
+		, textalign    : 'center'
+		, boxwidth     : 'max'
+		, ok           : function() {
+			var newname = $( '#infoTextBox' ).val();
+			notify( 'Webradio saved', newname, 'webradio' );
+			if ( thumb ) newname += "\n"+ thumb +"\n"+ img;
+			$.post( 'commands.php', { webradios: newname, url: url, save: 1 } );
+		}
+	} );
 }

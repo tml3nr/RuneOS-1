@@ -752,7 +752,18 @@ $( '#divcover' ).on( 'click', '.edit, .licover-save', function( e ) {
 			}
 		} );
 		if ( $this.hasClass( 'licover-remove' ) ) {
-			removeRadioCoverart();
+			var name = GUI.list.name;
+			var urlname = GUI.list.path.replace( /\//g, '|' );
+			info( {
+				  icon        : 'webradio'
+				, title       : 'Remove Coverart'
+				, message     : '<img src="'+ $( '#cover-art' ).prop( 'src' ) +'">'
+							   +'<span class="bkname"><br><w>'+ name +'</w><span>'
+				, ok          : function() {
+					$.post( 'commands.php', { bash: 'echo "'+ name +'" > "/srv/http/data/webradios/'+ urlname +'"' } );
+					$( '#cover-art' ).attr( 'src', GUI.status.state === 'play' ? vu : vustop );
+				}
+			} );
 		} else {
 			webRadioCoverart();
 		}
