@@ -185,6 +185,9 @@ chown -R http:http /srv/http
 # optional - remove metadata tag editor
 rm kid3-cli*
 
+# optional - remove window manager if remove browser on rpi
+rm matchbox*
+
 # optional - remove UPnP
 rm upmpdcli*
 ```
