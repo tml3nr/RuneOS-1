@@ -93,13 +93,13 @@ $( '.contextmenu a' ).click( function( e ) {
 		GUI.local = 1;
 		setTimeout( function() { GUI.local = 0 }, 2000 );
 		$.post( 'commands.php', { bash: [
-			  'echo '+ dir +' | /usr/bin/tee -a '+ pathfile
+			  'echo '+ dir +' | /usr/bin/sudo /usr/bin/tee -a '+ pathfile
 			, 'mpc update "'+ mpdpath +'"' // get .mpdignore into database
 			, 'mpc update "'+ mpdpath +'"' // after .mpdignore was in database
 		] }, function() {
 			GUI.list.li.remove();
 		} );
-		notify( 'Exclude Directory', '<wh>'+ dir +'</wh> excluded from database.', 'folder', -1 );
+		notify( 'Exclude Directory', '<wh>'+ dir +'</wh> excluded from database.', 'folder' );
 	}
 	if ( [ 'savedpladd', 'savedplremove', 'similar', 'tag', 'remove', 'update' ].indexOf( cmd ) !== -1 ) return
 	
