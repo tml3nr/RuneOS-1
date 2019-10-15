@@ -66,21 +66,9 @@ echo "$mpdconf" > $file
 systemctl restart mpd mpdidle
 
 # skip notify on startup
-startup=/srv/http/data/tmp/startup
-if [[ -e $startup ]]; then
-	# if not properly shutdown, restore audio output
-	[[ -s /srv/http/data/system/audiooutput0 ]] && mv -f /srv/http/data/system/audiooutput{0,} &> /dev/null
-	rm -f $startup /srv/http/data/system/audiooutput0
-	exit
-fi
+[[ -e /srv/http/data/tmp/startup ]] && exit
 
-if [[ -s $dirsystem/audiooutput0 ]]; then
-	mv -f $dirsystem/audiooutput{0,} &> /dev/null
-	sysname=$( cat $dirsystem/audiooutput )
-else
-	mv -f $dirsystem/audiooutput{,0} &> /dev/null
-	echo $sysname > $dirsystem/audiooutput
-fi
+[[ -n $1 ]] && sysname=$( cat $dirsystem/audiooutput )
 
 file="/srv/http/settings/i2s/$sysname"
 [[ -e "$file" ]] && name=$( grep extlabel "$file" | cut -d: -f2- ) || name=$sysname

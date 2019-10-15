@@ -1,1 +1,2 @@
-ACTION=="add|remove", KERNEL=="card*", SUBSYSTEM=="sound", RUN+="/srv/http/settings/mpdconf.sh"
+ACTION=="add", KERNEL=="card*", SUBSYSTEM=="sound", RUN+="/srv/http/settings/mpdconf.sh"
+ACTION=="remove", KERNEL=="card*", SUBSYSTEM=="sound", RUN+="/srv/http/settings/mpdconf.sh remove"
