@@ -455,10 +455,12 @@ function dbContextmenu( $li, $target ) {
 	$( '.replace' ).toggleClass( 'hide', !GUI.status.playlistlength );
 	$( '.folder-refresh' ).toggleClass( 'hide', GUI.status.updating_db !== 0 );
 	$( '.tag' ).addClass( 'hide' );
-	if ( GUI.list.isfile ) {
-		$( '.tag' ).removeClass( 'hide' );
-	} else if ( $( '.licover' ).length ) {
-		if ( GUI.browsemode === 'file' || GUI.browsemode === 'coverart' ) $( '.tag' ).removeClass( 'hide' );
+	if ( [ 'cue', 'm3u' ].indexOf( GUI.list.path.slice( -3 ) ) === -1 ) {
+		if ( GUI.list.isfile ) {
+			$( '.tag' ).removeClass( 'hide' );
+		} else if ( $( '.licover' ).length ) {
+			if ( GUI.browsemode === 'file' || GUI.browsemode === 'coverart' ) $( '.tag' ).removeClass( 'hide' );
+		}
 	}
 	var contextnum = $menu.find( 'a:not(.hide)' ).length;
 	$( '.menushadow' ).css( 'height', contextnum * 42 - 1 );
