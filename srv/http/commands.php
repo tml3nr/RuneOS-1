@@ -161,9 +161,7 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 	
 } else if ( isset( $_POST[ 'coversave' ] ) ) {
 	$base64 = explode( ',', $_POST[ 'base64' ] )[ 1 ];
-	$tmpfile = "$dirtmp/tmp.jpg";
-	file_put_contents( $tmpfile, base64_decode( $base64 ) );
-	exec( $sudo.'/mv -f '.$tmpfile.' "'.$_POST[ 'coversave' ].'"' );
+	exec( 'echo '.base64_decode( $base64 )." | $sudo/tee $tmpfile ".'"'.$_POST[ 'coversave' ].'"' );
 	
 } else if ( isset( $_POST[ 'getbookmarks' ] ) ) {
 	$data = getBookmark();
@@ -276,15 +274,12 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 	
 	$base64 = explode( ',', $_POST[ 'base64' ] )[ 1 ];
 	if ( $coverfile ) {
-		$tmpfile = "$dirtmp/tmp.jpg";
-		file_put_contents( $tmpfile, base64_decode( $base64 ) ) || exit( '-1' );
-		exec( "$sudo/mv -f $tmpfile \"$imagefile\"", $output, $std );
+		exec( 'echo '.base64_decode( $base64 )." | $sudo/tee \"$imagefile\"" );
 	} else {
 		$newfile = substr( $imagefile, 0, -3 ).'jpg'; // if existing is 'cover.svg'
 		file_put_contents( $imagefile, base64_decode( $base64 ) ) || exit( '-1' );
-		$std = 0;
 	}
-	echo $std;
+	echo 0;
 	
 } else if ( isset( $_POST[ 'loadplaylist' ] ) ) {
 	if ( $_POST[ 'replace' ] ) exec( 'mpc clear' );
