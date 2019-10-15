@@ -216,6 +216,8 @@ function menucommon( $add, $replace ) {
 	return $htmlcommon;
 }
 
+$kid3 = file_exists( '/usr/bin/kid3-cli' );
+
 $menu = '<div>';
 $htmlcommon = menucommon( 'add', 'replace' );
 $htmlsimilar = '<a data-cmd="similar"><i class="fa fa-lastfm"></i>Add similar<i class="fa fa-play-plus submenu" data-cmd="similar"></i></a>';
@@ -231,16 +233,16 @@ $menu.= menudiv( 'plaction', $html );
 $menudiv = '';
 $html = $htmlcommon;
 $html.= menuli( 'bookmark',  'star',           'Bookmark' );
-$html.= menuli( 'exclude',   'folder-forbid',         'Exclude directory' );
+$html.= menuli( 'exclude',   'folder-forbid',  'Exclude directory' );
 $html.= menuli( 'update',    'folder-refresh', 'Update database' );
 $html.= menuli( 'thumbnail', 'coverart',       'Update thumbnails' );
-$html.= menuli( 'tag',       'tag',            'Tags' );
+if ( $kid3 ) $html.= menuli( 'tag',       'tag',            'Tags' );
 $menu.= menudiv( 'folder', $html );
 
 $menudiv = '';
 $html = menucommon( 'add', 'replace' );
 $html.= $htmlsimilar;
-$html.= menuli( 'tag',     'tag',    'Tags' );
+if ( $kid3 ) $html.= menuli( 'tag',     'tag',    'Tags' );
 $menu.= menudiv( 'file', $html );
 
 $menudiv = '';
@@ -251,7 +253,7 @@ $menudiv = '';
 $html = $htmlcommon;
 $html.= $htmlsimilar;
 $html.= menuli( 'savedplremove', 'minus-circle', 'Remove' );
-$html.= menuli( 'tag',               'tag',          'Tags' );
+if ( $kid3 ) $html.= menuli( 'tag',           'tag',          'Tags' );
 $menu.= menudiv( 'filesavedpl', $html );
 
 $menudiv = '';
