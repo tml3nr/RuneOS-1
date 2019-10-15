@@ -66,7 +66,10 @@ echo "$mpdconf" > $file
 systemctl restart mpd mpdidle
 
 # skip notify on startup
-[[ -e /srv/http/data/tmp/startup ]] && exit
+if [[ -e /srv/http/data/tmp/startup ]]; then
+	rm /srv/http/data/tmp/startup
+	exit
+fi
 
 [[ -n $1 ]] && sysname=$( cat $dirsystem/audiooutput )
 
