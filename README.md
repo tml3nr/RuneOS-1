@@ -301,7 +301,7 @@ end=$( fdisk -u -l $dev | tail -1 | awk '{print $3}' )
 echo end = $end
 
 # create image
-dd if=$dev of=RuneAudio+Re2.img count=$(( end + 1 ))
+dd if=$dev of=RuneAudio+Re2.img count=$(( end + 1 )) status=progress  # remove status=progress if errors
 ```
 OR on Windows (much faster):
 - [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
