@@ -274,12 +274,11 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 	
 	$base64 = explode( ',', $_POST[ 'base64' ] )[ 1 ];
 	if ( $coverfile ) {
-		exec( 'echo '.base64_decode( $base64 )." | $sudo/tee \"$imagefile\"" );
+		echo exec( 'echo '.base64_decode( $base64 )." | $sudo/tee \"$imagefile\"" );
 	} else {
 		$newfile = substr( $imagefile, 0, -3 ).'jpg'; // if existing is 'cover.svg'
-		file_put_contents( $imagefile, base64_decode( $base64 ) ) || exit( '-1' );
+		echo file_put_contents( $imagefile, base64_decode( $base64 ) ) || exit( '-1' );
 	}
-	echo 0;
 	
 } else if ( isset( $_POST[ 'loadplaylist' ] ) ) {
 	if ( $_POST[ 'replace' ] ) exec( 'mpc clear' );

@@ -1638,7 +1638,7 @@ function saveCoverart() {
 					   +'<br>'+ artist +'<span>'
 		, ok      : function() { 
 			$.post( 'commands.php', { coversave: coverfile, base64: src }, function( std ) {
-				infoCoverart( 'Save' );
+				infoCoverart( 'Save', src, std );
 				$( '.licover-save' ).remove();
 			} );
 		}
