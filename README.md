@@ -1,7 +1,7 @@
 RuneOS
 ---
-Build RuneAudio+R from [Arch Linux Arm](https://archlinuxarm.org/about/downloads) source
-- Download Arch Linux Arm from source and write to SD card
+Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) source:
+- Download and write to SD card
 - Start Arch Linux Arm
 - Upgrade to latest kernel and packages
 - Install packages
@@ -15,6 +15,7 @@ Build RuneAudio+R from [Arch Linux Arm](https://archlinuxarm.org/about/downloads
 - Raspberry Pi
 - Micro SD card - 4GB+ (with card reader)
 - USB drive - 1GB+ (**`ext4`** format only) for running RuneAudio+R
+<hr>
 
 **Download Arch Linux Arm**
 - On Linux PC
@@ -183,6 +184,9 @@ chown -R http:http /srv/http
 ```sh
 # optional - remove metadata tag editor
 rm kid3-cli*
+
+# optional - remove window manager if remove browser on rpi
+rm matchbox*
 
 # optional - remove UPnP
 rm upmpdcli*
