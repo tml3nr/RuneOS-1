@@ -187,11 +187,20 @@ chown -R http:http /srv/http
 # optional - remove metadata tag editor
 rm kid3-cli*
 
-# optional - remove window manager if remove browser on rpi
-rm matchbox*
-
 # optional - remove UPnP
-rm upmpdcli*
+rm libupnpp* upmpdcli*
+```
+
+**Exclude removed packages configurations** (Skip if install all)
+```sh
+if [[ ! -e /usr/bin/chromium ]]; then
+	rm libmatchbox* matchbox*
+	rm /etc/systemd/system/localbrowser*
+	rm /etc/X11/xinit/xinitrc
+fi
+[[ ! -e /usr/bin/hostapd ]] && rm -r /etc/{hostapd,dnsmasq.conf}
+[[ ! -e /usr/bin/smbd ]] && rm -r /etc/samba
+[[ ! -e /usr/bin/shairport-sync ]] && rm /etc/systemd/system/shairport*
 ```
 
 **Install custom packages**
