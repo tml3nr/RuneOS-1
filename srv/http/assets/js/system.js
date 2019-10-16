@@ -22,6 +22,7 @@ $( '#hostname' ).click( function() {
 				, "sed -i 's/zeroconf_name.*/zeroconf_name           \""+ hostname +"\"/' /etc/mpd.conf"
 				, 'sed -i "s/\\(.*\\[\\).*\\(\\] \\[.*\\)/\\1'+ hostnamelc +'\\2/" /etc/avahi/services/runeaudio.service'
 				, 'sed -i "s/\\(.*localdomain \\).*/\\1'+ hostnamelc +'.local '+ hostnamelc +'/" /etc/hosts'
+				, 'systemctl -q is-active bluetooth && bluetoothctl system-alias "'+ hostname +'"'
 			];
 			var service = 'systemctl try-restart avahi-daemon mpd';
 			if ( $( '#accesspoint' ).length ) {
@@ -31,10 +32,6 @@ $( '#hostname' ).click( function() {
 			if ( $( '#airplay' ).length ) {
 				cmd.push( 'sed -i "s/^name =.*/name = '+ hostname +'/" /etc/shairport-sync.conf' );
 				service += ' shairport-sync shairport-meta';
-			}
-			if ( $( '#bluetooth' ).length ) {
-				cmd.push( 'sed -i "s/^Name =.*/Name = '+ hostname +'/" /etc/bluetooth/main.conf' );
-				service += ' bluetooth';
 			}
 			if ( $( '#samba' ).length ) {
 				cmd.push( 'sed -i "s/netbios name = .*/netbios name = '+ hostname +'/" /etc/samba/smb.conf' );
