@@ -14,6 +14,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 - Linux PC (or Linux in VirtualBox on Windows)
 - Raspberry Pi
 - Micro SD card - 4GB+ (with card reader)
+- wired LAN connection
 - USB drive - 1GB+ (**`ext4`** format only) for running RuneAudio+R
 <hr>
 
@@ -71,13 +72,14 @@ umount -l $ROOT
 ```
 
 **Start Arch Linux Arm**
-- Remove all USB drives
+- Remove all USB devices: drives, Wi-Fi, bluetooth, mouse
 - Move micro SD card to RPi
 - Connect wired LAN
+- Optional - connect monitor
 - Power on / connect RPi power
+- Wait 30 seconds (or login prompt on connected monitor)
 
 **Connect PC to RPi**
-- Wait for login prompt (If no connected display, wait 30 seconds)
 ```sh
 # get RPi IP address and verify - skip to ### connect ### for known IP
 routerip=$( ip route get 1 | cut -d' ' -f3 )
