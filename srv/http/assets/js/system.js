@@ -189,7 +189,7 @@ $( '#bluetooth' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
 		local = 1;
 		$.post( 'commands.php', { bash: [
-			  "sed -i -e '/dtoverlay=pi3-disable-bt/ s/^/#/' -e '/dtoverlay=pi3-miniuart-bt/ s/^#//' /boot/config.txt"
+			  "sed -i -e '/^dtoverlay=pi3-disable-bt/ s/^/#/' -e '/^#dtoverlay=bcmbt/ s/^#//' /boot/config.txt"
 			, 'systemctl enable bluetooth'
 			, 'echo 1 > '+ dirsystem +'/onboard-bluetooth'
 			, 'echo Enable on-board Bluetooth > '+ filereboot
@@ -198,7 +198,7 @@ $( '#bluetooth' ).click( function() {
 	} else {
 		local = 1;
 		$.post( 'commands.php', { bash: [
-			  "sed -i -e '/^#dtoverlay=pi3-disable-bt/ s/^#//' -e '/dtoverlay=pi3-miniuart-bt/ s/^/#/' /boot/config.txt"
+			  "sed -i -e '/^#dtoverlay=pi3-disable-bt/ s/^#//' -e '/^dtoverlay=bcmbt/ s/^/#/' /boot/config.txt"
 			, 'systemctl disable bluetooth'
 			, 'rm -f '+ dirsystem +'/onboard-bluetooth'
 			, 'echo Disable on-board Bluetooth > '+ filereboot
