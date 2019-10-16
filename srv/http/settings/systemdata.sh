@@ -18,6 +18,7 @@ data+=',"gmusicpass":"'$( grep '^gmusicpass' /etc/upmpdcli.conf | cut -d' ' -f3-
 data+=',"gmusicquality":"'$( grep '^gmusicquality' /etc/upmpdcli.conf | cut -d' ' -f3- )'"'
 data+=',"gmusicuser":"'$( grep '^gmusicuser' /etc/upmpdcli.conf | cut -d' ' -f3- )'"'
 data+=',"hardware":"'$( tr -d '\0' < /sys/firmware/devicetree/base/model )'"'
+data+=',"hardwarecode":"'$( cat /proc/cpuinfo | grep Revision | tail -c 3 )'"'
 data+=',"hostname":"'$( cat /srv/http/data/system/hostname )'"'
 data+=',"i2ssysname":"'$( cat /srv/http/data/system/i2ssysname 2> /dev/null )'"'
 data+=',"kernel":"'$( uname -r | cut -d- -f1 )'"'

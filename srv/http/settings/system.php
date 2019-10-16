@@ -1,5 +1,6 @@
 <?php
 $data = json_decode( shell_exec( '/srv/http/settings/systemdata.sh' ) );
+$rpiwireless = in_array( $data->hardwarecode, [ 82, 83, 11 ] ); // rpi3: 82|83, rpi4: 11
 
 date_default_timezone_set( $data->timezone );
 $timezonelist = timezone_identifiers_list();
@@ -83,7 +84,9 @@ if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 			<i id="setting-soundprofile" class="setting fa fa-gear<?=( $data->soundprofile === 'default' ? ' hide' : '' )?>"></i>
 			<span class="help-block hide">System kernel parameters tweak: eth0 mtu, eth0 txqueuelen, swappiness and sched_latency_ns.</span>
 		</div>
+<?php if ( $rpiwireless || $data->i2ssysname ) { ?>
 	<heading>On-board devices</heading>
+<?php } ?>
 		<div id="divonboardaudio"<?=( $data->i2ssysname ? '' : ' class="hide"' )?>>
 			<div class="col-l">Audio</div>
 			<div class="col-r">
@@ -92,20 +95,23 @@ if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 				<span class="help-block hide">3.5mm phone and HDMI outputs.</span>
 			</div>
 		</div>
-<?php if ( file_exists( '/usr/bin/bluetoothctl' ) ) { ?>
+<?php if ( $rpiwireless ) {
+		if ( file_exists( '/usr/bin/bluetoothctl' ) ) {
+?>
 		<div class="col-l">Bluetooth</div>
 		<div class="col-r">
 			<input id="bluetooth" type="checkbox" <?=$data->bluetooth?>>
 			<div class="switchlabel" for="bluetooth"></div>
 			<span class="help-block hide">Should be disabled if not used.</span>
 		</div>
-<?php } ?>
+<?php	} ?>
 		<div class="col-l">Wi-Fi</div>
 		<div class="col-r">
 			<input id="wlan" type="checkbox" <?=$data->wlan?>>
 			<div class="switchlabel" for="wlan"></div>
 			<span class="help-block hide">Should be disabled if not used.</span>
 		</div>
+<?php } ?>
 	<heading>Features</heading>
 <?php if ( file_exists( '/usr/bin/shairport-sync' ) ) { ?>
 		<div class="col-l gr">AirPlay<i class="fa fa-airplay fa-lg wh"></i></div>
