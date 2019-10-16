@@ -269,7 +269,7 @@ $( '#accesspoint' ).change( function() {
 		var cmd = [
 				  'ifconfig wlan0 '+ $( '#ipwebuiap' ).text()
 				, 'systemctl start hostapd dnsmasq'
-				, 'echo 1 '+ dirsystem +'/accesspoint'
+				, 'echo 1 > '+ dirsystem +'/accesspoint'
 				, 'systemctl disable --now netctl-auto@wlan0'
 				, 'netctl stop-all'
 				, pstream( 'network' )
