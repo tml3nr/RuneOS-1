@@ -182,7 +182,7 @@ echo $blocks;
 <p id="bottom"></p> <!-- for bottom padding -->
 
 <?php
-$keepkey = array( 'title', 'installurl', 'rollback', 'option' );
+$keepkey = [ 'title', 'installurl', 'rollback', 'option' ];
 foreach( $arrayalias as $alias ) {
 	if ( $alias === 'addo' ) continue;
 	$addonslist[ $alias ] = array_intersect_key( $addons[ $alias ], array_flip( $keepkey ) );

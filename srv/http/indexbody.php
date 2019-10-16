@@ -53,7 +53,7 @@ $( '#pwd' ).keypress( function( e ) {
 }
 $color = file_exists( '/srv/http/data/display/color' );
 $submenucolor = ( !$color || $color === 'hsl(200,100%,40%)' ) ? '' : '<i class="fa fa-brush-undo submenu"></i>';
-if ( in_array( $_SERVER[ 'REMOTE_ADDR' ], array( '127.0.0.1', '::1' ) ) ) {
+if ( in_array( $_SERVER[ 'REMOTE_ADDR' ], [ '127.0.0.1', '::1' ] ) ) {
 	$submenupower = '<i class="fa fa-screenoff submenu"></i>';
 } else {
 	$submenupower = '';
@@ -71,7 +71,7 @@ if ( $tran ) {
 // counts
 $count = exec( '/srv/http/count.sh' );
 $count = explode( ' ', $count );
-$counts = array(
+$counts = [
 	  'artist'      => $count[ 0 ]
 	, 'album'       => $count[ 1 ]
 	, 'song'        => $count[ 2 ]
@@ -81,23 +81,23 @@ $counts = array(
 	, 'network'     => $count[ 6 ]
 	, 'usbdrive'    => $count[ 7 ]
 	, 'webradio'    => $count[ 8 ]
-);
+];
 // library home blocks
-$blocks = array( // 'id' => array( 'path', 'icon', 'name' );
-	  'coverart'    => array( 'Coverart',     'coverart',     'CoverArt' )
-	, 'sd'          => array( 'LocalStorage', 'microsd',      'SD' )
-	, 'usb'         => array( 'USB',          'usbdrive',     'USB' )
-	, 'nas'         => array( 'NAS',          'network',      'Network' )
-	, 'webradio'    => array( 'Webradio',     'webradio',     'Webradio' )
-	, 'album'       => array( 'Album',        'album',        'Album' )
-	, 'artist'      => array( 'Artist',       'artist',       'Artist' )
-	, 'albumartist' => array( 'AlbumArtist',  'albumartist',  'AlbumArtist' )
-	, 'composer'    => array( 'Composer',     'composer',     'Composer' )
-	, 'genre'       => array( 'Genre',        'genre',        'Genre' )
-);
+$blocks = [ // 'id' => [ 'path', 'icon', 'name' ];
+	  'coverart'    => [ 'Coverart',     'coverart',     'CoverArt' ]
+	, 'sd'          => [ 'LocalStorage', 'microsd',      'SD' ]
+	, 'usb'         => [ 'USB',          'usbdrive',     'USB' ]
+	, 'nas'         => [ 'NAS',          'network',      'Network' ]
+	, 'webradio'    => [ 'Webradio',     'webradio',     'Webradio' ]
+	, 'album'       => [ 'Album',        'album',        'Album' ]
+	, 'artist'      => [ 'Artist',       'artist',       'Artist' ]
+	, 'albumartist' => [ 'AlbumArtist',  'albumartist',  'AlbumArtist' ]
+	, 'composer'    => [ 'Composer',     'composer',     'Composer' ]
+	, 'genre'       => [ 'Genre',        'genre',        'Genre' ]
+];
 $blockhtml = '';
 foreach( $blocks as $id => $value ) {
-	$browsemode = in_array( $id, array( 'album', 'artist', 'albumartist', 'composer', 'genre', 'coverart' ) ) ? ' data-browsemode="'.$id.'"' : '';
+	$browsemode = in_array( $id, [ 'album', 'artist', 'albumartist', 'composer', 'genre', 'coverart' ] ) ? ' data-browsemode="'.$id.'"' : '';
 	$count = isset( $counts[ $value[ 1 ] ] ) && $counts[ $value[ 1 ] ] ? '<grl>'.number_format( $counts[ $value[ 1 ] ] ).'</grl>' : '';
 	$blockhtml.= '
 		<div class="divblock">
@@ -142,7 +142,7 @@ if ( count( $files ) ) {
 		$ext = substr( $file, -3 );
 		$filename = "$name.$time.$ext";
 		// restore /, #, ? replaced by scan.sh
-		$name = preg_replace( array( '/\|/', '/{/', '/}/' ), array( '/', '#', '?' ), $name );
+		$name = preg_replace( [ '/\|/', '/{/', '/}/' ], [ '/', '#', '?' ], $name );
 		$names = explode( '^^', $name );
 		$album = $names[ 0 ];
 		$artist = $names[ 1 ];
@@ -150,10 +150,10 @@ if ( count( $files ) ) {
 		$sortartist = stripLeading( $artist );
 		$path = isset( $names[ 2 ] ) ? $names[ 2 ] : '';
 		if ( $thumbbyartist ) {
-			$lists[] = array( $sortartist, $sortalbum, $artist, $album, $filename, $path );
+			$lists[] = [ $sortartist, $sortalbum, $artist, $album, $filename, $path ];
 			$index[] = mb_substr( $sortartist, 0, 1, 'UTF-8' );
 		} else {
-			$lists[] = array( $sortalbum, $sortartist, $album, $artist, $filename, $path );
+			$lists[] = [ $sortalbum, $sortartist, $album, $artist, $filename, $path ];
 			$index[] = mb_substr( $sortalbum, 0, 1, 'UTF-8' );
 		}
 	}
@@ -163,7 +163,7 @@ if ( count( $files ) ) {
 	$index = array_keys( array_flip( $index ) );
 	foreach( $lists as $list ) {
 		$lipath = $list[ 5 ] ? '<a class="lipath">'.$list[ 5 ].'</a>' : '';
-		$coverfile = preg_replace( array( '/%/', '/"/', '/#/' ), array( '%25', '%22', '%23' ), $list[ 4 ] );
+		$coverfile = preg_replace( [ '/%/', '/"/', '/#/' ], [ '%25', '%22', '%23' ], $list[ 4 ] );
 		// leading + trailing quotes in the same line avoid spaces between divs
 		$coverartshtml.= '<div class="coverart">
 							'.$lipath.'
@@ -188,22 +188,22 @@ $index = $li.str_repeat( "<li>&nbsp;</li>\n", 5 );
 function stripLeading( $string ) {
 	$names = strtoupper( strVal( $string ) );
 	return preg_replace(
-		  array(
+		  [
 			'/^A\s+|^AN\s+|^THE\s+|[^\w\p{L}\p{N}\p{Pd} ~]/u',
 			'/\s+|^_/'
-		)
-		, array(
+		]
+		, [
 			'',  // strip articles | non utf-8 normal alphanumerics | tilde(blank data)
 			'-'  // fix: php strnatcmp ignores spaces | sort underscore to before 0
-		)
+		]
 		, $names
 	);
 }
 // context menus
 function menuli( $command, $icon, $label, $type = '' ) {
-	$iconclass = array( 'folder-refresh', 'tag', 'minus-circle', 'lastfm' );
+	$iconclass = [ 'folder-refresh', 'tag', 'minus-circle', 'lastfm' ];
 	$class = in_array( $icon, $iconclass ) ? ' class="'.$icon.'"' : '';
-	$submenu = in_array( $label, array( 'Add', 'Random', 'Replace' ) ) ? '<i class="fa fa-play-plus submenu"></i>' : '';
+	$submenu = in_array( $label, [ 'Add', 'Random', 'Replace' ] ) ? '<i class="fa fa-play-plus submenu"></i>' : '';
 	return '<a data-cmd="'.$command.'"'.$class.'><i class="fa fa-'.$icon.'"></i>'.$label.$submenu.'</a>';
 }
 function menudiv( $id, $html ) {

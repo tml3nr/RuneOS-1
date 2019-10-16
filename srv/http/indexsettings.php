@@ -36,13 +36,13 @@ function headhtml( $icon, $title ) {
 	';
 }
 $p = $_GET[ 'p' ];
-$icon = array(
+$icon = [
 	  'credits' => 'rune'
 	, 'mpd'     => 'mpd'
 	, 'network' => 'network'
 	, 'sources' => 'folder-cascade'
 	, 'system'  => 'sliders'
-);
+];
 headhtml( $icon [ $p ], strtoupper( $p ) );
 include "settings/$p.php";
 ?>

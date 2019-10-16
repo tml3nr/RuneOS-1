@@ -2,7 +2,7 @@
 if ( isset( $_POST[ 'bash' ] ) ) {
 	$bash = $_POST[ 'bash' ];
 	$command = '';
-	if ( !is_array( $bash ) ) $bash = array( $bash );
+	if ( !is_array( $bash ) ) $bash = [ $bash ];
 	foreach( $bash as $cmd ) {
 		$sudo = $cmd[ 0 ] === '/' ? '/usr/bin/sudo ' : '/usr/bin/sudo /usr/bin/';
 		$command.= "$sudo$cmd;";
@@ -58,13 +58,13 @@ if ( isset( $_POST[ 'album' ] ) ) {
 				$sort = stripLeading( $album.' - '.$artist );
 			}
 			$index[] = $sort[ 1 ];
-			$data[] = array(
+			$data[] = [
 				  'artistalbum' => $artistalbum
 				, 'album'       => $album
 				, 'artist'      => $artist
 				, 'sort'        => $sort[ 0 ]
 				, 'lisort'      => $sort[ 1 ]
-			);
+			];
 		}
 		$data = sortData( $data, $index );
 	}
@@ -84,7 +84,7 @@ if ( isset( $_POST[ 'album' ] ) ) {
 		} else if ( !$oldname ) {
 			array_push( $order, $path ); // append
 		}
-		pushstream( 'display', array( 'order' => $order ) );
+		pushstream( 'display', [ 'order' => $order ] );
 		$order = implode( '^^', $order );
 		file_put_contents( "$dirdisplay/order", $order );
 	}
@@ -92,7 +92,7 @@ if ( isset( $_POST[ 'album' ] ) ) {
 		if ( isset( $_POST[ 'base64' ] ) ) {
 			$base64 = $_POST[ 'base64' ];
 			file_put_contents( "$file", $base64 );
-			pushstream( 'bookmark', json_encode( array( $path, $base64 ) ) );
+			pushstream( 'bookmark', json_encode( [ $path, $base64 ] ) );
 			exit();
 		} else {
 			file_put_contents( "$file", $name );
@@ -102,7 +102,7 @@ if ( isset( $_POST[ 'album' ] ) ) {
 	} else if ( isset( $_POST[ 'delete' ] ) ) {
 		unlink( $file );
 	}
-	pushstream( 'bookmark', json_encode( array( $path, $name ) ) );
+	pushstream( 'bookmark', json_encode( [ $path, $name ] ) );
 	
 } else if ( isset( $_POST[ 'color' ] ) ) { // hsl(360,100%,100%)
 	$hsl = $_POST[ 'color' ];
@@ -136,11 +136,11 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 	$path = $_POST[ 'counttag' ];
 	$cmd = substr( $path, -3 ) === 'cue' ? 'playlist' : 'ls';
 	$cmd.= ' "'.$path.'" | awk \'!a[$0]++\' | wc -l';
-	$data = array( 
+	$data = [ 
 		  'artist'   => exec( 'mpc -f "%artist%" '.$cmd )
 		, 'composer' => exec( 'mpc -f "%composer%" '.$cmd )
 		, 'genre'    => exec( 'mpc -f "%genre%" '.$cmd )
-	);
+	];
 	echo json_encode( $data, JSON_NUMERIC_CHECK );
 	
 } else if ( isset( $_POST[ 'coverartalbum' ] ) ) {
@@ -169,11 +169,11 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 	
 } else if ( isset( $_POST[ 'getcount' ] ) ) {
 	if ( exec( 'mpc | grep Updating' ) ) {
-		$status = array( 'updating_db' => 1 );
+		$status = [ 'updating_db' => 1 ];
 	} else {
 		$count = exec( '/srv/http/count.sh' );
 		$count = explode( ' ', $count );
-		$status = array(
+		$status = [
 			  'artist'       => $count[ 0 ]
 			, 'album'        => $count[ 1 ]
 			, 'song'         => $count[ 2 ]
@@ -184,7 +184,7 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 			, 'usb'          => $count[ 7 ]
 			, 'webradio'     => $count[ 8 ]
 			, 'sd'           => $count[ 9 ]
-		);
+		];
 	}
 	echo json_encode( $status, JSON_NUMERIC_CHECK );
 	
@@ -240,13 +240,13 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 		$thumb = $nameimg[ 1 ] ? $nameimg[ 1 ] : '';
 		$sort = stripLeading( $name );
 		$index[] = $name[ 0 ];
-		$data[] = array(
+		$data[] = [
 			  'webradio' => $name
 			, 'url'      => str_replace( '|', '/', $file )
 			, 'thumb'    => $thumb
 			, 'sort'     => $sort[ 0 ]
 			, 'lisort'   => $sort[ 1 ]
-		);
+		];
 	}
 	$data = sortData( $data, $index );
 	echo json_encode( $data );
@@ -290,7 +290,7 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 	if ( !password_verify( $_POST[ 'login' ], $hash ) ) die();
 	
 	if ( isset( $_POST[ 'pwdnew' ] ) ) {
-		$hash = password_hash( $_POST[ 'pwdnew' ], PASSWORD_BCRYPT, array( 'cost' => 12 ) );
+		$hash = password_hash( $_POST[ 'pwdnew' ], PASSWORD_BCRYPT, [ 'cost' => 12 ] );
 		echo file_put_contents( '/srv/http/data/system/password', $hash );
 	} else {
 		echo 1;
@@ -344,11 +344,11 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 			foreach( $lists as $list ) {
 				$sort = stripLeading( $list );
 				$index[] = $sort[ 1 ];
-				$data[] = array( 
+				$data[] = [ 
 					  $type    => $list
 					, 'sort'   => $sort[ 0 ]
 					, 'lisort' => $sort[ 1 ]
-				);
+				];
 			}
 			$data = sortData( $data, $index );
 		}
@@ -401,7 +401,7 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 	$order = $_POST[ 'setorder' ]; 
 	file_put_contents( "$dirdisplay/order", $order );
 	$order = json_encode( explode( '^^', $order ) );
-	pushstream( 'display', array( 'order' => $order ) );
+	pushstream( 'display', [ 'order' => $order ] );
 	
 } else if ( isset( $_POST[ 'volume' ] ) ) {
 	$volume = $_POST[ 'volume' ];
@@ -420,7 +420,7 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 	}
 	exec( "$sudo/mpc volume $vol" );
 	file_put_contents( "$dirdisplay/volumemute", $currentvol );
-	pushstream( 'volume', array( $vol, $currentvol ) );
+	pushstream( 'volume', [ $vol, $currentvol ] );
 	
 } else if ( isset( $_POST[ 'webradios' ] ) ) {
 	$name = $_POST[ 'webradios' ];
@@ -474,11 +474,11 @@ function getBookmark() {
 			$name = $content;
 			$coverart = '';
 		}
-		$data[] = array(
+		$data[] = [
 			  'name'     => $name
 			, 'path'     => str_replace( '|', '/', $file )
 			, 'coverart' => $coverart
-		);
+		];
 	}
 	return $data;
 }
@@ -507,14 +507,14 @@ function list2array( $result, $playlist = '' ) {
 			if ( $list[ 6 ] !== $genre ) $genre = -1;
 		}
 		if ( !$composer && $list[ 7 ] !== '' ) $composer = $list[ 7 ];
-		$li = array(
+		$li = [
 			  'file'   => $list[ 0 ]
 			, 'Title'  => $list[ 1 ]
 			, 'Time'   => $list[ 2 ]
 			, 'track'  => $list[ 3 ]
 			, 'Artist' => $list[ 4 ]
 			, 'index'  => $i++
-		);
+		];
 		if ( $list[ 8 ] ) $li[ 'cuem3u' ] = $list[ 8 ];
 		if ( $list[ 9 ] ) $li[ 'cuetrack' ] = $list[ 9 ];
 		if ( $list[ 10 ] ) $li[ 'thumb' ] = $list[ 10 ];
@@ -604,11 +604,11 @@ function lsPlaylists() {
 		foreach( $lines as $line ) {
 			$sort = stripLeading( $line );
 			$index[] = $sort[ 1 ];
-			$data[] = array(
+			$data[] = [
 				  'name'   => $line
 				, 'sort'   => $sort[ 0 ]
 				, 'lisort' => $sort[ 1 ]
-			);
+			];
 		}
 		$data = sortData( $data, $index );
 		return $data;
@@ -682,7 +682,7 @@ function playlistInfo( $save = '' ) { // fix -  mpd unable to save cue/m3u prope
 }
 function pushstream( $channel, $data ) {
 	$ch = curl_init( 'http://127.0.0.1/pub?id='.$channel );
-	curl_setopt( $ch, CURLOPT_HTTPHEADER, array( 'Content-Type:application/json' ) );
+	curl_setopt( $ch, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ] );
 	curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $data, JSON_NUMERIC_CHECK ) );
 	curl_exec( $ch );
 	curl_close( $ch );
@@ -699,29 +699,29 @@ function search2array( $result, $playlist = '' ) { // directories or files
 		if ( $root ) {
 			$ext = pathinfo( $list, PATHINFO_EXTENSION );
 			if ( in_array( $ext, [ 'cue', 'm3u', 'm3u8', 'pls' ] ) ) {
-				$data[] = array(
+				$data[] = [
 					  'playlist' => basename( $list )
 					, 'filepl'   => $list
-				);
+				];
 			} else {
 				$sort = stripLeading( basename( $list ) );
 				$index[] = $sort[ 1 ];
-				$data[] = array(
+				$data[] = [
 					  'directory' => $list
 					, 'sort'      => $sort[ 0 ]
 					, 'lisort'    => $sort[ 1 ]
-				);
+				];
 			}
 		} else {
 			$list = explode( '^^', rtrim( $list ) );
 			$file = $list[ 4 ];
-			$data[] = array(
+			$data[] = [
 				  'Title'  => $list[ 0 ] ?: '<gr>*</gr>'.pathinfo( $file, PATHINFO_FILENAME )
 				, 'Time'   => $list[ 1 ]
 				, 'Artist' => $list[ 2 ]
 				, 'Album'  => $list[ 3 ]
 				, 'file'   => $file
-			);
+			];
 			$index = [];
 			if ( !$genre && $list[ 5 ] !== '' ) $genre = $list[ 5 ];
 			if ( !$composer && $list[ 6 ] !== '' ) $composer = $list[ 6 ];
@@ -761,16 +761,16 @@ function sortData( $data, $index = null ) {
 function stripLeading( $string ) {
 	$names = strtoupper( strVal( $string ) );
 	$stripped = preg_replace(
-		  array(
+		  [
 			'/^A\s+|^AN\s+|^THE\s+|[^\w\p{L}\p{N}\p{Pd} ~]/u',
 			'/\s+|^_/'
-		)
-		, array(
+		]
+		, [
 			'',  // strip articles | non utf-8 normal alphanumerics | tilde(blank data)
 			'-'  // fix: php strnatcmp ignores spaces | sort underscore to before 0
-		)
+		]
 		, $names
 	);
 	$init = mb_substr( $stripped, 0, 1, 'UTF-8' );
-	return array( $stripped, $init );
+	return [ $stripped, $init ];
 }

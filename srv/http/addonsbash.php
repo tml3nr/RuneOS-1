@@ -156,7 +156,7 @@ cmd;
 $commandtxt = preg_replace( '/\t*/', '', $commandtxt );
 
 // convert bash stdout to html
-$replace = array(
+$replace = [
 	'/.\[38;5;8m.\[48;5;8m/' => '<a class="cbgr">',     // bar - gray
 	'/.\[38;5;7m.\[48;5;7m/' => '<a class="cbw">',      // bar - white
 	'/.\[38;5;6m.\[48;5;6m/' => '<a class="cbc">',      // bar - cyan
@@ -178,9 +178,9 @@ $replace = array(
 	'/-(-+)-/'               => '<hr class="hrlight">', // line
 	'/.\[38;5;6m/'           => '<a class="cc">',       // lcolor
 	'/.\[0m/'                => '</a>',                 // reset color
-);
-$skip = array( 'warning:', 'permissions differ', 'filesystem:', 'uninstall:', 'y/n' );
-$skippacman = array( 'downloading core.db', 'downloading extra.db', 'downloading alarm.db', 'downloading aur.db' );
+];
+$skip = ['warning:', 'permissions differ', 'filesystem:', 'uninstall:', 'y/n' ];
+$skippacman = [ 'downloading core.db', 'downloading extra.db', 'downloading alarm.db', 'downloading aur.db' ];
 $fillbuffer = '<p class="flushdot">'.str_repeat( '.', 4096 ).'</p>';
 ob_implicit_flush();       // start flush: bypass buffer - output to screen
 ob_end_flush();            // force flush: current buffer (run after flush started)
