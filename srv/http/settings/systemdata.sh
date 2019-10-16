@@ -3,7 +3,7 @@
 grep -q '^dtoverlay=bcmbt' /boot/config.txt && bluetooth=checked || bluetooth=
 grep -q 'dtparam=audio=on' /boot/config.txt && onboardaudio=checked || onboardaudio=
 grep -q '^disable_overscan=1' /boot/config.txt && overscan=0 || overscan=1
-grep -q '^#dtoverlay=pi3-disable-wifi' /boot/config.txt && wlan=checked || wlan=
+grep -q '^#dtoverlay=disable-wifi' /boot/config.txt && wlan=checked || wlan=
 file='/etc/X11/xorg.conf.d/99-raspi-rotate.conf'
 [[ -e $file ]] && rotate=$( grep rotate $file | cut -d'"' -f4 ) || rotate=NORMAL
 xinitrc=/etc/X11/xinit/xinitrc
