@@ -200,7 +200,7 @@ $( '#bluetooth' ).click( function() {
 		local = 1;
 		$.post( 'commands.php', { bash: [
 			  "sed -i -e '/^#dtoverlay=disable-bt/ s/^#//' -e '/^dtoverlay=bcmbt/ s/^/#/' /boot/config.txt"
-			, 'systemctl disable bluetooth'
+			, 'systemctl disable --now bluetooth'
 			, 'rm -f '+ dirsystem +'/onboard-bluetooth'
 			, 'echo Disable on-board Bluetooth > '+ filereboot
 			, pstream( 'system' )
