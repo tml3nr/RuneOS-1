@@ -114,11 +114,18 @@ pacman-key --populate archlinuxarm
 pacman -Syu
 
 # package list
-packages='alsa-utils avahi chromium cronie dnsmasq dosfstools ffmpeg gcc hostapd ifplugd imagemagick mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
+packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools ffmpeg gcc hostapd ifplugd imagemagick mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
+
+# remove bluetooth driver if not RPi Zero W, 3, 4
+hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
+[[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]] && packages=${packages/ bluez bluez-utils}
 ```
 
 **Exclude optional packages** (Skip to install all)
 ```sh
+# optional - remove bluetooth support
+packages=${packages/ bluez bluez-utils}
+
 # optional - remove access point
 packages=${packages/ dnsmasq}
 packages=${packages/ hostapd}
@@ -232,6 +239,9 @@ chown mpd:audio /var/log/mpd.log
 ```sh
 # bootsplash - set default image
 ln -s /srv/http/assets/img/{NORMAL,start}.png
+
+# bluetooth
+sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
 
 # cron - for addons updates
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab -

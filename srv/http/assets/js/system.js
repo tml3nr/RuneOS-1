@@ -32,6 +32,10 @@ $( '#hostname' ).click( function() {
 				cmd.push( 'sed -i "s/^name =.*/name = '+ hostname +'/" /etc/shairport-sync.conf' );
 				service += ' shairport-sync shairport-meta';
 			}
+			if ( $( '#bluetooth' ).length ) {
+				cmd.push( 'sed -i "s/^Name =.*/Name = '+ hostname +'/" /etc/bluetooth/main.conf' );
+				service += ' bluetooth';
+			}
 			if ( $( '#samba' ).length ) {
 				cmd.push( 'sed -i "s/netbios name = .*/netbios name = '+ hostname +'/" /etc/samba/smb.conf' );
 				service += ' nmb smb';

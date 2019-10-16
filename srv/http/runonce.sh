@@ -13,7 +13,10 @@ rm $0
 
 # remove bluetooth driver if not RPi Zero W, 3, 4
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
-[[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]] && pacman -R --noconfirm bluetooth-raspberrypi
+if [[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]]; then
+	pacman -R --noconfirm bluetooth-raspberrypi
+	[[ -e /usr/bin/bluetoothctl ]] && pacman -R --noconfirm bluez bluez-utils
+fi
 
 # fix - alsa restore failed
 alsactl store

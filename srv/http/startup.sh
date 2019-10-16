@@ -68,6 +68,11 @@ if [[ -z "$mountpoints" ]]; then
 	done
 fi
 
+if systemctl -q is-enabled bluetooth; then
+	bluetoothctl system-alias "$( cat /srv/http/data/system/hostname )"
+	bluetoothctl discoverable on
+fi
+
 wlans=$( ip a | grep 'wlan.:' | sed 's/.*: \(.*\):.*/\1/' )
 if [[ -n "$wlans" ]]; then
 	if [[ -e $dirsystem/accesspoint ]]; then
