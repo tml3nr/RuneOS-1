@@ -116,9 +116,9 @@ pacman -Syu
 # package list
 packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools ffmpeg gcc hostapd ifplugd imagemagick mpd mpc nfs-utils parted php-fpm python python-pip samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 
-# remove bluetooth driver if not RPi Zero W, 3, 4
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
-[[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]] && packages=${packages/ bluez bluez-utils}
+[[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]] && nowireless=1 || nowireless=
+[[ $nowireless ]] && packages=${packages/ bluez bluez-utils}  # remove bluetooth if not RPi Zero W, 3, 4
 ```
 
 **Exclude optional packages** (Skip to install all)
@@ -172,12 +172,12 @@ rm /var/cache/pacman/pkg/*
 
 **Web interface, custom packages and config files**
 - RuneAudio Enhancement interface
-- Custom packages
-	- `nginx-mainline` - support pushstream
-	- `kid3-cli` - not available as standard package
-	- `matchbox-window-manager` - not available as standard package
-	- `upmpdcli` - not available as standard package
-	- `ply-image` (single binary file)
+- Custom packages (not available as standard package)
+	- `nginx-mainline-pushstream`
+	- `kid3-cli`
+	- `matchbox-window-manager`
+	- `bluealsa`
+	- `upmpdcli`
 - Configuration files set to default
 - `Runonce.sh` for initial boot setup
 ```sh
@@ -186,10 +186,15 @@ wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
+
+[[ $nowireless ]] && rm bluealsa*  # remove bluetooth if not RPi Zero W, 3, 4
 ```
 
 **Exclude optional packages** (Skip to install all)
 ```sh
+# remove bluetooth
+rm bluealsa*
+
 # optional - remove metadata tag editor
 rm kid3-cli*
 
