@@ -41,8 +41,8 @@
 #dtdebug=on
 
 #dtparam=uart1=off
-#dtoverlay=pi3-disable-wifi
-dtoverlay=pi3-disable-bt
+#dtoverlay=disable-wifi
+dtoverlay=disable-bt
 #dtoverlay=bcmbt
 
 ## RuneAudio HDMI & 3,5mm jack
