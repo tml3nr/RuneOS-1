@@ -209,6 +209,7 @@ if [[ ! -e /usr/bin/chromium ]]; then
 	rm /etc/systemd/system/localbrowser*
 	rm /etc/X11/xinit/xinitrc
 fi
+[[ ! -e /usr/bin/bluetoothctl || $nowireless ]] && rm -r /etc/systemd/system/bluetooth.service.d
 [[ ! -e /usr/bin/hostapd ]] && rm -r /etc/{hostapd,dnsmasq.conf}
 [[ ! -e /usr/bin/smbd ]] && rm -r /etc/samba
 [[ ! -e /usr/bin/shairport-sync ]] && rm /etc/systemd/system/shairport*
