@@ -190,7 +190,7 @@ $( '#bluetooth' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
 		local = 1;
 		$.post( 'commands.php', { bash: [
-			  "sed -i -e '/^dtoverlay=pi3-disable-bt/ s/^/#/' -e '/^#dtoverlay=bcmbt/ s/^#//' /boot/config.txt"
+			  "sed -i -e '/^dtoverlay=disable-bt/ s/^/#/' -e '/^#dtoverlay=bcmbt/ s/^#//' /boot/config.txt"
 			, 'systemctl enable bluetooth'
 			, 'echo 1 > '+ dirsystem +'/onboard-bluetooth'
 			, 'echo Enable on-board Bluetooth > '+ filereboot
@@ -199,7 +199,7 @@ $( '#bluetooth' ).click( function() {
 	} else {
 		local = 1;
 		$.post( 'commands.php', { bash: [
-			  "sed -i -e '/^#dtoverlay=pi3-disable-bt/ s/^#//' -e '/^dtoverlay=bcmbt/ s/^/#/' /boot/config.txt"
+			  "sed -i -e '/^#dtoverlay=disable-bt/ s/^#//' -e '/^dtoverlay=bcmbt/ s/^/#/' /boot/config.txt"
 			, 'systemctl disable bluetooth'
 			, 'rm -f '+ dirsystem +'/onboard-bluetooth'
 			, 'echo Disable on-board Bluetooth > '+ filereboot
@@ -211,7 +211,7 @@ $( '#wlan' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
 		local = 1;
 		$.post( 'commands.php', { bash: [
-			  "sed -i '/^dtoverlay=pi3-disable-wifi/ s/^/#/' /boot/config.txt"
+			  "sed -i '/^dtoverlay=disable-wifi/ s/^/#/' /boot/config.txt"
 			, 'systemctl enable netctl-auto@wlan0'
 			, 'echo 1 > '+ dirsystem +'/onboard-wlan'
 			, 'echo Enable on-board Wi-Fi > '+ filereboot
@@ -221,7 +221,7 @@ $( '#wlan' ).click( function() {
 	} else {
 		local = 1;
 		$.post( 'commands.php', { bash: [
-			  "sed -i '/^#dtoverlay=pi3-disable-wifi/ s/^#//' /boot/config.txt"
+			  "sed -i '/^#dtoverlay=disable-wifi/ s/^#//' /boot/config.txt"
 			, 'systemctl disable --now netctl-auto@wlan0'
 			, 'ifconfig wlan0 down'
 			, 'echo disabled > '+ dirsystem +'/onboard-wlan'
