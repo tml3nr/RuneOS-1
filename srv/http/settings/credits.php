@@ -1,12 +1,12 @@
 <?php
-$list05 = array(
+$list05 = [
 	  'Gearhead' => [ 'https://github.com/gearhead', 'RuneOS - Full kernel and package upgrade, kernel patch for alsa 384kHz audio support and Chromium local browser' ]
 	, 'janui'    => [ 'https://github.com/janui', 'RuneUI - Shairport sync with metadata, random play and autostart rework, Samba optimisation and 101 bugfixes' ]
-);
-$list04 = array(
+];
+$list04 = [
 	 'Frank Friedmann' => [ 'https://github.com/hondagx35', 'A grand solo effort, AP, Local Browser, Lyrics, many upgrades, bugfixes and other improvements', 'hondagx35' ]
-);
-$list0103 = array(
+];
+$list0103 = [
 	  'Andrea Coiutti'        => [ 'http://www.runeaudio.com/team/', 'RuneUI frontend design - frontend HTML/JS/CSS coding', 'ACX' ]
 	, 'Simone De Gregori'     => [ 'http://www.runeaudio.com/team/', 'RuneUI PHP backend coding - frontend JS coding - RuneOS distro build &amp; optimization', 'Orion' ]
 	, 'Carmelo San Giovanni'  => [ 'http://www.runeaudio.com/team/', 'RuneOS distro build &amp; Kernel optimization', 'Um3ggh1U' ]
@@ -18,7 +18,7 @@ $list0103 = array(
 	, 'Saman'                 => [ 'http://www.runeaudio.com/forum/member275.html', 'RuneOS RT Linux kernel for Wolfson Audio Card (RaspberryPi)' ]
 	, 'Daniele Scasciafratte' => [ 'https://github.com/Mte90', 'RuneUI Firefox integration', 'Mte90' ]
 	, 'Francesco Casarsa'     => [ 'https://github.com/fcasarsa', 'Shairport patch', 'CAS' ]
-);
+];
 $list05html = '';
 foreach( $list05 as $name => $value ) {
 	$list05html.= '<a href="'.$value[ 0 ].'" target="_blank">'.$name.'</a><br><span class="help-block hide">'.$value[ 1 ].'<br></span>';
@@ -32,7 +32,7 @@ foreach( $list0103 as $name => $value ) {
 	$aka = isset( $value[ 2 ] ) ? ' <gr>(aka '.$value[ 2 ].')</gr>' : '';
 	$list0103html.= '<a href="'.$value[ 0 ].'" target="_blank">'.$name.$aka.'</a><br><span class="help-block hide">'.$value[ 1 ].'<br></span>';
 }
-$listruneui = array(
+$listruneui = [
 	  'HTML5-Color-Picker'  => 'https://github.com/NC22/HTML5-Color-Picker'
 	, 'jQuery'              => 'https://jquery.com/'
 	, 'jQuery.documentSize' => 'https://github.com/hashchange/jquery.documentsize'
@@ -44,12 +44,12 @@ $listruneui = array(
 	, 'pica'                => 'https://github.com/nodeca/pica'
 	, 'roundSlider'         => 'https://github.com/soundar24/roundSlider'
 	, 'Sortable'            => 'https://github.com/SortableJS/Sortable'
-);
+];
 $runeuihtml = '';
 foreach( $listruneui as $name => $link ) {
 	$runeuihtml.= '<a href="'.$link.'">'.$name.'</a><br>';
 }
-$listruneos = array(
+$listruneos = [
 	  'Alac'                     => 'https://github.com/TimothyGu/alac'
 	, 'ArchLinuxArm'             => 'https://www.archlinuxarm.org'
 	, 'BlueZ'                    => 'http://www.bluez.org'
@@ -69,7 +69,7 @@ $listruneos = array(
 	, 'Samba'                    => 'http://www.samba.org'
 	, 'Shairport-sync'           => 'https://github.com/mikebrady/shairport-sync'
 	, 'upmpdcli'                 => 'http://www.lesbonscomptes.com/upmpdcli/'
-);
+];
 $runeoshtml = '';
 foreach( $listruneos as $name => $link ) {
 	$runeoshtml.= '<a href="'.$link.'">'.$name.'</a><br>';

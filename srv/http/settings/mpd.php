@@ -4,7 +4,7 @@ $dop = file_exists( '/srv/http/data/system/dop' ) ? 'checked' : '';
 $autoplay = file_exists( '/srv/http/data/system/autoplay' ) ? 'checked' : '';
 
 exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
-$outputs = array_diff( $outputs, array( 'bcm2835 ALSA_3' ) ); // remove 2nd hdmi
+$outputs = array_diff( $outputs, [ 'bcm2835 ALSA_3' ] ); // remove 2nd hdmi
 $htmlacards = '';
 foreach( $outputs as $output ) {
 	$index = exec( $sudo.'/aplay -l | grep "'.preg_replace( '/_.$/', '', $output ).'" | cut -c6' );

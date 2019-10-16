@@ -1,5 +1,5 @@
 <?php
-$i2slist = array(
+$i2slist = [
 	  'Disabled'                                    => 'none'
 	, 'Allo Boss DAC'                               => 'allo-boss-dac-pcm512x-audio'
 	, 'Allo Boss DAC in slave mode'                 => 'allo-boss-dac-pcm512x-audio,slave'
@@ -75,4 +75,4 @@ $i2slist = array(
 	, 'SupTronics X4000K'                           => 'rpi-dac'
 	, 'X10 DAC'                                     => 'rpi-dac'
 	, 'X400 V3.0 DAC+AMP'                           => 'hifiberry-dacplus'
-);
+];

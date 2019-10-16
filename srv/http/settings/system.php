@@ -9,7 +9,7 @@ foreach( $timezonelist as $key => $zone ) {
 	$selected = $zone === $data->timezone ? ' selected' : '';
 	$datetime = new DateTime( 'now', new DateTimeZone( $zone ) );
 	$offset = $datetime->format( 'P' );
-	$zonename = preg_replace( array( '/_/', '/\//' ), array( ' ', ' <gr>&middot;</gr> ' ), $zone );
+	$zonename = preg_replace( [ '/_/', '/\//' ], [ ' ', ' <gr>&middot;</gr> ' ], $zone );
 	if ( $selected ) $zonestring = $data->timezone === 'UTC' ? 'UTC' : explode( ' <gr>&middot;</gr> ', $zonename, 2 )[ 1 ];
 	$selecttimezone.= '<option value="'.$zone.'"'.$selected.'>'.$zonename.'&ensp;'.$offset."</option>\n";
 }
