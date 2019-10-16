@@ -226,7 +226,7 @@ touch /var/log/mpd.log
 chown mpd:audio /var/log/mpd.log
 
 # upmpdcli - older symlink
-ln -s /lib/libjsoncpp.so.{21,20}
+[[ -e /usr/bin/hostapd ]] && ln -s /lib/libjsoncpp.so.{21,20}
 ```
 
 **Configurations**
