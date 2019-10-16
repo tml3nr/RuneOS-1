@@ -1,11 +1,3 @@
-<?php
-if ( file_exists( '/usr/bin/hostapd' ) ) { ?>
-	$hostapd = exec( "$sudo/systemctl is-active hostapd" ) === 'active' ? 1 : 0;
-	$ssid = exec( "$sudo/grep ssid= /etc/hostapd/hostapd.conf | cut -d= -f2" );
-	$passphrase = exec( "$sudo/grep '^wpa_passphrase' /etc/hostapd/hostapd.conf | cut -d'=' -f2" );
-	$ipwebuiap = exec( "$sudo/grep 'router' /etc/dnsmasq.conf | cut -d',' -f2" );
-}
-?>
 <div class="container">
 	<div id="divinterface">
 		<headingnoline>Interfaces&emsp;<i id="refreshing" class="fa fa-wifi-3 blink hide"></i></headingnoline>
@@ -30,7 +22,12 @@ if ( file_exists( '/usr/bin/hostapd' ) ) { ?>
 			<span class="help-block hide">Scan QR code or use IP address to connect RuneAudio web user interface.</span>
 		</div>
 	</div>
-<?php if ( isset( $hostapd ) ) { ?>
+<?php if ( file_exists( '/usr/bin/hostapd' ) ) {
+$hostapd = exec( "$sudo/systemctl is-active hostapd" ) === 'active' ? 1 : 0;
+$ssid = exec( "$sudo/grep ssid= /etc/hostapd/hostapd.conf | cut -d= -f2" );
+$passphrase = exec( "$sudo/grep '^wpa_passphrase' /etc/hostapd/hostapd.conf | cut -d'=' -f2" );
+$ipwebuiap = exec( "$sudo/grep 'router' /etc/dnsmasq.conf | cut -d',' -f2" );
+?>
 	<div id="divaccesspoint">
 		<heading>RPi access point</heading>
 		<div class="col-l">Enable</div>

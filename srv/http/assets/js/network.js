@@ -4,6 +4,7 @@ var dirsystem = '/srv/http/data/system';
 var intervalscan;
 var wlcurrent = '';
 var wlconnected = '';
+var accesspoint = $( '#accesspoint' ).length;
 
 nicsStatus();
 
@@ -27,7 +28,7 @@ $( '#listinterfaces' ).on( 'click', 'li', function( e ) {
 	var dhcp = $this.data( 'dhcp' ) ? 1 : 0;
 	if ( inf !== 'eth0' ) {
 		wlcurrent = inf;
-		if ( $( '#accesspoint' ).prop( 'checked' ) ) {
+		if ( accesspoint && $( '#accesspoint' ).prop( 'checked' ) ) {
 			info( {
 				  icon    : 'wifi-3'
 				, title   : 'RPi access point'
@@ -197,7 +198,7 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 			}
 		} );
 	} else if ( $this.data( 'profile' ) ) { // saved wi-fi
-		if ( $( '#accesspoint' ).prop( 'checked' ) ) {
+		if ( accesspoint && $( '#accesspoint' ).prop( 'checked' ) ) {
 			info( {
 				  icon    : 'wifi-3'
 				, title   : 'RPi access point'
@@ -371,7 +372,7 @@ function connect( wlan, ssid, data ) {
 	$.post( 'commands.php', { bash: cmd }, function( std ) {
 		if ( std != -1 ) {
 			wlconnected = wlan;
-			if ( $( '#accesspoint' ).prop( 'checked' ) ) {
+			if ( accesspoint && $( '#accesspoint' ).prop( 'checked' ) ) {
 				$( '#listinterfaces li.wlan0' ).html( '<i class="fa fa-wifi-3"></i>Wi-Fi&ensp;<span class="green">&bull;</span>' );
 				$( '#accesspoint' ).prop( 'checked', 0 );
 				$( '#boxqr, #settings-accesspoint' ).addClass( 'hide' );
@@ -452,10 +453,9 @@ function nicsStatus() {
 			var datarouter = router ? ' data-router="'+ router +'"' : '';
 			var dhcp = val[ 5 ] ? ' data-dhcp="1"' : '';
 			var wlan = inf !== 'eth0';
-			var accesspoint = $( '#accesspoint' ).prop( 'checked' );
 			html += '<li class="'+ inf +'"'+ ( up ? ' data-up="1"' : ''  ) + dataip + datarouter + dhcp +'>';
 			html += '<i class="fa fa-'+ ( wlan ? 'wifi-3' : 'lan' ) +'"></i>'+ infname;
-			if ( accesspoint && wlan ) {
+			if ( accesspoint  && $( '#accesspoint' ).prop( 'checked' ) && wlan ) {
 				html += '&ensp;<span class="green">&bull;</span>&ensp;'+ $( '#ipwebuiap' ).text() +'<gr>&ensp;&laquo;&ensp;RPi access point</gr></li>';
 			} else if ( inf === 'eth0' ) {
 				var routerhtml = router ? '<gr>&ensp;&raquo;&ensp;'+ router +'&ensp;</gr>' : '';
@@ -470,7 +470,7 @@ function nicsStatus() {
 			}
 		} );
 		$( '#listinterfaces' ).html( html ).promise().done( function() {
-			$( '#divaccesspoint' ).toggleClass( 'hide', !accesspoint );
+			if ( accesspoint ) $( '#divaccesspoint' ).toggleClass( 'hide', !accesspoint );
 		} );
 		qr();
 		$( '#refreshing' ).addClass( 'hide' );
@@ -491,7 +491,7 @@ function qr() {
 			return false
 		}
 	} );
-	if ( !$( '#accesspoint' ).prop( 'checked' ) ) return
+	if ( !accesspoint || !$( '#accesspoint' ).prop( 'checked' ) ) return
 	
 	$( '#qraccesspoint, #qrwebuiap' ).empty();
 	qroptions.text = 'WIFI:S:'+ escape_string( $( '#ssid' ).text() ) +';T:WPA;P:'+ escape_string( $( '#passphrase' ).text() ) +';';
