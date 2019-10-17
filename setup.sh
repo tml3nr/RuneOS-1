@@ -4,7 +4,7 @@ branch=master
 
 rm $0
 
-. /srv/http/addonsfunctions.sh
+. /srv/http/addons-functions.sh
 
 name=$( tcolor 'RuneAudio+R e1' )
 
