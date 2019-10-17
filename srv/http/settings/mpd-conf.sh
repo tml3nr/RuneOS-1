@@ -71,7 +71,7 @@ if [[ -e /srv/http/data/tmp/startup ]]; then
 	exit
 fi
 
-[[ -n $1 ]] && sysname=$( cat $dirsystem/audiooutput )
+[[ $1 == remove ]] && sysname=$( cat $dirsystem/audiooutput )
 
 file="/srv/http/settings/i2s/$sysname"
 [[ -e "$file" ]] && name=$( grep extlabel "$file" | cut -d: -f2- ) || name=$sysname
