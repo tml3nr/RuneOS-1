@@ -1,4 +1,23 @@
-<?php
+<?php if ( file_exists( '/tmp/reboot' ) ) { ?>
+<input id="reboot" type="hidden" value="<?=( file_get_contents( '/tmp/reboot' ) )?>">
+<script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
+<script src="assets/js/info.<?=$time?>.js"></script>
+<script>
+	info( {
+		  icon    : 'warning'
+		, title   : 'USB Drive'
+		, nox     : 1
+		, message : $( '#reboot' ).val()
+		, oklabel : '<i class="fa fa-power"></i>Off'
+		, okcolor : '#bb2828'
+		, ok      : function() {
+			$.post( 'commands.php', { bash: 'shutdown -h now' } );
+		}
+	} );
+</script>
+<?php exit();
+}
+
 include 'logosvg.php';
 
 if ( $login && !$_SESSION[ 'login' ] ) {
@@ -27,7 +46,7 @@ if ( $login && !$_SESSION[ 'login' ] ) {
 	background-color: hsl(200,100%,40%)/*c*/;
 }
 </style>
-<div id="divlogin" style="text-align: center">
+<div style="text-align: center">
 	<svg viewBox="0 0 480.2 144.2" style="margin: 100px auto 20px; width: 200px;"><?=$logo ?></svg><br>
 	<input type="password" id="pwd">
 	<a id="login" class="btn btn-primary">Login</a>
