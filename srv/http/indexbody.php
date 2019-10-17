@@ -1,5 +1,4 @@
 <?php if ( file_exists( '/tmp/reboot' ) ) { ?>
-<input id="reboot" type="hidden" value="<?=( file_get_contents( '/tmp/reboot' ) )?>">
 <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
 <script src="assets/js/info.<?=$time?>.js"></script>
 <script>
@@ -7,11 +6,11 @@
 		  icon    : 'warning'
 		, title   : 'USB Drive'
 		, nox     : 1
-		, message : $( '#reboot' ).val()
-		, oklabel : '<i class="fa fa-power"></i>Off'
-		, okcolor : '#bb2828'
+		, message : 'No <wh>USB drive</wh> found!<br><br>Please insert one and reboot.'
+		, oklabel : '<i class="fa fa-reboot"></i>Reboot'
+		, okcolor : '#de810e'
 		, ok      : function() {
-			$.post( 'commands.php', { bash: 'shutdown -h now' } );
+			$.post( 'commands.php', { bash: 'shutdown -r now' } );
 		}
 	} );
 </script>

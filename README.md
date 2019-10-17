@@ -15,7 +15,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 - Raspberry Pi
 - Micro SD card - 4GB+ (with card reader)
 - wired LAN connection (if not available, monitor + keyboard)
-- USB drive - 1GB+ (**`ext4`** format only) for running RuneAudio+R
+- USB drive - 1GB+ - for running RuneAudio+R (ext4, FAT32, exFAT, NTFS)
 <hr>
 
 **Download Arch Linux Arm**
@@ -114,8 +114,8 @@ pacman-key --populate archlinuxarm
 pacman -Syu
 
 # package list
-packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools ffmpeg gcc '
-packages+='hostapd ifplugd imagemagick mpd mpc nfs-utils parted php-fpm python python-pip '
+packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools exfat-utils ffmpeg gcc '
+packages+='hostapd ifplugd imagemagick mpd mpc nfs-utils ntfs-3g parted php-fpm python python-pip '
 packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )

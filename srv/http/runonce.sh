@@ -5,12 +5,7 @@ addoversion=201910081
 
 mnt=$( df | grep /dev/sda1 | awk '{print $NF}' )
 if [[ -z $mnt ]]; then
-	echo 'No <wh>USB drive</wh> found.<br><br>Please insert one (<wh>ext4</wh> formatted).' > /tmp/reboot
-	exit
-fi
-fstype=$( fdisk -l | grep /dev/sda1 | awk '{print $NF}' )
-if [[ $fstype != Linux ]]; then
-	echo '<wh>USB drive</wh> format is not <wh>ext4</wh>.<br><br> Please use a correct one.' > /tmp/reboot
+	touch > /tmp/reboot
 	exit
 fi
 
