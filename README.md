@@ -232,6 +232,9 @@ for user in $users; do
 	chage -E -1 $user
 done
 
+# missing rpi4 bluetooth
+[[ $hwrev == 11 ]] && ln -s /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
+
 # lvm - Invalid value
 sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 
