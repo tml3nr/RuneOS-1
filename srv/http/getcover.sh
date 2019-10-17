@@ -15,7 +15,7 @@ for cover in $covers; do
 done
 
 # get embedded
-tmpfile=/srv/http/tmp/coverart
+tmpfile=/srv/http/data/tmp/coverart
 kid3-cli -c "select \"$dirfile\"" -c "get picture:$tmpfile"
 if [[ -e $tmpfile ]]; then
 	mimetype=$( file -b --mime-type $tmpfile )
