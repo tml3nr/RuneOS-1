@@ -82,4 +82,4 @@ if [[ -n "$wlans" ]]; then
 	done
 fi
 
-/srv/http/addonsupdate.sh
+/srv/http/addons-update.sh

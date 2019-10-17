@@ -218,12 +218,12 @@ $( '#sources' ).click( function( e ) {
 		return
 	} else {
 		$( '#loader' ).removeClass( 'hide' );
-		location.href = 'indexsettings.php?p=sources';
+		location.href = 'index-settings.php?p=sources';
 	}
 } );
 $( '#system, #credits' ).click( function( e ) {
 	$( '#loader' ).removeClass( 'hide' );
-	location.href = 'indexsettings.php?p='+ ( $( e.target ).prop( 'id' ) === 'credits' ? 'credits' : 'system' );
+	location.href = 'index-settings.php?p='+ ( $( e.target ).prop( 'id' ) === 'credits' ? 'credits' : 'system' );
 } );
 var cmdpower = [
 	  '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
@@ -823,7 +823,7 @@ $( '.btn-cmd' ).click( function() {
 		}
 		if ( cmd === 'stop' ) {
 			if ( GUI.status.ext === 'AirPlay' ) {
-				$.post( 'commands.php', { bash: '/srv/http/shairportstartstop.sh stop' } );
+				$.post( 'commands.php', { bash: '/srv/http/shairport-startstop.sh stop' } );
 				notify( 'AirPlay', 'Switch to MPD ...', 'airplay' );
 				return
 				
@@ -1026,7 +1026,7 @@ $( '.home-block' ).click( function() {
 		|| ( id === 'home-nas' && !$( '#home-nas grl' ).text() )
 	) {
 		$( '#loader' ).removeClass( 'hide' );
-		location.href = 'indexsettings.php?p=sources';
+		location.href = 'index-settings.php?p=sources';
 		return
 	} else if ( id === 'home-webradio' && !$( '#home-webradio grl' ).text() ) {
 		webRadioNew();
@@ -1211,7 +1211,7 @@ $( '#home-coverart' ).click( function() { // fix - 'tap' also fire .coverart cli
 					   + ( albumcount > 150 ? '<br>( ±'+ Math.ceil( albumcount / 150 ) +' minutes for '+ albumcount +' albums)<br>&nbsp;' : '' )
 			, ok      : function() {
 				$( 'body' ).append(
-					'<form id="formtemp" action="addonsbash.php" method="post">'
+					'<form id="formtemp" action="addons-bash.php" method="post">'
 						+'<input type="hidden" name="alias" value="cove">'
 						+'<input type="hidden" name="type" value="scan">'
 						+'<input type="hidden" name="opt" value="/mnt/MPD">'
@@ -1231,7 +1231,7 @@ $( '#home-coverart' ).click( function() { // fix - 'tap' also fire .coverart cli
 			}
 			, ok       : function() {
 				$( 'body' ).append(
-					'<form id="formtemp" action="addonsbash.php" method="post">'
+					'<form id="formtemp" action="addons-bash.php" method="post">'
 						+'<input type="hidden" name="alias" value="cove">'
 						+'<input type="hidden" name="type" value="scan">'
 					+'</form>' );
@@ -2009,7 +2009,7 @@ pushstreams.reload.onmessage = function( data ) {
 						   +'<br><br>Show <wh>Web user interface</wh> URL'
 						   +'<br>for remote device connection?'
 				, ok      : function() {
-					location.href = 'indexsettings.php?p=network';
+					location.href = 'index-settings.php?p=network';
 				}
 			} );
 		}

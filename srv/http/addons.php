@@ -52,7 +52,7 @@ $htmlfree = '<white>'.( $MiBavail < 1024 ? round( $MiBavail, 2 ).' MiB' : round(
 $list = '';
 $blocks = '';
 // sort
-include 'addonslist.php';
+include 'addons-list.php';
 $arraytitle = array_column( $addons, 'title' );
 //$addoindex = array_search( 'Addons Menu', $arraytitle );
 //$arraytitle[ $addoindex ] = 0;

@@ -530,7 +530,7 @@ function updateThumbnails() {
 		}
 		, ok       : function() {
 			$( 'body' ).append(
-				'<form id="formtemp" action="addonsbash.php" method="post">'
+				'<form id="formtemp" action="addons-bash.php" method="post">'
 					+'<input type="hidden" name="alias" value="cove">'
 					+'<input type="hidden" name="type" value="scan">'
 				+'</form>' );

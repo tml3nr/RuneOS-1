@@ -325,7 +325,7 @@ function sendcommand() {
 // post submit with temporary form (separate option to hide password)
 function formtemp() {
 	$( 'body' ).append(
-		'<form id="formtemp" action="addonsbash.php" method="post">'
+		'<form id="formtemp" action="addons-bash.php" method="post">'
 			+'<input type="hidden" name="alias" value="'+ alias +'">'
 			+'<input type="hidden" name="type" value="'+ type +'">'
 			+'<input type="hidden" name="opt" value="'+ opt +'">'

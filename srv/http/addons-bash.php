@@ -34,7 +34,7 @@ $heading = $alias !== 'cove' ? 'Addons Progress' : 'Update Thumbnails';
 </head>
 <body>
 
-<?php include 'addonslist.php';?>
+<?php include 'addons-list.php';?>
 <script src="/assets/js/vendor/jquery-2.2.4.min.<?=$time?>.js"></script>
 <script src="/assets/js/vendor/jquery.documentsize.min.<?=$time?>.js"></script>
 <script src="/assets/js/info.<?=$time?>.js"></script>

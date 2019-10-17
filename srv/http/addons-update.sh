@@ -1,10 +1,10 @@
 #!/bin/bash
 
 if (( $# == 0 )); then
-	wget -qN --no-check-certificate https://github.com/rern/RuneAudio_Addons/raw/master/addonslist.php -P /tmp
-	file=/tmp/addonslist.php
+	wget -qN --no-check-certificate https://github.com/rern/RuneAudio_Addons/raw/master/addons-list.php -P /tmp
+	file=/tmp/addons-list.php
 else
-	file=/srv/http/addonslist.php
+	file=/srv/http/addons-list.php
 fi
 
 list=( $( sed -n "/^'/ {
@@ -16,7 +16,7 @@ s/array.*version/ /
 p}
 " $file ) )
 	
-(( $# == 0 )) && rm /tmp/addonslist.php
+(( $# == 0 )) && rm /tmp/addons-list.php
 
 declare -A download
 ilength=${#list[@]}
