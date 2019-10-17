@@ -256,8 +256,8 @@ sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
 
 # hostname - set default
 name=RuneAudio
-namecl=runeaudio
-echo $namecl > /etc/hostname
+namelc=runeaudio
+echo $namelc > /etc/hostname
 sed -i "s/^\(ssid=\).*/\1$name/" /etc/hostapd/hostapd.conf &> /dev/null
 sed -i 's/\(zeroconf_name           "\).*/\1$name"/' /etc/mpd.conf
 sed -i "s/\(netbios name = \).*/\1$name/" /etc/samba/smb.conf &> /dev/null
