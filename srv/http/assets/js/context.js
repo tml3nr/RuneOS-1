@@ -418,7 +418,7 @@ function tag( counts ) {
 		}
 	}
 	$.post( 'commands.php', { bash: cmd }, function( data ) {
-		var tags = data[ 0 ].slice( 0, -1 ).split( '^^' );
+		var tags = data[ 0 ].split( '^^' );
 		var file = tags[ 7 ].replace( /"/g, '\"' );
 		var ext = file.split( '.' ).pop();
 		var path = file.substr( 0, file.lastIndexOf( '/' ) );
@@ -441,7 +441,7 @@ function tag( counts ) {
 		} else {
 			var message = '<img src="'+ $( '.licoverimg img' ).attr( 'src' ) +'" style="width: 50px; height: 50px;">'
 						 +'<br><i class="fa fa-folder wh"></i>'+ ( cue ? GUI.list.path : path ) +'<br>&nbsp;'
-			var pathfile = '"/mnt/MPD/'+ path +'/"*.'+ ext;
+			var pathfile = '"/mnt/MPD/'+ path +'/*.'+ ext +'"';
 		}
 		var various = '***various***';
 		info( {
@@ -463,7 +463,7 @@ function tag( counts ) {
 			}
 			, ok        : function() {
 				var val = [];
-				$( '.infotextbox .infoinput' ).each( function() {
+				$( '#infotextbox .infoinput' ).each( function() {
 					val.push( this.value );
 				} );
 				var artist      = val[ 0 ];
