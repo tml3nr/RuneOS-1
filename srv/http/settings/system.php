@@ -60,8 +60,7 @@ if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 		<div class="col-l">Timezone</div>
 		<div class="col-r">
 			<?=$selecttimezone?>
-			<i id="setting-ntp" data-ntp="<?=$data->ntp?>" class="settingedit fa fa-gear"></i><br>
-			<span class="help-block hide">Network Time Protocol server.</span></span>
+			<i id="setting-ntp" data-ntp="<?=$data->ntp?>" class="settingedit fa fa-gear"></i>
 		</div>
 	<heading>Audio</heading>
 		<div class="col-l">I&#178;S Module</div>
