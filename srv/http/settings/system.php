@@ -101,7 +101,8 @@ if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 		<div class="col-r">
 			<input id="bluetooth" type="checkbox" <?=$data->bluetooth?>>
 			<div class="switchlabel" for="bluetooth"></div>
-			<span class="help-block hide">Pairing has to be made via command line.
+			<span class="help-block hide">Pairing has to be made via command line:
+				<br><code>bluetoothctl</code> <code>scan on</code> <code>pair MACADDRESS</code>
 				<br>Should be disabled if not used.</span>
 		</div>
 <?php	} ?>
