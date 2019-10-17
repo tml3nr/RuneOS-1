@@ -334,7 +334,7 @@ $( '#settings-accesspoint' ).click( function() {
 			var values = '"'+ passphrase +'" '+ ip +' '+ iprange;
 			local = 1;
 			$.post( 'commands.php', { bash: [
-				  '/srv/http/settings/networkaccesspoint.sh '+ values
+				  '/srv/http/settings/network-accesspoint.sh '+ values
 				, 'echo '+ passphrase +' > '+ dirsystem +'/accesspoint-passphrase'
 				, 'echo '+ ip +' > '+ dirsystem +'/accesspoint-ip'
 				, 'echo '+ iprange +' > '+ dirsystem +'/accesspoint-iprange'
@@ -438,7 +438,7 @@ function newWiFi( $this ) {
 	} );
 }
 function nicsStatus() {
-	$.post( 'commands.php', { bash: '/srv/http/settings/networkstatus.sh' }, function( data ) {
+	$.post( 'commands.php', { bash: '/srv/http/settings/network-status.sh' }, function( data ) {
 		var html = '';
 		data.forEach( function( el ) {
 			var val = el.split( '^^' );
@@ -515,7 +515,7 @@ function wlanIP( wlconnected ) {
 }
 function wlanScan() {
 	$( '#scanning' ).removeClass( 'hide' );
-	$.post( 'commands.php', { bash: '/srv/http/settings/networkwlanscan.sh '+ wlcurrent }, function( data ) {
+	$.post( 'commands.php', { bash: '/srv/http/settings/network-wlanscan.sh '+ wlcurrent }, function( data ) {
 		var val, dbm, db, ssid, encrypt, wpa, wlan, connected, profile, router, ip, db, wifi;
 		var good = -60;
 		var fair = -67;

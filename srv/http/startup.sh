@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set startup flag > suppress audio output notification
-# 1. mpdconf.sh
+# 1. mpd-conf.sh
 #   - probe sound devices
 #   - populate mpd.conf
 #   - start mpd, mpdidle
@@ -11,12 +11,12 @@
 # 5. check addons update
 # 6. disable wlan power saving
 
-touch /srv/http/data/tmp/startup  # flag for mpdconf.sh
+touch /srv/http/data/tmp/startup  # flag for mpd-conf.sh
 
 if [[ -e /srv/http/runonce.sh ]]; then
-	/srv/http/runonce.sh          # includes mpdconf.sh
+	/srv/http/runonce.sh          # includes mpd-conf.sh
 else
-	/srv/http/settings/mpdconf.sh # mpd mpdidle start here
+	/srv/http/settings/mpd-conf.sh # mpd mpdidle start here
 fi
 
 # output route command if any
@@ -34,7 +34,7 @@ if [[ -z $audiooutput ]] || ! mpc outputs | grep -q "$audiooutput"; then
 	echo "$( mpc outputs | head -1 | awk -F"[()]" '{print $2}' )" > $dirsystem/audiooutput
 fi
 
-/srv/http/settings/soundprofile.sh $( cat $dirsystem/soundprofile )
+/srv/http/settings/system-soundprofile.sh $( cat $dirsystem/soundprofile )
 
 mountpoints=$( grep /mnt/MPD/NAS /etc/fstab | awk '{print $2}' )
 if [[ -n "$mountpoints" ]]; then

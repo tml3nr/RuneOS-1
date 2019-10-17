@@ -1,5 +1,5 @@
 <?php
-$data = json_decode( shell_exec( '/srv/http/settings/systemdata.sh' ) );
+$data = json_decode( shell_exec( '/srv/http/settings/system-data.sh' ) );
 $rpiwireless = in_array( $data->hardwarecode, [ 'c1', 82, 83, 11 ] ); // rpi zero w: c1, rpi3: 82|83, rpi4: 11
 
 date_default_timezone_set( $data->timezone );
@@ -20,11 +20,11 @@ $selecttimezone.= '</select>';
 //   - set value to /srv/http/data/system/audiooutput
 //   - disable on-board audio in '/boot/config.txt'
 //   - reboot
-//   - '/srv/http/settings/mpdconf.sh' - parse sysnames with 'aplay -l' and populate to '/etc/mpd.conf'
+//   - '/srv/http/settings/mpd-conf.sh' - parse sysnames with 'aplay -l' and populate to '/etc/mpd.conf'
 //
 //   - MPD setting page - get names from '/srv/http/settings/i2s/*' or 'mpc outputs'
 //   - set selected to audiooutput value
-include '/srv/http/settings/system_i2smodules.php';
+include '/srv/http/settings/system-i2smodules.php';
 $optioni2smodule = '';
 foreach( $i2slist as $name => $sysname ) {
 	$selected = ( $name === $data->audiooutput && $sysname === $data->i2ssysname ) ? ' selected' : '';

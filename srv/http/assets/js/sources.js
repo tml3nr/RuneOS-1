@@ -128,7 +128,7 @@ $( '#list' ).on( 'click', 'li', function( e ) {
 $( '#listshare' ).on( 'click', 'li', function() {
 	if ( $( this ).find( '.fa-search' ).length ) {
 		$( '#listshare' ).html( '<li><i class="fa fa-network blink"></i><grl>Scanning ...</grl></li>' );
-		$.post( 'commands.php', { bash: '/srv/http/settings/sourceslookup.sh' }, function( data ) {
+		$.post( 'commands.php', { bash: '/srv/http/settings/sources-lookup.sh' }, function( data ) {
 			if ( data.length ) {
 				var htmlshare = '';
 				data.forEach( function( el ) {
@@ -158,7 +158,7 @@ $( '#listshare' ).on( 'click', 'li', function() {
 } );
 
 function mountStatus() {
-	$.post( 'commands.php', { bash: '/srv/http/settings/sourcestatus.sh' }, function( data ) {
+	$.post( 'commands.php', { bash: '/srv/http/settings/sources-status.sh' }, function( data ) {
 		if ( !data ) return
 		
 		var htmlnas = '';
@@ -231,7 +231,7 @@ function infoMount( formdata, cifs ) {
 			var cmd = '"'+ mountpoint +'" '+ ip +' '+ device +' '+ data.protocol +' '+ options;
 			local = 1;
 			$.post( 'commands.php', { bash: [
-					  '/srv/http/settings/sourcesmount.sh '+ cmd
+					  '/srv/http/settings/sources-mount.sh '+ cmd
 					, pstream( 'sources' )
 				] }, function( std ) {
 				var std = std[ 0 ];

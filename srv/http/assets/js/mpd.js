@@ -4,7 +4,7 @@ $( '#audiooutput' ).selectric( { maxWidth: 230 } );
 
 var dirsystem = '/srv/http/data/system';
 var restartmpd = 'systemctl restart mpd mpdidle';
-var setmpdconf = '/srv/http/settings/mpdconf.sh';
+var setmpdconf = '/srv/http/settings/mpd-conf.sh';
 var warning = '<wh><i class="fa fa-warning fa-lg"></i>&ensp;Lower amplifier volume.</wh>'
 			 +'<br>(If current level in MPD is not 100%.)'
 			 +'<br><br>Signal level will be set to full amplitude to 0dB'

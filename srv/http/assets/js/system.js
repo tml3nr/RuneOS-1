@@ -144,7 +144,7 @@ $( '#soundprofile' ).change( function() {
 	$( this ).val( profile );
 	local = 1;
 	$.post( 'commands.php', { bash: [
-		  '/srv/http/settings/soundprofile.sh '+ profile
+		  '/srv/http/settings/system-soundprofile.sh '+ profile
 		, 'echo '+ profile +' > '+ dirsystem +'/soundprofile'
 		, pstream( 'system' )
 	] }, resetlocal );
@@ -160,7 +160,7 @@ $( '#setting-soundprofile' ).click( function() {
 			$( '#soundprofile' ).val( profile );
 			local = 1;
 			$.post( 'commands.php', { bash: [
-				  '/srv/http/settings/soundprofile.sh '+ profile
+				  '/srv/http/settings/system-soundprofile.sh '+ profile
 				, 'echo '+ profile +' > '+ dirsystem +'/soundprofile'
 				, pstream( 'system' )
 			] }, resetlocal );
