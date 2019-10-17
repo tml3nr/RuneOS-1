@@ -195,7 +195,7 @@ chown -R http:http /srv/http
 **Exclude optional packages** (Skip to install all)
 ```sh
 # remove bluetooth
-rm bluealsa*
+rm -f bluealsa*
 
 # optional - remove metadata tag editor
 rm kid3-cli*
