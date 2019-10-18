@@ -66,6 +66,9 @@ bsdtar xpvf $file -C $ROOT  # if errors - install missing package
 cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
 rm -r $ROOT/boot/*
 
+# delete downloaded file
+rm $file
+
 # unmount sd card
 umount -l $BOOT
 umount -l $ROOT
@@ -96,11 +99,9 @@ ssh alarm@$rpiip  # password: alarm
 
 # if WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! - remove existing key
 ssh-keygen -R $rpiip
-
-# if connection failed, start all over again (a lot of [FAILED] regarding network on monitor, if connected.)
-# delete downloaded file
-rm $file`
 ```
+- If connection failed, start all over again. (a lot of .`[FAILED]` regarding network on monitor.)
+
 
 **Packages**
 ```sh
