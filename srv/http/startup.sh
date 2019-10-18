@@ -49,14 +49,11 @@ fi
 
 [[ -e $dirsystem/autoplay ]] && mpc -q play
 
-[[ -e $dirsystem/localbrowser ]] && systemctl start localbrowser
-
 if [[ -z "$mountpoints" ]]; then
 	sleep 10
 	i=0
 	while $( sleep 1 ); do
-		(( i++ ))
-		 ip a show wlan0 &> /dev/null || (( i > 20 )) && break
+		 ip a show wlan0 &> /dev/null || (( i++ > 20 )) && break
 	done
 fi
 
