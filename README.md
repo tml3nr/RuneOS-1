@@ -307,7 +307,9 @@ sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 
 # startup services
 systemctl daemon-reload
-systemctl enable avahi-daemon bootsplash cronie devmon@mpd nginx php-fpm runonce
+startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm runonce'
+[[ ! -e /usr/bin/chromium ]] && ${startup/ localbrowser}
+systemctl enable $startup
 ```
 
 **Finish**
