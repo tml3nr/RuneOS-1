@@ -14,15 +14,10 @@ touch /tmp/startup  # flag for mpd-conf.sh > suppress audio output notification
 
 /srv/http/settings/mpd-conf.sh # mpd mpdidle start here
 
-# output route command if any
-routecmd=$( grep route_cmd "/srv/http/settings/i2s/$( cat /srv/http/data/system/audiooutput )" | cut -d: -f2 )
-[[ -n $routecmd ]] && $routecmd
-
 dirsystem=/srv/http/data/system
 
-[[ -e $dirsystem/mpd-crossfade ]] && mpc -q $( cat $dirsystem/mpd-crossfade )
-
 audiooutput=$( cat $dirsystem/audiooutput )
+
 if [[ -z $audiooutput ]] || ! mpc outputs | grep -q "$audiooutput"; then
 	echo "$( mpc outputs | head -1 | awk -F"[()]" '{print $2}' )" > $dirsystem/audiooutput
 fi
@@ -49,6 +44,8 @@ if [[ -n "$mountpoints" ]]; then
 		mount $mountpoint
 	done
 fi
+
+[[ -e $dirsystem/mpd-crossfade ]] && mpc -q $( cat $dirsystem/mpd-crossfade )
 
 [[ -e $dirsystem/autoplay ]] && mpc -q play
 

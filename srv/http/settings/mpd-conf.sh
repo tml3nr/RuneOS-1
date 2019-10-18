@@ -3,6 +3,7 @@
 {
 
 dirsystem=/srv/http/data/system
+audiooutput=$( cat $dirsystem/audiooutput )
 
 aplay=$( aplay -l | grep '^card' | grep -v 'bcm2835 IEC958/HDMI1' )
 
@@ -31,6 +32,11 @@ for line in "${lines[@]}"; do
 	name=$( echo $line | awk -F'[][]' '{print $2}' )
 	nameL=$( echo "$aplay" | grep "$name" | wc -l )
 	(( $nameL > 1 )) && sysname="$name"_$(( subdevice + 1 )) || sysname=$name
+	# output route command if any
+	if [[ $sysname == $audiooutput ]]; then
+		routecmd=$( grep route_cmd "/srv/http/settings/i2s/$audiooutput" | cut -d: -f2 )
+		[[ -n $routecmd ]] && eval ${routecmd/\*CARDID\*/$card}
+	fi
 	i2sfile="/srv/http/settings/i2s/$sysname"
 	[[ -e "$i2sfile" ]] && mixer_control=$( grep mixer_control "$i2sfile"  | cut -d: -f2- )
 	
@@ -66,9 +72,9 @@ echo "$mpdconf" > $file
 systemctl restart mpd mpdidle
 
 # skip notify on startup
-[[ -e /tmp/startup ]] && rm /tmp/startup; exit
+[[ -e /tmp/startup ]] && rm /tmp/startup && exit
 
-[[ $1 == remove ]] && sysname=$( cat $dirsystem/audiooutput )
+[[ $1 == remove ]] && sysname=$audiooutput
 
 file="/srv/http/settings/i2s/$sysname"
 [[ -e "$file" ]] && name=$( grep extlabel "$file" | cut -d: -f2- ) || name=$sysname

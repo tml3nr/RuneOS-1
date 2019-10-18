@@ -3,4 +3,4 @@ extlabel:Wolfson Card Line Out
 hwplatformid:01
 mixer_numid:1
 mixer_control:HPOUT2 Digital
-route_cmd:/usr/local/bin/wolfson.sh *CARDID* line_out > /dev/null
+route_cmd:/usr/local/bin/wolfson.sh *CARDID* line_out &> /dev/null
