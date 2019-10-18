@@ -7,14 +7,7 @@ else
 	file=/srv/http/addons-list.php
 fi
 
-list=( $( sed -n "/^'/ {
-N;N;
-s/=>/ /g
-s/\s*\|'\|,//g
-s/array.*version/ /
-/array/ d
-p}
-" $file ) )
+list=( $( grep -B2 "'version'" $file | grep -v 'title\|--' | sed "s/^\t*.*=> '\|' => \[\|'\|,//g" ) )
 	
 (( $# == 0 )) && rm /tmp/addons-list.php
 
