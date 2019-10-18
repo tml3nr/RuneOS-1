@@ -55,7 +55,7 @@ $gpio = file_exists( '/srv/http/gpiosettings.php' );
 </head>
 <body>
 
-<?php include 'indexbody.php';?>
+<?php include 'index-body.php';?>
 
 <input type="hidden" id="autoupdate" value="<?=$autoupdate?>">
 <input type="hidden" id="reboot" value="<?=$reboot?>">
