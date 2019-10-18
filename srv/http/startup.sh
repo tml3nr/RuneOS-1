@@ -11,7 +11,7 @@
 # 5. check addons update
 # 6. disable wlan power saving
 
-touch /srv/http/data/tmp/startup  # flag for mpd-conf.sh
+touch /tmp/startup  # flag for mpd-conf.sh
 
 if [[ -e /srv/http/runonce.sh ]]; then
 	/srv/http/runonce.sh          # includes mpd-conf.sh

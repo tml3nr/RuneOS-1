@@ -66,7 +66,7 @@ echo "$mpdconf" > $file
 systemctl restart mpd mpdidle
 
 # skip notify on startup
-if [[ -e /srv/http/data/tmp/startup ]]; then
+if [[ -e /tmp/startup ]]; then
 	rm /srv/http/data/tmp/startup
 	exit
 fi
