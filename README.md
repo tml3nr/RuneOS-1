@@ -96,6 +96,9 @@ ssh alarm@$rpiip  # password: alarm
 
 # if WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! - remove existing key
 ssh-keygen -R $rpiip
+
+# if connection failed, start all over again (a lot of [FAILED] regarding network on monitor, if connected.)
+rm $file`
 ```
 
 **Packages**
