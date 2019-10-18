@@ -195,10 +195,12 @@ if [[ $( cat /proc/cpuinfo | grep Revision | tail -c 3 ) == 41 ]]; then
 	sed -i -e '/#bluetooth/,/^} )/ d' -e '/#wlan/,/^} )/ d' /srv/http/assets/js/system.js
 fi
 
-chown -R http:http "$dirdata"
-chown -R mpd:audio "$dirdata/mpd"
+if [[ $( df -T | grep /dev/sda1 | awk '{print $2}' | head -c 3 ) == ext ]]; then
+	chown -R http:http "$dirdata"
+	chown -R mpd:audio "$dirdata/mpd"
+fi
 
-/srv/http/settings/mpdconf.sh
+/srv/http/settings/mpd-conf.sh
 
 # update mpd count
 if [[ -e /srv/http/data/mpd/mpd.db ]]; then
