@@ -124,8 +124,16 @@ packages+='hostapd ifplugd imagemagick mpd mpc nfs-utils ntfs-3g parted php-fpm 
 packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
+
+# remove bluetooth if not RPi Zero W, 3, 4
 [[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]] && nowireless=1 || nowireless=
-[[ $nowireless ]] && packages=${packages/ bluez bluez-utils}  # remove bluetooth if not RPi Zero W, 3, 4
+[[ $nowireless ]] && packages=${packages/ bluez bluez-utils}
+
+# RPi Zero, 1 - no browser on rpi
+if [[ $hwrev == 92 || $hwrev == 93 || $hwrev == c1 || $hwrev == 32 || $hwrev == 21 ]]; then
+	packages=${packages/ chromium}
+	packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
+fi
 ```
 
 **Exclude optional packages** (Skip to install all)
