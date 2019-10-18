@@ -17,11 +17,8 @@ done
 #--------------------------------------------------------
 echo -e "\n$bar Initial runonce script ..."
 
-wgetnc https://github.com/rern/RuneOS/raw/$branch/etc/systemd/system/runonce.service -P /etc/systemd/system
-wgetnc https://github.com/rern/RuneOS/raw/$branch/srv/http/runonce.sh -P /srv/http
 systemctl disable startup
 systemctl enable runonce
-chmod +x /srv/http/runonce.sh
 #--------------------------------------------------------
 echo -e "\n$bar Reset MPD status ..."
 

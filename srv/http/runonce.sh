@@ -212,6 +212,5 @@ resize2fs /dev/mmcblk0p2
 fsck.fat -trawl /dev/mmcblk0p1 &> /dev/null &
 
 systemctl disable runonce
-rm /srv/http/runonce.sh
 
 systemctl enable --now startup
