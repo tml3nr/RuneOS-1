@@ -1,10 +1,10 @@
 [Unit]
 Description=RuneUIe run once
-ConditionDirectoryNotEmpty=/mnt/MPD/USB
+After=php-fpm.service
 
 [Service]
 Type=oneshot
-ExecStart=/srv/http/runonce.sh
+ExecStart=/usr/local/bin/runonce.sh
 
 [Install]
 WantedBy=multi-user.target
