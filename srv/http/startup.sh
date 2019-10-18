@@ -22,8 +22,6 @@ dirsystem=/srv/http/data/system
 
 [[ -e $dirsystem/mpd-crossfade ]] && mpc -q $( cat $dirsystem/mpd-crossfade )
 
-[[ -e $dirsystem/localbrowser ]] && systemctl start localbrowser
-
 audiooutput=$( cat $dirsystem/audiooutput )
 if [[ -z $audiooutput ]] || ! mpc outputs | grep -q "$audiooutput"; then
 	echo "$( mpc outputs | head -1 | awk -F"[()]" '{print $2}' )" > $dirsystem/audiooutput
@@ -53,6 +51,8 @@ if [[ -n "$mountpoints" ]]; then
 fi
 
 [[ -e $dirsystem/autoplay ]] && mpc -q play
+
+[[ -e $dirsystem/localbrowser ]] && systemctl start localbrowser
 
 if [[ -z "$mountpoints" ]]; then
 	sleep 10
