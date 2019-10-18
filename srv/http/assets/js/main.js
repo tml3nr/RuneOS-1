@@ -274,7 +274,7 @@ $( '#logout' ).click( function( e ) {
 $( '#addons' ).click( function () {
 	$( '#loader' ).removeClass( 'hide' );
 	$.post( 'commands.php'
-		, { bash: 'wget -q --no-check-certificate https://github.com/rern/RuneAudio_Addons/raw/master/addonslist.php -O /srv/http/addonslist.php' }
+		, { bash: 'wget -q --no-check-certificate https://github.com/rern/RuneAudio_Addons/raw/master/addons-list.php -O /srv/http/addons-list.php' }
 		, function( exit ) {
 		if ( exit == -1 ) {
 			info( {
