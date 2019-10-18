@@ -202,6 +202,8 @@ fi
 
 /srv/http/settings/mpd-conf.sh
 
+mpc volume 50
+
 # update mpd count
 if [[ -e /srv/http/data/mpd/mpd.db ]]; then
 	albumartist=$( mpc list albumartist | awk NF | wc -l )
