@@ -19,8 +19,8 @@ if [[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]]; then
 fi
 
 # fix - alsa restore failed
-alsactl store
 chmod -R 666 /var/lib/alsa
+alsactl store
 
 # data dirs
 dirdata="$mnt/data"
