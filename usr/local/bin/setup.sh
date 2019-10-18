@@ -27,7 +27,7 @@ mpc clear
 #--------------------------------------------------------
 echo -e "\n$bar Reset mirrorlist ..."
 
-rm /etc/pacman.d/*
+rm /etc/pacman.d/mirrorlist*
 wgetnc https://github.com/archlinuxarm/PKGBUILDs/raw/master/core/pacman-mirrorlist/mirrorlist -P /etc/pacman.d
 #--------------------------------------------------------
 echo -e "\n$bar Clear Chromium and pacman cache ..."

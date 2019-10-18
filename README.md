@@ -170,7 +170,7 @@ pacman -S $packages
 systemctl start systemd-random-seed
 
 # optional - install RPi.GPIO
-pip install RPi.GPIO
+pip --no-cache-dir install RPi.GPIO
 
 # remove cache
 rm /var/cache/pacman/pkg/*
