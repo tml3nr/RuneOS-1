@@ -1,15 +1,13 @@
 #!/bin/bash
 
 if (( $# == 0 )); then
-	wget -qN --no-check-certificate https://github.com/rern/RuneAudio_Addons/raw/master/addons-list.php -P /tmp
+	wget -qN --no-check-certificate https://github.com/rern/RuneAudio_Addons/raw/master/addons-list.php -O /tmp/addons-list.php
 	file=/tmp/addons-list.php
 else
 	file=/srv/http/addons-list.php
 fi
 
 list=( $( grep -B2 "'version'" $file | grep -v 'title\|--' | sed "s/^\t*.*=> '\|' => \[\|'\|,//g" ) )
-	
-(( $# == 0 )) && rm /tmp/addons-list.php
 
 declare -A download
 ilength=${#list[@]}
