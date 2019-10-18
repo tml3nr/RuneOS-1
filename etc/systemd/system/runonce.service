@@ -3,7 +3,7 @@ Description=RuneUIe run once
 ConditionDirectoryNotEmpty=/mnt/MPD/USB
 
 [Service]
-Type=idle
+Type=oneshot
 ExecStart=/srv/http/runonce.sh
 
 [Install]

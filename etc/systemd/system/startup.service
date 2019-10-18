@@ -3,7 +3,7 @@ Description=RuneUIe Startup
 ConditionDirectoryNotEmpty=/srv/http/data
 
 [Service]
-Type=idle
+Type=oneshot
 ExecStart=/srv/http/startup.sh
 
 [Install]

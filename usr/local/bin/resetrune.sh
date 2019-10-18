@@ -32,15 +32,25 @@ rm -rf /srv/http/.cache/chromium/Default/*
 rm -f /var/cache/pacman/pkg/*
 rm -f /root/{.bash_history,.wget-hsts}
 #--------------------------------------------------------
-echo -e "\n$bar Clear NAS in fstab ..."
+echo -e "\n$bar Clear USB mounts ..."
 
+mounts=( $( ls -d /mnt/MPD/USB/*/ 2> /dev/null ) )
+if (( ${#mounts[@]} > 0 )); then
+	for mount in "${mounts[@]}"; do
+		udevil umount -l "$mount"
+	done
+fi
+rm -rf /mnt/MPD/USB/*
+#--------------------------------------------------------
 mounts=( $( ls -d /mnt/MPD/NAS/*/ 2> /dev/null ) )
 if (( ${#mounts[@]} > 0 )); then
+	echo -e "\n$bar Clear NAS mounts ..."
 	for mount in "${mounts[@]}"; do
 		umount -l "$mount"
 		rmdir "$mount"
 		sed -i "|$mount| d" /etc/fstab
 	done
+	rm -rf /mnt/MPD/NAS/*
 fi
 #--------------------------------------------------------
 echo -e "\n$bar Unlink extra directories ..."
