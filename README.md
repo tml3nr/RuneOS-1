@@ -96,6 +96,9 @@ ssh alarm@$rpiip  # password: alarm
 
 # if WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! - remove existing key
 ssh-keygen -R $rpiip
+
+# if connection failed, start all over again (a lot of [FAILED] regarding network on monitor, if connected.)
+rm $file`
 ```
 
 **Packages**
@@ -186,6 +189,7 @@ rm /var/cache/pacman/pkg/*
 ### download ### -----------------------------------
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
+rm master.zip
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
 
