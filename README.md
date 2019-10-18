@@ -98,6 +98,7 @@ ssh alarm@$rpiip  # password: alarm
 ssh-keygen -R $rpiip
 
 # if connection failed, start all over again (a lot of [FAILED] regarding network on monitor, if connected.)
+# delete downloaded file
 rm $file`
 ```
 
