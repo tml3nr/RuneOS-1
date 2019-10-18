@@ -3,13 +3,6 @@
 version=e2
 addoversion=201910081
 
-i=0
-while $( sleep 1 ); do
-	df | grep /dev/sda1 | awk '{print $NF}' &> /dev/null && break
-	
-	(( i++ > 9 )) && touch > /tmp/reboot; exit
-done
-
 # remove bluetooth driver if not RPi Zero W, 3, 4
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
 if [[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]]; then
