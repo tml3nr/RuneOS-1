@@ -306,7 +306,7 @@ sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 
 # startup services
 systemctl daemon-reload
-systemctl enable avahi-daemon bootsplash cronie devmon@mpd nginx php-fpm startup
+systemctl enable avahi-daemon bootsplash cronie devmon@mpd nginx php-fpm runonce
 ```
 
 **Finish**

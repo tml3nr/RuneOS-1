@@ -3,13 +3,12 @@
 version=e2
 addoversion=201910081
 
-mnt=$( df | grep /dev/sda1 | awk '{print $NF}' )
-if [[ -z $mnt ]]; then
-	touch > /tmp/reboot
-	exit
-fi
-
-rm $0
+i=0
+while $( sleep 1 ); do
+	df | grep /dev/sda1 | awk '{print $NF}' &> /dev/null && break
+	
+	(( i++ > 9 )) && touch > /tmp/reboot; exit
+done
 
 # remove bluetooth driver if not RPi Zero W, 3, 4
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
@@ -23,6 +22,7 @@ chmod -R 666 /var/lib/alsa
 alsactl store
 
 # data dirs
+mnt=$( df | grep /dev/sda1 | awk '{print $NF}' )
 dirdata="$mnt/data"
 dirdisplay=/srv/http/data/display
 dirsystem=/srv/http/data/system
@@ -200,10 +200,6 @@ if [[ $( df -T | grep /dev/sda1 | awk '{print $2}' | head -c 3 ) == ext ]]; then
 	chown -R mpd:audio "$dirdata/mpd"
 fi
 
-/srv/http/settings/mpd-conf.sh
-
-mpc volume 50
-
 # update mpd count
 if [[ -e /srv/http/data/mpd/mpd.db ]]; then
 	albumartist=$( mpc list albumartist | awk NF | wc -l )
@@ -221,3 +217,8 @@ resize2fs /dev/mmcblk0p2
 
 # fix dirty bit if any
 fsck.fat -trawl /dev/mmcblk0p1 &> /dev/null &
+
+systemctl disable runonce
+rm /srv/http/runonce.sh
+
+systemctl enable --now startup

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# set startup flag > suppress audio output notification
 # 1. mpd-conf.sh
 #   - probe sound devices
 #   - populate mpd.conf
@@ -11,13 +10,9 @@
 # 5. check addons update
 # 6. disable wlan power saving
 
-touch /tmp/startup  # flag for mpd-conf.sh
+touch /tmp/startup  # flag for mpd-conf.sh > suppress audio output notification
 
-if [[ -e /srv/http/runonce.sh ]]; then
-	/srv/http/runonce.sh          # includes mpd-conf.sh
-else
-	/srv/http/settings/mpd-conf.sh # mpd mpdidle start here
-fi
+/srv/http/settings/mpd-conf.sh # mpd mpdidle start here
 
 # output route command if any
 routecmd=$( grep route_cmd "/srv/http/settings/i2s/$( cat /srv/http/data/system/audiooutput )" | cut -d: -f2 )

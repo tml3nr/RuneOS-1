@@ -1,0 +1,10 @@
+[Unit]
+Description=RuneUIe run once
+ConditionDirectoryNotEmpty=/mnt/MPD/USB
+
+[Service]
+Type=idle
+ExecStart=/srv/http/runonce.sh
+
+[Install]
+WantedBy=multi-user.target
