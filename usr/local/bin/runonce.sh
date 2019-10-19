@@ -3,14 +3,6 @@
 version=e2
 addoversion=201910081
 
-# poll usb mount ready
-i=0
-while $( sleep 1 ); do
-	df | grep /dev/sda1 && break
-	
-	(( i++ > 9 )) && touch /tmp/reboot && exit
-done
-
 # remove bluetooth driver if not RPi Zero W, 3, 4
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
 if [[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]]; then
@@ -210,11 +202,6 @@ if [[ -e /srv/http/data/mpd/mpd.db ]]; then
 else
 	mpc rescan
 fi
-
-# expand partition
-echo -e 'd\n\nn\n\n\n\n\nw' | fdisk /dev/mmcblk0 &>/dev/null
-partprobe /dev/mmcblk0
-resize2fs /dev/mmcblk0p2
 
 # fix dirty bit if any
 fsck.fat -trawl /dev/mmcblk0p1 &> /dev/null &
