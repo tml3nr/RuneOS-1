@@ -13,7 +13,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows)
 - Raspberry Pi
-- USB drive - 4GB+ for root partition
+- USB drive - 4GB+ for root partition (or existing music files storage in `ext4` format)
 - Micro SD card - 100MB+ for boot partition
 - wired LAN connection (if not available, monitor + keyboard)
 <hr>
@@ -38,8 +38,10 @@ wget http://os.archlinuxarm.org/os/$file
 
 **Write to USB drive**
 - Plug in USB drive
-- Format to `ext4` and labeled `ROOT`
-- Click it in Files/Nautilus to mount.
+- (Skip if use USB drive with existing data) Format to `ext4`
+- Label as `ROOT`
+- Click it in Files/Nautilus to mount
+- If use USB drive with existing data, create `data` directory and move all files and directories in there.
 ```sh
 # install bsdtar and nmap
 apt install bsdtar nmap
@@ -49,7 +51,7 @@ ROOT=$( df | grep ROOT | awk '{print $NF}' )
 df | grep ROOT
 echo ROOT = $ROOT
 
-### expand to sd card ### -----------------------------------
+### expand to usb drive ### -----------------------------------
 bsdtar xpvf $file -C $ROOT  # if errors - install missing package
 
 # delete downloaded file
@@ -298,6 +300,9 @@ systemctl disable getty@tty1
 # mpd - music directories
 mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
+
+# link data directory to /mnt/MPD/USB/data
+ls /data /mnt/MPD/USB
 
 # motd - remove default
 rm /etc/motd
