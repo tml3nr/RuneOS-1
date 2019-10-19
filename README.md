@@ -1,6 +1,6 @@
 RuneOS
 ---
-Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) source:
+Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) releases:
 - Download and write to SD card
 - Start Arch Linux Arm
 - Upgrade to latest kernel and packages
