@@ -53,10 +53,6 @@ if (( ${#mounts[@]} > 0 )); then
 	rm -rf /mnt/MPD/NAS/*
 fi
 #--------------------------------------------------------
-echo -e "\n$bar Unlink extra directories ..."
-
-rm -r /srv/http/data
-#--------------------------------------------------------
 if journalctl -b | grep -q '(mmcblk0p1): Volume was not properly unmounted'; then
 	echo -e "\n$bar Fix mmcblk0 dirty bit from unproperly unmount..."
 	fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
