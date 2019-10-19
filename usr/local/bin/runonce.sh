@@ -16,8 +16,8 @@ alsactl store
 
 # data dirs
 dirdata=/srv/http/data
-dirdisplay=/srv/http/data/display
-dirsystem=/srv/http/data/system
+dirdisplay=$dirdata/display
+dirsystem=$dirdata/system
 if [[ ! -e "$dirdata" ]]; then
 	# no existings / migrate previous version
 	mkdir "$dirdata"
