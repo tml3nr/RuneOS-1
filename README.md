@@ -356,7 +356,7 @@ OR on Windows (much faster):
 <hr>
 
 **Tips: Run RuneAudio+R from USB drive**
-DS C`/boot/cmdline.txt` and `/etc/fstab`
+Files: SD card `/boot/cmdline.txt` and USB drive `/etc/fstab`
 - Before 1st boot
 	- USB drive:
 		- Write image to USB drive
