@@ -487,7 +487,7 @@ $( '#upnp' ).click( function() {
 var htmlservice = heredoc( function() { /*
 	<div id="SERVICE" class="infocontent infocheckbox infohtml">
 		<div class="infotextlabel"></div>
-		<div class="infotextbox">
+		<div class="infotextbox" style="width: 230px">
 			<label data-service="SERVICE" style="width: 200px; margin-left: 45px;"><input type="checkbox">&ensp;<i class="fa fa-SERVICE fa-lg gr"></i>&ensp;TITLE</label>
 		</div>
 	</div>
