@@ -302,6 +302,7 @@ mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
 
 # link data directory to /mnt/MPD/USB/data
+mkdir -p data
 ls /data /mnt/MPD/USB
 
 # motd - remove default
