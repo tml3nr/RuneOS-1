@@ -66,6 +66,9 @@ bsdtar xpvf $file -C $ROOT  # if errors - install missing package
 cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
 rm -r $ROOT/boot/*
 
+# delete downloaded file
+rm $file
+
 # unmount sd card
 umount -l $BOOT
 umount -l $ROOT
@@ -96,11 +99,9 @@ ssh alarm@$rpiip  # password: alarm
 
 # if WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! - remove existing key
 ssh-keygen -R $rpiip
-
-# if connection failed, start all over again (a lot of [FAILED] regarding network on monitor, if connected.)
-# delete downloaded file
-rm $file`
 ```
+- If `ssh` failed, start all over again. (A lot of `[FAILED]` on connected monitor.)
+
 
 **Packages**
 ```sh
@@ -123,8 +124,16 @@ packages+='hostapd ifplugd imagemagick mpd mpc nfs-utils ntfs-3g parted php-fpm 
 packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
+
+# remove bluetooth if not RPi Zero W, 3, 4
 [[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]] && nowireless=1 || nowireless=
-[[ $nowireless ]] && packages=${packages/ bluez bluez-utils}  # remove bluetooth if not RPi Zero W, 3, 4
+[[ $nowireless ]] && packages=${packages/ bluez bluez-utils}
+
+# RPi Zero, 1 - no browser on rpi
+if [[ $hwrev == 92 || $hwrev == 93 || $hwrev == c1 || $hwrev == 32 || $hwrev == 21 ]]; then
+	packages=${packages/ chromium}
+	packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
+fi
 ```
 
 **Exclude optional packages** (Skip to install all)
