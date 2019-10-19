@@ -15,21 +15,16 @@ chmod -R 666 /var/lib/alsa
 alsactl store
 
 # data dirs
-mnt=$( df | grep /dev/sda1 | awk '{print $NF}' )
-dirdata="$mnt/data"
+dirdata=/srv/http/data
 dirdisplay=/srv/http/data/display
 dirsystem=/srv/http/data/system
 if [[ ! -e "$dirdata" ]]; then
 	# no existings / migrate previous version
 	mkdir "$dirdata"
-	ln -s "$dirdata" /srv/http
-
 	for dir in addons bookmarks coverarts display gpio lyrics mpd playlists sampling system tmp webradios; do
 		mkdir "$dirdata/$dir"
 	done
 else
-	ln -s "$dirdata" /srv/http
-	
 ### hostname
 	if [[ -e $dirsystem/hostname ]]; then
 		name=$( cat $dirsystem/hostname )
@@ -175,23 +170,13 @@ echo $addoversion > /srv/http/data/addons/rre1
 echo $version > $dirsystem/version
 
 # rpi2 - no onboard
-if [[ $( cat /proc/cpuinfo | grep Revision | tail -c 3 ) == 41 ]]; then
+if [[ $hwrev == 41 ]]; then
 	rm $dirsystem/onboard-wlan
 	sed -i '/^#dtoverlay=pi3-disable-wifi/ s/^#//' /boot/config.txt
-#	! ip a | grep -q wlan && systemctl disable netctl-auto@wlan0
-	
-	file=/srv/http/settings/system.php
-	l1=$(( $( grep -n Bluetooth $file | cut -d: -f1 ) - 1 ))
-	l2=$(( $( grep -n 'for="wlan"' $file | cut -d: -f1 ) + 3 ))
-	sed -i "$l1,$l2 d" $file
-	
-	sed -i -e '/#bluetooth/,/^} )/ d' -e '/#wlan/,/^} )/ d' /srv/http/assets/js/system.js
 fi
 
-if [[ $( df -T | grep /dev/sda1 | awk '{print $2}' | head -c 3 ) == ext ]]; then
-	chown -R http:http "$dirdata"
-	chown -R mpd:audio "$dirdata/mpd"
-fi
+chown -R http:http "$dirdata"
+chown -R mpd:audio "$dirdata/mpd"
 
 # update mpd count
 if [[ -e /srv/http/data/mpd/mpd.db ]]; then
