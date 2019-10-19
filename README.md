@@ -323,14 +323,14 @@ sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 # timezone - set default
 timedatectl set-timezone UTC
 
-# upmpdcli - initialize key
-upmpdcli -c /etc/upmpdcli.conf &> /dev/null &
-
 # wireless-regdom
 sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 
-# startup services
+# initialize some services
 systemctl daemon-reload
+upmpdcli -c /etc/upmpdcli.conf &> /dev/null &  # upmpdcli - write key
+
+# startup services
 startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm runonce'
 [[ ! -e /usr/bin/chromium ]] && ${startup/ localbrowser}
 systemctl enable $startup
