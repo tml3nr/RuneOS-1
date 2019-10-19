@@ -334,6 +334,7 @@ systemctl enable $startup
 ```
 
 **Finish**
+- (If any) Existing extra directory `data`: copy all subdirectories to `/srv/http/data`
 ```sh
 # reboot
 shutdown -r now
