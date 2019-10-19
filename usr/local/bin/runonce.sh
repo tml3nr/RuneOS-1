@@ -186,14 +186,6 @@ echo $version > $dirsystem/version
 if [[ $( cat /proc/cpuinfo | grep Revision | tail -c 3 ) == 41 ]]; then
 	rm $dirsystem/onboard-wlan
 	sed -i '/^#dtoverlay=pi3-disable-wifi/ s/^#//' /boot/config.txt
-#	! ip a | grep -q wlan && systemctl disable netctl-auto@wlan0
-	
-	file=/srv/http/settings/system.php
-	l1=$(( $( grep -n Bluetooth $file | cut -d: -f1 ) - 1 ))
-	l2=$(( $( grep -n 'for="wlan"' $file | cut -d: -f1 ) + 3 ))
-	sed -i "$l1,$l2 d" $file
-	
-	sed -i -e '/#bluetooth/,/^} )/ d' -e '/#wlan/,/^} )/ d' /srv/http/assets/js/system.js
 fi
 
 if [[ $( df -T | grep /dev/sda1 | awk '{print $2}' | head -c 3 ) == ext ]]; then
