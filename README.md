@@ -42,8 +42,7 @@ wget http://os.archlinuxarm.org/os/$file
 - Label as `ROOT`
 - Click it in Files/Nautilus to mount
 - If use USB drive with existing data
-	- Create a directory named `data`
-	- Move all files and directories in there.
+	- Move all files and directories into a single directory named `data`
 ```sh
 # install bsdtar and nmap
 apt install bsdtar nmap
