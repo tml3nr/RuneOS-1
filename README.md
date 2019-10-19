@@ -122,7 +122,10 @@ pacman -Syu
 packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools exfat-utils ffmpeg gcc '
 packages+='hostapd ifplugd imagemagick mpd mpc nfs-utils ntfs-3g parted php-fpm python python-pip '
 packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
+```
 
+**Exclude for hardware support** (Skip if RPi3, 4)
+```sh
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
 
 # remove bluetooth if not RPi Zero W, 3, 4
@@ -171,9 +174,6 @@ packages=${packages/ python python-pip}
 ```sh
 ### install packages ### -----------------------------------
 pacman -S $packages
-
-# if errors - temporarily bypass key verifications
-# sed -i '/^SigLevel/ s/^/#/; a\SigLevel    = TrustAll' /etc/pacman.conf
 
 # start systemd-random-seed (fix - Kernel entropy pool is not initialized)
 systemctl start systemd-random-seed
