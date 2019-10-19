@@ -69,8 +69,7 @@ BOOT=$( df | grep BOOT | awk '{print $NF}' )
 df | grep ROOT
 echo ROOT = $ROOT
 
-cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
-rm -r $ROOT/boot/*
+mv -v $ROOT/boot/* $BOOT
 
 # unmount sd card
 umount -l $BOOT
