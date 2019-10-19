@@ -352,7 +352,9 @@ OR on Windows (much faster):
 - Plug in USB drive
 - Power on
 
-**Run Arch Lunux Arm from USB drive**
+**Tips: Run Arch Lunux Arm from USB drive**
+- Write image to USB drive
+- Delete files and subdirectories in `/boot` (keep `/boot`)
 - `/boot/cmdline.txt` replace `root=/dev/mmcblk0p2` with `root=UUID=xxxxxx...`, UUID of USB drive
 ```sh
 # get UUID
