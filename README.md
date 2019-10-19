@@ -356,13 +356,13 @@ OR on Windows (much faster):
 <hr>
 
 **Tips: Run RuneAudio+R from USB drive**  
-Files: SD card `/boot/cmdline.txt` and USB drive `/etc/fstab`
+Files: micro SD card `/boot/cmdline.txt` and USB drive `/etc/fstab`
 - Before 1st boot
 	- USB drive:
 		- Write image to USB drive
 		- Delete files and subdirectories in `/boot` (keep `/boot`)
 		- Move USB drive to RPi
-- Boot
+- Power on
 ```sh
 # get UUID
 uuid=$( blkid | grep /dev/sda1 | cut -d' ' -f3 | tr -d '"' )
@@ -377,4 +377,4 @@ echo "$uuid  /  ext4  defaults  0  0" >> "$mnt/etc/fstab"
 # delete /boot/*
 rm -r "$mnt/boot/*"
 ```
-- Reboot
+- Reboot (Don't remove micro SD card)
