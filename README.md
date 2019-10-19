@@ -163,7 +163,7 @@ packages=${packages/ ffmpeg}
 # optional - remove file sharing
 packages=${packages/ samba}
 
-# optional - remove python
+# optional - remove python (to install UPnP, do not remove)
 packages=${packages/ python python-pip}
 ```
 
@@ -275,16 +275,7 @@ sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab -
 
 # hostname - set default
-name=RuneAudio
-namelc=runeaudio
-echo $namelc > /etc/hostname
-sed -i "s/^\(ssid=\).*/\1$name/" /etc/hostapd/hostapd.conf &> /dev/null
-sed -i 's/\(zeroconf_name           "\).*/\1$name"/' /etc/mpd.conf
-sed -i "s/\(netbios name = \).*/\1$name/" /etc/samba/smb.conf &> /dev/null
-sed -i "/name = .%H./ i\name = $name" /etc/shairport-sync.conf
-sed -i "s/^\(friendlyname = \).*/\1$name/" /etc/upmpdcli.conf &> /dev/null
-sed -i "s/\(.*\[\).*\(\] \[.*\)/\1$namelc\2/" /etc/avahi/services/runeaudio.service
-sed -i "s/\(.*localdomain \).*/\1$namelc.local $namelc/" /etc/hosts
+echo runeaudio > /etc/hostname
 
 # login prompt - remove
 systemctl disable getty@tty1

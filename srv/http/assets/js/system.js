@@ -19,7 +19,7 @@ $( '#hostname' ).click( function() {
 			var cmd = [
 				  'hostname "'+ hostnamelc +'"'
 				, 'echo '+ hostname +' | tee /etc/hostname '+ dirsystem +'/hostname'
-				, "sed -i 's/zeroconf_name.*/zeroconf_name           \""+ hostname +"\"/' /etc/mpd.conf"
+				, 'sed -i "s/zeroconf_name.*/zeroconf_name           \"'+ hostname +'\"/" /etc/mpd.conf'
 				, 'sed -i "s/\\(.*\\[\\).*\\(\\] \\[.*\\)/\\1'+ hostnamelc +'\\2/" /etc/avahi/services/runeaudio.service'
 				, 'sed -i "s/\\(.*localdomain \\).*/\\1'+ hostnamelc +'.local '+ hostnamelc +'/" /etc/hosts'
 				, 'systemctl -q is-active bluetooth && bluetoothctl system-alias "'+ hostname +'"'
@@ -30,7 +30,7 @@ $( '#hostname' ).click( function() {
 				service += ' hostapd';
 			}
 			if ( $( '#airplay' ).length ) {
-				cmd.push( 'sed -i "s/^name =.*/name = '+ hostname +'/" /etc/shairport-sync.conf' );
+				cmd.push( 'sed -i "s/name =.*/name = \"'+ hostname +'\"/" /etc/shairport-sync.conf' );
 				service += ' shairport-sync shairport-meta';
 			}
 			if ( $( '#samba' ).length ) {
