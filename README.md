@@ -314,8 +314,7 @@ systemctl enable $startup
 
 **Finish**
 ```sh
-# shutdown
-shutdown -h now
+shutdown
 ```
 - Wait until green LED stop flashing and off.
 - Power off / disconnect RPi power
