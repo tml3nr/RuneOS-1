@@ -59,7 +59,7 @@ bsdtar xpvf $file -C $ROOT  # if errors - install missing package
 rm $file
 ```
 
-**Write boot partition to SD card**
+**Move `/boot/*` to SD card**
 - Insert Micro SD card
 - Format to `fat32` and labeled `BOOT`
 - Click it in Files/Nautilus to mount.
