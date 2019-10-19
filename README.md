@@ -353,13 +353,13 @@ OR on Windows (much faster):
 - Power on
 
 **Run Arch Lunux Arm from USB drive**
-- `/boot/cmdline.txt` replace `root=/dev/mmcblk0p2` with `root=UUID=xxxxxx`, UUID of USB drive
+- `/boot/cmdline.txt` replace `root=/dev/mmcblk0p2` with `root=UUID=xxxxxx...`, UUID of USB drive
 ```sh
 # get UUID
 uuid=$( blkid | grep /dev/sda1 | cut -d' ' -f3 | tr -d '"' )
-sed -i "s/root=.* rw/root=$uuid rw/" /boot/cmdline.txt
+sed -i "s|/dev/mmcblk0p2|$uuid|" /boot/cmdline.txt
 ```
-- `/etc/fstab` append `UUID=xxxxxx  /  defaults  0  0`
+- `/etc/fstab` append `UUID=xxxxxx...  /  defaults  0  0`
 ```sh
 # get UUID
 mnt=$( df | grep /dev/sda1 | awk '{print $NF}' )
