@@ -352,20 +352,28 @@ OR on Windows (much faster):
 - Plug in USB drive
 - Power on
 
+
 <hr>
 
 **Tips: Run RuneAudio+R from USB drive**
-- Write image to USB drive
-- Delete files and subdirectories in `/boot` (keep `/boot`)
-- `/boot/cmdline.txt` replace `root=/dev/mmcblk0p2` with `root=UUID=xxxxxx...`, UUID of USB drive
+DS C`/boot/cmdline.txt` and `/etc/fstab`
+- Before 1st boot
+	- USB drive:
+		- Write image to USB drive
+		- Delete files and subdirectories in `/boot` (keep `/boot`)
+		- Move USB drive to RPi
+- Boot
 ```sh
 # get UUID
 uuid=$( blkid | grep /dev/sda1 | cut -d' ' -f3 | tr -d '"' )
-sed -i "s|/dev/mmcblk0p2|$uuid|" /boot/cmdline.txt
-```
-- `/etc/fstab` append `UUID=xxxxxx...  /  defaults  0  0`
-```sh
-# get UUID
+
+# append to fstab
 mnt=$( df | grep /dev/sda1 | awk '{print $NF}' )
 echo "$uuid  /  ext4  defaults  0  0" >> "$mnt/etc/fstab"
 ```
+	- SD card:
+```sh
+# replace root device
+sed -i "s|/dev/mmcblk0p2|$uuid|" /boot/cmdline.txt
+```
+- Reboot
