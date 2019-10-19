@@ -235,14 +235,14 @@ var jsonpower = {
 	  buttonlabel : '<i class="fa fa-reboot"></i>Reboot'
 	, buttoncolor : '#de810e'
 	, button      : function() {
-		cmdpower.push( 'shutdown -r now' );
+		cmdpower.push( 'reboot' );
 		$.post( 'commands.php', { bash: cmdpower } );
 		notify( 'Rebooting ...', '', 'reboot', -1 );
 	}
 	, oklabel     : '<i class="fa fa-power"></i>Off'
 	, okcolor     : '#bb2828'
 	, ok          : function() {
-		cmdpower.push( 'shutdown -h now' );
+		cmdpower.push( 'shutdown' );
 		$.post( 'commands.php', { bash: cmdpower } );
 		$( '#loader' )
 			.css( 'background', '#000000' )
