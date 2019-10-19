@@ -353,6 +353,7 @@ OR on Windows (much faster):
 - Power on
 
 <hr>
+
 **Tips: Run Arch Lunux Arm from USB drive**
 - Write image to USB drive
 - Delete files and subdirectories in `/boot` (keep `/boot`)
