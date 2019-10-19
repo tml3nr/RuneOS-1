@@ -1,7 +1,7 @@
 RuneOS
 ---
-Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) releases:
-- Download and write to SD card
+Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) releases to run on USB drive (+ microSD card)
+- Download and write to USB drive and SD card
 - Start Arch Linux Arm
 - Upgrade to latest kernel and packages
 - Install packages
@@ -13,9 +13,9 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows)
 - Raspberry Pi
-- Micro SD card - 4GB+ (with card reader)
+- USB drive - 4GB+ for root partition
+- Micro SD card - 100MB+ for boot partition
 - wired LAN connection (if not available, monitor + keyboard)
-- USB drive - 1GB+ - for running RuneAudio+R (ext4, FAT32, exFAT, NTFS)
 <hr>
 
 **Download Arch Linux Arm**
@@ -36,48 +36,63 @@ file=ArchLinuxARM-rpi-2-latest.tar.gz
 wget http://os.archlinuxarm.org/os/$file
 ```
 
-**Write to SD card**
-- Insert Micro SD card
-- Create partitions with **GParted** (or command line with: `fdisk` + `fatlabel` + `e2label`)
-
-| Type    | No. | Label* | Format | Size       |
-|---------|-----|--------|--------|------------|
-| primary | #1  | BOOT   | fat32  | 100MB      |
-| primary | #2  | ROOT   | ext4   | (the rest) |
-
-\* **Label** - Important  
-- Click them in Files/Nautilus to mount.
-
+**Write to USB drive**
+- Plug in USB drive
+- Format to `ext4` and labeled `ROOT`
+- Click it in Files/Nautilus to mount.
 ```sh
 # install bsdtar and nmap
 apt install bsdtar nmap
 
-# get partitions and verify
+# get partition and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
-BOOT=$( df | grep BOOT | awk '{print $NF}' )
-df | grep 'ROOT\|BOOT'
+df | grep ROOT
 echo ROOT = $ROOT
-echo BOOT = $BOOT
 
 ### expand to sd card ### -----------------------------------
 bsdtar xpvf $file -C $ROOT  # if errors - install missing package
 
-# move boot directory
-cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
-rm -r $ROOT/boot/*
-
 # delete downloaded file
 rm $file
+```
+
+**Write boot partition to SD card**
+- Insert Micro SD card
+- Format to `fat32` and labeled `BOOT`
+- Click it in Files/Nautilus to mount.
+```sh
+# get partition and verify
+BOOT=$( df | grep BOOT | awk '{print $NF}' )
+df | grep ROOT
+echo ROOT = $ROOT
+
+cp -rv --no-preserve=mode,ownership $ROOT/boot/* $BOOT
+rm -r $ROOT/boot/*
 
 # unmount sd card
 umount -l $BOOT
 umount -l $ROOT
 ```
 
+**Setup USB as root partition**
+```sh
+# get UUID and verify
+dev=$( df | grep ROOT | awk '{print $1}' )
+uuid=$( blkid | grep $dev | cut -d' ' -f3 | tr -d '"' )
+echo $dev
+echo $uuid
+
+# replace root device
+sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/boot/cmdline.txt
+
+# append to fstab
+echo "$uuid  /  ext4  defaults  0  0" >> "$ROOT/etc/fstab"
+```
+
 **Start Arch Linux Arm**
 - Remove all USB devices: drives, Wi-Fi, bluetooth, mouse
 - Connect wired LAN (if not available, connect monitor + keyboard)
-- Move micro SD card to RPi
+- Move USB drive and micro SD card to RPi
 - Power on / connect RPi power
 - Wait 30 seconds (or login prompt on connected monitor)
 
@@ -314,67 +329,6 @@ systemctl enable $startup
 
 **Finish**
 ```sh
-# shutdown
-shutdown -h now
+# reboot
+shutdown -r now
 ```
-- Wait until green LED stop flashing and off.
-- Power off / disconnect RPi power
-
-**Create image file**
-- Move micro SD card to PC
-- Resize `ROOT` partition to smallest size possible with **GParted**.
-	- menu: GParted > Devices > /dev/sd?
-	- right-click `ROOT` partiton > Unmount
-	- right-click `ROOT` partiton > Resize/Move
-	- drag rigth triangle to fit minimum size
-	- menu: Edit > Apply all operations
-- Create image file
-```sh
-# get device and verify
-part=$( df | grep BOOT | awk '{print $1}' )
-dev=${part:0:-1}
-df | grep BOOT
-echo device = $dev
-
-# get partition end and verify
-fdisk -u -l $dev
-end=$( fdisk -u -l $dev | tail -1 | awk '{print $3}' )
-echo end = $end
-
-# create image
-dd if=$dev of=RuneAudio+Re2.img count=$(( end + 1 )) status=progress  # remove status=progress if errors
-```
-OR on Windows (much faster):
-- [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
-
-**Start RuneAudio+R**
-- Move micro SD card to RPi
-- Plug in USB drive
-- Power on
-
-
-<hr>
-
-**Tips: Run RuneAudio+R from USB drive**  
-Files: micro SD card `/boot/cmdline.txt` and USB drive `/etc/fstab`
-- Before 1st boot
-	- USB drive:
-		- Write image to USB drive
-		- Delete files and subdirectories in `/boot` (keep `/boot`)
-		- Move USB drive to RPi
-- Power on
-```sh
-# get UUID
-uuid=$( blkid | grep /dev/sda1 | cut -d' ' -f3 | tr -d '"' )
-
-# replace root device
-sed -i "s|/dev/mmcblk0p2|$uuid|" /boot/cmdline.txt
-
-# append to fstab
-mnt=$( df | grep /dev/sda1 | awk '{print $NF}' )
-echo "$uuid  /  ext4  defaults  0  0" >> "$mnt/etc/fstab"
-
-# delete /boot/*
-rm -r "$mnt/boot/*"
-```
-- Reboot (Don't remove micro SD card)
