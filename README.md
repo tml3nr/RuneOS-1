@@ -373,5 +373,8 @@ sed -i "s|/dev/mmcblk0p2|$uuid|" /boot/cmdline.txt
 # append to fstab
 mnt=$( df | grep /dev/sda1 | awk '{print $NF}' )
 echo "$uuid  /  ext4  defaults  0  0" >> "$mnt/etc/fstab"
+
+# delete /boot/*
+rm -r "$mnt/boot/*"
 ```
 - Reboot
