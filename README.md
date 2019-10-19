@@ -323,6 +323,9 @@ sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 # timezone - set default
 timedatectl set-timezone UTC
 
+# upmpdcli - initialize key
+upmpdcli -c /etc/upmpdcli.conf &> /dev/null &
+
 # wireless-regdom
 sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 
