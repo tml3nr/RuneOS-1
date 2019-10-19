@@ -355,7 +355,7 @@ OR on Windows (much faster):
 
 <hr>
 
-**Tips: Run RuneAudio+R from USB drive**
+**Tips: Run RuneAudio+R from USB drive**  
 Files: SD card `/boot/cmdline.txt` and USB drive `/etc/fstab`
 - Before 1st boot
 	- USB drive:
@@ -367,13 +367,11 @@ Files: SD card `/boot/cmdline.txt` and USB drive `/etc/fstab`
 # get UUID
 uuid=$( blkid | grep /dev/sda1 | cut -d' ' -f3 | tr -d '"' )
 
+# replace root device
+sed -i "s|/dev/mmcblk0p2|$uuid|" /boot/cmdline.txt
+
 # append to fstab
 mnt=$( df | grep /dev/sda1 | awk '{print $NF}' )
 echo "$uuid  /  ext4  defaults  0  0" >> "$mnt/etc/fstab"
-```
-	- SD card:
-```sh
-# replace root device
-sed -i "s|/dev/mmcblk0p2|$uuid|" /boot/cmdline.txt
 ```
 - Reboot
