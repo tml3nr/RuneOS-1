@@ -42,7 +42,7 @@ wget http://os.archlinuxarm.org/os/$file
 - Label as `ROOT`
 - Click it in Files/Nautilus to mount
 - If use USB drive with existing data
-	- Move all files and directories into a single directory named `data`
+	- Move all files and directories into a single directory named `Rune`
 ```sh
 # install bsdtar and nmap
 apt install bsdtar nmap
@@ -301,9 +301,9 @@ systemctl disable getty@tty1
 mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
 
-# link data directory to /mnt/MPD/USB/data
-mkdir -p /data
-ln -s /data /mnt/MPD/USB
+# link Rune directory to /mnt/MPD/USB
+mkdir -p /Rune
+ln -s /Rune /mnt/MPD/USB
 
 # motd - remove default
 rm /etc/motd
