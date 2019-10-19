@@ -194,7 +194,7 @@ rm /var/cache/pacman/pkg/*
 	- `bluealsa`
 	- `upmpdcli`
 - Configuration files set to default
-- `Runonce.sh` for initial boot setup
+- `runonce.sh` for initial boot setup
 ```sh
 ### download ### -----------------------------------
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
