@@ -14,7 +14,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 - Linux PC (or Linux in VirtualBox on Windows)
 - Raspberry Pi
 - USB drive - 4GB+ for root partition (or existing music hard drive in `ext4` format)
-- Micro SD card - 100MB+ for boot partition
+- Micro SD card - 100MB+ (not GB) for boot partition
 - wired LAN connection (if not available, monitor + keyboard)
 <hr>
 
@@ -40,11 +40,9 @@ wget http://os.archlinuxarm.org/os/$file
 
 **Write to USB drive**
 - Plug in USB drive
-- (Skip if use USB drive with existing data) Format to `ext4`
-- Label as `ROOT`
+	- Blank - Format to `ext4` labeled as `ROOT`
+	- With existing data(`ext4` only) - Resize and create a 4GB partition labeled as `ROOT`
 - Click it in Files/Nautilus to mount
-- If use USB drive with existing data
-	- Move all files and directories into a single directory named `Rune`
 ```sh
 # install bsdtar and nmap
 apt install bsdtar nmap
@@ -307,10 +305,6 @@ systemctl disable getty@tty1
 mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
 
-# link Rune directory to /mnt/MPD/USB
-mkdir -p /Rune
-ln -s /Rune /mnt/MPD/USB
-
 # motd - remove default
 rm /etc/motd
 
@@ -343,10 +337,14 @@ systemctl enable $startup
 
 # fix sd card dirty bits if any
 fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
+
+# if there's existing database and settings directory `data`
+# replace PATH with actual path
+datadir=PATH
+cp -r "$datadir" $ROOT/srv/http
 ```
 
 **Finish**
-- If there's existing database and settings directory `data`, copy all subdirectories to `/srv/http/data`
 ```sh
 reboot
 ```
