@@ -72,7 +72,10 @@ echo "$mpdconf" > $file
 systemctl restart mpd mpdidle
 
 # skip notify on startup
-[[ -e /tmp/startup ]] && rm /tmp/startup && exit
+if [[ -e /tmp/startup ]]; then
+	rm /tmp/startup
+	exit
+fi
 
 [[ $1 == remove ]] && sysname=$audiooutput
 
