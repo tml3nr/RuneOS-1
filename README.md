@@ -71,9 +71,9 @@ echo ROOT = $BOOT
 
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
-# unmount sd card
-umount -l $BOOT
-umount -l $ROOT
+# replace cmdline.txt and config.txt
+wget https://github.com/rern/RuneOS/raw/master/boot/cmdline.txt -O $BOOT/cmdline.txt
+https://github.com/rern/RuneOS/raw/master/boot/config.txt -O $BOOT/config.txt
 ```
 
 **Setup USB as root partition**
@@ -89,6 +89,10 @@ sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
 
 # append to fstab
 echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
+
+# unmount usb drive and sd card
+umount -l $BOOT
+umount -l $ROOT
 ```
 
 **Start Arch Linux Arm**
