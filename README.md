@@ -72,8 +72,8 @@ echo ROOT = $BOOT
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
 # replace cmdline.txt and config.txt
-wget https://github.com/rern/RuneOS/raw/master/boot/cmdline.txt -O $BOOT/cmdline.txt
-wget https://github.com/rern/RuneOS/raw/master/boot/config.txt -O $BOOT/config.txt
+wget https://github.com/rern/RuneOS/raw/usb/cmdline.txt -O $BOOT/cmdline.txt
+wget https://github.com/rern/RuneOS/raw/usb/config.txt -O $BOOT/config.txt
 ```
 
 **Setup USB as root partition**
@@ -219,7 +219,7 @@ rm /var/cache/pacman/pkg/*
 ```sh
 ### download ### -----------------------------------
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
-bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
+bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md --exclude=*.txt -C /
 rm master.zip
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
