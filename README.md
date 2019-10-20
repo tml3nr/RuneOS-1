@@ -338,6 +338,9 @@ upmpdcli -c /etc/upmpdcli.conf &> /dev/null &  # upmpdcli - write key
 startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm runonce'
 [[ ! -e /usr/bin/chromium ]] && ${startup/ localbrowser}
 systemctl enable $startup
+
+# fix sd card dirty bits if any
+fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
 ```
 
 **Finish**
