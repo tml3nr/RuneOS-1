@@ -218,7 +218,7 @@ rm /var/cache/pacman/pkg/*
 - `runonce.sh` for initial boot setup
 ```sh
 ### download ### -----------------------------------
-wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
+wget -q --show-progress https://github.com/rern/RuneOS/archive/usb.zip
 bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md --exclude=*.txt -C /
 rm master.zip
 chmod -R 755 /srv/http /usr/local/bin
