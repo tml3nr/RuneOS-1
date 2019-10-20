@@ -337,14 +337,14 @@ systemctl enable $startup
 
 # fix sd card dirty bits if any
 fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
-
-# if there's existing database and settings directory `data`
-# replace PATH with actual path
-datadir=PATH
-cp -r "$datadir" $ROOT/srv/http
 ```
 
 **Finish**
 ```sh
+# if there's existing database and settings directory `data`
+# replace PATH with actual path
+datadir=PATH
+cp -r "$datadir" $ROOT/srv/http
+
 reboot
 ```
