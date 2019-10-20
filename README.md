@@ -15,7 +15,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 - Raspberry Pi
 - Micro SD card - 4GB+ (with card reader)
 - wired LAN connection (if not available, monitor + keyboard)
-- USB drive - 1GB+ - for running RuneAudio+R (ext4, FAT32, exFAT, NTFS)
+- USB drive - 1GB+ - for running RuneAudio+R (`ext4` format only)
 <hr>
 
 **Download Arch Linux Arm**
