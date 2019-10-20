@@ -323,10 +323,10 @@ $menu.= menudiv( 'genre', $html );
 </div>
 <div id="settings" class="menu hide">
 	<span class="menushadow"></span>
-	<a href="indexsettings.php?p=mpd" class="settings"><i class="fa fa-mpd"></i>MPD
+	<a href="index-settings.php?p=mpd" class="settings"><i class="fa fa-mpd"></i>MPD
 </a>
 	<a id="sources"><i class="fa fa-folder-cascade"></i>Sources<i class="fa fa-folder-refresh submenu settings"></i></a>
-	<a href="indexsettings.php?p=network" class="settings"><i class="fa fa-network"></i>Network</a>
+	<a href="index-settings.php?p=network" class="settings"><i class="fa fa-network"></i>Network</a>
 	<a id="system"><i class="fa fa-sliders"></i>System<i id="credits" class="fa fa-rune submenu settings"></i></a>
 		<?php if ( $login ) { ?>
 	<a id="logout"><i class="fa fa-lock"></i>Logout</a>
