@@ -44,6 +44,7 @@ wget http://os.archlinuxarm.org/os/$file
 		- Format: `ext4`
 		- Label: `ROOT`
 	- With existing data:
+		- No need to change format of existing partition
 		- Resize and create a new 4GB partition
 		- Format: `ext4`
 		- Label: `ROOT`
