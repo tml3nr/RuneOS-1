@@ -80,7 +80,7 @@ umount -l $ROOT
 ```sh
 # get UUID and verify
 dev=$( df | grep ROOT | awk '{print $1}' )
-uuid=$( blkid | grep $dev | cut -d' ' -f3 | tr -d '"' )
+uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '"' )
 echo $dev
 echo $uuid
 
