@@ -1,6 +1,6 @@
 [Unit]
 Description=RuneUIe Startup
-ConditionDirectoryNotEmpty=/srv/http/data
+After=php-fpm.service
 
 [Service]
 Type=oneshot
