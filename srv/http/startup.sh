@@ -19,7 +19,7 @@ dirsystem=/srv/http/data/system
 audiooutput=$( cat $dirsystem/audiooutput )
 
 if [[ -z $audiooutput ]] || ! mpc outputs | grep -q "$audiooutput"; then
-	echo "$( mpc outputs | head -1 | awk -F"[()]" '{print $2}' )" > $dirsystem/audiooutput
+	echo "$( mpc outputs | head -1 | awk -F'[()]' '{print $2}' )" > $dirsystem/audiooutput
 fi
 
 /srv/http/settings/system-soundprofile.sh $( cat $dirsystem/soundprofile )
