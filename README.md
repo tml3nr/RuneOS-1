@@ -23,6 +23,8 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 ```sh
 sudo su
 
+branch=usb
+
 # download
 #file=ArchLinuxARM-rpi-4-latest.tar.gz  # RPi4
 #file=ArchLinuxARM-rpi-3-latest.tar.gz  # RPi3B+
@@ -72,8 +74,8 @@ echo ROOT = $BOOT
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
 # replace cmdline.txt and config.txt
-wget https://github.com/rern/RuneOS/raw/usb/cmdline.txt -O $BOOT/cmdline.txt
-wget https://github.com/rern/RuneOS/raw/usb/config.txt -O $BOOT/config.txt
+wget https://github.com/rern/RuneOS/raw/$branch/cmdline.txt -O $BOOT/cmdline.txt
+wget https://github.com/rern/RuneOS/raw/$branch/config.txt -O $BOOT/config.txt
 ```
 
 **Setup USB as root partition**
@@ -218,8 +220,8 @@ rm /var/cache/pacman/pkg/*
 - `runonce.sh` for initial boot setup
 ```sh
 ### download ### -----------------------------------
-wget -q --show-progress https://github.com/rern/RuneOS/archive/usb.zip
-bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md --exclude=*.txt -C /
+wget -q --show-progress https://github.com/rern/RuneOS/archive/$branch.zip
+bsdtar xvf $branch.zip --strip 1 --exclude=.* --exclude=*.md --exclude=*.txt -C /
 rm master.zip
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
