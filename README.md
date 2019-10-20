@@ -85,7 +85,7 @@ echo $dev
 echo $uuid
 
 # replace root device
-sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/boot/cmdline.txt
+sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
 
 # append to fstab
 echo "$uuid  /  ext4  defaults  0  0" >> "$ROOT/etc/fstab"
