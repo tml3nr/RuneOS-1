@@ -292,7 +292,7 @@ sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules
 ln -s /srv/http/assets/img/{NORMAL,start}.png
 
 # bluetooth
-sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
+[[ -e /usr/bin/bluetoothctl ]] && sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
 
 # cron - for addons updates
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab -
