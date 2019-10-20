@@ -73,7 +73,7 @@ mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
 # replace cmdline.txt and config.txt
 wget https://github.com/rern/RuneOS/raw/master/boot/cmdline.txt -O $BOOT/cmdline.txt
-https://github.com/rern/RuneOS/raw/master/boot/config.txt -O $BOOT/config.txt
+wget https://github.com/rern/RuneOS/raw/master/boot/config.txt -O $BOOT/config.txt
 ```
 
 **Setup USB as root partition**
