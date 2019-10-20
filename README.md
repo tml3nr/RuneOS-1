@@ -13,7 +13,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows)
 - Raspberry Pi
-- USB drive - 4GB+ for root partition (or existing music hard drive in `ext4` format)
+- USB drive - 4GB+ for root partition (or existing USB hard drive with data)
 - Micro SD card - 100MB+ (not GB) for boot partition
 - wired LAN connection (if not available, monitor + keyboard)
 <hr>
@@ -40,14 +40,14 @@ wget http://os.archlinuxarm.org/os/$file
 
 **Write to USB drive**
 - Plug in USB drive
-	- Blank 
+	- Blank:
 		- Format: `ext4`
 		- Label: `ROOT`
-	- With existing data
-		- Resize and create a 4GB partition
+	- With existing data:
+		- Resize and create a new 4GB partition
 		- Format: `ext4`
 		- Label: `ROOT`
-- Click `ROOT` in Files/Nautilus to mount
+- Click `ROOT` in **Files** to mount
 ```sh
 # install bsdtar and nmap
 apt install bsdtar nmap
