@@ -20,8 +20,9 @@ $( '#hostname' ).click( function() {
 				  'hostname "'+ hostnamelc +'"'
 				, 'echo '+ hostname +' | tee /etc/hostname '+ dirsystem +'/hostname'
 				, 'sed -i "s/zeroconf_name.*/zeroconf_name           \"'+ hostname +'\"/" /etc/mpd.conf'
-				, 'sed -i "s/\\(.*\\[\\).*\\(\\] \\[.*\\)/\\1'+ hostnamelc +'\\2/" /etc/avahi/services/runeaudio.service &> /dev/null'
-				, 'systemctl -q is-active bluetooth && bluetoothctl system-alias "'+ hostname +'" &> /dev/null'
+				, 'sed -i "s/\\(.*\\[\\).*\\(\\] \\[.*\\)/\\1'+ hostnamelc +'\\2/" /etc/avahi/services/runeaudio.service'
+				, 'sed -i "s/\\(.*localdomain \\).*/\\1'+ hostnamelc +'.local '+ hostnamelc +'/" /etc/hosts'
+				, 'systemctl -q is-active bluetooth && bluetoothctl system-alias "'+ hostname +'"'
 			];
 			var service = 'systemctl try-restart avahi-daemon mpd';
 			if ( $( '#accesspoint' ).length ) {
@@ -436,8 +437,8 @@ $( '#setting-samba' ).click( function() {
 	info( {
 		  icon     : 'network'
 		, title    : 'Samba File Sharing'
-		, message  : 'Enable <wh>write</wh> permission:'
-		, checkbox : { 'USB: /mnt/MPD/USB': 1, 'SD:&emsp;/mnt/MPD/LocalStorage': 1 }
+		, message  : '<wh>Write</wh> permission:'
+		, checkbox : { '/mnt/MPD/USB': 1 }
 		, preshow  : function() {
 			if ( $( '#samba' ).data( 'usb' ) ) $( '#infoCheckBox input:eq( 0 )' ).prop( 'checked', 1 );
 			if ( $( '#samba' ).data( 'sd' ) ) $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked', 1 );
