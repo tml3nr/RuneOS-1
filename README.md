@@ -69,7 +69,7 @@ BOOT=$( df | grep BOOT | awk '{print $NF}' )
 df | grep BOOT
 echo ROOT = $BOOT
 
-mv -v $ROOT/boot/* $BOOT
+mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
 # unmount sd card
 umount -l $BOOT
