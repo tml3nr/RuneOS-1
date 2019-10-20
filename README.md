@@ -66,8 +66,8 @@ rm $file
 ```sh
 # get partition and verify
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
-df | grep ROOT
-echo ROOT = $ROOT
+df | grep BOOT
+echo ROOT = $BOOT
 
 mv -v $ROOT/boot/* $BOOT
 
