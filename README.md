@@ -40,9 +40,14 @@ wget http://os.archlinuxarm.org/os/$file
 
 **Write to USB drive**
 - Plug in USB drive
-	- Blank - Format to `ext4` labeled as `ROOT`
-	- With existing data(`ext4` only) - Resize and create a 4GB partition labeled as `ROOT`
-- Click it in Files/Nautilus to mount
+	- Blank 
+		- Format: `ext4`
+		- Label: `ROOT`
+	- With existing data
+		- Resize and create a 4GB partition
+		- Format: `ext4`
+		- Label: `ROOT`
+- Click `ROOT` in Files/Nautilus to mount
 ```sh
 # install bsdtar and nmap
 apt install bsdtar nmap
