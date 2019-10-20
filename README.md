@@ -88,7 +88,7 @@ echo $uuid
 sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
 
 # append to fstab
-echo "$uuid  /  ext4  defaults  0  0" >> "$ROOT/etc/fstab"
+echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 ```
 
 **Start Arch Linux Arm**
