@@ -78,7 +78,7 @@ if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 		</div>
 		<div class="col-l">Sound Profile</div>
 		<div class="col-r">
-			<input id="soundprofile" type="checkbox" value="<?=$soundprofile?>"<?=( $data->soundprofile === 'default' ? '' : ' checked' )?>>
+			<input id="soundprofile" type="checkbox" value="<?=$data->soundprofile?>"<?=( $data->soundprofile === 'default' ? '' : ' checked' )?>>
 			<div class="switchlabel" for="soundprofile"></div>
 			<i id="setting-soundprofile" class="setting fa fa-gear<?=( $data->soundprofile === 'default' ? ' hide' : '' )?>"></i>
 			<span class="help-block hide">System kernel parameters tweak: eth0 mtu, eth0 txqueuelen, swappiness and sched_latency_ns.</span>
