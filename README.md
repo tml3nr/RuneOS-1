@@ -1,6 +1,8 @@
 RuneOS
 ---
-Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) releases to run on USB drive (+ microSD card)
+Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) releases to **run on USB drive** (boot from micro SD card). With options to exclude features, it can be as light as possible in terms of build time and disk space.
+
+**Procedure**
 - Download and write to USB drive and SD card
 - Start Arch Linux Arm
 - Upgrade to latest kernel and packages
