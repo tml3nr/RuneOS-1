@@ -85,8 +85,8 @@ showData "$( df -h | grep BOOT )" "BOOT = $BOOT"
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
 # replace cmdline.txt and config.txt
-wget https://github.com/rern/RuneOS/raw/$branch/cmdline.txt -O $BOOT/cmdline.txt
-wget https://github.com/rern/RuneOS/raw/$branch/config.txt -O $BOOT/config.txt
+wget -q --show-progress https://github.com/rern/RuneOS/raw/$branch/cmdline.txt -O $BOOT/cmdline.txt
+wget -q --show-progress https://github.com/rern/RuneOS/raw/$branch/config.txt -O $BOOT/config.txt
 ```
 
 **Setup USB as root partition**
