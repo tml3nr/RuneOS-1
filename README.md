@@ -56,10 +56,10 @@ apt install bsdtar nmap
 # function for verify names
 cols=$( tput cols )
 showData() {
-	printf %"$cols"s | tr ' ' -
-	echo $1
-	echo $2
-	printf %"$cols"s | tr ' ' -
+    printf %"$cols"s | tr ' ' -
+    echo $1
+    echo $2
+    printf %"$cols"s | tr ' ' -
 }
 
 # get partition and verify
@@ -260,9 +260,9 @@ rm libupnpp* upmpdcli*
 ```sh
 [[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
 if [[ ! -e /usr/bin/chromium ]]; then
-	rm libmatchbox* matchbox*
-	rm /etc/systemd/system/localbrowser*
-	rm /etc/X11/xinit/xinitrc
+    rm libmatchbox* matchbox*
+    rm /etc/systemd/system/localbrowser*
+    rm /etc/X11/xinit/xinitrc
 fi
 [[ ! -e /usr/bin/bluetoothctl || $nowireless ]] && rm -r /etc/systemd/system/bluetooth.service.d
 [[ ! -e /usr/bin/hostapd ]] && rm -r /etc/{hostapd,dnsmasq.conf}
@@ -282,7 +282,7 @@ rm *.pkg.tar.xz
 # account expired
 users=$( cut -d: -f1 /etc/passwd )
 for user in $users; do
-	chage -E -1 $user
+    chage -E -1 $user
 done
 
 # lvm - Invalid value
