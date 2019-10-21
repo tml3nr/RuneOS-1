@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# skip - called by usbdac.rules on startup
+if [[ -e /tmp/startup ]]; then
+	rm /tmp/startup
+	exit
+fi
+
 {
 
 dirsystem=/srv/http/data/system
@@ -70,12 +76,6 @@ done
 echo "$mpdconf" > $file
 
 systemctl restart mpd mpdidle
-
-# skip notify on startup
-if [[ -e /tmp/startup ]]; then
-	rm /tmp/startup
-	exit
-fi
 
 [[ $1 == remove ]] && sysname=$audiooutput
 
