@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# skip - called by usbdac.rules on startup
+# skip on startup - called by usbdac.rules
 if [[ -e /tmp/startup ]]; then
 	rm /tmp/startup
 	exit
