@@ -215,7 +215,7 @@ pip --no-cache-dir install RPi.GPIO
 rm /var/cache/pacman/pkg/*
 ```
 
-**Web interface, custom packages and config files**
+**RuneUI, custom packages and config files**
 - RuneAudio Enhancement interface
 - Custom packages (not available as standard package)
 	- `nginx-mainline-pushstream`
