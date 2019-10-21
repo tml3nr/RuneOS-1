@@ -357,8 +357,7 @@ fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
 ```
 
 **Finish**
+- If there's existing database and settings directory `data`, copy to `/srv/http`
 ```sh
-# if there's existing database and settings directory `data`, copy to: /srv/http
-
 reboot
 ```
