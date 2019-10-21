@@ -21,7 +21,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 **Download Arch Linux Arm**
 - On Linux PC
 ```sh
-sudo su
+su
 
 branch=usb
 
