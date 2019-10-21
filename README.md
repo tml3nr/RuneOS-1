@@ -150,7 +150,7 @@ pacman-key --populate archlinuxarm
 pacman -Syu
 
 # package list
-packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools exfat-utils ffmpeg gcc '
+packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools ffmpeg gcc '
 packages+='hostapd ifplugd imagemagick mpd mpc nfs-utils ntfs-3g parted php-fpm python python-pip '
 packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 ```
