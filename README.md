@@ -83,10 +83,6 @@ BOOT=$( df | grep BOOT | awk '{print $NF}' )
 showData "$( df -h | grep BOOT )" "BOOT = $BOOT"
 
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
-
-# replace cmdline.txt and config.txt
-wget -q --show-progress https://github.com/rern/RuneOS/raw/$branch/cmdline.txt -O $BOOT/cmdline.txt
-wget -q --show-progress https://github.com/rern/RuneOS/raw/$branch/config.txt -O $BOOT/config.txt
 ```
 
 **Setup USB as root partition**
@@ -97,7 +93,7 @@ uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '"' )
 showData "$( df -h | grep ROOT )" $uuid
 
 # replace root device
-sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
+echo 'root=/dev/'$uuid' rw rootwait console=ttyAMA0,115200 console=tty3 selinux=0 plymouth.enable=0 fsck.repair=yes smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 kgdboc=ttyAMA0,115200 elevator=noop quiet loglevel=0 logo.nologo vt.global_cursor_default=0' > $BOOT/cmdline.txt
 
 # append to fstab
 echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
