@@ -53,10 +53,14 @@ wget http://os.archlinuxarm.org/os/$file
 # install bsdtar and nmap
 apt install bsdtar nmap
 
+# dash line
+cols=$( tput cols )
+printf %"$cols"s | tr ' ' -
+
 # get partition and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
-df | grep ROOT
-echo ROOT = $ROOT
+echo $dashline
+echo -e "$( df | grep ROOT )\nROOT = $ROOT"
 
 ### expand to usb drive ### -----------------------------------
 bsdtar xpvf $file -C $ROOT  # if errors - install missing package
