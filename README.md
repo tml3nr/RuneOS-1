@@ -93,7 +93,7 @@ uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '"' )
 showData "$( df -h | grep ROOT )" $uuid
 
 # replace root device
-cmdline="root=/dev/$uuid rw rootwait "
+cmdline="root=$uuid rw rootwait "
 cmdline+='console=ttyAMA0,115200 console=tty3 selinux=0 plymouth.enable=0 fsck.repair=yes smsc95xx.turbo_mode=N'
 cmdline+=' dwc_otg.lpm_enable=0 kgdboc=ttyAMA0,115200 elevator=noop quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
 echo $cmdline > $BOOT/cmdline.txt
