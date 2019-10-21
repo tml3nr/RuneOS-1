@@ -141,6 +141,8 @@ su # password: root
 # change directory to root
 cd
 
+branch=usb
+
 # initialize pgp key
 pacman-key --init
 pacman-key --populate archlinuxarm
