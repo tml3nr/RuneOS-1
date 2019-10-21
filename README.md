@@ -75,7 +75,7 @@ rm $file
 **Move `/boot/*` to SD card**
 - Insert Micro SD card
 - Format to `fat32` and labeled `BOOT`
-- Click it in Files/Nautilus to mount.
+- Click it in **Files** to mount.
 ```sh
 # get partition and verify
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
