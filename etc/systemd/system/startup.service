@@ -1,6 +1,6 @@
 [Unit]
 Description=RuneUIe Startup
-After=php-fpm.service
+After=nginx.service
 
 [Service]
 Type=oneshot
