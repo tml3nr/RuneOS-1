@@ -11,7 +11,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 - Create image file
 
 **Need**
-- Linux PC (or Linux in VirtualBox on Windows)
+- Linux PC (or Linux in VirtualBox on Windows - Network set as `Bridge Adapter`)
 - Raspberry Pi
 - USB drive - 4GB+ for root partition (or existing USB hard drive with data)
 - Micro SD card - 100MB+ (not GB) for boot partition
