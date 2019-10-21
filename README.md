@@ -64,7 +64,7 @@ showData() {
 
 # get partition and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
-showData "$( df | grep ROOT )" "ROOT = $ROOT"
+showData "$( df -h | grep ROOT )" "ROOT = $ROOT"
 
 ### expand to usb drive ### -----------------------------------
 bsdtar xpvf $file -C $ROOT  # if errors - install missing package
@@ -80,8 +80,7 @@ rm $file
 ```sh
 # get partition and verify
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
-df | grep BOOT
-echo ROOT = $BOOT
+showData "$( df -h | grep BOOT )" "BOOT = $BOOT"
 
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
@@ -95,8 +94,7 @@ wget https://github.com/rern/RuneOS/raw/$branch/config.txt -O $BOOT/config.txt
 # get UUID and verify
 dev=$( df | grep ROOT | awk '{print $1}' )
 uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '"' )
-echo $dev
-echo $uuid
+showData "$( df -h | grep ROOT )" $uuid
 
 # replace root device
 sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
@@ -122,9 +120,7 @@ umount -l $ROOT
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
 rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
-echo List:
-echo "$nmap"
-echo RPi IP = $rpiip
+showData "$nmap" "RPi IP = $rpiip"
 
 ### connect ### -----------------------------------
 # already known IP or if there's more than 1 RPi, set rpiip manually
