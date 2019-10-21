@@ -23,8 +23,6 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 ```sh
 su
 
-branch=usb
-
 # download
 #file=ArchLinuxARM-rpi-4-latest.tar.gz  # RPi4
 #file=ArchLinuxARM-rpi-3-latest.tar.gz  # RPi3B+
@@ -35,6 +33,7 @@ branch=usb
 file=ArchLinuxARM-rpi-2-latest.tar.gz
 
 ### download ### -----------------------------------
+# if downlod is too slow, cancel and try again
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 ```
 
