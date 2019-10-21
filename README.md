@@ -35,7 +35,7 @@ branch=usb
 file=ArchLinuxARM-rpi-2-latest.tar.gz
 
 ### download ### -----------------------------------
-wget http://os.archlinuxarm.org/os/$file
+wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 ```
 
 **Write to USB drive**
