@@ -234,8 +234,11 @@ bsdtar xvf $branch.zip --strip 1 --exclude=.* --exclude=*.md --exclude=*.txt -C 
 rm $branch.zip
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
+```
 
-[[ $nowireless ]] && rm bluealsa*  # remove bluetooth if not RPi Zero W, 3, 4
+**Exclude for hardware** (Skip if RPi Zero W, 3, 4)
+```sh
+[[ $nowireless ]] && rm bluealsa*
 ```
 
 **Exclude optional packages** (Skip to install all)
@@ -278,9 +281,6 @@ for user in $users; do
 	chage -E -1 $user
 done
 
-# missing rpi4 bluetooth
-[[ $hwrev == 11 ]] && ln -s /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
-
 # lvm - Invalid value
 sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 
@@ -293,6 +293,12 @@ sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules
 
 # upmpdcli - older symlink
 [[ -e /usr/bin/hostapd ]] && ln -s /lib/libjsoncpp.so.{21,20}
+```
+
+**Fix for hardware** (Skip if not RPi4)
+```sh
+# rename bluetooth file
+[[ $hwrev == 11 ]] && mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
 ```
 
 **Configurations**
