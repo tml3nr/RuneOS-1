@@ -1,5 +1,5 @@
 [Unit]
-Description=RuneUIe Startup
+Description=RuneAudio+R Startup
 After=nginx.service
 
 [Service]
