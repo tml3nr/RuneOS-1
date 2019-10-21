@@ -173,21 +173,24 @@ fi
 
 **Exclude optional packages** (Skip to install all)
 ```sh
-# optional - remove bluetooth support
+# remove connect by name: runeaudio.local
+packages=${packages/ avahi}
+
+# remove bluetooth support
 packages=${packages/ bluez bluez-utils}
 
-# optional - remove access point
+# remove access point
 packages=${packages/ dnsmasq}
 packages=${packages/ hostapd}
 
-# optional - remove airplay
+# remove airplay
 packages=${packages/ shairport-sync}
 
-# optional - remove browser on rpi
+# remove browser on rpi
 packages=${packages/ chromium}
 packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
 
-# optional - remove extended audio format:
+# remove extended audio format:
 #   16sv 3g2 3gp 4xm 8svx aa3 aac ac3 adx afc aif aifc aiff al alaw amr anim apc ape asf atrac au aud avi avm2 avs 
 #   bap bfi c93 cak cin cmv cpk daud dct divx dts dv dvd dxa eac3 film flac flc fli fll flx flv g726 gsm gxf iss 
 #   m1v m2v m2t m2ts m4a m4b m4v mad mj2 mjpeg mjpg mka mkv mlp mm mmf mov mp+ mp1 mp2 mp3 mp4 mpc mpeg mpg mpga mpp mpu mve mvi mxf 
@@ -195,10 +198,10 @@ packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
 #   tak tgi tgq tgv thp ts tsp tta xa xvid uv uv2 vb vid vob voc vp6 vmd wav webm wma wmv wsaud wsvga wv wve
 packages=${packages/ ffmpeg}
 
-# optional - remove file sharing
+# remove file sharing
 packages=${packages/ samba}
 
-# optional - remove python (to install UPnP, do not remove)
+# remove python (to install UPnP, do not remove)
 packages=${packages/ python python-pip}
 ```
 
@@ -255,6 +258,7 @@ rm libupnpp* upmpdcli*
 
 **Exclude removed packages configurations** (Skip if install all)
 ```sh
+[[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
 if [[ ! -e /usr/bin/chromium ]]; then
 	rm libmatchbox* matchbox*
 	rm /etc/systemd/system/localbrowser*
