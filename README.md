@@ -24,26 +24,38 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 
 | Model      | Code - `BB` | No wl | No eth | SoC       | Code - `C` |
 |------------|-------------|-------|--------|-----------|------------|
+| RPi B      | 00          | x     |        | BCM2835   | 0          |
+| RPi A      | 00          | x     | x      | BCM2835   | 0          |
+| RPi A+     | 01, 02      | x     | x      | BCM2835   | 0          |
+| RPi B+     | 01, 03      | x     |        | BCM2835   | 0          |
 | RPi Z      | 09          | x     | x      | BCM2835   | 0          |
 | RPi Zw     | 0c          |       | x      | BCM2835   | 0          |
-| RPi A, A+  | 02          | x     | x      | BCM2835   | 0          |
-| RPi B, B+  | 03          | x     |        | BCM2835   | 0          |
 |            |             |       |        |           |            |
 | RPi 2B     | 04          | x     |        | BCM2836   | 1          |
 |            |             |       |        |           |            |
 | RPi 2B 1.2 | 04          | x     |        | BCM2837   | 2          |
 | RPi 3B     | 08          |       |        | BCM2837   | 2          |
-|            |             |       |        |           |            |           
+|            |             |       |        |           |            |
 | RPi 3A+    | 0e          |       | x      | BCM2837B0 | 2          |
 | RPi 3B+    | 0d          |       |        | BCM2837B0 | 2          |
 |            |             |       |        |           |            |
 | RPi 4B     | 11          |       |        | BCM2711   | 3          |
 
 - Code `EDCBBA` : `cat /proc/cpuinfo | grep Revision | awk '{print $NF}'`
+- `A` - PCB revision
 - `BB` - model : `cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2`
-- `C` - SoC : `cat /proc/cpuinfo | grep Revision | tail -c 5 | cut -c 1`
-- `A` and `Z` - no ethernet
-- `0c 08 83 0e 0d 11` - with WLAN and Bluetooth
+- `C` - SoC
+- `D` - manufacturer
+	- `0` - Sony UK
+	- `2` - Embest
+	- `3` - Stadium
+	- `5` - Sony Japan
+- `E` - memory
+	- `9` - 512KB
+	- `a` - 1GB
+	- `b` - 2GB
+	- `c` - 4GB
+- `00 01 02 03 04 09` - no wireless
 
 **Download Arch Linux Arm**
 
@@ -190,8 +202,8 @@ packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf
 packages=${packages/ chromium}
 packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
 
-hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-! echo 0c 08 83 0e 0d 11 | grep -q $hwrev && nowireless=1 || nowireless=
+model=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
+echo 00 01 02 03 04 09 | grep -q $model && nowireless=1 || nowireless=
 
 # (skip for generic build) remove bluetooth if not RPi Zero W, 3, 4
 [[ $nowireless ]] && packages=${packages/ bluez bluez-utils}
@@ -331,7 +343,7 @@ ln -s /srv/http/assets/img/{NORMAL,start}.png
 # bluetooth
 if [[ -e /usr/bin/bluetoothctl ]]; then
     sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
-    [[ $hwrev == 11 ]] && mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
+    [[ $model == 11 ]] && mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
 fi
 
 # cron - for addons updates
