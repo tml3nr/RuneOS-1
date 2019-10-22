@@ -22,7 +22,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 
 **Raspberry Pi Hardware**
 
-| Model      | Code*                          | No wl | No eth | CPU       |
+| Model      | Code*                          | No wl | No eth | SoC       |
 |------------|--------------------------------|-------|--------|-----------|
 | RPi Z      | 92, 93                         | x     | x      | BCM2835   |
 | RPi Zw     | c1                             |       | x      | BCM2835   |
@@ -45,7 +45,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 
 **Download Arch Linux Arm**
 
-| Model        | CPU       | File                             |
+| Model        | SoC       | File                             |
 |--------------|-----------|----------------------------------|
 | RPi Z, A, B  | BCM2835   | ArchLinuxARM-rpi-latest.tar.gz   |
 | RPi 2B, 3B   | BCM2837   | ArchLinuxARM-rpi-2-latest.tar.gz |
