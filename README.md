@@ -184,14 +184,12 @@ packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf
 
 **Exclude for hardware support** (Skip if RPi3, 4)
 ```sh
+# RPi 1, Zero (single core CPU) - no browser on rpi
+packages=${packages/ chromium}
+packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
+
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
 ! echo c1 82 83 e0 d3 11 | grep -q $hwrev && nowireless=1 || nowireless=
-
-# RPi 1, Zero (single core CPU) - no browser on rpi
-if echo 92 93 c1 21 32 | grep -q $hwrev; then
-    packages=${packages/ chromium}
-    packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
-fi
 
 # (skip for generic build) remove bluetooth if not RPi Zero W, 3, 4
 [[ $nowireless ]] && packages=${packages/ bluez bluez-utils}
