@@ -41,9 +41,9 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 |            |                                |       |        |           |
 | RPi 4B     | 11                             |       |        | BCM2711   |
 
-\*Code: `cat /proc/cpuinfo | grep Revision | tail -c 3`
-`A` - No ethernet
-`c1, 82, 83, e0, d3, 11` - With WLAN and Bluetooth
+- \*Code: `cat /proc/cpuinfo | grep Revision | tail -c 3`
+- `A` - no ethernet
+- `c1, 82, 83, e0, d3, 11` - with WLAN and Bluetooth
 
 **Download Arch Linux Arm**
 
