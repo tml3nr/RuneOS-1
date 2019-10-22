@@ -1617,7 +1617,7 @@ var sortableplaylist = new Sortable( document.getElementById( 'pl-entries' ), {
 		$.post( 'commands.php', { mpc: 'mpc move '+ ( e.oldIndex + 1 ) +' '+ ( e.newIndex + 1 ) } );
 	}
 } );
-var sortableplaylist = new Sortable( document.getElementById( 'pl-editor' ), {
+var sortablesavedplaylist = new Sortable( document.getElementById( 'pl-editor' ), {
 	  ghostClass : 'pl-sortable-ghost'
 	, delay      : 400
 	, onUpdate   : function ( e ) {
