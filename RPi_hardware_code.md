@@ -33,3 +33,4 @@
 	- `a` - 1GB
 	- `b` - 2GB
 	- `c` - 4GB
+- Model A - no ethernet
