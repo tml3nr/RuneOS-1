@@ -22,11 +22,14 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 
 **Raspberry Pi Hardware**
 
-| Model      | Code   | No wl | No eth | CPU       |
+| Model      | Code*  | No wl | No eth | CPU       |
 |------------|--------|-------|--------|-----------|
 | RPi Z      | 92, 93 | x     | x      | BCM2835   |
 | RPi Zw     | c1     |       | x      | BCM2835   |
-| RPi 1      | 21, 32 | x     |        | BCM2835   |
+| RPi A      |        | x     | x      | BCM2835   |
+| RPi B      |        | x     |        | BCM2835   |
+| RPi A+     | 21     | x     | x      | BCM2835   |
+| RPi B+     | 32     | x     |        | BCM2835   |
 |            |        |       |        |           |
 | RPi 2B     | 40, 41 | x     |        | BCM2836   |
 |            |        |       |        |           |
@@ -38,11 +41,13 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 |            |        |       |        |           |
 | RPi 4B     | 11     |       |        | BCM2711   |
 
+\*Code: `cat /proc/cpuinfo | grep Revision | tail -c 3`
+
 **Download Arch Linux Arm**
 
 | Model        | CPU       | File                             |
 |--------------|-----------|----------------------------------|
-| RPi Z, 1     | BCM2835   | ArchLinuxARM-rpi-latest.tar.gz   |
+| RPi Z, A, B  | BCM2835   | ArchLinuxARM-rpi-latest.tar.gz   |
 | RPi 2B, 3B   | BCM2837   | ArchLinuxARM-rpi-2-latest.tar.gz |
 | RPi 3A+, 3B+ | BCM2837B0 | ArchLinuxARM-rpi-3-latest.tar.gz |
 | RPi 4B       | BCM2711   | ArchLinuxARM-rpi-4-latest.tar.gz |
