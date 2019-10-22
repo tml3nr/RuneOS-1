@@ -66,8 +66,6 @@ else
 		for file in "${files[@]}"; do
 			cat $file >> /etc/fstab
 		done
-		
-		mount -a
 	fi
 ### localbrowser
 	if [[ -e $dirsystem/localbrowser && -e /usr/bin/chromium ]]; then

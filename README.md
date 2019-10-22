@@ -358,7 +358,10 @@ fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
 ```
 
 **Finish**
-- If there's existing database and settings directory `data`, copy it with all subdirectories to `/srv/http`
 ```sh
 reboot
 ```
+
+**Migrate existing database and settings**
+- After RunAudio+R e2 started successfully, overwrite all in `/srv/http/data` with existing `data`.
+- Reboot again to apply the existings.
