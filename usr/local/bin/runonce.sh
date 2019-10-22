@@ -57,7 +57,7 @@ else
 	[[ -e $dirsystem/airplay && -e /etc/shairport-sync.conf ]] && systemctl enable --now shairport-sync
 ### color
 	if [[ -e $dirdisplay/color ]]; then
-		. /srv/http/addonsfunctions.sh
+		. /srv/http/addons-functions.sh
 		setColor
 	fi
 ### fstab
