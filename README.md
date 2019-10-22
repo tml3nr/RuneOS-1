@@ -300,22 +300,19 @@ sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules
 [[ -e /usr/bin/hostapd ]] && ln -s /lib/libjsoncpp.so.{21,20}
 ```
 
-**Fix for hardware** (Skip if not RPi4)
-```sh
-# rename bluetooth file
-[[ $hwrev == 11 ]] && mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
-```
-
 **Configurations**
 ```sh
 # bootsplash - set default image
 ln -s /srv/http/assets/img/{NORMAL,start}.png
 
 # bluetooth
-[[ -e /usr/bin/bluetoothctl ]] && sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
+if [[ -e /usr/bin/bluetoothctl ]]; then
+    sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
+    [[ $hwrev == 11 ]] && mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
+fi
 
 # cron - for addons updates
-( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addonsupdate.sh &' ) | crontab -
+( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addons-update.sh &' ) | crontab -
 
 # hostname - set default
 echo runeaudio > /etc/hostname
