@@ -18,7 +18,8 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 - USB drive - 4GB+ for root partition (or existing USB hard drive with data)
 - Micro SD card - 100MB+ (not GB) for boot partition
 - wired LAN connection (if not available, monitor + keyboard)
-<hr>
+
+---
 
 **Raspberry Pi Hardware**
 
@@ -56,6 +57,8 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 	- `b` - 2GB
 	- `c` - 4GB
 - `00 01 02 03 04 09` - no wireless
+
+---
 
 **Download Arch Linux Arm**
 
