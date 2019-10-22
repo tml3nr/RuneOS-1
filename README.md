@@ -20,6 +20,24 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 - wired LAN connection (if not available, monitor + keyboard)
 <hr>
 
+**Raspberry Pi Hardware**
+
+| Model      | Code   | No wl | No eth | CPU       |
+|------------|--------|-------|--------|-----------|
+| RPi Z      | 92, 93 | x     | x      | BCM2835   |
+| RPi Zw     | c1     |       | x      | BCM2835   |
+| RPi 1      | 21, 32 | x     |        | BCM2835   |
+|            |        |       |        |           |
+| RPi 2B     | 40, 41 | x     |        | BCM2836   |
+|            |        |       |        |           |
+| RPi 2B 1.2 | 42     | x     |        | BCM2837   |
+| RPi 3B     | 82, 83 |       |        | BCM2837   |
+|            |        |       |        |           |
+| RPi 3A+    | e0     |       | x      | BCM2837B0 |
+| RPi 3B+    | d3     |       |        | BCM2837B0 |
+|            |        |       |        |           |
+| RPi 4B     | 11     |       |        | BCM2711   |
+
 **Download Arch Linux Arm**
 - On Linux PC
 ```sh
