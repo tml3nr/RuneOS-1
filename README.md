@@ -38,7 +38,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 |            |        |       |        |           |
 | RPi 4B     | 11     |       |        | BCM2711   |
 
-**Arch Linux Arm Versions**
+**Download Arch Linux Arm**
 
 | Model        | CPU       | File                             |
 |--------------|-----------|----------------------------------|
@@ -47,7 +47,6 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 | RPi 3A+, 3B+ | BCM2837B0 | ArchLinuxARM-rpi-3-latest.tar.gz |
 | RPi 4B       | BCM2711   | ArchLinuxARM-rpi-4-latest.tar.gz |
 
-**Download Arch Linux Arm**
 - On Linux PC
 ```sh
 su
