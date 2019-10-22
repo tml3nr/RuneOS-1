@@ -22,24 +22,24 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 
 **Raspberry Pi Hardware**
 
-| Model      | Code*  | No wl | No eth | CPU       |
-|------------|--------|-------|--------|-----------|
-| RPi Z      | 92, 93 | x     | x      | BCM2835   |
-| RPi Zw     | c1     |       | x      | BCM2835   |
-| RPi A      |        | x     | x      | BCM2835   |
-| RPi B      |        | x     |        | BCM2835   |
-| RPi A+     | 21     | x     | x      | BCM2835   |
-| RPi B+     | 32     | x     |        | BCM2835   |
-|            |        |       |        |           |
-| RPi 2B     | 40, 41 | x     |        | BCM2836   |
-|            |        |       |        |           |
-| RPi 2B 1.2 | 42     | x     |        | BCM2837   |
-| RPi 3B     | 82, 83 |       |        | BCM2837   |
-|            |        |       |        |           |
-| RPi 3A+    | e0     |       | x      | BCM2837B0 |
-| RPi 3B+    | d3     |       |        | BCM2837B0 |
-|            |        |       |        |           |
-| RPi 4B     | 11     |       |        | BCM2711   |
+| Model      | Code*                          | No wl | No eth | CPU       |
+|------------|--------------------------------|-------|--------|-----------|
+| RPi Z      | 92, 93                         | x     | x      | BCM2835   |
+| RPi Zw     | c1                             |       | x      | BCM2835   |
+| RPi A      | 07, 08, 09                     | x     | x      | BCM2835   |
+| RPi A+     | 12, 15                         | x     | x      | BCM2835   |
+| RPi B      | 02, 03, 04, 05, 06, 0d, 0e, 0f | x     |        | BCM2835   |
+| RPi B+     | 10, 13, 32                     | x     |        | BCM2835   |
+|            |                                |       |        |           |
+| RPi 2B     | 40, 41                         | x     |        | BCM2836   |
+|            |                                |       |        |           |
+| RPi 2B 1.2 | 42                             | x     |        | BCM2837   |
+| RPi 3B     | 82, 83                         |       |        | BCM2837   |
+|            |                                |       |        |           |
+| RPi 3A+    | e0                             |       | x      | BCM2837B0 |
+| RPi 3B+    | d3                             |       |        | BCM2837B0 |
+|            |                                |       |        |           |
+| RPi 4B     | 11                             |       |        | BCM2711   |
 
 \*Code: `cat /proc/cpuinfo | grep Revision | tail -c 3`
 
