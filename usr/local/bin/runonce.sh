@@ -4,10 +4,9 @@ version=e2
 addoversion=201910081
 
 # remove bluetooth driver if not RPi Zero W, 3, 4
-hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
-if ! echo c1 82 83 e0 d3 11 | grep -q $hwrev; then
-	pacman -R --noconfirm bluetooth-raspberrypi
-	[[ -e /usr/bin/bluetoothctl ]] && pacman -R --noconfirm bluez bluez-utils
+model=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
+if [[ $model == 04 || $model == 09 && -e /usr/bin/bluetoothctl ]]; then
+	pacman -R --noconfirm bluetooth-raspberrypi bluez bluez-utils
 fi
 
 # fix - alsa restore failed
@@ -169,8 +168,8 @@ echo $addoversion > /srv/http/data/addons/rre1
 
 echo $version > $dirsystem/version
 
-# rpi2 - no onboard
-if [[ $hwrev == 41 ]]; then
+# rpi2 - no onboard (use the same build as RPi3)
+if [[ $model == 04 ]]; then
 	rm $dirsystem/onboard-wlan
 	sed -i '/^#dtoverlay=pi3-disable-wifi/ s/^#//' /boot/config.txt
 fi
