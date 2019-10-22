@@ -178,16 +178,16 @@ packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf
 **Exclude for hardware support** (Skip if RPi3, 4)
 ```sh
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
-[[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]] && nowireless=1 || nowireless=
-
-# (skip for generic build) remove bluetooth if not RPi Zero W, 3, 4
-[[ $nowireless ]] && packages=${packages/ bluez bluez-utils}
+! echo c1 82 83 e0 d3 11 | grep -q $hwrev && nowireless=1 || nowireless=
 
 # RPi 1, Zero (single core CPU) - no browser on rpi
-if [[ $hwrev == 21 || $hwrev == 32 || $hwrev == 92 || $hwrev == 93 || $hwrev == c1 ]]; then
+if echo 92 93 c1 21 32 | grep -q $hwrev; then
     packages=${packages/ chromium}
     packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
 fi
+
+# (skip for generic build) remove bluetooth if not RPi Zero W, 3, 4
+[[ $nowireless ]] && packages=${packages/ bluez bluez-utils}
 ```
 
 **Exclude optional packages** (Skip to install all)
@@ -257,11 +257,7 @@ rm $branch.zip
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
 
-[[ $nowireless ]] && rm bluealsa*
-```
-
-**Exclude for hardware** (Skip if RPi Zero W, 3, 4)
-```sh
+# skip for generic build
 [[ $nowireless ]] && rm bluealsa*
 ```
 
@@ -285,7 +281,7 @@ if [[ ! -e /usr/bin/chromium ]]; then
     rm /etc/systemd/system/localbrowser*
     rm /etc/X11/xinit/xinitrc
 fi
-[[ ! -e /usr/bin/bluetoothctl || $nowireless ]] && rm -r /etc/systemd/system/bluetooth.service.d
+[[ ! -e /usr/bin/bluetoothctl ]] && rm -r /etc/systemd/system/bluetooth.service.d
 [[ ! -e /usr/bin/hostapd ]] && rm -r /etc/{hostapd,dnsmasq.conf}
 [[ ! -e /usr/bin/smbd ]] && rm -r /etc/samba
 [[ ! -e /usr/bin/shairport-sync ]] && rm /etc/systemd/system/shairport*
