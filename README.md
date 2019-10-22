@@ -38,18 +38,21 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 |            |        |       |        |           |
 | RPi 4B     | 11     |       |        | BCM2711   |
 
+**Arch Linux Arm Versions**
+
+| Model        | File                             |
+|--------------|----------------------------------|
+| RPi Z, 1     | ArchLinuxARM-rpi-latest.tar.gz   |
+| RPi 2B, 3B   | ArchLinuxARM-rpi-2-latest.tar.gz |
+| RPi 3A+, 3B+ | ArchLinuxARM-rpi-3-latest.tar.gz |
+| RPi 4B       | ArchLinuxARM-rpi-4-latest.tar.gz |
+
 **Download Arch Linux Arm**
 - On Linux PC
 ```sh
 su
 
-# download
-#file=ArchLinuxARM-rpi-4-latest.tar.gz  # RPi4
-#file=ArchLinuxARM-rpi-3-latest.tar.gz  # RPi3B+
-#file=ArchLinuxARM-rpi-2-latest.tar.gz  # RPi2, RPi3
-#file=ArchLinuxARM-rpi-latest.tar.gz    # RPi1, RPi Zero
-
-# replace with required version
+# download - replace with matched model
 file=ArchLinuxARM-rpi-2-latest.tar.gz
 
 ### download ### -----------------------------------
