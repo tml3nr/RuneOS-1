@@ -1,4 +1,5 @@
 **Raspberry Pi Hardware**
+- Code `EDCBBA` : `cat /proc/cpuinfo | grep Revision | awk '{print $NF}'`
 
 | Model      | Code - `BB` | No wl | No eth | SoC       | Code - `C` |
 |------------|-------------|-------|--------|-----------|------------|
@@ -19,7 +20,6 @@
 |            |             |       |        |           |            |
 | RPi 4B     | `11`        |       |        | BCM2711   | `3`        |
 
-- Code `EDCBBA` : `cat /proc/cpuinfo | grep Revision | awk '{print $NF}'`
 - `A` - PCB revision
 - `BB` - model : `cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2`
 - `C` - SoC
