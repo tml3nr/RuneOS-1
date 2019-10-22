@@ -5,7 +5,7 @@ addoversion=201910081
 
 # remove bluetooth driver if not RPi Zero W, 3, 4
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
-if [[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]]; then
+if [[ $hwrev != e0 && $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]]; then
 	pacman -R --noconfirm bluetooth-raspberrypi
 	[[ -e /usr/bin/bluetoothctl ]] && pacman -R --noconfirm bluez bluez-utils
 fi

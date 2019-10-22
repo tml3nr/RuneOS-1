@@ -160,15 +160,15 @@ packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf
 **Exclude for hardware support** (Skip if RPi3, 4)
 ```sh
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
+[[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]] && nowireless=1 || nowireless=
 
 # remove bluetooth if not RPi Zero W, 3, 4
-[[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]] && nowireless=1 || nowireless=
 [[ $nowireless ]] && packages=${packages/ bluez bluez-utils}
 
-# RPi Zero, 1 - no browser on rpi
-if [[ $hwrev == 92 || $hwrev == 93 || $hwrev == c1 || $hwrev == 32 || $hwrev == 21 ]]; then
-	packages=${packages/ chromium}
-	packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
+# RPi 1, Zero (single core CPU) - no browser on rpi
+if [[ $hwrev == 21 || $hwrev == 32 || $hwrev == 92 || $hwrev == 93 || $hwrev == c1 ]]; then
+    packages=${packages/ chromium}
+    packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
 fi
 ```
 
@@ -238,6 +238,8 @@ bsdtar xvf $branch.zip --strip 1 --exclude=.* --exclude=*.md -C /
 rm $branch.zip
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
+
+[[ $nowireless ]] && rm bluealsa*
 ```
 
 **Exclude for hardware** (Skip if RPi Zero W, 3, 4)
@@ -250,10 +252,10 @@ chown -R http:http /srv/http
 # remove bluetooth
 rm -f bluealsa*
 
-# optional - remove metadata tag editor
+# remove metadata tag editor
 rm kid3-cli*
 
-# optional - remove UPnP
+# remove UPnP
 rm libupnpp* upmpdcli*
 ```
 
@@ -359,7 +361,7 @@ fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
 ```
 
 **Finish**
-- If there's existing database and settings directory `data`, copy to `/srv/http`
+- If there's existing database and settings directory `data`, copy it with all subdirectories to `/srv/http`
 ```sh
 reboot
 ```
