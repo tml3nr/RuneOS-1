@@ -56,7 +56,6 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 	- `a` - 1GB
 	- `b` - 2GB
 	- `c` - 4GB
-- `00 01 02 03 04 09` - no wireless
 
 ---
 
