@@ -162,7 +162,7 @@ packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf
 hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
 [[ $hwrev != c1 && $hwrev != 82 && $hwrev != 11 ]] && nowireless=1 || nowireless=
 
-# remove bluetooth if not RPi Zero W, 3, 4
+# (skip for generic build) remove bluetooth if not RPi Zero W, 3, 4
 [[ $nowireless ]] && packages=${packages/ bluez bluez-utils}
 
 # RPi 1, Zero (single core CPU) - no browser on rpi
