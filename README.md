@@ -40,10 +40,10 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 | RPi 4B     | 11          |       |        | BCM2711   | 3          |
 
 - Code `EDCBBA` : `cat /proc/cpuinfo | grep Revision | awk '{print $NF}'`
-- `BB` - model : `cat /proc/cpuinfo | grep Revision | tail -c 3`
+- `BB` - model : `cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2`
 - `C` - SoC : `cat /proc/cpuinfo | grep Revision | tail -c 5 | cut -c 1`
 - `A` and `Z` - no ethernet
-- `c1, 82, 83, e0, d3, 11` - with WLAN and Bluetooth
+- `0c 08 83 0e 0d 11` - with WLAN and Bluetooth
 
 **Download Arch Linux Arm**
 
@@ -190,8 +190,8 @@ packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf
 packages=${packages/ chromium}
 packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
 
-hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 3 )
-! echo c1 82 83 e0 d3 11 | grep -q $hwrev && nowireless=1 || nowireless=
+hwrev=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
+! echo 0c 08 83 0e 0d 11 | grep -q $hwrev && nowireless=1 || nowireless=
 
 # (skip for generic build) remove bluetooth if not RPi Zero W, 3, 4
 [[ $nowireless ]] && packages=${packages/ bluez bluez-utils}
