@@ -371,7 +371,7 @@ systemctl enable $startup
 fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
 
 # initialize / restore settings
-runonce.sh
+runeinit.sh
 ```
 
 **Finish**

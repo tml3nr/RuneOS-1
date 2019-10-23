@@ -11,11 +11,6 @@ for addon in aria gpio tran; do
 	uninstall_$addon.sh 2> /dev/null
 done
 #--------------------------------------------------------
-echo -e "\n$bar Initial runonce script ..."
-
-systemctl disable startup
-systemctl enable runonce
-#--------------------------------------------------------
 echo -e "\n$bar Reset MPD status ..."
 
 mpc -q volume 50; mpc -q repeat 0; mpc -q random 0; mpc -q single 0; mpc -q consume 0
@@ -57,6 +52,10 @@ if journalctl -b | grep -q '(mmcblk0p1): Volume was not properly unmounted'; the
 	echo -e "\n$bar Fix mmcblk0 dirty bit from unproperly unmount..."
 	fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
 fi
+#--------------------------------------------------------
+echo -e "\n$bar Reinit settings ..."
+
+runeinit.sh
 #--------------------------------------------------------
 
 title "$bar $name Reset successfully."
