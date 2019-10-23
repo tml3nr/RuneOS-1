@@ -25,7 +25,7 @@ showData() {
 }
 
 # specify image file
-imagefile=/PATH/IMAGEFILE.img
+imagefile="/PATH/IMAGEFILE.img"
 
 # map image file
 kpartx -av "$imagefile.img"
