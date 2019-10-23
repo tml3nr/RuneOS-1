@@ -729,9 +729,9 @@ function search2array( $result, $playlist = '' ) { // directories or files
 		}
 	}
 	if ( $root ) $data = sortData( $data, $index );
-	$data[][ 'artist' ] = $data[ 0 ][ 'Artist' ];
-	$data[][ 'album' ] = $data[ 0 ][ 'Album' ];
-	$data[][ 'albumartist' ] = $albumartist ?: $data[ 0 ][ 'Artist' ];
+	$data[][ 'artist' ] = $data[ 0 ][ 'Artist' ] ?? '';
+	$data[][ 'album' ] = $data[ 0 ][ 'Album' ] ?? '';
+	$data[][ 'albumartist' ] = $albumartist ?: $data[ 0 ][ 'Artist' ] ?? '';
 	if ( $genre ) $data[][ 'genre' ] = $genre;
 	if ( $composer ) $data[][ 'composer' ] = $composer;
 	return $data;
