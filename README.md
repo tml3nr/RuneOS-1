@@ -18,7 +18,6 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 - Wired LAN connection (if not available, monitor + keyboard)
 - Normal SD mode
 	- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
-	- USB drive - 1GB+ - database and settings
 - USB mode - `ROOT` partition on USB drive
 	- Micro SD card - 100MB+ - `BOOT` partition only
 	- USB drive - 4GB+ - `ROOT` partition (or existing USB hard drive with data)
@@ -76,7 +75,7 @@ showData() {
 			- Label: `ROOT`
 		- With existing data:
 			- No need to change format of existing partition
-			- Resize and create a new 4GB partition
+			- Resize and create a new 4GB partition (at the end of the disk is OK)
 			- Format: `ext4`
 			- Label: `ROOT`
 
@@ -129,7 +128,8 @@ umount -l $ROOT
 **Start Arch Linux Arm**
 - Remove all USB devices: drives, Wi-Fi, bluetooth, mouse
 - Connect wired LAN (if not available, connect monitor + keyboard)
-- Insert micro SD card and USB drive in RPi
+- Insert the micro SD card in RPi
+- If USB mode, plugin the USB drive
 - Power on
 - Wait 30 seconds (or login prompt on connected monitor)
 
