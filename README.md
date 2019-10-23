@@ -316,7 +316,7 @@ sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules
 ```
 
 **Migrate existing database and settings** (Skip if not available)
-- Copy existing `data` with all subdirectories to `/srv/http`
+- Copy `data` directory to `/srv/http`
 
 **Configurations**
 ```sh
@@ -379,7 +379,7 @@ runeinit.sh
 reboot
 ```
 
-**Create image file**
+**Optional - Create image file**
 - Once start RuneAudio+R successfully, Power > Off
 - Move micro SD card (and the USB drive, if `ROOT` partition is in USB drive) to PC
 - Resize `ROOT` partition to smallest size possible with **GParted**.
