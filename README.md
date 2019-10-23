@@ -249,7 +249,7 @@ rm /var/cache/pacman/pkg/*
 ```sh
 ### download ### -----------------------------------
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
-bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
+bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 rm *.zip
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
