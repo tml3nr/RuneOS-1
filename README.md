@@ -380,7 +380,7 @@ reboot
 **To reset database and all settings**
 - `runereset.sh`
 
-**To import existing database and settings**
+**To reimport existing database and settings**
 - `rm -r /srv/http/data`
 - Copy `data` directory to `/srv/http`
 - `runeinit.sh`
