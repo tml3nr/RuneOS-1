@@ -45,6 +45,8 @@ if [[ -n "$mountpoints" ]]; then
 	done
 fi
 
+[[ ! -e /srv/http/data/mpd/mpd.db ]] && mpc rescan
+
 [[ -e $dirsystem/mpd-crossfade ]] && mpc -q $( cat $dirsystem/mpd-crossfade )
 
 [[ -e $dirsystem/autoplay ]] && mpc -q play

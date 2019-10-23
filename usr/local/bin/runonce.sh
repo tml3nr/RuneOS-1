@@ -178,20 +178,3 @@ fi
 
 chown -R http:http "$dirdata"
 chown -R mpd:audio "$dirdata/mpd"
-
-# update mpd count
-if [[ -e /srv/http/data/mpd/mpd.db ]]; then
-	albumartist=$( mpc list albumartist | awk NF | wc -l )
-	composer=$( mpc list composer | awk NF | wc -l )
-	genre=$( mpc list genre | awk NF | wc -l )
-	echo "$albumartist $composer $genre" > /srv/http/data/system/mpddb
-else
-	mpc rescan
-fi
-
-# fix dirty bit if any
-fsck.fat -trawl /dev/mmcblk0p1 &> /dev/null &
-
-systemctl disable runonce
-
-systemctl enable --now startup
