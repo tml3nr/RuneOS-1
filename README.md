@@ -291,33 +291,14 @@ pacman -U *.pkg.tar.xz
 rm *.pkg.tar.xz
 ```
 
-**Fixes**
-```sh
-# account expired
-users=$( cut -d: -f1 /etc/passwd )
-for user in $users; do
-    chage -E -1 $user
-done
-
-# lvm - Invalid value
-sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
-
-# mpd - file not found
-touch /var/log/mpd.log
-chown mpd:audio /var/log/mpd.log
-
-# udev rules - alsa restore failed
-sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules
-
-# upmpdcli - older symlink
-[[ -e /usr/bin/upmpdcli ]] && ln -s /lib/libjsoncpp.so.{21,20}
-```
-
 **Migrate existing database and settings** (Skip if not available)
 - Copy `data` directory to `/srv/http`
 
 **Configurations**
 ```sh
+# alsa - omit test rules
+sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules
+
 # bluetooth
 if [[ -e /usr/bin/bluetoothctl ]]; then
     sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
@@ -327,9 +308,16 @@ fi
 # cron - for addons updates
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addons-update.sh &' ) | crontab -
 
+# lvm - remove invalid value
+sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
+
 # mpd - music directories
 mkdir -p /mnt/MPD/{USB,NAS}
 chown -R mpd:audio /mnt/MPD
+
+# mpd - create missing log file
+touch /var/log/mpd.log
+chown mpd:audio /var/log/mpd.log
 
 # motd - remove default
 rm /etc/motd
@@ -343,8 +331,17 @@ echo root:rune | chpasswd
 # ssh - permit root
 sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# upmpdcli - initialize key
-[[ -e /usr/bin/upmpdcli ]] && upmpdcli -c /etc/upmpdcli.conf &> /dev/null &
+# upmpdcli - initialize key and fix missing symlink
+if [[ -e /usr/bin/upmpdcli ]]; then
+    upmpdcli -c /etc/upmpdcli.conf &> /dev/null &
+    ln -s /lib/libjsoncpp.so.{21,20}
+fi
+
+# user - set expire to none
+users=$( cut -d: -f1 /etc/passwd )
+for user in $users; do
+    chage -E -1 $user
+done
 
 # wireless-regdom
 sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
