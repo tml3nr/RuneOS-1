@@ -315,8 +315,8 @@ sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules
 [[ -e /usr/bin/upmpdcli ]] && ln -s /lib/libjsoncpp.so.{21,20}
 ```
 
-**Migrate existing database and settings**
-- If available, copy existing `data` with all subdirectories to `/srv/http`
+**Migrate existing database and settings** (Skip if not available)
+- Copy existing `data` with all subdirectories to `/srv/http`
 
 **Configurations**
 ```sh
@@ -353,7 +353,7 @@ sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 
 # startup services
 systemctl daemon-reload
-startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm startup'
+startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm runonce'
 if [[ -e /usr/bin/chromium ]]; then
 	# bootsplash - set default image
 	ln -s /srv/http/assets/img/{NORMAL,start}.png
