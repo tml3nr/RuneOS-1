@@ -16,7 +16,7 @@ aplay=$( aplay -l | grep '^card' | grep -v 'bcm2835 IEC958/HDMI1' )
 # reenable on-board audio if nothing available for aplay
 if [[ -z $aplay ]]; then
 	sed -i 's/dtparam=audio=.*/dtparam=audio=on/' /boot/config.txt
-	reboot
+	shutdown -r now
 fi
 
 file=/etc/mpd.conf
