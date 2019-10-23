@@ -153,6 +153,10 @@ fi
 
 # preset system
 if [[ ! -e $dirsystem/audiooutput ]]; then
+	echo runeaudio > /etc/hostname
+	sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
+	timedatectl set-timezone UTC
+
 	echo bcm2835 ALSA_1 > $dirsystem/audiooutput
 	echo 1 | tee $dirsystem/{localbrowser,onboard-audio,onboard-wlan}
 	echo RuneAudio | tee $dirsystem/{hostname,soundprofile}
