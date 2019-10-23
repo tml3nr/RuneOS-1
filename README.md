@@ -388,8 +388,9 @@ reboot
 	- right-click `ROOT` partiton > Resize/Move
 	- drag rigth triangle to fit minimum size
 	- menu: Edit > Apply all operations
-- Create image
-	- SD card mode (normal)
+- Create image - SD card mode
+	- on Windows (much faster): [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
+	- OR
 ```sh
 # get device and verify
 part=$( df | grep BOOT | awk '{print $1}' )
@@ -405,7 +406,5 @@ echo end = $end
 # create image
 dd if=$dev of=RuneAudio+Re2.img count=$(( end + 1 )) status=progress  # remove status=progress if errors
 ```
-		- OR on Windows (much faster):
-			- [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
-	- USB drive mode (run RuneAudio+R from USB drive)
-		- With **Disks*: select drive > select partition > cogs button > Create Partition Image
+- Create image - USB drive mode
+	- With **Disks**: select drive > select partition > cogs button > Create Partition Image
