@@ -377,6 +377,20 @@ reboot
 ```
 ---
 
+**To reset database and all settings**
+```sh
+runereset.sh
+```
+
+**To import existing database and settings**
+```sh
+rm -r /srv/http/data
+```
+- Copy `data` directory to `/srv/http`
+```sh
+runeinit.sh
+```
+
 **Optional - Create image file**
 - Once start RuneAudio+R successfully, Power > Off
 - Move micro SD card (and the USB drive, if `ROOT` partition is in USB drive) to PC
