@@ -110,10 +110,7 @@ uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '"' )
 showData "$( df -h | grep ROOT )" $uuid
 
 # replace root device
-cmdline="root=$uuid rw rootwait "
-cmdline+='console=ttyAMA0,115200 console=tty3 selinux=0 plymouth.enable=0 fsck.repair=yes smsc95xx.turbo_mode=N'
-cmdline+=' dwc_otg.lpm_enable=0 kgdboc=ttyAMA0,115200 elevator=noop quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
-echo $cmdline > $BOOT/cmdline.txt
+sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
 
 # append to fstab
 echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
@@ -146,10 +143,9 @@ showData "$nmap" "RPi IP = $rpiip"
 # already known IP or if there's more than 1 RPi, set rpiip manually
 # rpiip=<IP>
 
-ssh alarm@$rpiip  # password: alarm
+ssh-keygen -R $rpiip  # remove existing key if any
 
-# if WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! - remove existing key
-ssh-keygen -R $rpiip
+ssh alarm@$rpiip  # password: alarm
 ```
 - If `ssh` failed, start all over again. (A lot of `[FAILED]` on connected monitor.)
 
@@ -250,8 +246,9 @@ rm /var/cache/pacman/pkg/*
 ```sh
 ### download ### -----------------------------------
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
+
 bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
-rm *.zip
+
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
 
@@ -289,7 +286,7 @@ fi
 ```sh
 ### install custom packages ### -----------------------------------
 pacman -U *.pkg.tar.xz
-rm *.pkg.tar.xz
+rm *.pkg.tar.xz *.zip
 ```
 
 **Migrate existing database and settings** (Skip if not available)
@@ -297,8 +294,9 @@ rm *.pkg.tar.xz
 
 **Configurations**
 ```sh
-# alsa - omit test rules
-sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules
+# alsa
+chmod -R 666 /var/lib/alsa  # fix permission
+sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules   # omit test rules
 
 # bluetooth (skip if removed bluetooth)
 if [[ -e /usr/bin/bluetoothctl ]]; then
@@ -349,17 +347,18 @@ sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 
 # startup services
 systemctl daemon-reload
+
 startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm startup'
 
 if [[ -e /usr/bin/chromium ]]; then
-	# bootsplash - set default image
-	ln -s /srv/http/assets/img/{NORMAL,start}.png
-	
-	# login prompt - remove
-	systemctl disable getty@tty1
+    # bootsplash - set default image
+    ln -s /srv/http/assets/img/{NORMAL,start}.png
+    
+    # login prompt - remove
+    systemctl disable getty@tty1
 else
-	startup=${startup/ bootsplash}
-	startup=${startup/ localbrowser}
+    startup=${startup/ bootsplash}
+    startup=${startup/ localbrowser}
 fi
 
 [[ ! -e /usr/bin/avahi-daemon ]] && startup=${startup/avahi-daemon}
