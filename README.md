@@ -1,6 +1,7 @@
 RuneOS
 ---
-Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) releases. With options to exclude features, it can be as light as possible in terms of build time and disk space.
+- Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) releases.
+- With options to exclude features, it can be as light as possible in terms of build time and disk space.
 
 **Procedure**
 - Download and write to `ROOT` and `BOOT` partitions
@@ -9,8 +10,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 - Install packages
 - Download web interface, custom packages and config files
 - Install custom packages
-- Fix and set configurations
-- Create image file
+- Set configurations
 
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows with network set as `Bridge Adapter`)
