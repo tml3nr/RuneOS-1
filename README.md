@@ -43,7 +43,7 @@ file=ArchLinuxARM-rpi-2-latest.tar.gz
 # if downlod is too slow, ctrl+c > rm $file and try again
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 
-# install bsdtar and nmap
+# install bsdtar and nmap (skip if already installed)
 apt install bsdtar nmap
 
 # function for verify names
@@ -299,7 +299,7 @@ rm *.pkg.tar.xz
 # alsa - omit test rules
 sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules
 
-# bluetooth
+# bluetooth (skip if removed bluetooth)
 if [[ -e /usr/bin/bluetoothctl ]]; then
     sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
     [[ $model == 11 ]] && mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
@@ -331,7 +331,7 @@ echo root:rune | chpasswd
 # ssh - permit root
 sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# upmpdcli - initialize key and fix missing symlink
+# upmpdcli - initialize key and fix missing symlink (skip if removed UPnP)
 if [[ -e /usr/bin/upmpdcli ]]; then
     upmpdcli -c /etc/upmpdcli.conf &> /dev/null &
     ln -s /lib/libjsoncpp.so.{21,20}
@@ -349,6 +349,7 @@ sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 # startup services
 systemctl daemon-reload
 startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm startup'
+
 if [[ -e /usr/bin/chromium ]]; then
 	# bootsplash - set default image
 	ln -s /srv/http/assets/img/{NORMAL,start}.png
@@ -359,7 +360,9 @@ else
 	startup=${startup/ bootsplash}
 	startup=${startup/ localbrowser}
 fi
+
 [[ ! -e /usr/bin/avahi-daemon ]] && startup=${startup/avahi-daemon}
+
 systemctl enable $startup
 
 # fix sd card dirty bits if any
