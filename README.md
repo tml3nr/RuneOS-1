@@ -312,14 +312,11 @@ chown mpd:audio /var/log/mpd.log
 sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules
 
 # upmpdcli - older symlink
-[[ -e /usr/bin/hostapd ]] && ln -s /lib/libjsoncpp.so.{21,20}
+[[ -e /usr/bin/upmpdcli ]] && ln -s /lib/libjsoncpp.so.{21,20}
 ```
 
 **Configurations**
 ```sh
-# bootsplash - set default image
-ln -s /srv/http/assets/img/{NORMAL,start}.png
-
 # bluetooth
 if [[ -e /usr/bin/bluetoothctl ]]; then
     sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
@@ -328,12 +325,6 @@ fi
 
 # cron - for addons updates
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addons-update.sh &' ) | crontab -
-
-# hostname - set default
-echo runeaudio > /etc/hostname
-
-# login prompt - remove
-systemctl disable getty@tty1
 
 # mpd - music directories
 mkdir -p /mnt/MPD/{USB,NAS}
@@ -345,32 +336,46 @@ rm /etc/motd
 # nginx - custom 50x.html
 mv -f /etc/nginx/html/50x.html{.custom,}
 
-# ntp - set default
-sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
-
 # password - set default
 echo root:rune | chpasswd
 
 # ssh - permit root
 sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# timezone - set default
-timedatectl set-timezone UTC
-
 # wireless-regdom
 sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 
-# initialize some services
 systemctl daemon-reload
-upmpdcli -c /etc/upmpdcli.conf &> /dev/null &  # upmpdcli - write key
 
 # startup services
 startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm runonce'
-[[ ! -e /usr/bin/chromium ]] && startup=${startup/ localbrowser}
+if [[ -e /usr/bin/chromium ]]; then
+	# bootsplash - set default image
+	ln -s /srv/http/assets/img/{NORMAL,start}.png
+	
+	# login prompt - remove
+	systemctl disable getty@tty1
+else
+	startup=${startup/ bootsplash}
+	startup=${startup/ localbrowser}
+fi
+[[ ! -e /usr/bin/avahi-daemon ]] && startup=${startup/avahi-daemon}
 systemctl enable $startup
+
+# upmpdcli - initialize key
+[[ -e /usr/bin/upmpdcli ]] && upmpdcli -c /etc/upmpdcli.conf &> /dev/null &
 
 # fix sd card dirty bits if any
 fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
+
+# hostname - set default
+echo runeaudio > /etc/hostname
+
+# ntp - set default
+sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
+
+# timezone - set default
+timedatectl set-timezone UTC
 ```
 
 **Finish**
