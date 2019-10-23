@@ -1,4 +1,6 @@
 ### Image file to USB drive + SD card
+- Download image file
+- Decompress the file
 
 **`ROOT` partition**
 - Plug in USB drive
@@ -65,3 +67,19 @@ umount /mnt
 # unmap image file
 kpartx -dv "$imagefile.img"
 ```
+
+**Setup USB as root partition**
+```sh
+# get UUID and verify
+dev=$( df | grep ROOT | awk '{print $1}' )
+uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '"' )
+showData "$( df -h | grep ROOT )" $uuid
+
+# replace root device
+sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
+
+# append to fstab
+echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
+```
+
+**Done**
