@@ -378,6 +378,7 @@ runeinit.sh
 ```sh
 reboot
 ```
+---
 
 **Optional - Create image file**
 - Once start RuneAudio+R successfully, Power > Off
