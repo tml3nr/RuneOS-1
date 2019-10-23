@@ -75,7 +75,7 @@ showData() {
 			- Label: `ROOT`
 		- With existing data:
 			- No need to change format of existing partition
-			- Resize and create a new 4GB partition (at the end of the disk is OK)
+			- Resize and create a new 4GB partition (anywhere - at the end, middle or start of the disk)
 			- Format: `ext4`
 			- Label: `ROOT`
 
