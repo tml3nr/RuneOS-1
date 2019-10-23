@@ -238,7 +238,7 @@ $kid3 = file_exists( '/usr/bin/kid3-cli' );
 
 $menu = '<div>';
 $htmlcommon = menucommon( 'add', 'replace' );
-$htmlsimilar = '<a data-cmd="similar"><i class="fa fa-lastfm"></i>Add similar<i class="fa fa-play-plus submenu" data-cmd="similar"></i></a>';
+$htmlsimilar = '<a data-cmd="similar" class="similar"><i class="fa fa-lastfm"></i>Add similar<i class="fa fa-play-plus submenu" data-cmd="similar"></i></a>';
 
 $html = '<span class="menushadow"></span>';
 $html.= menuli( 'play',       'play',         'Play' );

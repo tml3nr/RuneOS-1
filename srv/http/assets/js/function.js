@@ -910,7 +910,7 @@ function htmlPlaylist( data ) {
 			var title = value.Title || '';
 			var name = title.toString().replace( '*', '' );
 			content += '<li>'
-						  +'<i class="fa fa-webradio pl-icon"></i>'
+						  +'<i class="fa fa-webradio pl-icon" data-target="#context-menu-filesavedpl"></i>'
 						  +'<a class="lipath">'+ value.file +'</a>'
 						  +'<a class="liname">'+ name +'</a>'
 						  + ( value.thumb ? '<a class="lithumb">'+ value.thumb +'</a>' : '' )
@@ -1134,6 +1134,7 @@ function plContextmenu( $li, $target ) { // saved playlists
 	}
 	
 	$( '.replace' ).toggleClass( 'hide', !GUI.status.playlistlength );
+	$( '.similar' ).toggleClass( 'hide', GUI.list.path.slice( 0, 4 ) === 'http' );
 	var contextnum = $menu.find( 'a:not(.hide)' ).length;
 	$( '.menushadow' ).css( 'height', contextnum * 42 - 1 );
 	$( '#pl-editor li' ).removeClass( 'active' );
