@@ -353,7 +353,7 @@ sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 
 # startup services
 systemctl daemon-reload
-startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm'
+startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm startup'
 if [[ -e /usr/bin/chromium ]]; then
 	# bootsplash - set default image
 	ln -s /srv/http/assets/img/{NORMAL,start}.png
