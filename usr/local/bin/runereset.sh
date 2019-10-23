@@ -2,7 +2,7 @@
 
 . /srv/http/addons-functions.sh
 
-name=$( tcolor 'RuneAudio+R e1' )
+name=$( tcolor 'RuneAudio+R e' )
 
 title -l '=' "$bar $name Reset ..."
 
@@ -13,6 +13,7 @@ done
 #--------------------------------------------------------
 echo -e "\n$bar Reset MPD status ..."
 
+systemctl restart mpd  # for stop updating
 mpc -q volume 50; mpc -q repeat 0; mpc -q random 0; mpc -q single 0; mpc -q consume 0
 mpc clear
 #--------------------------------------------------------
@@ -47,6 +48,10 @@ if (( ${#mounts[@]} > 0 )); then
 	done
 	rm -rf /mnt/MPD/NAS/*
 fi
+#--------------------------------------------------------
+echo -e "\n$bar Clear database and settings ..."
+
+rm -r /srv/http/data
 #--------------------------------------------------------
 if journalctl -b | grep -q '(mmcblk0p1): Volume was not properly unmounted'; then
 	echo -e "\n$bar Fix mmcblk0 dirty bit from unproperly unmount..."
