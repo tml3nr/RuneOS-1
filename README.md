@@ -378,12 +378,20 @@ reboot
 ---
 
 **To reset database and all settings**
-- `runereset.sh`
+```sh
+runereset.sh
+shutdown -r now
+```
 
 **To reimport existing database and settings**
-- `rm -r /srv/http/data`
+```sh
+rm -r /srv/http/data
+```
 - Copy `data` directory to `/srv/http`
-- `runeinit.sh`
+```sh
+runeinit.sh
+shutdown -r now
+```
 
 **Optional - Create image file**
 - Once start RuneAudio+R successfully, Power > Off
