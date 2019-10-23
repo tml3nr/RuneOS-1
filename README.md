@@ -43,12 +43,24 @@ file=ArchLinuxARM-rpi-2-latest.tar.gz
 ### download ### -----------------------------------
 # if downlod is too slow, cancel and try again
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
+
+# install bsdtar and nmap
+apt install bsdtar nmap
+
+# function for verify names
+cols=$( tput cols )
+showData() {
+    printf %"$cols"s | tr ' ' -
+    echo $1
+    echo $2
+    printf %"$cols"s | tr ' ' -
+}
 ```
 
 **Prepare partitions**
 - Normal SD mode
 	- Insert Micro SD card
-	- Create partitions with **GParted** (or command line with: `fdisk` + `fatlabel` + `e2label`)
+	- Create partitions with **GParted**
 
 | Type    | No. | Label* | Format | Size       |
 |---------|-----|--------|--------|------------|
@@ -71,33 +83,18 @@ wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 **Write `ROOT` partition**
 - Click `BOOT` and `ROOT` in **Files** to mount
 ```sh
-# install bsdtar and nmap
-apt install bsdtar nmap
-
-# function for verify names
-cols=$( tput cols )
-showData() {
-    printf %"$cols"s | tr ' ' -
-    echo $1
-    echo $2
-    printf %"$cols"s | tr ' ' -
-}
-
 # get partition and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 showData "$( df -h | grep ROOT )" "ROOT = $ROOT"
 
 ### expand to usb drive ### -----------------------------------
-bsdtar xpvf $file -C $ROOT  # if errors - install missing package
+bsdtar xpvf $file -C $ROOT  # if errors - install missing packages
 
 # delete downloaded file
 rm $file
 ```
 
-**Move `/boot/*` to SD card**
-- Insert Micro SD card
-- Format to `fat32` and labeled `BOOT`
-- Click `BOOT` in **Files** to mount.
+**Write `BOOT` partition**
 ```sh
 # get partition and verify
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
@@ -106,7 +103,7 @@ showData "$( df -h | grep BOOT )" "BOOT = $BOOT"
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 ```
 
-**Setup USB as root partition**
+**Setup USB as root partition** (Skip if normal SD mode)
 ```sh
 # get UUID and verify
 dev=$( df | grep ROOT | awk '{print $1}' )
@@ -121,8 +118,10 @@ echo $cmdline > $BOOT/cmdline.txt
 
 # append to fstab
 echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
+```
 
-# unmount usb drive and sd card
+**Unmount and remove**
+```sh
 umount -l $BOOT
 umount -l $ROOT
 ```
@@ -130,8 +129,8 @@ umount -l $ROOT
 **Start Arch Linux Arm**
 - Remove all USB devices: drives, Wi-Fi, bluetooth, mouse
 - Connect wired LAN (if not available, connect monitor + keyboard)
-- Move USB drive and micro SD card to RPi
-- Power on / connect RPi power
+- Insert micro SD card and USB drive in RPi
+- Power on
 - Wait 30 seconds (or login prompt on connected monitor)
 
 **Connect PC to RPi** (skip for connected monitor + keyboard) 
@@ -381,4 +380,9 @@ reboot
 
 **Migrate existing database and settings**
 - After RunAudio+R e2 started successfully, overwrite all in `/srv/http/data` with existing `data`.
-- Reboot again to apply the existings.
+```sh
+# restore database and settings
+runonce.sh
+
+reboot
+```
