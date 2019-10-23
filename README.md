@@ -43,7 +43,7 @@ file=ArchLinuxARM-rpi-2-latest.tar.gz
 # if downlod is too slow, ctrl+c > rm $file and try again
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 
-# install bsdtar and nmap (skip if already installed)
+# install packages (skip if already installed)
 apt install bsdtar nmap
 
 # function for verify names
@@ -82,7 +82,7 @@ showData() {
 **Write `ROOT` partition**
 - Click `BOOT` and `ROOT` in **Files** to mount
 ```sh
-# get partition and verify
+# get ROOT partition and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 showData "$( df -h | grep ROOT )" "ROOT = $ROOT"
 
@@ -95,7 +95,7 @@ rm $file
 
 **Write `BOOT` partition**
 ```sh
-# get partition and verify
+# get BOOT partition and verify
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
 showData "$( df -h | grep BOOT )" "BOOT = $BOOT"
 
