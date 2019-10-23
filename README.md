@@ -161,7 +161,7 @@ su # password: root
 # change directory to root
 cd
 
-branch=usb
+branch=master
 
 # initialize pgp key
 pacman-key --init
