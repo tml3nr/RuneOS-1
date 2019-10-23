@@ -1,9 +1,9 @@
 RuneOS
 ---
-Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) releases to **run on USB drive** (boot from micro SD card). With options to exclude features, it can be as light as possible in terms of build time and disk space.
+Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) releases. With options to exclude features, it can be as light as possible in terms of build time and disk space.
 
 **Procedure**
-- Download and write to USB drive and SD card
+- Download and write to `ROOT` and `BOOT` partitions
 - Start Arch Linux Arm
 - Upgrade to latest kernel and packages
 - Install packages
@@ -13,12 +13,15 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 - Create image file
 
 **Need**
-- Linux PC (or Linux in VirtualBox on Windows - Network set as `Bridge Adapter`)
+- Linux PC (or Linux in VirtualBox on Windows with network set as `Bridge Adapter`)
 - Raspberry Pi
-- USB drive - 4GB+ for root partition (or existing USB hard drive with data)
-- Micro SD card - 100MB+ (not GB) for boot partition
-- wired LAN connection (if not available, monitor + keyboard)
-
+- Wired LAN connection (if not available, monitor + keyboard)
+- Normal mode
+	- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
+	- USB drive - 1GB+ - database and settings
+- USB mode - `ROOT` partition on USB drive
+	- Micro SD card - 100MB+ - `BOOT` partition only
+	- USB drive - 4GB+ - `ROOT` partition (or existing USB hard drive with data)
 ---
 
 **Download Arch Linux Arm**
