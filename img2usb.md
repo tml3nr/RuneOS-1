@@ -10,6 +10,7 @@
     - Resize and create a new 4GB partition (anywhere - at the end, middle or start of the disk)
     - Format: `ext4`
     - Label: `ROOT`
+- Click `ROOT` in **Files** to mount
 ```sh
 # install package
 apt install kpartx
@@ -26,15 +27,34 @@ showData() {
 # map image file
 kpartx -av IMAGEFILE.img
 
-# mount image partition
+# mount ROOT partition
 mount /dev/mapper/loop0p2 /mnt
 
-# get partition and verify
+# get ROOT partition and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 showData "$( df -h | grep ROOT )" "ROOT = $ROOT"
 
 # copy to usb drive
 cp -r /mnt $ROOT
+
+# unmount
+umount /mnt
+```
+
+**`BOOT` partition**
+- Insert Micro SD card
+- Format to `fat32` and label as `BOOT`
+- Click `BOOT` in **Files** to mount
+```sh
+# mount BOOT partition
+mount /dev/mapper/loop0p1 /mnt
+
+# get BOOT partition and verify
+BOOT=$( df | grep BOOT | awk '{print $NF}' )
+showData "$( df -h | grep BOOT )" "BOOT = $BOOT"
+
+# copy to usb drive
+cp -r /mnt $BOOT
 
 # unmount
 umount /mnt
