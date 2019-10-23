@@ -57,7 +57,7 @@ showData() {
 ```
 
 **Prepare partitions**
-- Normal SD mode
+- SD card mode (normal)
 	- Insert Micro SD card
 	- Create partitions with **GParted**
 
@@ -66,7 +66,7 @@ showData() {
 | primary | #1  | BOOT   | fat32  | 100MB      |
 | primary | #2  | ROOT   | ext4   | (the rest) |
 	
-- USB mode
+- USB drive mode (run RuneAudio+R from USB drive)
 	- Insert Micro SD card
 		- Format to `ext4` and label as `BOOT`
 	- Plug in USB drive
