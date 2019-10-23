@@ -315,6 +315,9 @@ sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules
 [[ -e /usr/bin/upmpdcli ]] && ln -s /lib/libjsoncpp.so.{21,20}
 ```
 
+**Migrate existing database and settings**
+- If available, copy existing `data` with all subdirectories to `/srv/http`
+
 **Configurations**
 ```sh
 # bluetooth
@@ -342,13 +345,15 @@ echo root:rune | chpasswd
 # ssh - permit root
 sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 
+# upmpdcli - initialize key
+[[ -e /usr/bin/upmpdcli ]] && upmpdcli -c /etc/upmpdcli.conf &> /dev/null &
+
 # wireless-regdom
 sed -i '/WIRELESS_REGDOM="00"/ s/^#//' /etc/conf.d/wireless-regdom
 
-systemctl daemon-reload
-
 # startup services
-startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm runonce'
+systemctl daemon-reload
+startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm'
 if [[ -e /usr/bin/chromium ]]; then
 	# bootsplash - set default image
 	ln -s /srv/http/assets/img/{NORMAL,start}.png
@@ -362,32 +367,14 @@ fi
 [[ ! -e /usr/bin/avahi-daemon ]] && startup=${startup/avahi-daemon}
 systemctl enable $startup
 
-# upmpdcli - initialize key
-[[ -e /usr/bin/upmpdcli ]] && upmpdcli -c /etc/upmpdcli.conf &> /dev/null &
-
 # fix sd card dirty bits if any
 fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
 
-# hostname - set default
-echo runeaudio > /etc/hostname
-
-# ntp - set default
-sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
-
-# timezone - set default
-timedatectl set-timezone UTC
+# initialize / restore settings
+runonce.sh
 ```
 
 **Finish**
 ```sh
-reboot
-```
-
-**Migrate existing database and settings**
-- After RunAudio+R e2 started successfully, overwrite all in `/srv/http/data` with existing `data`.
-```sh
-# restore database and settings
-runonce.sh
-
 reboot
 ```
