@@ -24,8 +24,11 @@ showData() {
     printf %"$cols"s | tr ' ' -
 }
 
+# specify image file
+imagefile=/PATH/IMAGEFILE.img
+
 # map image file
-kpartx -av IMAGEFILE.img
+kpartx -av "$imagefile.img"
 
 # mount ROOT partition
 mount /dev/mapper/loop0p2 /mnt
@@ -58,4 +61,7 @@ cp -r /mnt $BOOT
 
 # unmount
 umount /mnt
+
+# unmap image file
+kpartx -dv "$imagefile.img"
 ```
