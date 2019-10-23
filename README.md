@@ -161,8 +161,6 @@ su # password: root
 # change directory to root
 cd
 
-branch=master
-
 # initialize pgp key
 pacman-key --init
 pacman-key --populate archlinuxarm
@@ -250,9 +248,9 @@ rm /var/cache/pacman/pkg/*
 - `runonce.sh` for initial boot setup
 ```sh
 ### download ### -----------------------------------
-wget -q --show-progress https://github.com/rern/RuneOS/archive/$branch.zip
-bsdtar xvf $branch.zip --strip 1 --exclude=.* --exclude=*.md -C /
-rm $branch.zip
+wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
+bsdtar xvf master.zip --strip 1 --exclude=.* --exclude=*.md -C /
+rm *.zip
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
 
