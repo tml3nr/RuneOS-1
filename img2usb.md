@@ -40,7 +40,7 @@ ROOT=$( df | grep ROOT | awk '{print $NF}' )
 showData "$( df -h | grep ROOT )" "ROOT = $ROOT"
 
 # copy to usb drive
-cp -r /mnt $ROOT
+cp -rp /mnt $ROOT
 
 # unmount
 umount /mnt
