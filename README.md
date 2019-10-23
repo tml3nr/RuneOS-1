@@ -378,3 +378,8 @@ runeinit.sh
 ```sh
 reboot
 ```
+
+**Create backup image file**
+- Once start RuneAudio+R succesfully, menu > Power > Off
+- Move micro SD card (and the USB drive, if `ROOT` partition is in USB drive) to PC
+- Create Partition Image with **Disks* > select drive > select partition > cogs button > Create
