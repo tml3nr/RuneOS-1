@@ -228,9 +228,6 @@ systemctl start systemd-random-seed
 
 # optional - install RPi.GPIO
 pip --no-cache-dir install RPi.GPIO
-
-# remove cache
-rm /var/cache/pacman/pkg/*
 ```
 
 **RuneUI, custom packages and config files**
@@ -286,7 +283,9 @@ fi
 ```sh
 ### install custom packages ### -----------------------------------
 pacman -U *.pkg.tar.xz
-rm *.pkg.tar.xz *.zip
+
+# remove cache and custom package files
+rm /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip
 ```
 
 **Migrate existing database and settings** (Skip if not available)
