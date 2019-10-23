@@ -410,9 +410,13 @@ function dataParse( data, path, querytype, plid ) {
 		if ( !fileplaylist ) displayIndexBar();
 		$( '#loader, .menu, #divcoverarts' ).addClass( 'hide' );
 		$( 'html, body' ).scrollTop( 0 );
-		if ( $( '.lazy' ).length
-			&& ( $( '#db-currentpath .lipath' ).text() === 'Webradio' )
-		) lazyLoad.update();
+		if ( $( '.lazy' ).length && ( $( '#db-currentpath .lipath' ).text() === 'Webradio' ) ) {
+			if ( typeof lazyLoad === 'object' ) {
+				lazyLoad.update();
+			} else {
+				lazyLoad = new LazyLoad( { elements_selector: '.lazy' } );
+			}
+		}
 		// hide index bar in directories with files only
 		var lieq = $( '#db-entries .licover' ).length ? 1 : 0;
 		if ( $( '#db-entries li:eq( '+ lieq +' ) i.db-icon' ).hasClass( 'fa-music' ) || fileplaylist ) {
