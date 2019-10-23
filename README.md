@@ -40,7 +40,7 @@ su
 file=ArchLinuxARM-rpi-2-latest.tar.gz
 
 ### download ### -----------------------------------
-# if downlod is too slow, cancel and try again
+# if downlod is too slow, ctrl+c > rm $file and try again
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 
 # install bsdtar and nmap
