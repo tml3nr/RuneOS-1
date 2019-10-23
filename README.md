@@ -16,7 +16,7 @@ Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downl
 - Linux PC (or Linux in VirtualBox on Windows with network set as `Bridge Adapter`)
 - Raspberry Pi
 - Wired LAN connection (if not available, monitor + keyboard)
-- Normal mode
+- Normal SD mode
 	- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
 	- USB drive - 1GB+ - database and settings
 - USB mode - `ROOT` partition on USB drive
@@ -45,17 +45,31 @@ file=ArchLinuxARM-rpi-2-latest.tar.gz
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 ```
 
-**Write to USB drive**
-- Plug in USB drive
-	- Blank:
-		- Format: `ext4`
-		- Label: `ROOT`
-	- With existing data:
-		- No need to change format of existing partition
-		- Resize and create a new 4GB partition
-		- Format: `ext4`
-		- Label: `ROOT`
-- Click `ROOT` in **Files** to mount
+**Prepare partitions**
+- Normal SD mode
+	- Insert Micro SD card
+	- Create partitions with **GParted** (or command line with: `fdisk` + `fatlabel` + `e2label`)
+
+| Type    | No. | Label* | Format | Size       |
+|---------|-----|--------|--------|------------|
+| primary | #1  | BOOT   | fat32  | 100MB      |
+| primary | #2  | ROOT   | ext4   | (the rest) |
+	
+- USB mode
+	- Insert Micro SD card
+		- Format to `ext4` and label as `BOOT`
+	- Plug in USB drive
+		- Blank:
+			- Format: `ext4`
+			- Label: `ROOT`
+		- With existing data:
+			- No need to change format of existing partition
+			- Resize and create a new 4GB partition
+			- Format: `ext4`
+			- Label: `ROOT`
+
+**Write `ROOT` partition**
+- Click `BOOT` and `ROOT` in **Files** to mount
 ```sh
 # install bsdtar and nmap
 apt install bsdtar nmap
@@ -83,7 +97,7 @@ rm $file
 **Move `/boot/*` to SD card**
 - Insert Micro SD card
 - Format to `fat32` and labeled `BOOT`
-- Click it in **Files** to mount.
+- Click `BOOT` in **Files** to mount.
 ```sh
 # get partition and verify
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
