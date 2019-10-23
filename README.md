@@ -102,7 +102,7 @@ showData "$( df -h | grep BOOT )" "BOOT = $BOOT"
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 ```
 
-**Setup USB as root partition** (Skip if normal SD mode)
+**Setup USB as root partition** (Skip if SD card mode)
 ```sh
 # get UUID and verify
 dev=$( df | grep ROOT | awk '{print $1}' )
@@ -138,6 +138,7 @@ umount -l $ROOT
 # get RPi IP address and verify - skip to ### connect ### for known IP
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
+
 rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
 showData "$nmap" "RPi IP = $rpiip"
 
