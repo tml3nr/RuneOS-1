@@ -74,6 +74,3 @@ systemctl enable $startup
 
 # fix sd card dirty bits if any
 fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
-
-# initialize / restore settings
-runeinit.sh
