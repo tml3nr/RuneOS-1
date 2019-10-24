@@ -302,7 +302,7 @@ runeinit.sh
 
 **Finish**
 ```sh
-reboot
+shutdown -r now
 ```
 ---
 
