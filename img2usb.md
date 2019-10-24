@@ -83,3 +83,11 @@ echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 ```
 
 **Done**
+
+## Boot from USB
+
+| Type    | No. | Label  | Format | Size  | flag |
+|---------|-----|--------|--------|-------|------|
+| unalloc | #1  |        |        | 4MB   |      |
+| primary | #2  | boot   | fat32  | 256MB | lba  |
+| primary | #3  | rootfs | ext4   | 4GB   |      |
