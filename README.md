@@ -356,11 +356,11 @@ if [[ -e /usr/bin/chromium ]]; then
     # login prompt - remove
     systemctl disable getty@tty1
 else
-    startup=${startup/ bootsplash}
-    startup=${startup/ localbrowser}
+    startup=${startup/bootsplash }
+    startup=${startup/localbrowser }
 fi
 
-[[ ! -e /usr/bin/avahi-daemon ]] && startup=${startup/avahi-daemon}
+[[ ! -e /usr/bin/avahi-daemon ]] && startup=${startup/avahi-daemon }
 
 systemctl enable $startup
 
