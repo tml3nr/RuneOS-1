@@ -199,7 +199,8 @@ h1 {
 	content: '\2022';
 }
 .source {
-	float: right;
+	display: block;
+	text-align: right;
 }
 .source i {
 	font-size: 18px;
