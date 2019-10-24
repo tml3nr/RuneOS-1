@@ -288,15 +288,17 @@ pacman -U *.pkg.tar.xz
 rm /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip
 ```
 
-**Migrate existing database and settings** (Skip if not available)
-- Copy `data` directory to `/srv/http`
-
 **Configurations**
 ```sh
 # download and run script
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/config.sh -O - | sh
+```
 
-# initialize / restore settings
+**Migrate existing database and settings** (Skip if not available)
+- Copy `data` directory to `/srv/http`
+
+**Initialize / restore settings**
+```sh
 runeinit.sh
 ```
 
