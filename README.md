@@ -86,10 +86,10 @@ showData() {
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 showData "$( df -h | grep ROOT )" "ROOT = $ROOT"
 
-### expand to usb drive ### -----------------------------------
+### expand to ROOT ### -----------------------------------
 bsdtar xpvf $file -C $ROOT  # if errors - install missing packages
 
-# delete downloaded file
+# wait until writing finished, delete downloaded file
 rm $file
 ```
 
