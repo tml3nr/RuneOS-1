@@ -295,6 +295,9 @@ rm /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip
 ```sh
 # download and run script
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/config.sh -O - | sh
+
+# initialize / restore settings
+runeinit.sh
 ```
 
 **Finish**
