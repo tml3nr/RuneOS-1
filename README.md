@@ -44,7 +44,7 @@ file=ArchLinuxARM-rpi-2-latest.tar.gz
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 
 # install packages (skip if already installed)
-apt install bsdtar nmap
+apt install bsdtar nmap  # arch linux: pacman -S bsdtar nmap
 
 # function for verify names
 cols=$( tput cols )
