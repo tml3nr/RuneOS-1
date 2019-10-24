@@ -239,7 +239,7 @@ pip --no-cache-dir install RPi.GPIO
 	- `bluealsa`
 	- `upmpdcli`
 - Configuration files set to default
-- `runonce.sh` for initial boot setup
+- Initialize / restore database and settings
 ```sh
 ### download ### -----------------------------------
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
@@ -248,6 +248,10 @@ bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
+
+# skip if SD card mode - replace root device
+uuid=$( blkid | grep ROOT | cut -d' ' -f3 | tr -d '"' )
+sed -i "s|/dev/mmcblk0p2|$uuid|" /boot/cmdline.txt
 
 # skip for generic build
 [[ $nowireless ]] && rm bluealsa*
@@ -292,6 +296,7 @@ rm /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip
 ```sh
 # download and run script
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/config.sh -O - | sh
+rm config.sh
 ```
 
 **Migrate existing database and settings** (Skip if not available)
