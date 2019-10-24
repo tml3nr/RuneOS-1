@@ -66,7 +66,7 @@ function data2html( list, path ) { // set path, name, artist as text to avoid do
 				var liname = list.webradio
 				var thumb = list.thumb;
 				if ( thumb ) {
-					var iconhtml = '<img class="radiothumb db-icon lazy" data-src="'+ thumb +'" onerror="imgError(this);" data-target="#context-menu-webradio">';
+					var iconhtml = '<img class="radiothumb db-icon" data-src="'+ thumb +'" onerror="imgError(this);" data-target="#context-menu-webradio">';
 				} else {
 					var iconhtml = '<i class="fa fa-webradio db-icon" data-target="#context-menu-webradio"></i>';
 				}
@@ -410,13 +410,7 @@ function dataParse( data, path, querytype, plid ) {
 		if ( !fileplaylist ) displayIndexBar();
 		$( '#loader, .menu, #divcoverarts' ).addClass( 'hide' );
 		$( 'html, body' ).scrollTop( 0 );
-		if ( $( '.lazy' ).length && ( $( '#db-currentpath .lipath' ).text() === 'Webradio' ) ) {
-			if ( typeof lazyLoad === 'object' ) {
-				lazyLoad.update();
-			} else {
-				lazyLoad = new LazyLoad( { elements_selector: '.lazy' } );
-			}
-		}
+		if ( $( '.radiothumb' ).length && ( $( '#db-currentpath .lipath' ).text() === 'Webradio' ) ) new LazyLoad( { elements_selector: '.radiothumb' } );
 		// hide index bar in directories with files only
 		var lieq = $( '#db-entries .licover' ).length ? 1 : 0;
 		if ( $( '#db-entries li:eq( '+ lieq +' ) i.db-icon' ).hasClass( 'fa-music' ) || fileplaylist ) {

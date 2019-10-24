@@ -91,7 +91,7 @@ $( '#cover-art' ).on( 'error', function() {
 	if ( !$( '#divcoverarts' ).html() ) return
 	
 	var lazyL = $( '#divcoverarts .lazy' ).length;
-	lazyLoad = new LazyLoad( { elements_selector: '.lazy' } );
+	var lazyLoad = new LazyLoad( { elements_selector: '.lazy' } );
 	// for load 1st page without lazy
 	var perrow = $( 'body' )[ 0 ].clientWidth / 200;
 	var percolumn = window.innerHeight / 200;
