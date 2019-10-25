@@ -309,7 +309,7 @@ rm /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip
 **Configurations**
 ```sh
 config.sh
-rm config.sh
+rm /usr/local/bin/config.sh
 ```
 
 **Migrate existing database and settings** (Skip if not available)
