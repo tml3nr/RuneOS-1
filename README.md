@@ -124,13 +124,28 @@ umount -l $ROOT
 
 **Start Arch Linux Arm**
 - Remove all USB devices: drives, Wi-Fi, bluetooth, mouse
-- Connect wired LAN (if not available, connect monitor + keyboard)
+- Connect wired LAN (If not available or RPi Zero W, connect monitor + keyboard)
 - Insert the micro SD card in RPi
 - If USB mode, plugin the USB drive
 - Power on
-- Wait 30 seconds (or login prompt on connected monitor)
+- Wait 30 seconds
+- For no wired LAN or RPi Zero W only - On connected monitor at login prompt:
+```sh
+# login
+alarm  # password: alarm
 
-**Connect PC to RPi** (skip for connected monitor + keyboard) 
+# switch user to root
+su # password: root
+
+# connect wi-fi
+wifi-menu
+
+# set date to current to avoid dns errors (replace YYYYMMDD)
+date -s YYYYMMDD
+```
+
+**Connect PC to RPi** (skip for connected monitor + keyboard without LAN or Wi-Fi)
+- (Continuing with connected monitor + keyboard cannot copy-paste scripts.)
 ```sh
 # get RPi IP address and verify - skip to ### connect ### for known IP
 routerip=$( ip route get 1 | cut -d' ' -f3 )
@@ -148,7 +163,6 @@ ssh-keygen -R $rpiip  # remove existing key if any
 ssh alarm@$rpiip  # password: alarm
 ```
 - If `ssh` failed, start all over again. (A lot of `[FAILED]` on connected monitor.)
-
 
 **Packages**
 ```sh
@@ -303,9 +317,8 @@ rm -rf /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip /root/armv6h
 
 **Configurations**
 ```sh
-# download and run script
-wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/config.sh -O - | sh
-rm config.sh
+config.sh
+rm /usr/local/bin/config.sh
 ```
 
 **Migrate existing database and settings** (Skip if not available)
