@@ -129,6 +129,17 @@ umount -l $ROOT
 - If USB mode, plugin the USB drive
 - Power on
 - Wait 30 seconds (or login prompt on connected monitor)
+- For no wired LAN or RPi Zero W:
+```sh
+# login
+alarm  # password: alarm
+
+# switch user to root
+su # password: root
+
+# connect wi-fi
+wifi-menu
+```
 
 **Connect PC to RPi** (skip for connected monitor + keyboard)
 ```sh
@@ -148,7 +159,6 @@ ssh-keygen -R $rpiip  # remove existing key if any
 ssh alarm@$rpiip  # password: alarm
 ```
 - If `ssh` failed, start all over again. (A lot of `[FAILED]` on connected monitor.)
-- (RPi Zero W only) Login with user: `alarm` password" `alarm`
 
 **Packages**
 ```sh
@@ -157,9 +167,6 @@ su # password: root
 
 # change directory to root
 cd
-
-# (RPi Zero W only) connect Wi-Fi
-wifi-menu
 
 # initialize pgp key
 pacman-key --init
