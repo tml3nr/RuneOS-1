@@ -128,7 +128,7 @@ umount -l $ROOT
 - Insert the micro SD card in RPi
 - If USB mode, plugin the USB drive
 - Power on
-- Wait 30 seconds (or login prompt on connected monitor)
+- Wait 30 seconds
 - For no wired LAN or RPi Zero W only - On connected monitor at login prompt:
 ```sh
 # login
