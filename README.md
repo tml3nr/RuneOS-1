@@ -140,8 +140,8 @@ su # password: root
 # connect wi-fi
 wifi-menu
 
-# set date to current - fix: dns errors
-date -s 'YYYYMMDD'
+# set date to current to avoid dns errors (replace YYYYMMDD)
+date -s YYYYMMDD
 ```
 
 **Connect PC to RPi** (skip for connected monitor + keyboard without LAN or Wi-Fi)
