@@ -87,7 +87,7 @@ else
 		done
 	fi
 ### ntp
-	[[ -e $dirsystem/ntp ]] && sed -i "s/^NTP=.*/NTP=$( cat $dirsystem/ntp )/" /etc/systemd/timesyncd.conf
+	[[ -e $dirsystem/ntp ]] && sed -i "s/#*NTP=.*/NTP=$( cat $dirsystem/ntp )/" /etc/systemd/timesyncd.conf
 ### onboard devices
 	[[ ! -e $dirsystem/onboard-audio ]] && sed -i 's/\(dtparam=audio=\).*/\1off/' /boot/config.txt
 	[[ ! -e $dirsystem/onboard-bluetooth ]] && sed -i '/^#dtoverlay=pi3-disable-bt/ s/^#//' /boot/config.txt
