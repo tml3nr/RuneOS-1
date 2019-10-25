@@ -124,13 +124,13 @@ umount -l $ROOT
 
 **Start Arch Linux Arm**
 - Remove all USB devices: drives, Wi-Fi, bluetooth, mouse
-- Connect wired LAN (if not available, connect monitor + keyboard)
+- Connect wired LAN (If not available or RPi Zero W, connect monitor + keyboard)
 - Insert the micro SD card in RPi
 - If USB mode, plugin the USB drive
 - Power on
 - Wait 30 seconds (or login prompt on connected monitor)
 
-**Connect PC to RPi** (skip for connected monitor + keyboard) 
+**Connect PC to RPi** (skip for connected monitor + keyboard)
 ```sh
 # get RPi IP address and verify - skip to ### connect ### for known IP
 routerip=$( ip route get 1 | cut -d' ' -f3 )
@@ -148,7 +148,7 @@ ssh-keygen -R $rpiip  # remove existing key if any
 ssh alarm@$rpiip  # password: alarm
 ```
 - If `ssh` failed, start all over again. (A lot of `[FAILED]` on connected monitor.)
-
+- (RPi Zero W only) Login with user: `alarm` password" `alarm`
 
 **Packages**
 ```sh
@@ -157,6 +157,9 @@ su # password: root
 
 # change directory to root
 cd
+
+# (RPi Zero W only) connect Wi-Fi
+wifi-menu
 
 # initialize pgp key
 pacman-key --init
