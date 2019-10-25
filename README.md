@@ -129,7 +129,7 @@ umount -l $ROOT
 - If USB mode, plugin the USB drive
 - Power on
 - Wait 30 seconds (or login prompt on connected monitor)
-- For no wired LAN or RPi Zero W:
+- For no wired LAN or RPi Zero W only - On connected monitor at login prompt:
 ```sh
 # login
 alarm  # password: alarm
