@@ -263,6 +263,9 @@ bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 chmod -R 755 /srv/http /usr/local/bin
 chown -R http:http /srv/http
 
+# skip if not RPi Zero or RPi 1
+echo 00 01 02 03 04 09 | grep -q $model && rm /usr/local/bin/ply-image
+
 # skip if SD card mode - replace root device
 uuid=$( blkid | grep ROOT | cut -d' ' -f3 | tr -d '"' )
 sed -i "s|/dev/mmcblk0p2|$uuid|" /boot/cmdline.txt
@@ -308,8 +311,7 @@ rm /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip
 
 **Configurations**
 ```sh
-# download and run script
-wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/config.sh -O - | sh
+config.sh
 rm config.sh
 ```
 
