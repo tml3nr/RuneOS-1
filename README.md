@@ -257,6 +257,15 @@ sed -i "s|/dev/mmcblk0p2|$uuid|" /boot/cmdline.txt
 [[ $nowireless ]] && rm bluealsa*
 ```
 
+**Alternate for hardware** (Skip if not RPi1 or RPi Zero)
+```sh
+# RPi Zero and RPi 1 packages
+if echo 00 01 02 03 04 09 0c | grep -q $model; then
+	rm *.pkg.tar.xz
+	mv armv6h/* .
+fi
+```
+
 **Exclude optional packages** (Skip to install all)
 ```sh
 # remove bluetooth
@@ -289,7 +298,7 @@ fi
 pacman -U *.pkg.tar.xz
 
 # remove cache and custom package files
-rm /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip
+rm -rf /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip /root/armv6h
 ```
 
 **Configurations**
