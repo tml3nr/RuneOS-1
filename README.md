@@ -286,17 +286,17 @@ fi
 rm -f bluealsa*
 
 # remove metadata tag editor
-rm kid3-cli*
+rm -f kid3-cli*
 
 # remove UPnP
-rm libupnpp* upmpdcli*
+rm -f libupnpp* upmpdcli*
 ```
 
 **Exclude removed packages configurations** (Skip if install all)
 ```sh
 [[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
 if [[ ! -e /usr/bin/chromium ]]; then
-    rm libmatchbox* matchbox*
+    rm -f libmatchbox* matchbox*
     rm /etc/systemd/system/localbrowser*
     rm /etc/X11/xinit/xinitrc
 fi
