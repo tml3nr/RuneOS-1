@@ -139,10 +139,6 @@ su # password: root
 
 # connect wi-fi
 wifi-menu
-
-# ssh - permit root
-sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
-systemctl restart sshd
 ```
 
 **Connect PC to RPi** (skip for connected monitor + keyboard without LAN or Wi-Fi)
