@@ -145,6 +145,7 @@ date -s YYYYMMDD
 ```
 
 **Connect PC to RPi** (skip for connected monitor + keyboard without LAN or Wi-Fi)
+- (Continuing with connected monitor + keyboard cannot copy-paste scripts.)
 ```sh
 # get RPi IP address and verify - skip to ### connect ### for known IP
 routerip=$( ip route get 1 | cut -d' ' -f3 )
