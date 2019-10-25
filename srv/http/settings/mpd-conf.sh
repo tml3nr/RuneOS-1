@@ -44,7 +44,7 @@ for line in "${lines[@]}"; do
 	subdevice=${device: -1}
 	name=$( echo $line | awk -F'[][]' '{print $2}' )
 	nameL=$( echo "$aplay" | grep "$name" | wc -l )
-	(( $nameL > 1 )) && sysname="$name"_$(( subdevice + 1 )) || sysname=$name
+	[[ $nameL -gt 1 || $name == 'bcm2835 ALSA' ]] && sysname="$name"_$(( subdevice + 1 )) || sysname=$name
 	# output route command if any
 	if [[ $sysname == $audiooutput ]]; then
 		routecmd=$( grep route_cmd "/srv/http/settings/i2s/$audiooutput" | cut -d: -f2 )
