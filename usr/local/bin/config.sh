@@ -4,10 +4,13 @@
 chmod -R 666 /var/lib/alsa  # fix permission
 sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules   # omit test rules
 
+model=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
+# RPi Zero - HDMI sound only
+[[ $model == 09 || $model == 0c ]] && sed -i '/hdmi_drive=2/ s/^#//' /boot/config.txt
+
 # bluetooth (skip if removed bluetooth)
 if [[ -e /usr/bin/bluetoothctl ]]; then
     sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
-    model=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
     [[ $model == 11 ]] && mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
 fi
 

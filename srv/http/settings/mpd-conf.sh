@@ -14,7 +14,7 @@ audiooutput=$( cat $dirsystem/audiooutput )
 model=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 if [[ $model == 11 ]]; then  # RPi4
 	aplay=$( aplay -l | grep '^card' )
-elif echo 00 01 02 03 04 09 0c | grep -q $model; then  # RPi1, Zero
+elif [[ $model == 09 || $model == 0c ]]; then  # RPi Zero
 	aplay=$( aplay -l | grep '^card' | grep -v 'IEC958/HDMI1\|bcm2835 ALSA\]$' )
 else
 	aplay=$( aplay -l | grep '^card' | grep -v 'IEC958/HDMI1' )
