@@ -120,7 +120,7 @@ else
 		[[ -e $dirsystem/upnp-qobuzuser ]] && setUpnp qobuz
 		[[ -e $dirsystem/upnp-tidaluser ]] && setUpnp tidal
 		[[ -e $dirsystem/upnp-spotifyluser ]] && setUpnp spotify
-		if [[ $( cat $dirsystem/upnp-ownqueue ) == 1 ]]; then
+		if [[ -e $dirsystem/upnp-ownqueue ]]; then
 			sed -i '/^ownqueue/ d' /etc/upmpdcli.conf
 		else
 			sed -i '/^#ownqueue = / a\ownqueue = 0' /etc/upmpdcli.conf
