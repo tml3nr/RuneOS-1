@@ -49,7 +49,7 @@ if (( ${#mounts[@]} > 0 )); then
 	rm -rf /mnt/MPD/NAS/*
 fi
 #--------------------------------------------------------
-echo -e "\n$bar Clear database and settings ..."
+echo -e "\n$bar Reset database and settings ..."
 
 rm -r /srv/http/data
 runesettings.sh
