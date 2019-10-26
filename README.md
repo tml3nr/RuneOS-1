@@ -376,7 +376,7 @@ shutdown -h now
 	- right-click `ROOT` partiton > Resize/Move
 	- drag rigth triangle to fit minimum size
 	- menu: Edit > Apply all operations
-- Create image - SD card mode
+- Create image - **SD card mode**
 	- on Windows (much faster): [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
 	- OR
 ```sh
@@ -394,6 +394,6 @@ echo end = $end
 # create image
 dd if=$dev of=RuneAudio+Re2.img count=$(( end + 1 )) status=progress  # remove status=progress if errors
 ```
-- Create image - USB drive mode
+- Create image - **USB drive mode**
 	- With **Disks**: select drive > select partition > cogs button > Create Partition Image
 	- One for micro SD card and one for USB drive
