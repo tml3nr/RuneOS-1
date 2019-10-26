@@ -52,15 +52,12 @@ fi
 echo -e "\n$bar Clear database and settings ..."
 
 rm -r /srv/http/data
+runesettings.sh
 #--------------------------------------------------------
 if journalctl -b | grep -q '(mmcblk0p1): Volume was not properly unmounted'; then
 	echo -e "\n$bar Fix mmcblk0 dirty bit from unproperly unmount..."
 	fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
 fi
-#--------------------------------------------------------
-echo -e "\n$bar Reinit settings ..."
-
-runeinit.sh
 #--------------------------------------------------------
 
 title "$bar $name Reset successfully."
