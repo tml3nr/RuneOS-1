@@ -145,7 +145,6 @@ fi
 if [[ ! -e $dirsystem/audiooutput ]]; then
 	echo runeaudio > /etc/hostname
 	sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
-	timedatectl set-timezone UTC
 	ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 	echo bcm2835 ALSA_1 > $dirsystem/audiooutput
