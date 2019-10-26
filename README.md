@@ -11,6 +11,7 @@ RuneOS
 - Download web interface, custom packages and config files
 - Install custom packages
 - Configure settings
+- Restore database and settings (optional)
 
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows with network set as `Bridge Adapter`)
