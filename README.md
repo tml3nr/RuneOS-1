@@ -78,8 +78,8 @@ showData() {
 		- With existing data:
 			- No need to change format of existing partition
 			- Resize and create a new 4GB partition (anywhere - at the end, middle or start of the disk)
-			- Format: `ext4`
-			- Label: `ROOT`
+				- Format: `ext4`
+				- Label: `ROOT`
 
 **Write `ROOT` partition**
 - Click `BOOT` and `ROOT` in **Files** to mount
