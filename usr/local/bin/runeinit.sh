@@ -1,5 +1,8 @@
 #!/bin/bash
 
+dirdata=/srv/http/data
+dirdisplay=$dirdata/display
+dirsystem=$dirdata/system
 ### hostname
 	if [[ -e $dirsystem/hostname ]]; then
 		name=$( cat $dirsystem/hostname )
