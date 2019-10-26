@@ -10,7 +10,7 @@ RuneOS
 - Install packages
 - Download web interface, custom packages and config files
 - Install custom packages
-- Set configurations
+- Configure settings
 
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows with network set as `Bridge Adapter`)
