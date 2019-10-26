@@ -342,13 +342,13 @@ runereset.sh
 shutdown -r now
 ```
 
-**To reimport existing database and settings**
+**To import existing database and settings after boot**
 ```sh
 rm -r /srv/http/data
 ```
 - Copy `data` directory to `/srv/http`
 ```sh
-runeinit.sh
+runesettings.sh
 shutdown -r now
 ```
 
