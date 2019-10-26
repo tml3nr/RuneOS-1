@@ -52,7 +52,7 @@ fi
 echo -e "\n$bar Reset database and settings ..."
 
 rm -r /srv/http/data
-runesettings.sh
+runerestore.sh
 #--------------------------------------------------------
 if journalctl -b | grep -q '(mmcblk0p1): Volume was not properly unmounted'; then
 	echo -e "\n$bar Fix mmcblk0 dirty bit from unproperly unmount..."
