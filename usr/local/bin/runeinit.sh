@@ -1,19 +1,5 @@
 #!/bin/bash
 
-version=e2
-addoversion=201910081
-
-# data dirs
-dirdata=/srv/http/data
-dirdisplay=$dirdata/display
-dirsystem=$dirdata/system
-if [[ ! -e "$dirdata" ]]; then
-	# no existings / migrate previous version
-	mkdir "$dirdata"
-	for dir in addons bookmarks coverarts display gpio lyrics mpd playlists sampling system tmp webradios; do
-		mkdir "$dirdata/$dir"
-	done
-else
 ### hostname
 	if [[ -e $dirsystem/hostname ]]; then
 		name=$( cat $dirsystem/hostname )
@@ -129,36 +115,3 @@ else
 		systemctl enable --now upmpdcli
 	fi
 fi
-
-### preset data in extra directories
-# preset display
-if [[ ! -e $dirdisplay/bars ]]; then
-	playback="bars buttons cover time volume"
-	library="album artist albumartist composer coverart genre nas sd usb webradio"
-	miscel="count label plclear playbackswitch"
-	for item in $playback $library $miscel; do
-		echo 1 > $dirdisplay/$item
-	done
-fi
-
-# preset system
-if [[ ! -e $dirsystem/audiooutput ]]; then
-	echo runeaudio > /etc/hostname
-	sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
-	ln -sf /usr/share/zoneinfo/UTC /etc/localtime
-
-	echo bcm2835 ALSA_1 > $dirsystem/audiooutput
-	echo 1 | tee $dirsystem/{localbrowser,onboard-audio,onboard-wlan} > /dev/null
-	echo RuneAudio | tee $dirsystem/{hostname,soundprofile} > /dev/null
-	echo 0 0 0 > $dirsystem/mpddb
-	echo '$2a$12$rNJSBU0FOJM/jP98tA.J7uzFWAnpbXFYx5q1pmNhPnXnUu3L1Zz6W' > $dirsystem/password
-fi
-
-# preset addons
-rm -f /srv/http/data/addons/*
-echo $addoversion > /srv/http/data/addons/rre1
-
-echo $version > $dirsystem/version
-
-chown -R http:http "$dirdata"
-chown -R mpd:audio "$dirdata/mpd"
