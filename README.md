@@ -176,6 +176,9 @@ cd
 pacman-key --init
 pacman-key --populate archlinuxarm
 
+# RPi 1 or RPi Zero - fix dns errors
+systemctl stop systemd-resolved
+
 ### full system-wide upgrade ### -----------------------------------
 pacman -Syu
 
