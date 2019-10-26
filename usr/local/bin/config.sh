@@ -1,5 +1,8 @@
 #!/bin/bash
 
+version=e2
+addoversion=201910081
+
 # alsa
 chmod -R 666 /var/lib/alsa  # fix permission
 sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules   # omit test rules
