@@ -325,10 +325,9 @@ config.sh
 
 **Migrate existing database and settings** (Skip if not available)
 - Copy `data` directory to `/srv/http`
-
-**Initialize / restore settings**
 ```sh
-runeinit.sh
+# restore settings
+runerestore.sh
 ```
 
 **Finish**
