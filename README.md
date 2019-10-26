@@ -19,7 +19,7 @@ RuneOS
 - Wired LAN connection (if not available, monitor + keyboard)
 - Normal SD mode
 	- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
-- USB mode - `ROOT` partition on USB drive (for hard drive or fast thumb drive)
+- USB mode (for hard drive or fast thumb drive)
 	- Micro SD card - 100MB+ - `BOOT` partition only
 	- USB drive - 4GB+ - `ROOT` partition (or existing USB hard drive with data)
 ---
