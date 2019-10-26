@@ -68,7 +68,8 @@ showData() {
 	
 - USB drive mode (run RuneAudio+R from USB drive)
 	- Insert Micro SD card
-		- Format to `fat32` and label as `BOOT`
+		- Format: `fat32`
+		- Label: `BOOT`
 	- Plug in USB drive
 		- Blank:
 			- Format: `ext4`
