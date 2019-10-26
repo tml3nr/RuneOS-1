@@ -327,7 +327,7 @@ config.sh
 - Copy `data` directory to `/srv/http`
 ```sh
 # restore settings
-runesettings.sh
+runerestore.sh
 ```
 
 **Finish**
@@ -348,7 +348,7 @@ rm -r /srv/http/data
 ```
 - Copy `data` directory to `/srv/http`
 ```sh
-runesettings.sh
+runerestore.sh
 shutdown -r now
 ```
 
