@@ -30,7 +30,7 @@ showData() {
 imagefile="/PATH/IMAGEFILE.img"
 
 # map image file
-kpartx -av "$imagefile.img"
+kpartx -av "$imagefile"
 
 # mount ROOT partition
 mount /dev/mapper/loop0p2 /mnt
@@ -65,7 +65,7 @@ cp -r /mnt $BOOT
 umount /mnt
 
 # unmap image file
-kpartx -dv "$imagefile.img"
+kpartx -dv "$imagefile"
 ```
 
 **Setup USB as root partition**
