@@ -192,7 +192,7 @@ packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf
 
 **Exclude for hardware support** (Skip if RPi3, 4)
 ```sh
-# RPi 1, Zero (single core CPU) - no browser on rpi
+# RPi 1, Zero - no browser on rpi (too much for single core CPU)
 packages=${packages/ chromium}
 packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
 
