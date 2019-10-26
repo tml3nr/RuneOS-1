@@ -103,7 +103,7 @@ else
 		systemctl enable --now nmb smb
 	fi
 ### timezone
-	[[ -e $dirsystem/timezone ]] && timedatectl set-timezone $( cat $dirsystem/timezone )
+	[[ -e $dirsystem/timezone ]] && ln -sf /usr/share/zoneinfo/$( cat $dirsystem/timezone ) /etc/localtime
 ### upnp
 	if [[ -e $dirsystem/upnp && /etc/upmpdcli.conf ]]; then
 		setUpnp() {
