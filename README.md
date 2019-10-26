@@ -320,6 +320,7 @@ rm -rf /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip /root/armv6h
 
 **Configurations**
 ```sh
+# configure settings
 config.sh
 ```
 
@@ -332,13 +333,17 @@ runerestore.sh
 
 **Finish**
 ```sh
+# reboot
 shutdown -r now
 ```
 ---
 
 **To reset database and all settings**
 ```sh
+# reset to default
 runereset.sh
+
+# reboot
 shutdown -r now
 ```
 
@@ -348,12 +353,22 @@ rm -r /srv/http/data
 ```
 - Copy `data` directory to `/srv/http`
 ```sh
+# restore
 runerestore.sh
+
+# reboot
 shutdown -r now
 ```
 
 **Optional - Create image file**
-- Once start RuneAudio+R successfully, Power > Off
+- Once start RuneAudio+R successfully
+```sh
+# (skip to keep database andsettings) reset to default
+runereset.sh
+
+# shutdown
+shutdown -h now
+```
 - Move micro SD card (and the USB drive, if `ROOT` partition is in USB drive) to PC
 - Resize `ROOT` partition to smallest size possible with **GParted**.
 	- menu: GParted > Devices > /dev/sd?
@@ -381,3 +396,4 @@ dd if=$dev of=RuneAudio+Re2.img count=$(( end + 1 )) status=progress  # remove s
 ```
 - Create image - USB drive mode
 	- With **Disks**: select drive > select partition > cogs button > Create Partition Image
+	- One for micro SD card and one for USB drive
