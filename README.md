@@ -320,7 +320,6 @@ rm -rf /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip /root/armv6h
 **Configurations**
 ```sh
 config.sh
-rm /usr/local/bin/config.sh
 ```
 
 **Migrate existing database and settings** (Skip if not available)
