@@ -1,6 +1,6 @@
 <?php
 $audiooutput = trim( @file_get_contents( '/srv/http/data/system/audiooutput' ) );
-$dop = file_exists( '/srv/http/data/system/dop' ) ? 'checked' : '';
+$dop = file_exists( '/srv/http/data/system/mpd-dop' ) ? 'checked' : '';
 $autoplay = file_exists( '/srv/http/data/system/autoplay' ) ? 'checked' : '';
 
 exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
