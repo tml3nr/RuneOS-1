@@ -1,6 +1,7 @@
 <?php
 $audiooutput = trim( @file_get_contents( '/srv/http/data/system/audiooutput' ) );
-$dop = file_exists( '/srv/http/data/system/mpd-dop' ) ? 'checked' : '';
+$i2ssysname = trim( @file_get_contents( '/srv/http/data/system/i2ssysname' ) );
+$dop = file_exists( '/srv/http/data/system/dop' ) ? 'checked' : '';
 $autoplay = file_exists( '/srv/http/data/system/autoplay' ) ? 'checked' : '';
 
 exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
@@ -11,7 +12,7 @@ foreach( $outputs as $output ) {
 	$extlabel = exec( "$sudo/grep extlabel \"/srv/http/settings/i2s/$output\" | cut -d: -f2" ) ?: $output;
 	$routecmd = exec( "$sudo/grep route_cmd \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
 	$dataroutecmd = $routecmd ? ' data-routecmd="'.$routecmd.'"' : '';
-	$selected = $output === $audiooutput ? ' selected' : '';
+	$selected = $output === $audiooutput || $output === $i2ssysname ? ' selected' : '';
 	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'"'.$dataroutecmd.$selected.'>'.$extlabel.'</option>';
 }
 $mixertype = exec( "$sudo/grep mixer_type /etc/mpd.conf | cut -d'\"' -f2" );
