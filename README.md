@@ -327,10 +327,10 @@ config.sh
 ```
 
 **Migrate existing database and settings** (Skip if not available)
-- symbolic link `data` directory to `/srv/http`
+- Copy `data` directory to `/srv/http`
 ```sh
-# link - replace /PATH/TO/data with actual path
-ln -s /PATH/TO/data /srv/http
+# copy existings (replace /PATH/TO/data with actual path)
+cp -r /PATH/TO/data /srv/http
 
 # restore settings
 runerestore.sh
@@ -357,8 +357,8 @@ shutdown -r now
 # delete existing
 rm -r /srv/http/data
 
-# link - replace /PATH/TO/data with actual path
-ln -s /PATH/TO/data /srv/http
+# copy existings (replace /PATH/TO/data with actual path)
+cp -r /PATH/TO/data /srv/http
 
 # restore
 runerestore.sh
