@@ -118,3 +118,7 @@ if [[ -e $dirsystem/upnp && /etc/upmpdcli.conf ]]; then
 		
 	systemctl enable --now upmpdcli
 fi
+
+# set permissions and ownership
+chown -R http:http "$dirdata"
+chown -R mpd:audio "$dirdata/mpd"
