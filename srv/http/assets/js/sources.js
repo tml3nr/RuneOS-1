@@ -76,17 +76,6 @@ $( '#list' ).on( 'click', 'li', function( e ) {
 	}
 	
 	if ( !$( this ).data( 'unmounted' ) ) { // unmount
-		if ( $( this ).find( 'gr' ).text() === '/dev/sda1' ) {
-			info( {
-				  icon    : 'usbdrive'
-				, title   : 'System data drive'
-				, message : '<wh>'+ mountpoint +'</wh>'
-						   +'<br>This drive contains system data.'
-						   +'<br><wh>Unmount not allowed.</wh>'
-			} );
-			return
-		}
-		
 		info( {
 			  icon    : nas ? 'network' : 'usbdrive'
 			, title   : 'Unmount '+ ( nas ? 'Network Share' : 'USB Drive' )
