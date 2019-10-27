@@ -270,7 +270,7 @@ chown -R http:http /srv/http
 
 # Skip if not RPi1 or RPi Zero - no splash, hdmi sound, armv6h packages
 if echo 00 01 02 03 04 09 0c | grep -q $model; then
-	[[ $model == 09 || $model == 0c ]] && sed -i '/hdmi_drive=2/ s/^#//' /boot/config.txt
+	[[ $model == 09 || $model == 0c ]] && sed -i -e '/hdmi_drive=2/ s/^#//' -e '/over_voltage=2/ s/^#//' /boot/config.txt
 	[[ $model != 0c ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
 	echo 'root=/dev/mmcblk0p2 rw rootwait console=ttyAMA0,115200 console=tty1 selinux=0 plymouth.enable=0 smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 kgdboc=ttyAMA0,115200 elevator=noop' > /boot/cmdline.txt
 	rm *.pkg.tar.xz
