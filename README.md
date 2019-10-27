@@ -34,7 +34,9 @@ RuneOS
 | RPi 3A+, 3B+ | BCM2837B0 | ArchLinuxARM-rpi-3-latest.tar.gz |
 | RPi 4B       | BCM2711   | ArchLinuxARM-rpi-4-latest.tar.gz |
 
-- On Linux PC (Copy > paste unless corrections needed)
+- On Linux PC
+	- Copy > paste unless corrections needed
+	- Comments - Lines with leading `#` can be skipped.
 ```sh
 su
 
