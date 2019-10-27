@@ -178,6 +178,9 @@ cd
 pacman-key --init
 pacman-key --populate archlinuxarm
 
+# fill entropy pool (fix - Kernel entropy pool is not initialized)
+systemctl start systemd-random-seed
+
 # RPi 1 or RPi Zero - fix dns errors
 systemctl stop systemd-resolved
 
@@ -241,9 +244,6 @@ packages=${packages/ python python-pip}
 ```sh
 ### install packages ### -----------------------------------
 pacman -S $packages
-
-# start systemd-random-seed (fix - Kernel entropy pool is not initialized)
-systemctl start systemd-random-seed
 
 # optional - install RPi.GPIO
 pip --no-cache-dir install RPi.GPIO
