@@ -3,6 +3,7 @@ $audiooutput = trim( @file_get_contents( '/srv/http/data/system/audiooutput' ) )
 $i2ssysname = trim( @file_get_contents( '/srv/http/data/system/i2ssysname' ) );
 $dop = file_exists( '/srv/http/data/system/dop' ) ? 'checked' : '';
 $autoplay = file_exists( '/srv/http/data/system/autoplay' ) ? 'checked' : '';
+$hardwarecode = exec( 'cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2' );
 
 exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
 $outputs = array_diff( $outputs, [ 'bcm2835 ALSA_3' ] ); // remove 2nd hdmi
@@ -38,6 +39,7 @@ if ( file_exists( '/usr/bin/ffmpeg' ) ) $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ 
 				<br>Software volume depends on users preferences.</span>
 		</div>
 	<heading>Bit-perfect</heading>
+<?php if ( in_array( $hardwarecode, [ '04', '08', '0e', '0d', '11' ] ) ) { ?>
 		<div class="col-l">DSD over PCM</div>
 		<div class="col-r">
 			<input id="dop" type="checkbox" <?=$dop?>>
@@ -47,6 +49,7 @@ if ( file_exists( '/usr/bin/ffmpeg' ) ) $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ 
 				Then PCM frames will be reassembled back to original DSD stream, COMPLETELY UNCHANGED, with expense of double bandwith.
 				<br>On-board audio and non-DSD devices will always get DSD converted to PCM stream, no bit-perfect</span>
 		</div>
+<?php } ?>
 		<div class="col-l">No volume</div>
 		<div class="col-r">
 			<input id="novolume" type="checkbox" data-val="<?=$novolume?>" <?=( $novolume ? 'checked' : '' )?>>

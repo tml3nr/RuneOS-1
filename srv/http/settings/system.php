@@ -1,6 +1,6 @@
 <?php
 $data = json_decode( shell_exec( '/srv/http/settings/system-data.sh' ) );
-$rpiwireless = in_array( $data->hardwarecode, [ 'c1', 82, 83, 11 ] ); // rpi zero w: c1, rpi3: 82|83, rpi4: 11
+$rpiwireless = in_array( $data->hardwarecode, [ '0c', '08', '0e', '0d', '11' ] ); // rpi zero w, rpi3, rpi4
 
 date_default_timezone_set( $data->timezone );
 $timezonelist = timezone_identifiers_list();
