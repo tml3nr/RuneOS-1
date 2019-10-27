@@ -43,9 +43,8 @@ su
 # download - replace with matched model
 file=ArchLinuxARM-rpi-2-latest.tar.gz
 
-### download ### -----------------------------------
-# if downlod is too slow, ctrl+c > rm $file and try again
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
+# if downlod is too slow, Ctrl+C > rm $file and try again
 
 # install packages (skip if already installed)
 apt install bsdtar nmap  # arch linux: pacman -S bsdtar nmap
@@ -91,7 +90,7 @@ showData() {
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 showData "$( df -h | grep ROOT )" "ROOT = $ROOT"
 
-### expand to ROOT ### -----------------------------------
+# expand to ROOT
 bsdtar xpvf $file -C $ROOT  # if errors - install missing packages
 
 # wait until writing finished, delete downloaded file
@@ -104,6 +103,7 @@ rm $file
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
 showData "$( df -h | grep BOOT )" "BOOT = $BOOT"
 
+# move to BOOT
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 ```
 
@@ -159,9 +159,8 @@ nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
 rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
 showData "$nmap" "RPi IP = $rpiip"
 
-### connect ### -----------------------------------
-# already known IP or if there's more than 1 RPi, set rpiip manually
-# rpiip=<IP>
+# if already known IP or there's more than 1 RPi, set rpiip manually
+# rpiip=IP_ADDRESS
 
 ssh-keygen -R $rpiip  # remove existing key if any
 
@@ -187,7 +186,7 @@ systemctl start systemd-random-seed
 # RPi 1 or RPi Zero - fix dns errors
 systemctl stop systemd-resolved
 
-### full system-wide upgrade ### -----------------------------------
+# system-wide kernel and packages upgrade
 pacman -Syu
 
 # package list
@@ -245,7 +244,7 @@ packages=${packages/ python python-pip}
 
 **Install packages**
 ```sh
-### install packages ### -----------------------------------
+# install packages
 pacman -S $packages
 
 # optional - install RPi.GPIO
@@ -263,11 +262,13 @@ pip --no-cache-dir install RPi.GPIO
 - Configuration files set to default
 - Initialize / restore database and settings
 ```sh
-### download ### -----------------------------------
+# get custom packages and setup files
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 
+# expand to target directories
 bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 
+# set permissions and ownership
 chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 
@@ -319,7 +320,7 @@ fi
 
 **Install custom packages**
 ```sh
-### install custom packages ### -----------------------------------
+# install
 pacman -U *.pkg.tar.xz
 
 # remove cache and custom package files
@@ -383,7 +384,7 @@ shutdown -r now
 **Optional - Create image file**
 - Once start RuneAudio+R successfully
 ```sh
-# (skip to keep database andsettings) reset to default
+# (skip to keep database and settings) reset to default
 runereset.sh
 
 # shutdown
