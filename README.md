@@ -265,7 +265,8 @@ wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 
 bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 
-chmod -R 755 /srv/http /usr/local/bin
+chmod -R 755 /srv/http 
+chmod +x /usr/local/bin/*
 chown -R http:http /srv/http
 
 # Skip if not RPi1 or RPi Zero - no splash, hdmi sound, armv6h packages
