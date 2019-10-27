@@ -39,12 +39,6 @@ echo root:rune | chpasswd
 # ssh - permit root
 sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# upmpdcli - initialize key and fix missing symlink (skip if removed UPnP)
-if [[ -e /usr/bin/upmpdcli ]]; then
-    upmpdcli -c /etc/upmpdcli.conf &> /dev/null &
-    ln -s /lib/libjsoncpp.so.{21,20}
-fi
-
 # user - set expire to none
 users=$( cut -d: -f1 /etc/passwd )
 for user in $users; do
