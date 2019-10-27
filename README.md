@@ -192,7 +192,7 @@ packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf
 
 **Exclude for hardware support** (Skip if RPi3, 4)
 ```sh
-# RPi 1, Zero - no browser on rpi (too much for single core CPU)
+# RPi 1, Zero - no browser on rpi (too much for CPU)
 packages=${packages/ chromium}
 packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
 
@@ -270,11 +270,14 @@ chown -R http:http /srv/http
 
 # Skip if not RPi1 or RPi Zero - no splash, hdmi sound, armv6h packages
 if echo 00 01 02 03 04 09 0c | grep -q $model; then
-	[[ $model == 09 || $model == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
-	[[ $model != 0c ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
-	echo 'root=/dev/mmcblk0p2 rw rootwait console=ttyAMA0,115200 console=tty1 selinux=0 plymouth.enable=0 smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 kgdboc=ttyAMA0,115200 elevator=noop' > /boot/cmdline.txt
-	rm *.pkg.tar.xz
-	mv armv6h/* .
+    # RPi Zero - fix: kernel panic - force_turbo + over_voltage
+    [[ $model == 09 || $model == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
+    # RPi Zero - only W has wifi and bluetooth
+    [[ $model != 0c ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
+    # display text mode
+    echo 'root=/dev/mmcblk0p2 rw rootwait console=ttyAMA0,115200 console=tty1 selinux=0 plymouth.enable=0 smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 kgdboc=ttyAMA0,115200 elevator=noop' > /boot/cmdline.txt
+    rm *.pkg.tar.xz
+    mv armv6h/* .
 fi
 
 # skip if not USB drive mode - replace root device
@@ -323,7 +326,7 @@ rm -rf /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip /root/armv6h
 **Configurations**
 ```sh
 # configure settings
-config.sh
+runeconfigure.sh
 ```
 
 **Migrate existing database and settings** (Skip if not available)
