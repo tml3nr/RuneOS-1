@@ -30,7 +30,7 @@ chown mpd:audio /var/log/mpd.log
 # motd - remove default
 rm /etc/motd
 
-# netctl - fix permission
+# netctl - allow write for http
 chmod 777 /etc/netctl
 
 # nginx - custom 50x.html
