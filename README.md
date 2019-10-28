@@ -65,10 +65,10 @@ showData() {
 	- Delete all partitions (make sure it's the micro SD card)
 	- Create partitions with **GParted**
 
-| Type    | No. | Size        | Format | Label |
-|---------|-----|-------------|--------|-------|
-| primary | #1  | 100MiB      | fat32  | BOOT  |
-| primary | #2  | (the rest)  | ext4   | ROOT  |
+| No. | Size        | Type    | Format | Label |
+|-----|-------------|---------|--------|-------|
+| #1  | 100MiB      | primary | fat32  | BOOT  |
+| #2  | (the rest)  | primary | ext4   | ROOT  |
 	
 - USB drive mode (run RuneAudio+R from USB drive)
 	- Insert Micro SD card
