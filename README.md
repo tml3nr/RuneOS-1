@@ -152,9 +152,11 @@ su # password: root
 # connect wi-fi
 wifi-menu
 
-# set date to current to avoid dns errors (replace YYYYMMDD)
+# fix dns errors (replace YYYYMMDD)
 date -s YYYYMMDD
+systemctl stop systemd-resolved
 ```
+- Then skip to Packages
 
 **Connect PC to RPi** (skip for connected monitor + keyboard without LAN or Wi-Fi)
 - (Continuing with connected monitor + keyboard cannot copy-paste scripts.)
@@ -189,9 +191,6 @@ pacman-key --populate archlinuxarm
 
 # fill entropy pool (fix - Kernel entropy pool is not initialized)
 systemctl start systemd-random-seed
-
-# (skip if not RPi 1 or RPi Zero) fix dns errors
-systemctl stop systemd-resolved
 
 # system-wide kernel and packages upgrade
 pacman -Syu
