@@ -1,6 +1,4 @@
 **Raspberry Pi Hardware**
-- code `EDCBBA` : `cat /proc/cpuinfo | grep Revision | awk '{print $NF}'`
-- example: `a22082` : 1GB - Embest - BCM2837 - Raspberry Pi 3B - revision 2
 
 | Model      | Code - `BB` | No wl | No eth | SoC       | Code - `C` |
 |------------|-------------|-------|--------|-----------|------------|
@@ -21,6 +19,8 @@
 |            |             |       |        |           |            |
 | RPi 4B     | `11`        |       |        | BCM2711   | `3`        |
 
+- code `EDCBBA` : `cat /proc/cpuinfo | grep Revision | awk '{print $NF}'`
+- example: `a22082` : 1GB - Embest - BCM2837 - Raspberry Pi 3B - revision 2
 - `A` - PCB revision
 - `BB` - model : `cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2`
 - `C` - SoC
@@ -35,5 +35,5 @@
 	- `b` - 2GB
 	- `c` - 4GB
 - Model:
-	`A` - no ethernet
-	`B` - with ethernet
+	- `A` - no ethernet
+	- `B` - with ethernet
