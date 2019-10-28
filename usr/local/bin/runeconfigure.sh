@@ -20,7 +20,7 @@ fi
 sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 
 # mpd - music directories
-mkdir -p /mnt/MPD/{USB,NAS}
+mkdir -p /mnt/MPD/{NAS,SD.USB}
 chown -R mpd:audio /mnt/MPD
 
 # mpd - create missing log file
