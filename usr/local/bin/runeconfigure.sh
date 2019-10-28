@@ -1,7 +1,7 @@
 #!/bin/bash
 
 version=e2
-addoversion=201910081
+addoversion=20191101
 
 # alsa
 chmod -R 666 /var/lib/alsa  # fix permission
