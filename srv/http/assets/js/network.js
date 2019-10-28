@@ -390,8 +390,8 @@ function connect( wlan, ssid, data ) {
 				  'netctl enable "'+ ssid +'"'
 				, pstream( 'network' )
 			);
-			$.post( 'commands.php', { bash: cmd }, function( std ) {
-				$( '#back' ).click();
+			$.post( 'commands.php', { bash: cmd }, function() {
+				wlanScan();
 				resetlocal();
 			} );
 		} else {
