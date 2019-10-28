@@ -371,9 +371,6 @@ cp -r /PATH/TO/data /srv/http
 
 # restore
 runerestore.sh
-
-# reboot
-shutdown -r now
 ```
 
 **To reset database and all settings**
