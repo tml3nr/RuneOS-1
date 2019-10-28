@@ -61,7 +61,8 @@ showData() {
 
 **Prepare partitions**
 - SD card mode (normal)
-	- Insert Micro SD card
+	- Insert micro SD card
+	- Delete all partitions (make sure it's the micro SD card)
 	- Create partitions with **GParted**
 
 | Type    | No. | Label* | Format | Size       |
@@ -71,15 +72,18 @@ showData() {
 	
 - USB drive mode (run RuneAudio+R from USB drive)
 	- Insert Micro SD card
+		- Delete all partitions (make sure it's the micro SD card)
 		- Format: `fat32`
 		- Label: `BOOT`
 	- Plug in USB drive
 		- Blank:
+			- Delete all partitions (make sure it's the USB drive)
 			- Format: `ext4`
 			- Label: `ROOT`
 		- With existing data:
 			- No need to change format of existing partition
-			- Resize and create a new 4GB partition (anywhere - at the end, middle or start of the disk)
+			- Resize the existing to get 4GB unallocated space (anywhere - at the end, middle or start of the disk)
+			- Create a new partition in the unallocated space
 				- Format: `ext4`
 				- Label: `ROOT`
 
