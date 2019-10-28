@@ -190,7 +190,7 @@ pacman-key --populate archlinuxarm
 # fill entropy pool (fix - Kernel entropy pool is not initialized)
 systemctl start systemd-random-seed
 
-# RPi 1 or RPi Zero - fix dns errors
+# (skip if not RPi 1 or RPi Zero) fix dns errors
 systemctl stop systemd-resolved
 
 # system-wide kernel and packages upgrade
