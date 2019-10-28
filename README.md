@@ -63,7 +63,7 @@ showData() {
 - SD card mode (normal)
 	- Insert micro SD card
 	- Delete all partitions (make sure it's the micro SD card)
-	- Create partitions with **GParted**
+	- Create partitions with **GParted** app
 
 | No. | Size        | Type    | Format | Label |
 |-----|-------------|---------|--------|-------|
@@ -88,7 +88,8 @@ showData() {
 				- Label: `ROOT`
 
 **Write `ROOT` partition**
-- Click `BOOT` and `ROOT` in **Files** to mount
+- Open **Files** app
+- Click `BOOT` and `ROOT` to mount
 ```sh
 # get ROOT partition and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
@@ -395,7 +396,7 @@ runereset.sh
 shutdown -h now
 ```
 - Move micro SD card (and the USB drive, if `ROOT` partition is in USB drive) to PC
-- Resize `ROOT` partition to smallest size possible with **GParted**.
+- Resize `ROOT` partition to smallest size possible with **GParted** app
 	- menu: GParted > Devices > /dev/sd?
 	- right-click `ROOT` partiton > Unmount
 	- right-click `ROOT` partiton > Resize/Move
@@ -420,5 +421,5 @@ echo end = $end
 dd if=$dev of=RuneAudio+Re2.img count=$(( end + 1 )) status=progress  # remove status=progress if errors
 ```
 - Create image - **USB drive mode**
-	- With **Disks**: select drive > select partition > cogs button > Create Partition Image
+	- Open **Disks** app - select drive > select partition > cogs button > Create Partition Image
 	- One for micro SD card and one for USB drive
