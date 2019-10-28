@@ -136,14 +136,13 @@ umount -l $ROOT
 ```
 
 **Start Arch Linux Arm**
-- Remove all USB devices: drives, Wi-Fi, bluetooth, mouse
+- Move micro SD card (and USB drive if in USB drive mode) to RPi
+- Remove all other USB devices, Wi-Fi, bluetooth, mouse
 - Connect wired LAN (If not available or RPi Zero W, connect monitor + keyboard)
-- Insert the micro SD card in RPi
-- If USB mode, plugin the USB drive
 - Power on
-- Wait 30 seconds
+- Wait 30 seconds (On connected monitor at login prompt)
 
-**(For no wired LAN or RPi Zero W only)** On connected monitor at login prompt:
+**(for RPi Zero W or RPi1 or Zero with Wi-Fi dongle)** :
 ```sh
 # login
 alarm  # password: alarm
@@ -158,9 +157,9 @@ wifi-menu
 date -s YYYYMMDD
 systemctl stop systemd-resolved
 ```
-- Then skip to Packages
+- Then continue at Packages
 
-**Connect PC to RPi** (skip for connected monitor + keyboard without LAN or Wi-Fi)
+**Connect PC to RPi** (skip for connected monitor + keyboard - without network connection)
 - (Continuing with connected monitor + keyboard cannot copy-paste scripts.)
 ```sh
 # get RPi IP address and verify - skip to ### connect ### for known IP
