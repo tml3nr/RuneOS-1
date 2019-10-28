@@ -349,11 +349,16 @@ killall mpd
 runeconfigure.sh
 ```
 
-**Migrate existing database and settings** (Skip if not available)
-- Copy `data` directory to `/srv/http`
+**Migrate existing database and settings** (Skip if set as default)
+- Get path of existing directory `data`
+- Replace `/srv/http/data` with existing `data`
 ```sh
+# remove default
+rm -r $ROOT/srv/http/data
+
 # copy existings (replace /PATH/TO/data with actual path)
-cp -r /PATH/TO/data /srv/http
+datapath=/PATH/TO/data
+cp -r "$datapath" $ROOT/srv/http
 
 # restore settings
 runerestore.sh
