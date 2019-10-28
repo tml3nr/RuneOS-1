@@ -179,7 +179,7 @@ ssh alarm@$rpiip  # password: alarm
 ```
 - If `ssh` failed, start all over again. (A lot of `[FAILED]` on connected monitor.)
 
-**Packages**
+**Initialize and upgrade**
 ```sh
 # switch user to root
 su # password: root
@@ -197,7 +197,13 @@ systemctl start systemd-random-seed
 # system-wide kernel and packages upgrade
 pacman -Syu
 # if download is too slow or stuck, Ctrl+C then pacman -Syu again
+```
 
+**(Optional) Create image of Arch Linux Arm**
+- To save time for all previous steps
+
+**Packages**
+```sh
 # package list
 packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools ffmpeg gcc hostapd '
 packages+='ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip '
