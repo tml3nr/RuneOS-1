@@ -125,6 +125,7 @@ $( '#listwifi' ).on( 'click', '.fa-save', function() {
 			local = 1;
 			$.post( 'commands.php', { bash: [
 				  'netctl stop "'+ ssid +'"'
+				, 'netctl disable "'+ ssid +'"'
 				, 'rm "/etc/netctl/'+ ssid +'" "/srv/http/data/system/netctl-'+ ssid +'"'
 				, pstream( 'network' )
 				] }, function() {
@@ -173,6 +174,7 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 				local = 1;
 				$.post( 'commands.php', { bash: [
 					  'netctl stop "'+ ssid +'"'
+					, 'netctl disable "'+ ssid +'"'
 					, 'rm "/etc/netctl/'+ ssid +'" "/srv/http/data/system/netctl-'+ ssid +'"'
 					, pstream( 'network' )
 					] }, function() {
@@ -187,8 +189,8 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 				$( '#scanning' ).removeClass( 'hide' );
 				local = 1;
 				$.post( 'commands.php', { bash: [
-					  'systemctl disable --now netctl-auto@'+ wlan
-					, 'netctl stop '+ ssid
+					  'netctl stop "'+ ssid +'"'
+					, 'netctl disable "'+ ssid +'"'
 					, pstream( 'network' )
 					] }, function() {
 						wlconnected = '';
@@ -385,7 +387,7 @@ function connect( wlan, ssid, data ) {
 				var cmd = [];
 			}
 			cmd.push(
-				  'systemctl enable --now netctl-auto@'+ wlan
+				  'netctl enable "'+ ssid +'"'
 				, pstream( 'network' )
 			);
 			$.post( 'commands.php', { bash: cmd }, function( std ) {
