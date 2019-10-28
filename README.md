@@ -336,9 +336,11 @@ rm -rf /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip /root/armv6h
 # (skip if removed UPnP) upmpdcli - fix missing symlink and generate RSA private key
 if [[ -e /usr/bin/upmpdcli ]]; then
     ln -s /lib/libjsoncpp.so.{21,20}
+	mpd --no-config 2> /dev/null
     upmpdcli -c /etc/upmpdcli.conf
 fi
 # Ctrl+C when done
+killall mpd
 ```
 
 **Configurations**
