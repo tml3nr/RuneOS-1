@@ -358,7 +358,7 @@ shutdown -r now
 ```
 ---
 
-### Optional
+### Optional after build
 - Once start RuneAudio+R successfully
 
 **To import existing database and settings**
