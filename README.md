@@ -194,6 +194,7 @@ systemctl start systemd-random-seed
 
 # system-wide kernel and packages upgrade
 pacman -Syu
+# if download is too slow or stuck, Ctrl+C then pacman -Syu again
 
 # package list
 packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools ffmpeg gcc hostapd '
