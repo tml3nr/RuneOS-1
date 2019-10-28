@@ -169,7 +169,7 @@ showData "$nmap" "RPi IP = $rpiip"
 # if already known IP or there's more than 1 RPi, set rpiip manually
 # rpiip=IP_ADDRESS
 
-ssh-keygen -R $rpiip  # remove existing key if any
+ssh-keygen -R $rpiip 2> /dev/null  # remove existing key if any
 
 ssh alarm@$rpiip  # password: alarm
 ```
