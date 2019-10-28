@@ -49,15 +49,47 @@ if (( ${#mounts[@]} > 0 )); then
 	rm -rf /mnt/MPD/NAS/*
 fi
 #--------------------------------------------------------
-echo -e "\n$bar Reset database and settings ..."
-
-rm -r /srv/http/data
-runerestore.sh
-#--------------------------------------------------------
 if journalctl -b | grep -q '(mmcblk0p1): Volume was not properly unmounted'; then
 	echo -e "\n$bar Fix mmcblk0 dirty bit from unproperly unmount..."
 	fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
 fi
+#--------------------------------------------------------
+echo -e "\n$bar Reset database and settings ..."
+
+rm -r /srv/http/data
+
+# default settings:
+# data and subdirectories
+dirdata=/srv/http/data
+dirdisplay=$dirdata/display
+dirsystem=$dirdata/system
+mkdir "$dirdata"
+for dir in addons bookmarks coverarts display gpio lyrics mpd playlists sampling system tmp webradios; do
+	mkdir "$dirdata/$dir"
+done
+# addons
+echo $addoversion > /srv/http/data/addons/rre1
+echo $version > $dirsystem/version
+# display
+playback="bars buttons cover time volume"
+library="album artist albumartist composer coverart genre nas sd usb webradio"
+miscel="count label plclear playbackswitch"
+for item in $playback $library $miscel; do
+	echo 1 > $dirdisplay/$item
+done
+# system
+echo runeaudio > /etc/hostname
+sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
+ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+echo bcm2835 ALSA_1 > $dirsystem/audiooutput
+echo 1 | tee $dirsystem/{localbrowser,onboard-audio,onboard-wlan} > /dev/null
+echo RuneAudio | tee $dirsystem/{hostname,soundprofile} > /dev/null
+echo 0 0 0 > $dirsystem/mpddb
+echo '$2a$12$rNJSBU0FOJM/jP98tA.J7uzFWAnpbXFYx5q1pmNhPnXnUu3L1Zz6W' > $dirsystem/password
+
+# set permissions and ownership
+chown -R http:http "$dirdata"
+chown -R mpd:audio "$dirdata/mpd"
 #--------------------------------------------------------
 
 title "$bar $name Reset successfully."
