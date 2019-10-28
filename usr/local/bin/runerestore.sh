@@ -1,5 +1,9 @@
 #!/bin/bash
 
+. /srv/http/addons-functions.sh
+
+title -l '=' "$bar $( tcolor 'RuneAudio+R e' ) Restore database and settings ..."
+
 dirdata=/srv/http/data
 dirdisplay=$dirdata/display
 dirsystem=$dirdata/system

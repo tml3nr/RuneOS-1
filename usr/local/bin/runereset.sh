@@ -93,3 +93,11 @@ chown -R mpd:audio "$dirdata/mpd"
 #--------------------------------------------------------
 
 title "$bar $name Reset successfully."
+echo
+echo -e "Reboot or Shutdown"
+echo -e '  \e[36m0\e[m Reboot'
+echo -e '  \e[36m1\e[m Shutdown'
+echo
+echo -e '\e[36m0\e[m / 1 ? '
+read -n 1 answer
+[[ $answer == 1 ]] && shutdown -r now || shutdown -h now
