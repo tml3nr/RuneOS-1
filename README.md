@@ -47,19 +47,8 @@ file=ArchLinuxARM-rpi-2-latest.tar.gz
 
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 # if downlod is too slow, Ctrl+C > rm $file and try again
-
-# install packages (skip if already installed)
-apt install bsdtar nmap  # arch linux: pacman -S bsdtar nmap
-
-# function for verify names
-cols=$( tput cols )
-showData() {
-    printf %"$cols"s | tr ' ' -
-    echo $1
-    echo $2
-    printf %"$cols"s | tr ' ' -
-}
 ```
+- While waiting for download to finish, go to next step.
 
 **Prepare partitions**
 - SD card mode (normal)
@@ -93,6 +82,18 @@ showData() {
 - Open **Files** app
 - Click `BOOT` and `ROOT` to mount
 ```sh
+# install packages (skip if already installed)
+apt install bsdtar nmap  # arch linux: pacman -S bsdtar nmap
+
+# function for verify names
+cols=$( tput cols )
+showData() {
+    printf %"$cols"s | tr ' ' -
+    echo $1
+    echo $2
+    printf %"$cols"s | tr ' ' -
+}
+
 # get ROOT partition and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 showData "$( df -h | grep ROOT )" "ROOT = $ROOT"
