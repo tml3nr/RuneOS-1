@@ -127,6 +127,7 @@ echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 ```
 
 **Unmount and remove**
+- Click `Unmount` in **Files** or:
 ```sh
 umount -l $BOOT
 umount -l $ROOT
