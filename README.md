@@ -25,6 +25,8 @@ RuneOS
 	- USB drive - 4GB+ - `ROOT` partition (or existing USB hard drive with data)
 ---
 
+### Build
+
 **Download Arch Linux Arm**
 
 | Model        | SoC       | File                             |
@@ -356,6 +358,9 @@ shutdown -r now
 ```
 ---
 
+### Optional
+- Once start RuneAudio+R successfully
+
 **To import existing database and settings**
 ```sh
 # delete existing
@@ -380,9 +385,7 @@ runereset.sh
 shutdown -r now
 ```
 
-
-**Optional - To create image file**
-- Once start RuneAudio+R successfully
+**To create image file**
 ```sh
 # (skip to keep database and settings) reset to default
 runereset.sh
