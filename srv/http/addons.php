@@ -57,7 +57,7 @@ $arraytitle = array_column( $addons, 'title' );
 //$addoindex = array_search( 'Addons Menu', $arraytitle );
 //$arraytitle[ $addoindex ] = 0;
 $updatecount = 0;
-array_multisort( $arraytitle, SORT_NATURAL | SORT_FLAG_CASE, $addons );
+//array_multisort( $arraytitle, SORT_NATURAL | SORT_FLAG_CASE, $addons );
 $arrayalias = array_keys( $addons );
 foreach( $arrayalias as $alias ) {
 	$addon = $addons[ $alias ];

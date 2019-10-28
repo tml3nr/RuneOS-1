@@ -239,38 +239,35 @@ $( '.close-root' )
 	.removeClass( 'disabled' )
 	.click( function() {
 		var alias = '<?=$alias?>';
-		if ( alias === 'rrre' ) {
-			if ( alias === 'rrre' ) {
-				var cmdpower = [
-					  'umount -l /boot' // fix - FAT-fs (mmcblk0p1): Volume was not properly unmounted.
-					, 'umount -l /mnt/MPD/NAS/* &> /dev/null'
-					, 'sleep 3'
-					, '/root/gpiooff.py 2> /devnull'
-					, 'systemctl stop localbrowser 2> /devnull'
-					, '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
-					, 'curl -s -X POST "http://127.0.0.1/pub?id=reload" -d 2'
-				];
-				info( {
-					  icon        : 'reset'
-					, title       : 'RuneAudio+R e1 - Reset'
-					, message     : 'Select mode:'
-					, buttonlabel : '<i class="fa fa-reboot"></i>Reboot'
-					, buttoncolor : '#de810e'
-					, button      : function() {
-						cmdpower.push( 'shutdown -r now' );
-						$.post( 'commands.php', { bash: cmdpower } );
-						location.href = '/';
-					}
-					, oklabel     : '<i class="fa fa-power"></i>Off'
-					, okcolor     : '#bb2828'
-					, ok          : function() {
-						cmdpower.push( 'shutdown -h now' );
-						$.post( 'commands.php', { bash: cmdpower } );
-						location.href = '/';
-					}
-					, buttonwidth : 1
-				} );
-			}
+		if ( alias === 'rest' ) {
+			var cmdpower = [
+				  'umount -l /mnt/MPD/NAS/* &> /dev/null'
+				, 'sleep 3'
+				, '/root/gpiooff.py 2> /devnull'
+				, 'systemctl stop localbrowser 2> /devnull'
+				, '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
+				, 'curl -s -X POST "http://127.0.0.1/pub?id=reload" -d 2'
+			];
+			info( {
+				  icon        : 'reset'
+				, title       : 'R+R e2 - Restore settings'
+				, message     : 'Select mode:'
+				, buttonlabel : '<i class="fa fa-reboot"></i>Reboot'
+				, buttoncolor : '#de810e'
+				, button      : function() {
+					cmdpower.push( 'shutdown -r now' );
+					$.post( 'commands.php', { bash: cmdpower } );
+					location.href = '/';
+				}
+				, oklabel     : '<i class="fa fa-power"></i>Off'
+				, okcolor     : '#bb2828'
+				, ok          : function() {
+					cmdpower.push( 'shutdown -h now' );
+					$.post( 'commands.php', { bash: cmdpower } );
+					location.href = '/';
+				}
+				, buttonwidth : 1
+			} );
 		} else if ( alias === 'cove' ) {
 			location.href = '/';
 		} else {

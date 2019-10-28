@@ -162,5 +162,3 @@ chown -R http:http "$dirdata"
 chown -R mpd:audio "$dirdata/mpd"
 
 echo -e "\n$bar Database and settings restored successfully.\n"
-read -n 1 -s -r -p "Press any key to reboot: "
-shutdown -r now

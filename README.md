@@ -363,38 +363,9 @@ shutdown -r now
 ```
 ---
 
-### Optional after build
+**Optional - Create image file**
 - Once start RuneAudio+R successfully
-
-**To import existing database and settings**
-```sh
-# delete existing
-rm -r /srv/http/data
-
-# copy existings (replace /PATH/TO/data with actual path)
-cp -r /PATH/TO/data /srv/http
-
-# restore
-runerestore.sh
-```
-
-**To reset database and all settings**
-```sh
-# reset to default
-runereset.sh
-
-# reboot
-shutdown -r now
-```
-
-**To create image file**
-```sh
-# (skip to keep database and settings) reset to default
-runereset.sh
-
-# shutdown
-shutdown -h now
-```
+- Power off
 - Move micro SD card (and the USB drive, if `ROOT` partition is in USB drive) to PC
 - Resize `ROOT` partition to smallest size possible with **GParted** app
 	- menu: GParted > Devices > /dev/sd?
