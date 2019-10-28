@@ -3,6 +3,11 @@
 # skip on startup - called by usbdac.rules
 if [[ -e /tmp/startup ]]; then
 	rm /tmp/startup
+	# reenable on-board audio if nothing available for aplay
+	if [[ -z $( aplay -l ) ]]; then
+		sed -i 's/dtparam=audio=.*/dtparam=audio=on/' /boot/config.txt
+		shutdown -r now
+	fi
 	exit
 fi
 
@@ -18,12 +23,6 @@ elif [[ $model == 09 || $model == 0c ]]; then  # RPi Zero
 	aplay=$( aplay -l | grep '^card' | grep -v 'IEC958/HDMI1\|bcm2835 ALSA\]$' )
 else
 	aplay=$( aplay -l | grep '^card' | grep -v 'IEC958/HDMI1' )
-fi
-
-# reenable on-board audio if nothing available for aplay
-if [[ -z $aplay ]]; then
-	sed -i 's/dtparam=audio=.*/dtparam=audio=on/' /boot/config.txt
-	shutdown -r now
 fi
 
 file=/etc/mpd.conf
