@@ -349,21 +349,6 @@ killall mpd
 runeconfigure.sh
 ```
 
-**Migrate existing database and settings** (Skip if set as default)
-- Get path of existing directory `data`
-- Replace `/srv/http/data` with existing `data`
-```sh
-# remove default
-rm -r $ROOT/srv/http/data
-
-# copy existings (replace /PATH/TO/data with actual path)
-datapath=/PATH/TO/data
-cp -r "$datapath" $ROOT/srv/http
-
-# restore settings
-runerestore.sh
-```
-
 **Finish**
 ```sh
 # reboot
@@ -371,16 +356,7 @@ shutdown -r now
 ```
 ---
 
-**To reset database and all settings**
-```sh
-# reset to default
-runereset.sh
-
-# reboot
-shutdown -r now
-```
-
-**To import existing database and settings after boot**
+**To import existing database and settings**
 ```sh
 # delete existing
 rm -r /srv/http/data
@@ -395,7 +371,17 @@ runerestore.sh
 shutdown -r now
 ```
 
-**Optional - Create image file**
+**To reset database and all settings**
+```sh
+# reset to default
+runereset.sh
+
+# reboot
+shutdown -r now
+```
+
+
+**Optional - To create image file**
 - Once start RuneAudio+R successfully
 ```sh
 # (skip to keep database and settings) reset to default
