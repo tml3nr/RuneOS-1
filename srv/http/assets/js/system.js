@@ -438,28 +438,28 @@ $( '#setting-samba' ).click( function() {
 		  icon     : 'network'
 		, title    : 'Samba File Sharing'
 		, message  : '<wh>Write</wh> permission:'
-		, checkbox : { '/mnt/MPD/USB': 1 }
+		, checkbox : { '/mnt/MPD/SD': 1, '/mnt/MPD/USB': 1 }
 		, preshow  : function() {
-			if ( $( '#samba' ).data( 'usb' ) ) $( '#infoCheckBox input:eq( 0 )' ).prop( 'checked', 1 );
-			if ( $( '#samba' ).data( 'sd' ) ) $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked', 1 );
+			if ( $( '#samba' ).data( 'sd' ) ) $( '#infoCheckBox input:eq( 0 )' ).prop( 'checked', 1 );
+			if ( $( '#samba' ).data( 'usb' ) ) $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked', 1 );
 		}
 		, ok       : function() {
 			var cmd = "sed -i -e '/read only = no/ d'";
 			if ( $( '#infoCheckBox input:eq( 0 )' ).prop( 'checked' ) ) {
+				cmd += " -e '/path = .*SD/ a\\\\tread only = no'";
+				var sd = 1;
+				$( '#samba' ).data( 'sd', 1 );
+			} else {
+				var sd = 0;
+				$( '#samba' ).data( 'sd', 0 );
+			}
+			if ( $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked' ) ) {
 				cmd += " -e '/path = .*USB/ a\\\\tread only = no'";
 				var usb = 1;
 				$( '#samba' ).data( 'usb', 1 );
 			} else {
 				var usb = 0;
 				$( '#samba' ).data( 'usb', 0 );
-			}
-			if ( $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked' ) ) {
-				cmd += " -e '/path = .*LocalStorage/ a\\\\tread only = no'";
-				var sd = 1;
-				$( '#samba' ).data( 'sd', 1 );
-			} else {
-				var sd = 0;
-				$( '#samba' ).data( 'sd', 0 );
 			}
 			local = 1;
 			cmd = [
