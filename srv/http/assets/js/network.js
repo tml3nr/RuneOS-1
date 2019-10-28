@@ -162,7 +162,7 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 					+'IP<br>'
 					+'Router'
 				+'</div>'
-				+'<div class="col-r" style="width: 140px">'
+				+'<div class="col-r" style="width: 180px; min-width: auto; top: 10px; color: #e0e7ee; text-align: left;">'
 					+ $this.data( 'ip' ) +'<br>'
 					+ $this.data( 'router' )
 				+'</div>'
