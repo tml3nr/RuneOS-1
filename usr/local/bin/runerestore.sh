@@ -153,3 +153,6 @@ fi
 # set permissions and ownership
 chown -R http:http "$dirdata"
 chown -R mpd:audio "$dirdata/mpd"
+
+echo -e "\n$bar Reboot ..."
+shutdown -r now
