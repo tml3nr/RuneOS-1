@@ -157,7 +157,7 @@ Security=$wpa
 Key=$password" > "$ROOT/etc/netctl/$ssid"
 
 # enable startup
-ln -s $ROOT/usr/lib/systemd/system/netctl@.service "$ROOT/etc/systemd/system/multi-user.target.wants/netctl@$ssid.service"
+cp $ROOT/usr/lib/systemd/system/netctl@.service "$ROOT/etc/systemd/system/multi-user.target.wants/netctl@$ssid.service"
 dir="$ROOT/etc/systemd/system/netctl@$ssid.service.d"
 mkdir $dir
 echo '[Unit]
