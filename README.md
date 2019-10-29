@@ -214,9 +214,9 @@ packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools 
 packages+='ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip '
 packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 
-# get model
+# get RPi model
 model=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-echo 00 01 02 03 04 09 | grep -q $model && nowireless=1 || nowireless=
+echo 00 01 02 03 04 09 | grep -q $model && nobt=1 || nobt=
 ```
 
 (skip - RPi 3, 4) **Exclude for hardware support**
@@ -226,7 +226,7 @@ packages=${packages/ chromium}
 packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
 
 # remove bluetooth if not RPi 0 W, 3, 4
-[[ $nowireless ]] && packages=${packages/ bluez bluez-utils}
+[[ $nobt ]] && packages=${packages/ bluez bluez-utils}
 ```
 
 (skip - install all) **Exclude optional packages**
@@ -288,6 +288,7 @@ wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 
 # expand to target directories
 bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
+[[ $nobt ]] && rm bluealsa*
 
 # set permissions and ownership
 chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
@@ -302,9 +303,6 @@ if echo 00 01 02 03 04 09 0c | grep -q $model; then
     rm *.pkg.tar.xz
     mv armv6h/* .
 fi
-
-# (skip - RPi 0 generic build) RPi 0 W has bluetooth
-[[ $nowireless ]] && rm bluealsa*
 ```
 
 (skip - install all) **Exclude optional packages**
