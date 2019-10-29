@@ -5,7 +5,7 @@ addoversion=20191101
 
 # RPi 4
 if [[ $model == 11 ]]; then
-	sed -i '/force_turbo/ d' /boot/config/txt
+	sed -i '/force_turbo/ d' /boot/config.txt
 	mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
 fi
 
