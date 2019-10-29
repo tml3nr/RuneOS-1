@@ -16,7 +16,9 @@ RuneOS
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows with network set as `Bridge Adapter`)
 - Raspberry Pi
-- LAN(more stable) or Wi-Fi connection (if not available, monitor + keyboard)
+- Network connection (if not available, monitor + keyboard - no copy-paste)
+	- Wired LAN (more stable)
+	- Wi-Fi connection
 - Normal SD mode
 	- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
 - USB mode (for hard drive or fast thumb drive)
@@ -37,7 +39,7 @@ RuneOS
 
 - On Linux PC
 	- Command lines - gray code blocks
-	- Copy > paste unless corrections needed
+	- Copy-paste unless corrections needed
 	- Comments - Lines with leading `#` can be skipped.
 ```sh
 # switch user to root
