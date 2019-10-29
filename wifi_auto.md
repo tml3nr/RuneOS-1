@@ -50,7 +50,7 @@ BindsTo=sys-subsystem-net-devices-wlan0.device
 After=sys-subsystem-net-devices-wlan0.device' > "$dir/profile.conf"
 
 cd $ROOT/etc/systemd/system/multi-user.target.wants
-ln -s ../../../../lib/systemd/system/netctl@.service netctl@Home2GHz.service
+ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
 
 # unmount
 umount -l $BOOT
