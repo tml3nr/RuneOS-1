@@ -71,13 +71,13 @@ wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 		- Label: `BOOT`
 	- Plug in USB drive
 		- Blank:
-			- Delete all partitions (make sure it's the USB drive)
+			- Delete all partitions (Caution: make sure it's the USB drive)
 			- Format: `ext4`
 			- Label: `ROOT`
 		- With existing data:
-			- No need to change format of existing partition
+			- No need to reformat or change format of existing partition
 			- Resize the existing to get 4GB unallocated space (anywhere - at the end, middle or start of the disk)
-			- Create a new partition in the unallocated space
+			- Create a new partition in the new 4GB space
 				- Format: `ext4`
 				- Label: `ROOT`
 
@@ -388,7 +388,8 @@ if [[ -e /usr/bin/upmpdcli ]]; then
     mpd --no-config 2> /dev/null
     upmpdcli -c /etc/upmpdcli.conf
 fi
-# Ctrl+C when done
+# Ctrl+C when 'writing RSA key' shown
+
 killall mpd
 ```
 
