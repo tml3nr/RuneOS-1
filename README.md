@@ -240,7 +240,6 @@ pacman-key --populate archlinuxarm
 systemctl start systemd-random-seed
 
 # (skip - NOT RPi 0, 1) fix dns errors
-date -s YYYYMMDD  # replace YYYYMMDD
 systemctl stop systemd-resolved
 
 # system-wide kernel and packages upgrade
