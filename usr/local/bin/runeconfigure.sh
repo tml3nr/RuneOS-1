@@ -31,7 +31,7 @@ chown mpd:audio /var/log/mpd.log
 rm /etc/motd
 
 # netctl - allow write for http
-chmod 777 /etc/netctl
+chmod -R 777 /etc/netctl
 
 # nginx - custom 50x.html
 mv -f /etc/nginx/html/50x.html{.custom,}
