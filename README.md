@@ -40,6 +40,7 @@ RuneOS
 	- Copy > paste unless corrections needed
 	- Comments - Lines with leading `#` can be skipped.
 ```sh
+# switch user to root
 su
 
 # download - replace with matched model
@@ -288,7 +289,7 @@ wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 
 # expand to target directories
 bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
-[[ $nobt ]] && rm bluealsa*
+[[ $nobt ]] && rm bluealsa* /boot/overlays/bcmbt.dtbo
 
 # set permissions and ownership
 chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
