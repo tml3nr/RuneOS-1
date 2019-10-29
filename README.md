@@ -141,10 +141,17 @@ echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 (skip - wired LAN) **Setup Wi-Fi connection**
 - For auto-connect after boot
 ```sh
-# credential - replace SSID, PASSWORD (and wpa if wep)
-ssid="SSID"
-password=PASSWORD
-wpa=wpa
+# credential
+credentials() {
+    echo -e "\nWi-Fi connection\n"
+    printf 'SSID: '
+    read ssid
+    printf 'Password: '
+    read password
+    printf 'wpa or wep: '
+    read wpa
+}
+credentials
 
 # profile
 echo "Interface=wlan0
@@ -186,9 +193,15 @@ nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
 rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
 showData "$nmap" "RPi IP = $rpiip"
 
-# (skip - correct rpiip) set rpiip manually - multiple RPis or incorrect IP (RPi 4 may listed as unknown)
-nmap -sP ${routerip%.*}.*  # scan hosts for all IPs
-rpiip=IP_ADDRESS  # replace IP_ADDRESS with actual
+# (skip - correct rpiip) # scan all IPs - multiple RPis or incorrect IP (RPi 4 may listed as unknown)
+nmap -sP ${routerip%.*}.*
+
+# (skip - correct rpiip) set rpiip manually
+setip() {
+    printf 'rpiip: '
+    read rpiip
+}
+setip
 
 # remove existing key if any
 ssh-keygen -R $rpiip 2> /dev/null
