@@ -10,7 +10,6 @@ dtoverlay=disable-bt
 dtparam=audio=on
 
 ### display
-lcd_rotate=0
 disable_splash=1
 disable_overscan=1
 
