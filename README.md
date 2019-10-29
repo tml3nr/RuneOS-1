@@ -1,6 +1,6 @@
 RuneOS
 ---
-- For all Raspberry Pi: Zero, 1, 2, 3 and 4 (3A+ and 3B+: not yet tested but should work)
+- For all Raspberry Pi: 0, 1, 2, 3 and 4 (3A+ and 3B+: not yet tested but should work)
 - Build RuneAudio+R from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) releases.
 - With options to exclude features, it can be as light as possible in terms of build time and disk space.
 
@@ -36,6 +36,7 @@ RuneOS
 | RPi 4B       | BCM2711   | ArchLinuxARM-rpi-4-latest.tar.gz |
 
 - On Linux PC
+	- Command lines - gray code blocks
 	- Copy > paste unless corrections needed
 	- Comments - Lines with leading `#` can be skipped.
 ```sh
@@ -112,19 +113,25 @@ showData "$( df -h | grep BOOT )" "BOOT = $BOOT"
 
 # move to BOOT
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
+
+# (skip - RPi 0, 1) boot splash
+cmdline='root=/dev/mmcblk0p2 rw rootwait console=ttyAMA0,115200 selinux=0 fsck.repair=yes smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 '
+cmdline+='kgdboc=ttyAMA0,115200 elevator=noop console=tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
+echo $cmdline > $BOOT/boot/cmdline.txt
+
+# (skip - NOT RPi 0) fix: kernel panic
+[[ $model == 09 || $model == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
 ```
 
-**Setup USB as root partition** (Skip if SD card mode)
+(skip - SD card mode) **Setup USB as root partition**
 ```sh
 # get UUID and verify
 dev=$( df | grep ROOT | awk '{print $1}' )
 uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '"' )
 showData "$( df -h | grep ROOT )" $uuid
 
-# replace root device
+# set root device
 sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
-
-# append to fstab
 echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 ```
 
@@ -138,11 +145,11 @@ umount -l $ROOT
 **Start Arch Linux Arm**
 - Move micro SD card (and USB drive if in USB drive mode) to RPi
 - Remove all other USB devices, Wi-Fi, bluetooth, mouse
-- Connect wired LAN (If not available or RPi Zero W, connect monitor + keyboard)
+- Connect wired LAN (If not available or RPi 0 W, connect monitor + keyboard)
 - Power on
 - Wait 30 seconds (On connected monitor at login prompt)
 
-**(for RPi Zero W or RPi1 or Zero with Wi-Fi dongle)** :
+(skip - wired LAN) **Connect Wi-Fi** :
 ```sh
 # login
 alarm  # password: alarm
@@ -153,14 +160,13 @@ su # password: root
 # connect wi-fi
 wifi-menu
 
-# fix dns errors (replace YYYYMMDD)
-date -s YYYYMMDD
+# (skip - NOT RPi 0, 1) fix dns errors
+date -s YYYYMMDD  # replace YYYYMMDD
 systemctl stop systemd-resolved
 ```
 - Then continue at Packages
 
-**Connect PC to RPi** (skip for connected monitor + keyboard - without network connection)
-- (Continuing with connected monitor + keyboard cannot copy-paste scripts.)
+(skip - no network connection) **Connect PC to RPi**
 ```sh
 # get RPi IP address and verify - skip to ### connect ### for known IP
 routerip=$( ip route get 1 | cut -d' ' -f3 )
@@ -176,9 +182,9 @@ ssh-keygen -R $rpiip 2> /dev/null  # remove existing key if any
 
 ssh alarm@$rpiip  # password: alarm
 ```
-- If `ssh` failed, start all over again. (A lot of `[FAILED]` on connected monitor.)
+- If `ssh` failed, start all over again. (A lot of `[FAILED]` on connected monitor)
 
-**Initialize and upgrade**
+(skip - connected Wi-Fi) **Initialize and upgrade**
 ```sh
 # switch user to root
 su # password: root
@@ -207,22 +213,23 @@ pacman -Syu
 packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools ffmpeg gcc hostapd '
 packages+='ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip '
 packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
+
+# get model
+model=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
+echo 00 01 02 03 04 09 | grep -q $model && nowireless=1 || nowireless=
 ```
 
-**Exclude for hardware support** (Skip if RPi3, 4)
+(skip - RPi 3, 4) **Exclude for hardware support**
 ```sh
-# RPi 1, Zero - no browser on rpi (too much for CPU)
+# RPi 0, 1 - no browser on rpi (too much for CPU)
 packages=${packages/ chromium}
 packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
 
-model=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-echo 00 01 02 03 04 09 | grep -q $model && nowireless=1 || nowireless=
-
-# (skip for generic build) remove bluetooth if not RPi Zero W, 3, 4
+# remove bluetooth if not RPi 0 W, 3, 4
 [[ $nowireless ]] && packages=${packages/ bluez bluez-utils}
 ```
 
-**Exclude optional packages** (Skip to install all)
+(skip - install all) **Exclude optional packages**
 ```sh
 # remove connect by name: runeaudio.local
 packages=${packages/ avahi}
@@ -286,27 +293,21 @@ bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 
-# Skip if not RPi1 or RPi Zero - no splash, hdmi sound, armv6h packages
+# (skip - NOT RPi 0, 1) no splash, hdmi sound, armv6h packages
 if echo 00 01 02 03 04 09 0c | grep -q $model; then
-    # RPi Zero - fix: kernel panic - force_turbo + over_voltage
+    # RPi 0 - fix: kernel panic
     [[ $model == 09 || $model == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
-    # RPi Zero - only W has wifi and bluetooth
+    # RPi 0 - only W has wifi and bluetooth
     [[ $model != 0c ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
-    # display text mode
-    echo 'root=/dev/mmcblk0p2 rw rootwait console=ttyAMA0,115200 console=tty1 selinux=0 plymouth.enable=0 smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 kgdboc=ttyAMA0,115200 elevator=noop' > /boot/cmdline.txt
     rm *.pkg.tar.xz
     mv armv6h/* .
 fi
 
-# skip if not USB drive mode - replace root device
-uuid=$( blkid | grep ROOT | cut -d' ' -f3 | tr -d '"' )
-sed -i "s|/dev/mmcblk0p2|$uuid|" /boot/cmdline.txt
-
-# skip for RPi Zero generic build - RPi Zero W has bluetooth
+# (skip - RPi 0 generic build) RPi 0 W has bluetooth
 [[ $nowireless ]] && rm bluealsa*
 ```
 
-**Exclude optional packages** (Skip to install all)
+(skip - install all) **Exclude optional packages**
 ```sh
 # remove bluetooth
 rm -f bluealsa*
@@ -318,7 +319,7 @@ rm -f kid3-cli*
 rm -f libupnpp* upmpdcli*
 ```
 
-**Exclude removed packages configurations** (Skip if install all)
+(skip - install all) **Exclude removed packages configurations**
 ```sh
 [[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
 if [[ ! -e /usr/bin/chromium ]]; then
@@ -340,7 +341,7 @@ pacman -U *.pkg.tar.xz
 # remove cache and custom package files
 rm -rf /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip /root/armv6h
 
-# (skip if removed UPnP) upmpdcli - fix missing symlink and generate RSA private key
+# (skip - removed UPnP) upmpdcli - fix missing symlink and generate RSA private key
 if [[ -e /usr/bin/upmpdcli ]]; then
     ln -s /lib/libjsoncpp.so.{21,20}
     mpd --no-config 2> /dev/null
@@ -393,4 +394,5 @@ dd if=$dev of=RuneAudio+Re2.img count=$(( end + 1 )) status=progress  # remove s
 ```
 - Create image - **USB drive mode**
 	- Open **Disks** app - select drive > select partition > cogs button > Create Partition Image
-	- One for micro SD card and one for USB drive
+		- Micro SD card
+		- USB drive
