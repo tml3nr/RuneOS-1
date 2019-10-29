@@ -6,6 +6,7 @@ addoversion=20191101
 # RPi 4
 if [[ $model == 11 ]]; then
 	sed -i '/force_turbo/ d' /boot/config.txt
+	echo -e "[pi4]ndtoverlay=vc4-fkms-v3d\nmax_framebuffers=2" >> /boot/config.txt
 	mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
 fi
 
