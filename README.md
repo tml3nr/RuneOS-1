@@ -16,7 +16,7 @@ RuneOS
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows with network set as `Bridge Adapter`)
 - Raspberry Pi
-- Network connection (if not available, monitor + keyboard - no copy-paste)
+- Network connection
 	- Wired LAN (more stable)
 	- Wi-Fi connection
 - Normal SD mode
@@ -139,6 +139,7 @@ echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 ```
 
 (skip - wired LAN) **Setup Wi-Fi connection**
+- For auto-connect after boot
 ```sh
 # credential - replace SSID, PASSWORD (and wpa if wep)
 ssid="SSID"
@@ -171,26 +172,28 @@ umount -l $ROOT
 
 **Start Arch Linux Arm**
 - Move micro SD card (and USB drive if in USB drive mode) to RPi
-- Remove all other USB devices, Wi-Fi, bluetooth, mouse
-- Connect wired LAN (If not available or RPi 0 W, connect monitor + keyboard)
+- Plug in wired LAN (RPi without wired LAN or Wi-Fi - plug in USB Wi-Fi)
+- Remove all other USB devices if any
 - Power on
-- Wait 30 seconds (On connected monitor at login prompt)
+- Wait 30 seconds
 
 **Connect PC to RPi**
 ```sh
-# get RPi IP address and verify - skip to ### connect ### for known IP
+# get RPi IP address and verify
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
 
 rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
 showData "$nmap" "RPi IP = $rpiip"
 
-# (skip - correct rpiip) set rpiip manually
+# (skip - correct rpiip) set rpiip manually - multiple RPis or incorrect IP (RPi 4 may listed as unknown)
 nmap -sP ${routerip%.*}.*  # scan hosts for all IPs
 rpiip=IP_ADDRESS  # replace IP_ADDRESS with actual
 
-ssh-keygen -R $rpiip 2> /dev/null  # remove existing key if any
+# remove existing key if any
+ssh-keygen -R $rpiip 2> /dev/null
 
+# connect
 ssh alarm@$rpiip  # password: alarm
 ```
 
@@ -390,35 +393,4 @@ shutdown -r now
 ```
 ---
 
-**Optional - Create image file**
-- Once start RuneAudio+R successfully
-- Power off
-- Move micro SD card (and the USB drive, if `ROOT` partition is in USB drive) to PC
-- Resize `ROOT` partition to smallest size possible with **GParted** app
-	- menu: GParted > Devices > /dev/sd?
-	- right-click `ROOT` partiton > Unmount
-	- right-click `ROOT` partiton > Resize/Move
-	- drag rigth triangle to fit minimum size
-	- menu: Edit > Apply all operations
-- Create image - **SD card mode**
-	- on Windows (much faster): [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/) > Read only allocated partitions
-	- OR
-```sh
-# get device and verify
-part=$( df | grep BOOT | awk '{print $1}' )
-dev=${part:0:-1}
-df | grep BOOT
-echo device = $dev
-
-# get partition end and verify
-fdisk -u -l $dev
-end=$( fdisk -u -l $dev | tail -1 | awk '{print $3}' )
-echo end = $end
-
-# create image
-dd if=$dev of=RuneAudio+Re2.img count=$(( end + 1 )) status=progress  # remove status=progress if errors
-```
-- Create image - **USB drive mode**
-	- Open **Disks** app - select drive > select partition > cogs button > Create Partition Image
-		- Micro SD card
-		- USB drive
+**Optional** - [Create image file]()
