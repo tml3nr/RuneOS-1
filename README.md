@@ -248,8 +248,8 @@ pacman -Syu
 # if download is too slow or stuck, Ctrl+C then pacman -Syu again
 ```
 
-**(Optional) Create image of Arch Linux Arm**
-- To save time for all previous steps - [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
+**(Optional)
+- Create image of Arch Linux Arm to skip all previous steps in next rebuild - [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
 
 **Packages**
 ```sh
