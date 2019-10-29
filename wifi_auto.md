@@ -1,4 +1,5 @@
 ### Wi-Fi auto-connect
+Auto connect WiFi on startup
 - On Linux PC (or Linux in VirtualBox on Windows)
 - Insert micro SD card
 - Open Files app
