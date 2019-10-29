@@ -110,7 +110,7 @@ $( '#listinterfaces' ).on( 'click', 'li', function( e ) {
 } );
 $( '#listwifi' ).on( 'click', '.fa-save', function() {
 	var $this = $( this ).parent();
-	if ( ! $this.data( 'profile' ) ) return
+	if ( ! $this.data( 'profile' ) || $this.data( 'connected' ) ) return
 	
 	var wlan = $this.data( 'wlan' );
 	var ssid = $this.data( 'ssid' );
@@ -141,7 +141,7 @@ $( '#listwifi' ).on( 'click', '.fa-save', function() {
 	} );
 } );
 $( '#listwifi' ).on( 'click', 'li', function( e ) {
-	if ( $( e.target ).hasClass( 'fa-save' ) ) return
+	if ( $( e.target ).hasClass( 'fa-save' ) && !$( e.target ).parent().data( 'connected' ) ) return
 	
 	var $this = $( this );
 	var wlan = $this.data( 'wlan' );
@@ -391,7 +391,7 @@ function connect( wlan, ssid, data ) {
 				, pstream( 'network' )
 			);
 			$.post( 'commands.php', { bash: cmd }, function() {
-				wlanScan();
+				wlanScanInterval();
 				resetlocal();
 			} );
 		} else {
