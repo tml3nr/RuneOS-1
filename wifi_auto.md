@@ -43,12 +43,14 @@ Security=$wpa
 Key=$password" > "$ROOT/etc/netctl/$ssid"
 
 # enable startup
-cp $ROOT/usr/lib/systemd/system/netctl@.service "$ROOT/etc/systemd/system/multi-user.target.wants/netctl@$ssid.service"
 dir="$ROOT/etc/systemd/system/netctl@$ssid.service.d"
 mkdir $dir
 echo '[Unit]
 BindsTo=sys-subsystem-net-devices-wlan0.device
 After=sys-subsystem-net-devices-wlan0.device' > "$dir/profile.conf"
+
+cd $ROOT/etc/systemd/system/multi-user.target.wants
+ln -s ../../../../lib/systemd/system/netctl@.service netctl@Home2GHz.service
 
 # unmount
 umount -l $BOOT
