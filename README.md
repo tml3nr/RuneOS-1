@@ -202,7 +202,7 @@ setip
 ssh-keygen -R $rpiip 2> /dev/null
 
 # connect
-ssh alarm@$rpiip  # password: alarm
+ssh alarm@$rpiip  # confirm: yes > password: alarm
 ```
 
 (skip - `ssh` connected) **Connect Wi-Fi manually**
@@ -304,7 +304,7 @@ packages=${packages/ python python-pip}
 **Install packages**
 ```sh
 # install packages
-pacman -S $packages
+pacman -S $packages # select default
 
 # optional - install RPi.GPIO
 pip --no-cache-dir install RPi.GPIO
