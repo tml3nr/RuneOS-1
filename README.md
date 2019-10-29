@@ -99,7 +99,7 @@ showData() {
 
 # get ROOT partition and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
-showData "$( df -h | grep ROOT )" "ROOT = $ROOT"
+showData "$( df -h | grep ROOT )" "ROOT: $ROOT"
 
 # expand to ROOT
 bsdtar xpvf $file -C $ROOT  # if errors - install missing packages
@@ -112,7 +112,7 @@ rm $file
 ```sh
 # get BOOT partition and verify
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
-showData "$( df -h | grep BOOT )" "BOOT = $BOOT"
+showData "$( df -h | grep BOOT )" "BOOT: $BOOT"
 
 # move to BOOT
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
@@ -191,14 +191,14 @@ routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
 
 rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
-showData "$nmap" "RPi IP = $rpiip"
+showData "$nmap" "RPi IP: $rpiip"
 
 # (skip - correct rpiip) # scan all IPs - multiple RPis or incorrect IP (RPi 4 may listed as unknown)
 nmap -sP ${routerip%.*}.*
 
 # (skip - correct rpiip) set rpiip manually
 setip() {
-    printf 'rpiip: '
+    printf 'RPi IP: '
     read rpiip
 }
 setip
