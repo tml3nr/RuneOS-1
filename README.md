@@ -236,7 +236,7 @@ pacman -Syu
 ```
 
 **(Optional) Create image of Arch Linux Arm**
-- To save time for all previous steps
+- To save time for all previous steps - [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
 
 **Packages**
 ```sh
@@ -393,4 +393,4 @@ shutdown -r now
 ```
 ---
 
-**Optional** - [Create image file]()
+**Optional** - [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
