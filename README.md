@@ -16,7 +16,7 @@ RuneOS
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows with network set as `Bridge Adapter`)
 - Raspberry Pi
-- Wired LAN connection (if not available, monitor + keyboard)
+- LAN or Wi-Fi connection (if not available, monitor + keyboard)
 - Normal SD mode
 	- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
 - USB mode (for hard drive or fast thumb drive)
@@ -150,7 +150,42 @@ umount -l $ROOT
 - Power on
 - Wait 30 seconds (On connected monitor at login prompt)
 
-(skip - wired LAN) **Connect Wi-Fi** :
+(skip - wired LAN) **Setup Wi-Fi connection**
+```sh
+# replace SSID, PASSWORD (and wpa if wep)
+ssid="SSID"
+password=PASSWORD
+wpa=wpa
+
+echo "Interface=wlan0
+Connection=wireless
+IP=dhcp
+ESSID=\"$ssid\"
+Security=wpa
+Key=$password" > "$ROOT/etc/netctl/$ssid"
+```
+
+**Connect PC to RPi**
+```sh
+# get RPi IP address and verify - skip to ### connect ### for known IP
+routerip=$( ip route get 1 | cut -d' ' -f3 )
+nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
+
+rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
+showData "$nmap" "RPi IP = $rpiip"
+
+# (skip - correct rpiip) set rpiip manually
+nmap -sP ${routerip%.*}.*  # scan hosts for all IPs
+rpiip=IP_ADDRESS  # replace IP_ADDRESS with actual
+
+ssh-keygen -R $rpiip 2> /dev/null  # remove existing key if any
+
+ssh alarm@$rpiip  # password: alarm
+```
+
+(skip - `ssh` connected) **Connect Wi-Fi manually**
+- If RPi not show in `nmap` list, connect a monitor/tv and a keyboard.
+- If here's a lot of `[FAILED]` on connected monitor, start over again.
 ```sh
 # login
 alarm  # password: alarm
@@ -160,32 +195,9 @@ su # password: root
 
 # connect wi-fi
 wifi-menu
-
-# (skip - NOT RPi 0, 1) fix dns errors
-date -s YYYYMMDD  # replace YYYYMMDD
-systemctl stop systemd-resolved
 ```
-- Then continue at Packages
 
-(skip - no network connection) **Connect PC to RPi**
-```sh
-# get RPi IP address and verify - skip to ### connect ### for known IP
-routerip=$( ip route get 1 | cut -d' ' -f3 )
-nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
-
-rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
-showData "$nmap" "RPi IP = $rpiip"
-
-# if already known IP or there's more than 1 RPi, set rpiip manually
-# rpiip=IP_ADDRESS
-
-ssh-keygen -R $rpiip 2> /dev/null  # remove existing key if any
-
-ssh alarm@$rpiip  # password: alarm
-```
-- If `ssh` failed, start all over again. (A lot of `[FAILED]` on connected monitor)
-
-(skip - connected Wi-Fi) **Initialize and upgrade**
+**Initialize and upgrade**
 ```sh
 # switch user to root
 su # password: root
@@ -199,6 +211,10 @@ pacman-key --populate archlinuxarm
 
 # fill entropy pool (fix - Kernel entropy pool is not initialized)
 systemctl start systemd-random-seed
+
+# (skip - NOT RPi 0, 1) fix dns errors
+date -s YYYYMMDD  # replace YYYYMMDD
+systemctl stop systemd-resolved
 
 # system-wide kernel and packages upgrade
 pacman -Syu
