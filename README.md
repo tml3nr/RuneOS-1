@@ -123,7 +123,7 @@ cmdline+='kgdboc=ttyAMA0,115200 elevator=noop console=tty3 plymouth.enable=0 qui
 echo $cmdline > $BOOT/boot/cmdline.txt
 
 # (skip - NOT RPi 0) fix: kernel panic
-[[ $model == 09 || $model == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
+echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
 ```
 
 (skip - SD card mode) **Setup USB as root partition**
@@ -136,6 +136,30 @@ showData "$( df -h | grep ROOT )" $uuid
 # set root device
 sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
 echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
+```
+
+(skip - wired LAN) **Setup Wi-Fi connection**
+```sh
+# credential - replace SSID, PASSWORD (and wpa if wep)
+ssid="SSID"
+password=PASSWORD
+wpa=wpa
+
+# profile
+echo "Interface=wlan0
+Connection=wireless
+IP=dhcp
+ESSID=\"$ssid\"
+Security=$wpa
+Key=$password" > "$ROOT/etc/netctl/$ssid"
+
+# enable startup
+ln -s $ROOT/usr/lib/systemd/system/netctl@.service "$ROOT/etc/systemd/system/multi-user.target.wants/netctl@$ssid.service"
+dir="$ROOT/etc/systemd/system/netctl@$ssid.service.d"
+mkdir $dir
+echo '[Unit]
+BindsTo=sys-subsystem-net-devices-wlan0.device
+After=sys-subsystem-net-devices-wlan0.device' > "$dir/profile.conf"
 ```
 
 **Unmount and remove**
@@ -151,21 +175,6 @@ umount -l $ROOT
 - Connect wired LAN (If not available or RPi 0 W, connect monitor + keyboard)
 - Power on
 - Wait 30 seconds (On connected monitor at login prompt)
-
-(skip - wired LAN) **Setup Wi-Fi connection**
-```sh
-# replace SSID, PASSWORD (and wpa if wep)
-ssid="SSID"
-password=PASSWORD
-wpa=wpa
-
-echo "Interface=wlan0
-Connection=wireless
-IP=dhcp
-ESSID=\"$ssid\"
-Security=wpa
-Key=$password" > "$ROOT/etc/netctl/$ssid"
-```
 
 **Connect PC to RPi**
 ```sh
