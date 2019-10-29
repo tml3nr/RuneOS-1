@@ -16,7 +16,7 @@ RuneOS
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows with network set as `Bridge Adapter`)
 - Raspberry Pi
-- LAN or Wi-Fi connection (if not available, monitor + keyboard)
+- LAN(more stable) or Wi-Fi connection (if not available, monitor + keyboard)
 - Normal SD mode
 	- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
 - USB mode (for hard drive or fast thumb drive)
