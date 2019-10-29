@@ -3,6 +3,12 @@
 version=e2
 addoversion=20191101
 
+# RPi 4
+if [[ $model == 11 ]]; then
+	sed -i '/force_turbo/ d' /boot/config/txt
+	mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
+fi
+
 # boot splash - RPi 2, 3, 4
 model=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 if echo 04 08 0e 0d 11 | grep -q $model; then
@@ -17,12 +23,6 @@ sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules   # omit tes
 
 # bluetooth (skip if removed bluetooth)
 [[ -e /usr/bin/bluetoothctl ]] && sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
-
-# RPi 4
-if [[ $model == 11 ]]; then
-	sed -i '/force_turbo/ d' /boot/config/txt
-	mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
-fi
 
 # cron - for addons updates
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addons-update.sh &' ) | crontab -
