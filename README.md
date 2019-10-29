@@ -117,11 +117,6 @@ showData "$( df -h | grep BOOT )" "BOOT: $BOOT"
 # move to BOOT
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
-# (skip - RPi 0, 1) boot splash
-cmdline='root=/dev/mmcblk0p2 rw rootwait console=ttyAMA0,115200 selinux=0 fsck.repair=yes smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 '
-cmdline+='kgdboc=ttyAMA0,115200 elevator=noop console=tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
-echo $cmdline > $BOOT/boot/cmdline.txt
-
 # (skip - NOT RPi 0) fix: kernel panic
 echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
 ```
@@ -162,12 +157,14 @@ Security=$wpa
 Key=$password" > "$ROOT/etc/netctl/$ssid"
 
 # enable startup
-ln -s $ROOT/usr/lib/systemd/system/netctl@.service "$ROOT/etc/systemd/system/multi-user.target.wants/netctl@$ssid.service"
 dir="$ROOT/etc/systemd/system/netctl@$ssid.service.d"
 mkdir $dir
 echo '[Unit]
 BindsTo=sys-subsystem-net-devices-wlan0.device
 After=sys-subsystem-net-devices-wlan0.device' > "$dir/profile.conf"
+
+cd $ROOT/etc/systemd/system/multi-user.target.wants
+ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
 ```
 
 **Unmount and remove**
@@ -207,7 +204,7 @@ setip
 ssh-keygen -R $rpiip 2> /dev/null
 
 # connect
-ssh alarm@$rpiip  # password: alarm
+ssh alarm@$rpiip  # confirm: yes > password: alarm
 ```
 
 (skip - `ssh` connected) **Connect Wi-Fi manually**
@@ -239,7 +236,7 @@ pacman-key --populate archlinuxarm
 # fill entropy pool (fix - Kernel entropy pool is not initialized)
 systemctl start systemd-random-seed
 
-# (skip - NOT RPi 0, 1) fix dns errors
+# fix dns errors
 systemctl stop systemd-resolved
 
 # system-wide kernel and packages upgrade
@@ -247,7 +244,7 @@ pacman -Syu
 # if download is too slow or stuck, Ctrl+C then pacman -Syu again
 ```
 
-**(Optional)
+**(Optional)**
 - Create image of Arch Linux Arm to skip all previous steps in next rebuild - [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
 
 **Packages**
@@ -309,7 +306,7 @@ packages=${packages/ python python-pip}
 **Install packages**
 ```sh
 # install packages
-pacman -S $packages
+pacman -S $packages # select default
 
 # optional - install RPi.GPIO
 pip --no-cache-dir install RPi.GPIO
