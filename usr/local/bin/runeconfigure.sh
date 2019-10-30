@@ -14,6 +14,7 @@ if [[ $hwcode == 11 ]]; then
 [pi4]
 dtoverlay=vc4-fkms-v3d
 max_framebuffers=2
+hdmi_force_hotplug=1
 ' /boot/config.txt
 	mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
 fi
