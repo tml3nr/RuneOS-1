@@ -4,17 +4,10 @@ version=e2
 addoversion=20191101
 
 # RPi 4
-if [[ $model == 11 ]]; then
+if [[ $hwcode == 11 ]]; then
+	hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 	sed -i '/force_turbo/ d' /boot/config.txt
 	mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
-fi
-
-# boot splash - RPi 2, 3, 4
-model=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-if echo 04 08 0e 0d 11 | grep -q $model; then
-	cmdline='root=/dev/mmcblk0p2 rw rootwait console=ttyAMA0,115200 selinux=0 fsck.repair=yes smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 '
-	cmdline+='kgdboc=ttyAMA0,115200 elevator=noop console=tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
-	echo $cmdline > $BOOT/boot/cmdline.txt
 fi
 
 # alsa

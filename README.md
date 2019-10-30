@@ -30,12 +30,12 @@ RuneOS
 
 **Download Arch Linux Arm**
 
-| Model        | SoC       | File                             |
-|--------------|-----------|----------------------------------|
-| RPi Z, A, B  | BCM2835   | ArchLinuxARM-rpi-latest.tar.gz   |
-| RPi 2B, 3B   | BCM2837   | ArchLinuxARM-rpi-2-latest.tar.gz |
-| RPi 3A+, 3B+ | BCM2837B0 | ArchLinuxARM-rpi-3-latest.tar.gz |
-| RPi 4B       | BCM2711   | ArchLinuxARM-rpi-4-latest.tar.gz |
+| RPi      | SoC       | File                             |
+|----------|-----------|----------------------------------|
+| 0, A, B  | BCM2835   | ArchLinuxARM-rpi-latest.tar.gz   |
+| 2B, 3B   | BCM2837   | ArchLinuxARM-rpi-2-latest.tar.gz |
+| 3A+, 3B+ | BCM2837B0 | ArchLinuxARM-rpi-3-latest.tar.gz |
+| 4B       | BCM2711   | ArchLinuxARM-rpi-4-latest.tar.gz |
 
 - On Linux PC
 	- Command lines - gray code blocks
@@ -45,7 +45,7 @@ RuneOS
 # switch user to root
 su
 
-# download - replace with matched model
+# download - replace with matched RPi
 file=ArchLinuxARM-rpi-2-latest.tar.gz
 
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
@@ -116,6 +116,11 @@ showData "$( df -h | grep BOOT )" "BOOT: $BOOT"
 
 # move to BOOT
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
+
+# (skip - RPi 0, 1) boot splash
+cmdline='root=/dev/mmcblk0p2 rw rootwait console=ttyAMA0,115200 selinux=0 fsck.repair=yes smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 '
+cmdline+='kgdboc=ttyAMA0,115200 elevator=noop console=tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
+echo $cmdline > $BOOT/boot/cmdline.txt
 
 # (skip - NOT RPi 0) fix: kernel panic
 echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
@@ -254,9 +259,9 @@ packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools 
 packages+='ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip '
 packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
 
-# get RPi model
-model=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-echo 00 01 02 03 04 09 | grep -q $model && nobt=1 || nobt=
+# get RPi hardware code
+hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
+echo 00 01 02 03 04 09 | grep -q $hwcode && nobt=1 || nobt=
 ```
 
 (skip - RPi 3, 4) **Exclude for hardware support**
@@ -335,11 +340,11 @@ chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 
 # (skip - NOT RPi 0, 1) no splash, hdmi sound, armv6h packages
-if echo 00 01 02 03 04 09 0c | grep -q $model; then
+if echo 00 01 02 03 04 09 0c | grep -q $hwcode; then
     # RPi 0 - fix: kernel panic
-    [[ $model == 09 || $model == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
+    [[ $hwcode == 09 || $hwcode == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
     # RPi 0 - only W has wifi and bluetooth
-    [[ $model != 0c ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
+    [[ $hwcode != 0c ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
     rm *.pkg.tar.xz
     mv armv6h/* .
 fi
