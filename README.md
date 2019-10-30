@@ -356,9 +356,6 @@ fi
 # install
 pacman -U *.pkg.tar.xz
 
-# remove cache and custom package files
-rm -rf /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip /root/armv6h
-
 # (skip - removed UPnP) upmpdcli - fix missing symlink and generate RSA private key
 if [[ -e /usr/bin/upmpdcli ]]; then
     ln -s /lib/libjsoncpp.so.{21,20}
