@@ -1,30 +1,26 @@
 #!/bin/bash
 
-# function for verify names
+echo -e "\nVerify ROOT partition"
+
 cols=$( tput cols )
-showData() {
-    printf %"$cols"s | tr ' ' -
-    echo $1
-    echo $2
-    printf %"$cols"s | tr ' ' -
-}
+printf %"$cols"s | tr ' ' -
+echo $( df -h | grep ROOT )
+echo ROOT: $( df | grep ROOT | awk '{print $NF}' )
+printf %"$cols"s | tr ' ' -
+echo
+read -rsn1 -p "Correct? (y/N): " ans; echo
+[[ $ans != Y && $ans != y ]] && exit
 
-# get ROOT partition and verify
-ROOT=$( df | grep ROOT | awk '{print $NF}' )
-showData "$( df -h | grep ROOT )" "ROOT: $ROOT"
-echo -e "\nVerify ROOT partition\n"
-printf 'Correct ROOT partition? (Y/n): '
-read ans
-[[ $ans != Y || $ans != y ]] && exit
-
-# credential
-echo -e "\nWi-Fi connection\n"
+echo -e "\nSetup Wi-Fi connection\n"
 printf 'SSID: '
 read ssid
 printf 'Password: '
 read password
 printf 'wpa or wep: '
 read wpa
+echo
+read -rsn1 -p "Correct and continue? (y/N): " ans; echo
+[[ $ans != Y && $ans != y ]] && exit
 
 # profile
 echo "Interface=wlan0
@@ -46,7 +42,8 @@ ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
 cd
 
 # unmount
-echo Unmount ROOT partition ...
 umount -l $ROOT
-
-echo -e ""\nMove micro SD card to RPi and power on\n
+if umount -l $ROOT; then
+    echo -e "\nROOT partition unmounted."
+    echo -e "Move to RPi and power on.\n"
+fi
