@@ -383,7 +383,7 @@ shutdown -r now
 ---
 
 **Setup Wi-Fi auto-connect** (if not set during build)
-- Linux PC
+- On Linux PC
 - Insert micro SD card or USB drive with RuneAudio+Re `ROOT` partition
 - Open **File** app
 - Click `ROOT` to mount
