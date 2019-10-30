@@ -383,11 +383,11 @@ shutdown -r now
 ```
 ---
 
-**Setup Wi-Fi auto-connect**
-	- Linux PC
-	- Insert micro SD card or USB drive with RuneAudio+Re `ROOT` partition
-	- Open **File** app
-	- Click `ROOT` to mount
+**Setup Wi-Fi auto-connect** (if not set during build)
+- Linux PC
+- Insert micro SD card or USB drive with RuneAudio+Re `ROOT` partition
+- Open **File** app
+- Click `ROOT` to mount
 ```sh
 wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh; chmod +x wifisetup.sh; ./wifisetup.sh
 ```
