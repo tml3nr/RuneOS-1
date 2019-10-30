@@ -16,7 +16,7 @@ echo $( df -h | grep ROOT )
 echo ROOT: $ROOT
 printf %"$cols"s | tr ' ' -
 echo
-read -rsn1 -p "Correct? (y/N): " ans; echo
+read -rsn1 -p "Correct partition? (y/N): " ans; echo
 [[ $ans != Y && $ans != y ]] && exit
 
 echo -e "\nSetup Wi-Fi connection\n"
