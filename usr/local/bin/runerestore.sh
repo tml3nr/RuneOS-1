@@ -97,6 +97,7 @@ if ls $dirsystem/netctl-* &> /dev/null; then
 		profile=${file/netctl-}
 		cp "$file" "/etc/netctl/$profile"
 	done
+	(( ${#files[@]} > 1 )) && echo -e "$info There are more than 1 profiles."
 	echo "   Set $profile as current connection ..."
 	netctl enable "$profile"
 fi
