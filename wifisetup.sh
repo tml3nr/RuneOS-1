@@ -2,7 +2,7 @@
 
 rm $0
 
-echo -e "\nVerify ROOT partition"
+echo -e "\nVerify partition ROOT"
 
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 if [[ -z $ROOT ]]; then
@@ -16,7 +16,7 @@ echo $( df -h | grep ROOT )
 echo ROOT: $ROOT
 printf %"$cols"s | tr ' ' -
 echo
-read -rsn1 -p "Correct partition? (y/N): " ans; echo
+read -rsn1 -p "Confirm partition ROOT? (y/N): " ans; echo
 [[ $ans != Y && $ans != y ]] && exit
 
 echo -e "\nSetup Wi-Fi connection\n"
@@ -27,7 +27,7 @@ read password
 printf 'wpa or wep: '
 read wpa
 echo
-read -rsn1 -p "Correct and continue? (y/N): " ans; echo
+read -rsn1 -p "Confirm and continue? (y/N): " ans; echo
 [[ $ans != Y && $ans != y ]] && exit
 
 # profile
