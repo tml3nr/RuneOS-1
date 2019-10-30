@@ -51,7 +51,5 @@ cd
 
 # unmount
 umount -l $ROOT
-if umount -l $ROOT; then
-    echo -e "\nROOT partition unmounted."
-    echo -e "Move to RPi and power on.\n"
-fi
+echo -e "\nROOT partition unmounted."
+echo -e "Move to RPi and power on.\n"
