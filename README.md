@@ -45,6 +45,9 @@ RuneOS
 # switch user to root
 su
 
+# change directory to root
+cd
+
 # download - replace with matched RPi
 file=ArchLinuxARM-rpi-2-latest.tar.gz
 
@@ -139,7 +142,7 @@ echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 ```
 
 (skip - wired LAN) **Setup Wi-Fi connection**
-- For auto-connect after boot
+- For auto-connect on startup
 ```sh
 # credential
 credentials() {
@@ -161,7 +164,7 @@ ESSID=\"$ssid\"
 Security=$wpa
 Key=$password" > "$ROOT/etc/netctl/$ssid"
 
-# enable startup
+# enable auto-connect
 dir="$ROOT/etc/systemd/system/netctl@$ssid.service.d"
 mkdir $dir
 echo '[Unit]
@@ -170,6 +173,7 @@ After=sys-subsystem-net-devices-wlan0.device' > "$dir/profile.conf"
 
 cd $ROOT/etc/systemd/system/multi-user.target.wants
 ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
+cd
 ```
 
 **Unmount and remove**

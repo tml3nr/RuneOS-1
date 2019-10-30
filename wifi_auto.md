@@ -5,6 +5,9 @@ Auto connect WiFi on startup
 - Open Files app
 - Click BOOT and ROOT to mount
 ```sh
+# switch user to root
+su
+
 # function for verify names
 cols=$( tput cols )
 showData() {
@@ -51,6 +54,7 @@ After=sys-subsystem-net-devices-wlan0.device' > "$dir/profile.conf"
 
 cd $ROOT/etc/systemd/system/multi-user.target.wants
 ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
+cd
 
 # unmount
 umount -l $BOOT
