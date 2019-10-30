@@ -3,7 +3,7 @@ Auto connect WiFi on startup
 - On Linux PC (or Linux in VirtualBox on Windows)
 - Insert micro SD card
 - Open **Files** app
-- Click `BOOT` and `ROOT` to mount
+- Click `ROOT` to mount
 ```sh
 # switch user to root
 su
@@ -20,10 +20,6 @@ showData() {
 # get ROOT partition and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 showData "$( df -h | grep ROOT )" "ROOT: $ROOT"
-
-# get BOOT partition and verify
-BOOT=$( df | grep BOOT | awk '{print $NF}' )
-showData "$( df -h | grep BOOT )" "BOOT: $BOOT"
 
 # credential
 credentials() {
@@ -57,7 +53,6 @@ ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
 cd
 
 # unmount
-umount -l $BOOT
 umount -l $ROOT
 ```
 - Move micro SD card to RPi and power on
