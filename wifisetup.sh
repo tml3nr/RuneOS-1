@@ -2,11 +2,11 @@
 
 rm $0
 
-echo -e "\nVerify partition ROOT"
+echo -e "\nVerify ROOT path"
 
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 if [[ -z $ROOT ]]; then
-    echo -e "\nPartition ROOT not found.\n"
+    echo -e "\nROOT path not found.\n"
 	exit
 fi
 
@@ -16,7 +16,7 @@ echo $( df -h | grep ROOT )
 echo ROOT: $ROOT
 printf %"$cols"s | tr ' ' -
 echo
-read -rsn1 -p "Confirm partition ROOT? (y/N): " ans; echo
+read -rsn1 -p "Confirm ROOT path? (y/N): " ans; echo
 [[ $ans != Y && $ans != y ]] && exit
 
 echo -e "\nSetup Wi-Fi connection\n"
@@ -51,5 +51,5 @@ cd
 
 # unmount
 umount -l $ROOT
-echo -e "\nROOT partition unmounted."
+echo -e "\nROOT unmounted."
 echo -e "Move to RPi and power on.\n"
