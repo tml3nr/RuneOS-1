@@ -144,36 +144,7 @@ echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 (skip - wired LAN) **Setup Wi-Fi connection**
 - For auto-connect on startup
 ```sh
-# credential
-credentials() {
-    echo -e "\nWi-Fi connection\n"
-    printf 'SSID: '
-    read ssid
-    printf 'Password: '
-    read password
-    printf 'wpa or wep: '
-    read wpa
-}
-credentials
-
-# profile
-echo "Interface=wlan0
-Connection=wireless
-IP=dhcp
-ESSID=\"$ssid\"
-Security=$wpa
-Key=$password" > "$ROOT/etc/netctl/$ssid"
-
-# enable auto-connect
-dir="$ROOT/etc/systemd/system/netctl@$ssid.service.d"
-mkdir $dir
-echo '[Unit]
-BindsTo=sys-subsystem-net-devices-wlan0.device
-After=sys-subsystem-net-devices-wlan0.device' > "$dir/profile.conf"
-
-cd $ROOT/etc/systemd/system/multi-user.target.wants
-ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
-cd
+wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh -O - | sh
 ```
 
 **Unmount and remove**
@@ -412,9 +383,14 @@ shutdown -r now
 ```
 ---
 
-**Optional** 
-- [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
-- Setup Wi-Fi auto-connect:
+**Setup Wi-Fi auto-connect**
+	- Linux PC
+	- Insert micro SD card or USB drive with RuneAudio+Re `ROOT` partition
+	- Open **File** app
+	- Click `ROOT` to mount
 ```sh
 wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh -O - | sh
 ```
+
+**Optional** 
+- [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
