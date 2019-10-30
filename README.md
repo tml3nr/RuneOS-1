@@ -387,6 +387,7 @@ shutdown -r now
 - Insert micro SD card or USB drive with RuneAudio+Re `ROOT` partition
 - Open **File** app
 - Click `ROOT` to mount
+- Hover mouse pointer over ROOT - note path for verification
 ```sh
 wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh; chmod +x wifisetup.sh; ./wifisetup.sh
 ```
