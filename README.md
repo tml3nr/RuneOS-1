@@ -7,6 +7,7 @@ RuneOS
 **Procedure**
 - Download and write to `ROOT` and `BOOT` partitions
 - Start Arch Linux Arm
+- (Optional) Pre-configure Wi-Fi connection for headless(no monitor) system
 - Upgrade to latest kernel and packages
 - Install packages
 - Download web interface, custom packages and config files
