@@ -3,6 +3,9 @@
 version=e2
 addoversion=20191101
 
+# remove cache and custom package files
+rm -rf /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip /root/armv6h
+
 # RPi 4
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 if [[ $hwcode == 11 ]]; then
