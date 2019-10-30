@@ -88,7 +88,7 @@ wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 **Write `ROOT` partition**
 - Open **Files** app
 - Click `BOOT` and `ROOT` to mount
-- Hover mouse pointer over `BOOT` and `ROOT` - note mountpoints for verification
+- Hover mouse pointer over `BOOT` and `ROOT` - note paths for verifications
 ```sh
 # install packages (skip if already installed)
 apt install bsdtar nmap  # arch linux: pacman -S bsdtar nmap
