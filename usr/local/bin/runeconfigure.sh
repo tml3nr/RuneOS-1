@@ -5,7 +5,7 @@ addoversion=20191101
 
 # RPi 4
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-if [[ $model == 11 ]]; then
+if [[ $hwcode == 11 ]]; then
 	sed -i -e '/force_turbo/ d
 ' -e '/disable_overscan/ a\
 [pi4]
