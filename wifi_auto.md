@@ -2,8 +2,8 @@
 Auto connect WiFi on startup
 - On Linux PC (or Linux in VirtualBox on Windows)
 - Insert micro SD card
-- Open Files app
-- Click BOOT and ROOT to mount
+- Open **Files** app
+- Click `BOOT` and `ROOT` to mount
 ```sh
 # switch user to root
 su
