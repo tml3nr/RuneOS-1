@@ -4,10 +4,16 @@ rm $0
 
 echo -e "\nVerify ROOT partition"
 
+ROOT=$( df | grep ROOT | awk '{print $NF}' )
+if [[ -z $ROOT ]]; then
+    echo -e "\nPartition ROOT not found.\n"
+	exit
+fi
+
 cols=$( tput cols )
 printf %"$cols"s | tr ' ' -
 echo $( df -h | grep ROOT )
-echo ROOT: $( df | grep ROOT | awk '{print $NF}' )
+echo ROOT: $ROOT
 printf %"$cols"s | tr ' ' -
 echo
 read -rsn1 -p "Correct? (y/N): " ans; echo
