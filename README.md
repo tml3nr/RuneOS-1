@@ -141,8 +141,8 @@ sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
 echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 ```
 
-(skip - wired LAN) **Setup Wi-Fi connection**
-- For auto-connect on startup
+(skip - wired LAN) **Setup Wi-Fi auto-connect**
+- Pre-configure Wi-Fi to auto-connect on startup for headless(no monitor)
 ```sh
 wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh -O - | sh
 ```
