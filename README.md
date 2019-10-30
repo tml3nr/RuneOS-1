@@ -144,7 +144,7 @@ echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 (skip - wired LAN) **Setup Wi-Fi auto-connect**
 - Pre-configure Wi-Fi to auto-connect on startup for headless(no monitor)
 ```sh
-wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh -O - | sh
+wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh; chmod +x wifisetup.sh; ./wifisetup.sh
 ```
 
 **Unmount and remove**
@@ -389,7 +389,7 @@ shutdown -r now
 	- Open **File** app
 	- Click `ROOT` to mount
 ```sh
-wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh -O - | sh
+wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh; chmod +x wifisetup.sh; ./wifisetup.sh
 ```
 
 **Optional** 
