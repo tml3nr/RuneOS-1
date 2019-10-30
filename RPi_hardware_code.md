@@ -1,13 +1,13 @@
 **Raspberry Pi Hardware**
 
-| Model      | Code - `BB` | No wl | No eth | SoC       | Code - `C` |
+| RPi        | Code - `BB` | No wl | No eth | SoC       | Code - `C` |
 |------------|-------------|-------|--------|-----------|------------|
 | RPi B      | `00`        | x     |        | BCM2835   | `0`        |
 | RPi A      | `00`        | x     | x      | BCM2835   | `0`        |
 | RPi A+     | `01` `02`   | x     | x      | BCM2835   | `0`        |
 | RPi B+     | `01` `03`   | x     |        | BCM2835   | `0`        |
-| RPi Z      | `09`        | x     | x      | BCM2835   | `0`        |
-| RPi Zw     | `0c`        |       | x      | BCM2835   | `0`        |
+| RPi 0      | `09`        | x     | x      | BCM2835   | `0`        |
+| RPi 0 W    | `0c`        |       | x      | BCM2835   | `0`        |
 |            |             |       |        |           |            |
 | RPi 2B     | `04`        | x     |        | BCM2836   | `1`        |
 |            |             |       |        |           |            |
