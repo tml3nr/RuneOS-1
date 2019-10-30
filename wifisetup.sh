@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm $0
+
 echo -e "\nVerify ROOT partition"
 
 cols=$( tput cols )
