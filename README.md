@@ -88,6 +88,7 @@ wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 **Write `ROOT` partition**
 - Open **Files** app
 - Click `BOOT` and `ROOT` to mount
+- Hover mouse pointer over `BOOT` and `ROOT` - note mountpoints for verification
 ```sh
 # install packages (skip if already installed)
 apt install bsdtar nmap  # arch linux: pacman -S bsdtar nmap
@@ -101,7 +102,7 @@ showData() {
     printf %"$cols"s | tr ' ' -
 }
 
-# get ROOT partition and verify
+# get ROOT path and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 showData "$( df -h | grep ROOT )" "ROOT: $ROOT"
 
@@ -114,7 +115,7 @@ rm $file
 
 **Write `BOOT` partition**
 ```sh
-# get BOOT partition and verify
+# get BOOT path and verify
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
 showData "$( df -h | grep BOOT )" "BOOT: $BOOT"
 
