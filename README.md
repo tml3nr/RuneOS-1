@@ -412,4 +412,9 @@ shutdown -r now
 ```
 ---
 
-**Optional** - [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
+**Optional** 
+- [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
+- Setup Wi-Fi auto-connect:
+```sh
+wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh -O - | sh
+```
