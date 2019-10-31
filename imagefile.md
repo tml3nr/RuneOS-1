@@ -1,7 +1,7 @@
 ### Create image file
 
 - Once start RuneAudio+R successfully
-- Power off
+- Power off or CLI: `shutdown -h now`
 - Move micro SD card (and the USB drive, if `ROOT` partition is in USB drive) to PC
 - Resize `ROOT` partition to smallest size possible with **GParted** app
 	- menu: GParted > Devices > /dev/sd?
