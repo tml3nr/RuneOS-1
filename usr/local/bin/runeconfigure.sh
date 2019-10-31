@@ -63,7 +63,7 @@ for user in $users; do
 done
 
 # wireless-regdom
-echo WIRELESS_REGDOM="00" > /etc/conf.d/wireless-regdom
+echo 'WIRELESS_REGDOM="00"' > /etc/conf.d/wireless-regdom
 
 # startup services
 systemctl daemon-reload
