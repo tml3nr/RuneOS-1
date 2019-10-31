@@ -121,11 +121,6 @@ showData "$( df -h | grep BOOT )" "BOOT: $BOOT"
 # move to BOOT
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
-# (skip if RPi 0, 1) boot splash
-cmdline='root=/dev/mmcblk0p2 rw rootwait console=ttyAMA0,115200 selinux=0 fsck.repair=yes smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 '
-cmdline+='kgdboc=ttyAMA0,115200 elevator=noop console=tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
-echo $cmdline > $BOOT/boot/cmdline.txt
-
 # (skip if NOT RPi 0) fix: kernel panic
 echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
 ```
