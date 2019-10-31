@@ -379,7 +379,7 @@ shutdown -r now
 - Click `ROOT` to mount
 - Hover mouse pointer over ROOT - note path for verification
 ```sh
-wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh; chmod +x wifisetup.sh; ./wifisetup.sh
+wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/wifisetup.sh; chmod +x wifisetup.sh; ./wifisetup.sh
 ```
 
 **Optional** 
