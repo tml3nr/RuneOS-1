@@ -226,7 +226,11 @@ pacman -Syu
 ```
 
 **(Optional)**
-- Create image of Arch Linux Arm to skip all previous steps in next rebuild - [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
+- Create image of Arch Linux Arm to skip all previous steps in next rebuild 
+	- [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
+	- On rebuild:
+		- Write image file to micro SD card
+		- `pacman -Syu` then continue
 
 **Packages**
 ```sh
