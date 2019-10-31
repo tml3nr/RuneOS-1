@@ -51,10 +51,13 @@ su
 # change directory to root
 cd
 
-# download - replace with matched RPi
-file=ArchLinuxARM-rpi-2-latest.tar.gz
+# functions
+wget https://github.com/rern/RuneOS/raw/master/functions.sh
+. functions.sh
 
-wget -qN --show-progress http://os.archlinuxarm.org/os/$file
+# download ArchLinuxARM
+download
+
 # if downlod is too slow, Ctrl+C > rm $file and try again
 ```
 - While waiting for download to finish, go to next step.
@@ -95,14 +98,6 @@ wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 # install packages (skip if already installed)
 apt install bsdtar nmap  # arch linux: pacman -S bsdtar nmap
 
-# function for verify names
-cols=$( tput cols )
-showData() {
-    printf %"$cols"s | tr ' ' -
-    [[ -n ${2/*: } ]] && echo -e "$1\n$2" || echo ${2%: } not found.
-    printf %"$cols"s | tr ' ' -
-}
-
 # get ROOT path and verify
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 showData "$( df -h | grep ROOT )" "ROOT: $ROOT"
@@ -111,7 +106,7 @@ showData "$( df -h | grep ROOT )" "ROOT: $ROOT"
 bsdtar xpvf $file -C $ROOT  # if errors - install missing packages
 
 # wait until writing finished, delete downloaded file
-rm $file
+rm $file functions.sh
 ```
 
 **Write `BOOT` partition**
