@@ -7,18 +7,9 @@ killall mpd
 # remove cache and custom package files
 rm -rf /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip /root/armv6h
 
-# RPi 4
+# bluetooth - RPi 4 filename
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-if [[ $hwcode == 11 ]]; then
-	sed -i -e '/force_turbo/ d
-' -e '/disable_overscan/ a\
-[pi4]
-dtoverlay=vc4-fkms-v3d
-max_framebuffers=2
-hdmi_force_hotplug=1
-' /boot/config.txt
-	mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
-fi
+[[ $hwcode == 11 ]] && mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
 
 # alsa
 chmod -R 666 /var/lib/alsa  # fix permission
