@@ -107,7 +107,7 @@ showData "$( df -h | grep BOOT )" "BOOT: " "$( df | grep BOOT | awk '{print $NF}
 # move to BOOT
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
-# » skip if NOT RPi 0 » fix: kernel panic
+# ▼ skip if NOT RPi 0 ▼ fix: kernel panic
 echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
 ```
 
