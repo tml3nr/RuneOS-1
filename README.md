@@ -238,7 +238,7 @@ packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 echo 00 01 02 03 04 09 | grep -q $hwcode && nobt=1 || nobt=
 
-# » skip if NOT RPi 0, 1 » no browser(chromium) on rpi - too much for CPU
+# ▼ skip if NOT RPi 0, 1 ▼ remove browser on rpi - too much for CPU
 if echo 00 01 02 03 04 09 | grep -q $hwcode; then
     packages=${packages/ chromium}
     packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
