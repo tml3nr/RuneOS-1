@@ -367,8 +367,6 @@ if [[ -e /usr/bin/upmpdcli ]]; then
     upmpdcli -c /etc/upmpdcli.conf
 fi
 # Ctrl+C when 'writing RSA key' shown
-
-killall mpd
 ```
 
 **Configurations**
