@@ -292,9 +292,6 @@ packages=${packages/ python python-pip}
 # install packages
 pacman -S $packages # select default
 
-# dbus - fix reload dbus errors
-systemctl restart dbus
-
 # optional - install RPi.GPIO
 pip --no-cache-dir install RPi.GPIO
 ```
@@ -361,6 +358,12 @@ fi
 **Install custom packages**
 ```sh
 # install
+pacman -U bluealsa*
+
+# dbus - fix reload dbus errors
+rm bluealsa*
+systemctl restart dbus
+
 pacman -U *.pkg.tar.xz
 
 # (skip if removed UPnP) upmpdcli - fix missing symlink and generate RSA private key
