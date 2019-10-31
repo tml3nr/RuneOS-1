@@ -31,19 +31,12 @@ RuneOS
 
 ### Build
 
-**Download Arch Linux Arm**
-
-| RPi      | SoC       | File                             |
-|----------|-----------|----------------------------------|
-| 0, A, B  | BCM2835   | ArchLinuxARM-rpi-latest.tar.gz   |
-| 2B, 3B   | BCM2837   | ArchLinuxARM-rpi-2-latest.tar.gz |
-| 3A+, 3B+ | BCM2837B0 | ArchLinuxARM-rpi-3-latest.tar.gz |
-| 4B       | BCM2711   | ArchLinuxARM-rpi-4-latest.tar.gz |
-
 - On Linux PC
 	- Command lines - gray code blocks
 	- Copy-paste unless corrections needed
 	- Comments - Lines with leading `#` can be skipped.
+
+**Download Arch Linux Arm**
 ```sh
 # switch user to root
 su
@@ -57,10 +50,8 @@ wget https://github.com/rern/RuneOS/raw/master/usr/local/bin/functions.sh
 
 # download ArchLinuxARM
 download
-
-# if downlod is too slow, Ctrl+C > rm $file and try again
 ```
-- While waiting for download to finish, go to next step.
+- If downlod is too slow, `Ctrl+C` > `rm $file` > `download`
 
 **Prepare partitions**
 - SD card mode (normal)
