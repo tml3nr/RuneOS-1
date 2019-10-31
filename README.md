@@ -123,11 +123,11 @@ showData "$( df -h | grep BOOT )" "BOOT: $BOOT"
 # move to BOOT
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
-# (skip if NOT RPi 0) fix: kernel panic
+# » skip if NOT RPi 0 » fix: kernel panic
 echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
 ```
 
-(skip if SD card mode) **Setup USB as root partition**
+» skip if SD card mode » **Setup USB as root partition**
 ```sh
 # get UUID and verify
 dev=$( df | grep ROOT | awk '{print $1}' )
@@ -139,7 +139,7 @@ sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
 echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 ```
 
-(skip if connect wired LAN) **Setup Wi-Fi auto-connect**
+» skip if connect wired LAN » **Setup Wi-Fi auto-connect**
 - Pre-configure Wi-Fi to auto-connect on startup for headless(no monitor)
 ```sh
 wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh; chmod +x wifisetup.sh; ./wifisetup.sh
@@ -168,10 +168,11 @@ nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
 rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
 showData "$nmap\n" "RPi IP: $rpiip"
 
-# (skip if rpiip is correct) # scan all IPs - multiple RPis or incorrect IP (RPi 4 may listed as unknown)
+# » skip if rpiip is correct » scan all IPs - multiple RPis or incorrect IP (RPi 4 might listed as unknown)
 nmap -sP ${routerip%.*}.*
 
-# (skip if rpiip is correct) set rpiip manually
+# » skip if rpiip is correct » set rpiip manually
+read -rs -p "RPi IP: " rpiip; echo
 setip() {
     printf 'RPi IP: '
     read rpiip
@@ -185,7 +186,7 @@ ssh-keygen -R $rpiip 2> /dev/null
 ssh alarm@$rpiip  # confirm: yes > password: alarm
 ```
 
->>(skip if `ssh` connected successfully) **Connect Wi-Fi manually**
+» skip if `ssh` connected successfully » **Connect Wi-Fi manually**
 - If RPi not show up in `nmap` list > power off
 - Connect a monitor/tv and a keyboard > power on
 - If there's a lot of `[FAILED]`s about network, start over again.
@@ -242,7 +243,7 @@ packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 echo 00 01 02 03 04 09 | grep -q $hwcode && nobt=1 || nobt=
 
-# (skip if NOT RPi 0, 1) no browser(chromium) on rpi - too much for CPU
+# » skip if NOT RPi 0, 1 » no browser(chromium) on rpi - too much for CPU
 if echo 00 01 02 03 04 09 | grep -q $hwcode; then
     packages=${packages/ chromium}
     packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
@@ -252,7 +253,7 @@ fi
 [[ $nobt ]] && packages=${packages/ bluez bluez-utils}
 ```
 
-(skip to install all) **Exclude optional packages**
+» skip to install all » **Exclude optional packages**
 ```sh
 # remove connect by name: runeaudio.local
 packages=${packages/ avahi}
@@ -317,7 +318,7 @@ bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 
-# (skip if NOT RPi 0, 1) no splash, hdmi sound, armv6h packages
+# » skip if NOT RPi 0, 1 » no splash, hdmi sound, armv6h packages
 if echo 00 01 02 03 04 09 0c | grep -q $hwcode; then
     # RPi 0 - fix: kernel panic
     [[ $hwcode == 09 || $hwcode == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
@@ -328,7 +329,7 @@ if echo 00 01 02 03 04 09 0c | grep -q $hwcode; then
 fi
 ```
 
-(skip to install all) **Exclude optional packages**
+» skip to install all » **Exclude optional packages**
 ```sh
 # remove bluetooth
 rm -f bluealsa*
@@ -340,7 +341,7 @@ rm -f kid3-cli*
 rm -f libupnpp* upmpdcli*
 ```
 
-(skip to install all) **Exclude removed packages configurations**
+» skip to install all » **Exclude removed packages configurations**
 ```sh
 [[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
 if [[ ! -e /usr/bin/chromium ]]; then
@@ -359,7 +360,7 @@ fi
 # install
 pacman -U *.pkg.tar.xz
 
-# (skip if removed UPnP) upmpdcli - fix missing symlink and generate RSA private key
+# » skip if removed UPnP » upmpdcli - fix missing symlink and generate RSA private key
 if [[ -e /usr/bin/upmpdcli ]]; then
     ln -s /lib/libjsoncpp.so.{21,20}
     mpd --no-config 2> /dev/null
