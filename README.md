@@ -168,16 +168,11 @@ nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
 rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
 showData "$nmap\n" "RPi IP: $rpiip"
 
-# » skip if rpiip is correct » scan all IPs - multiple RPis or incorrect IP (RPi 4 might listed as unknown)
+# ▼ skip if rpiip is correct ▼ scan all IPs - multiple RPis or incorrect IP (RPi 4 might listed as unknown)
 nmap -sP ${routerip%.*}.*
 
-# » skip if rpiip is correct » set rpiip manually
-read -rs -p "RPi IP: " rpiip; echo
-setip() {
-    printf 'RPi IP: '
-    read rpiip
-}
-setip
+# ▼ skip if rpiip is correct ▼ set rpiip manually
+read -r -p "RPi IP: " rpiip; echo
 
 # remove existing key if any
 ssh-keygen -R $rpiip 2> /dev/null
@@ -186,7 +181,7 @@ ssh-keygen -R $rpiip 2> /dev/null
 ssh alarm@$rpiip  # confirm: yes > password: alarm
 ```
 
-» skip if `ssh` connected successfully » **Connect Wi-Fi manually**
+▼ skip if `ssh` connected successfully ▼ **Connect Wi-Fi manually**
 - If RPi not show up in `nmap` list > power off
 - Connect a monitor/tv and a keyboard > power on
 - If there's a lot of `[FAILED]`s about network, start over again.
@@ -253,7 +248,7 @@ fi
 [[ $nobt ]] && packages=${packages/ bluez bluez-utils}
 ```
 
-» skip to install all » **Exclude optional packages**
+▼ skip to install all ▼ **Exclude optional packages**
 ```sh
 # remove connect by name: runeaudio.local
 packages=${packages/ avahi}
@@ -318,7 +313,7 @@ bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 
-# » skip if NOT RPi 0, 1 » no splash, hdmi sound, armv6h packages
+# ▼ skip if NOT RPi 0, 1 ▼ no splash, hdmi sound, armv6h packages
 if echo 00 01 02 03 04 09 0c | grep -q $hwcode; then
     # RPi 0 - fix: kernel panic
     [[ $hwcode == 09 || $hwcode == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
@@ -329,7 +324,7 @@ if echo 00 01 02 03 04 09 0c | grep -q $hwcode; then
 fi
 ```
 
-» skip to install all » **Exclude optional packages**
+▼ skip to install all ▼ **Exclude optional packages**
 ```sh
 # remove bluetooth
 rm -f bluealsa*
@@ -341,7 +336,7 @@ rm -f kid3-cli*
 rm -f libupnpp* upmpdcli*
 ```
 
-» skip to install all » **Exclude removed packages configurations**
+▼ skip to install all ▼ **Exclude removed packages configurations**
 ```sh
 [[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
 if [[ ! -e /usr/bin/chromium ]]; then
@@ -360,7 +355,7 @@ fi
 # install
 pacman -U *.pkg.tar.xz
 
-# » skip if removed UPnP » upmpdcli - fix missing symlink and generate RSA private key
+# ▼ skip if removed UPnP ▼ upmpdcli - fix missing symlink and generate RSA private key
 if [[ -e /usr/bin/upmpdcli ]]; then
     ln -s /lib/libjsoncpp.so.{21,20}
     mpd --no-config 2> /dev/null
