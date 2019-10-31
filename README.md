@@ -127,7 +127,7 @@ mv -v $ROOT/boot/* $BOOT 2> /dev/null
 echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
 ```
 
-» skip if SD card mode » **Setup USB as root partition**
+▼ skip if SD card mode ▼ **Setup USB as root partition**
 ```sh
 # get UUID and verify
 dev=$( df | grep ROOT | awk '{print $1}' )
@@ -139,7 +139,7 @@ sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
 echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 ```
 
-» skip if connect wired LAN » **Setup Wi-Fi auto-connect**
+▼ skip if connect wired LAN ▼ **Setup Wi-Fi auto-connect**
 - Pre-configure Wi-Fi to auto-connect on startup for headless(no monitor)
 ```sh
 wget -qN https://github.com/rern/RuneOS/raw/master/wifisetup.sh; chmod +x wifisetup.sh; ./wifisetup.sh
