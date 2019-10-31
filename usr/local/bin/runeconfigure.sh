@@ -33,7 +33,7 @@ sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules   # omit tes
 sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 
 # mpd - music directories
-mkdir -p /mnt/MPD/{NAS,SD.USB}
+mkdir -p /mnt/MPD/{NAS,SD,USB}
 chown -R mpd:audio /mnt/MPD
 
 # mpd - create missing log file
