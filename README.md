@@ -239,13 +239,12 @@ packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf
 # get RPi hardware code
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 echo 00 01 02 03 04 09 | grep -q $hwcode && nobt=1 || nobt=
-```
 
-(skip - RPi 3, 4) **Exclude for hardware support**
-```sh
-# RPi 0, 1 - no browser on rpi (too much for CPU)
-packages=${packages/ chromium}
-packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
+# no browser(chromium) on rpi (RPi 0, 1 - too much for CPU; RPi 4 - bugs)
+if echo 00 01 02 03 04 09 11 | grep -q $hwcode; then
+    packages=${packages/ chromium}
+    packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
+fi
 
 # remove bluetooth if not RPi 0 W, 3, 4
 [[ $nobt ]] && packages=${packages/ bluez bluez-utils}
