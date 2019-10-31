@@ -97,8 +97,7 @@ apt install bsdtar nmap  # arch linux: pacman -S bsdtar nmap
 cols=$( tput cols )
 showData() {
     printf %"$cols"s | tr ' ' -
-    echo $1
-    echo $2
+    [[ -n ${2/*: } ]] && echo -e "$1\n$2" || echo ${2%: } not found.
     printf %"$cols"s | tr ' ' -
 }
 
