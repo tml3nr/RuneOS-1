@@ -5,7 +5,8 @@ addoversion=20191101
 
 killall mpd
 # remove cache and custom package files
-rm -rf /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip /root/armv6h
+rm /var/cache/pacman/pkg/* /root/*.xz /root/*.zip /usr/local/bin/{functions,wifisetup}.sh
+rm -r /root/armv6h
 
 # bluetooth - RPi 4 filename
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
