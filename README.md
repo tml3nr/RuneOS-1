@@ -16,6 +16,8 @@ RuneOS
 
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows with network set as `Bridge Adapter`)
+	- GParted and Files app (normally already installed)
+	- Basic skill of terminal command line
 - Raspberry Pi
 - Network connection
 	- Wired LAN (more stable)
@@ -183,9 +185,11 @@ ssh-keygen -R $rpiip 2> /dev/null
 ssh alarm@$rpiip  # confirm: yes > password: alarm
 ```
 
-(skip if `ssh` connected) **Connect Wi-Fi manually**
-- If RPi not show in `nmap` list, connect a monitor/tv and a keyboard.
-- If here's a lot of `[FAILED]` on connected monitor, start over again.
+>>(skip if `ssh` connected successfully) **Connect Wi-Fi manually**
+- If RPi not show up in `nmap` list > power off
+- Connect a monitor/tv and a keyboard > power on
+- If there's a lot of `[FAILED]`s about network, start over again.
+- Continue with connected monitor/tv and keyboard.
 ```sh
 # login
 alarm  # password: alarm
