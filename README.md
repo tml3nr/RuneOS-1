@@ -358,12 +358,6 @@ fi
 **Install custom packages**
 ```sh
 # install
-pacman -U bluealsa*
-
-# dbus - fix reload dbus errors
-rm bluealsa*
-systemctl restart dbus
-
 pacman -U *.pkg.tar.xz
 
 # (skip if removed UPnP) upmpdcli - fix missing symlink and generate RSA private key
@@ -373,8 +367,6 @@ if [[ -e /usr/bin/upmpdcli ]]; then
     upmpdcli -c /etc/upmpdcli.conf
 fi
 # Ctrl+C when 'writing RSA key' shown
-
-killall mpd
 ```
 
 **Configurations**

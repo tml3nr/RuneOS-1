@@ -3,6 +3,7 @@
 version=e2
 addoversion=20191101
 
+killall mpd
 # remove cache and custom package files
 rm -rf /var/cache/pacman/pkg/* *.pkg.tar.xz *.zip /root/armv6h
 
