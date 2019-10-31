@@ -169,7 +169,7 @@ routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
 
 rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
-showData "$nmap" "RPi IP: $rpiip"
+showData "$nmap\n" "RPi IP: $rpiip"
 
 # (skip - correct rpiip) # scan all IPs - multiple RPis or incorrect IP (RPi 4 may listed as unknown)
 nmap -sP ${routerip%.*}.*
