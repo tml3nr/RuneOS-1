@@ -31,6 +31,6 @@ download() {
 cols=$( tput cols )
 showData() {
     printf %"$cols"s | tr ' ' -
-    [[ -n ${2/*: } ]] && echo -e "$1\n$2" || echo ${2%: } not found.
+    [[ -n $3 ]] && echo -e "$1\n$2$3" || echo $2 not found.
     printf %"$cols"s | tr ' ' -
 }
