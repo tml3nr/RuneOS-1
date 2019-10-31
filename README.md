@@ -90,8 +90,7 @@ download
 apt install bsdtar nmap  # arch linux: pacman -S bsdtar nmap
 
 # get ROOT path and verify
-ROOT=$( df | grep ROOT | awk '{print $NF}' )
-showData "$( df -h | grep ROOT )" "ROOT: $ROOT"
+showData "$( df -h | grep ROOT )" "ROOT: " "$( df | grep ROOT | awk '{print $NF}' )"
 
 # expand to ROOT
 bsdtar xpvf $file -C $ROOT  # if errors - install missing packages
@@ -103,8 +102,7 @@ rm $file functions.sh
 **Write `BOOT` partition**
 ```sh
 # get BOOT path and verify
-BOOT=$( df | grep BOOT | awk '{print $NF}' )
-showData "$( df -h | grep BOOT )" "BOOT: $BOOT"
+showData "$( df -h | grep BOOT )" "BOOT: " "$( df | grep BOOT | awk '{print $NF}' )"
 
 # move to BOOT
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
@@ -117,8 +115,7 @@ echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
 ```sh
 # get UUID and verify
 dev=$( df | grep ROOT | awk '{print $1}' )
-uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '"' )
-showData "$( df -h | grep ROOT )" $uuid
+showData "$( df -h | grep ROOT )" "root=" "$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '"' )"
 
 # set root device
 sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
@@ -151,8 +148,7 @@ umount -l $ROOT
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
 
-rpiip=$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )
-showData "$nmap\n" "RPi IP: $rpiip"
+showData "$nmap\n" "RPi IP: " "$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )"
 
 # ▼ skip if rpiip is correct ▼ scan all IPs - multiple RPis or incorrect IP (RPi 4 might listed as unknown)
 nmap -sP ${routerip%.*}.*
