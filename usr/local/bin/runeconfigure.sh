@@ -3,7 +3,6 @@
 version=e2
 addoversion=20191101
 
-killall mpd
 # remove cache and custom package files
 rm /var/cache/pacman/pkg/* /root/*.xz /root/*.zip /usr/local/bin/{functions,wifisetup}.sh
 rm -r /root/armv6h
@@ -66,6 +65,9 @@ users=$( cut -d: -f1 /etc/passwd )
 for user in $users; do
     chage -E -1 $user
 done
+
+# upmpdcli - fix: missing symlink
+[[ -e /usr/bin/upmpdcli ]] && ln -s /lib/libjsoncpp.so.{21,20}
 
 # wireless-regdom
 echo 'WIRELESS_REGDOM="00"' > /etc/conf.d/wireless-regdom
