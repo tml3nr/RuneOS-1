@@ -70,7 +70,7 @@ bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 [[ $nobt ]] && rm /root/bluealsa* /root/armv6h/bluealsa* /boot/overlays/bcmbt.dtbo
 
 # RPi 0, 1
-if [[ echo 00 01 02 03 09 0c | grep -q $hwcode ]]; then
+if echo 00 01 02 03 09 0c | grep -q $hwcode; then
     rm /root/*.xz
     mv /root/armv6h/* /root
 fi
