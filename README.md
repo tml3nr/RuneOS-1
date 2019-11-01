@@ -21,7 +21,7 @@ RuneOS
 - Raspberry Pi
 - Network connection
 	- Wired LAN (more stable)
-	- Wi-Fi connection
+	- Wi-Fi connection (only if necessary)
 - Normal SD mode
 	- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
 - USB mode (for hard drive or fast thumb drive)
@@ -91,8 +91,17 @@ nmap -sP ${routerip%.*}.*
 ```
 - If RPi not show up in result:
 	- RPi 4 may listed as unknown
-	- Plugin wired LAN and `nmap ...` again
-	- Still not found, connect a monitor/tv and start over again
+	- Restart router and scan with `nmap ...` again
+	- Still not found, plugin wired LAN and scan with `nmap ...` again
+	- Still not found, connect a monitor/tv and a keyboard
+```sh
+# login user: alarm, password: alarm
+
+# connect wifi
+su  # password: root
+wifi-menu
+```
+	- Still not found, start over again
 
 **Connect PC to RPi**
 - On Linux PC
