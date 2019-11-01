@@ -144,11 +144,8 @@ write-rune.sh
 
 ▼ skip if NOT install UPnP ▼ upmpdcli - generate RSA private key
 ```sh
-if [[ -e /usr/bin/upmpdcli ]]; then
-    mpd --no-config 2> /dev/null
-    upmpdcli -c /etc/upmpdcli.conf
-fi
-# Ctrl+C at 'writing RSA key'
+upmpdcli -c /etc/upmpdcli.conf
+# ctrl+c when reach 'writing RSA key'
 ```
 
 **Finish**
