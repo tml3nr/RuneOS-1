@@ -20,7 +20,7 @@ hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 echo 00 01 02 03 04 09 | grep -q $hwcode && nobt=1 || nobt=
 
 read -rn 1 -p "Install all packages [Y/n]: " ans; echo
-if [[ $ans == y || $ans == Y ]] then
+if [[ $ans == y || $ans == Y ]]; then
     packages+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync'
     # RPi 0W, 3, 4
     [[ -n $nobt ]] && packages+='bluez bluez-utils '
