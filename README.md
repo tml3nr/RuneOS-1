@@ -98,7 +98,7 @@ nmap -sP ${routerip%.*}.*
 #	- RPi 4 may listed as unknown
 #	- Restart router and scan again
 #	- Still not found, plugin wired LAN and scan again
-#   - Still not found, start over again
+#	- Still not found, start over again
 ```
 
 **Connect PC to RPi**
