@@ -39,7 +39,7 @@ selectRPi
 showBOOT
 read -rn 1 -p "Confirm path - BOOT [y/N]: " ans; echo
 [[ $ans != y && $ans != Y ]] && exit
-[[ -n $( ls $BOOT ) && ]] && echo $BOOT not empty. && exit
+[[ -n $( ls $BOOT ) ]] && echo $BOOT not empty. && exit
 
 showROOT
 read -rn 1 -p "Confirm path - ROOT [y/N]: " ans; echo
