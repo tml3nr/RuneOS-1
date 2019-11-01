@@ -148,15 +148,6 @@ shutdown -r now
 ```
 ---
 
-**Setup Wi-Fi auto-connect** (if not set during build)
-- On Linux PC
-- Insert micro SD card or USB drive with RuneAudio+Re `ROOT` partition
-- Open **File** app
-- Click `ROOT` to mount
-- Hover mouse pointer over ROOT - note path for verification
-```sh
-wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/wifisetup.sh; chmod +x wifisetup.sh; ./wifisetup.sh
-```
-
-**Optional** 
+**Optional**
+- [Setup Wi-Fi auto-connect](https://github.com/rern/RuneAudio/tree/master/wifi_setup) (if not set during build)
 - [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
