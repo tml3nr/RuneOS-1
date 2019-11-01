@@ -69,7 +69,10 @@ for user in $users; do
 done
 
 # upmpdcli - fix: missing symlink
-[[ -e /usr/bin/upmpdcli ]] && ln -s /lib/libjsoncpp.so.{21,20}
+if [[ -e /usr/bin/upmpdcli ]]; then
+	ln -s /lib/libjsoncpp.so.{21,20}
+	mpd --no-config 2> /dev/null  # for init RSA key
+fi
 
 # wireless-regdom
 echo 'WIRELESS_REGDOM="00"' > /etc/conf.d/wireless-regdom
