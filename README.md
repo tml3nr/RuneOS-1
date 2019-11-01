@@ -73,8 +73,10 @@ su -
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/write-alarm.sh
 chmod +x write-alarm.sh
 ./write-alarm.sh
+# if download is too slow,ctrl+c > ./write-alarm.sh again
+
+rm write-alarm.sh
 ```
-- If downlod is too slow, `Ctrl+C` > `wget ...` again
 
 **Start Arch Linux Arm**
 - Move micro SD card (and USB drive if in USB drive mode) to RPi
