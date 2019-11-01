@@ -70,7 +70,9 @@ RuneOS
 su -
 
 # write script
-wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/write-alarm.sh; chmod +x write-alarm.sh; ./write-alarm.sh
+wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/write-alarm.sh
+chmod +x write-alarm.sh
+./write-alarm.sh
 ```
 - If downlod is too slow, `Ctrl+C` > `wget ...` again
 
