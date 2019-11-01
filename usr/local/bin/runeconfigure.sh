@@ -68,10 +68,10 @@ for user in $users; do
     chage -E -1 $user
 done
 
-# upmpdcli - fix: missing symlink
+# upmpdcli
 if [[ -e /usr/bin/upmpdcli ]]; then
-	ln -s /lib/libjsoncpp.so.{21,20}
-	mpd --no-config 2> /dev/null  # for init RSA key
+	ln -s /lib/libjsoncpp.so.{21,20}  # fix: missing symlink
+	mpd --no-config 2> /dev/null      # for: init RSA key fix
 fi
 
 # wireless-regdom
