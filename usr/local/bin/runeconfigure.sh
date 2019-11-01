@@ -19,6 +19,12 @@ if echo 04 08 0d 0e 11 | grep -q $hwcode; then
 	echo $cmdline > $BOOT/boot/cmdline.txt
 fi
 
+# no onboard wireless
+[[ $nobt ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
+
+# RPi 0 - fix: kernel panic
+[[ $hwcode == 09 || $hwcode == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
+
 # alsa
 chmod -R 666 /var/lib/alsa  # fix permission
 sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules   # omit test rules
