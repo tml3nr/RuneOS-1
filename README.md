@@ -45,7 +45,7 @@ su
 cd
 
 # functions
-wget https://github.com/rern/RuneOS/raw/master/usr/local/bin/functions.sh
+wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/functions.sh
 . functions.sh
 
 # download ArchLinuxARM
