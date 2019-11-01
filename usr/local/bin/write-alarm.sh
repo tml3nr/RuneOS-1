@@ -36,15 +36,15 @@ selectRPi() {
 
 selectRPi
 
+showBOOT
+read -rn 1 -p "Confirm path - BOOT [y/N]: " ans; echo
+[[ $ans != y && $ans != Y ]] && exit
+[[ -n $( ls $BOOT ) && ]] && echo $BOOT not empty. && exit
+
 showROOT
 read -rn 1 -p "Confirm path - ROOT [y/N]: " ans; echo
 [[ $ans != y && $ans != Y ]] && exit
 [[ -n $( ls $ROOT | grep -v lost+found ) ]] && echo $ROOT not empty. && exit
-
-showBOOT
-read -rn 1 -p "Confirm path - BOOT [y/N]: " ans; echo
-[[ $ans != y && $ans != Y ]] && exit
-[[ -n $( ls $BOOT ) && ]] && echo $ROOT not empty. && exit
 
 echo -e "\nRun ROOT partition on:"
 tcolor 1 'Micro SD card'
