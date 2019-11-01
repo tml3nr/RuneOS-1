@@ -90,3 +90,5 @@ fi
 pacman -U --noconfirm *.xz
 
 runeconfigure.sh
+
+echo -e "\nDone\n"
