@@ -82,6 +82,7 @@ fi
 # RPi 0 - fix: kernel panic
 [[ $rpi == 0 ]] && echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
 
+echo
 read -rn 1 -p "Setup Wi-Fi auto-connect [y/N]: " ans; echo
 if [[ $ans == y || $ans == Y ]]; then
     selectSecurity() {
@@ -89,7 +90,7 @@ if [[ $ans == y || $ans == Y ]]; then
         tcolor 1 'WPA'
         tcolor 2 'WEP'
         tcolor 3 'None'
-        read -p 'Select [1-3]: ' wpa
+        read -rn 1 -p 'Select [1-3]: ' wpa
         [[ -z $wpa ]] || (( $wpa > 3 )) && echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
     }
     setCredential() {
