@@ -91,8 +91,8 @@ nmap -sP ${routerip%.*}.*
 ```
 - If RPi not show up in result:
 	- RPi 4 may listed as unknown
-	- Restart router and scan with `nmap ...` again
-	- Still not found, plugin wired LAN and scan with `nmap ...` again
+	- Restart router and scan with `nmap -sP ${routerip%.*}.*` again
+	- Still not found, plugin wired LAN and scan again
 	- Still not found, connect a monitor/tv and a keyboard
 ```sh
 # login user: alarm, password: alarm
