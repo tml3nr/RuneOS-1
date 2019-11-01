@@ -20,14 +20,11 @@ read -rsn1 -p "Confirm ROOT path? (y/N): " ans; echo
 [[ $ans != Y && $ans != y ]] && exit
 
 echo -e "\nSetup Wi-Fi connection\n"
-printf 'SSID: '
-read ssid
-printf 'Password: '
-read password
-printf 'wpa or wep: '
-read wpa
+read -p 'SSID: ' ssid
+read -p 'Password: ' password
+read -p 'wpa or wep: ' wpa
 echo
-read -rsn1 -p "Confirm and continue? (y/N): " ans; echo
+read -rsn1 -p "Confirm and continue? [y/N]: " ans; echo
 [[ $ans != Y && $ans != y ]] && exit
 
 # profile
