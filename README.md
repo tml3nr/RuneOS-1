@@ -119,8 +119,17 @@ ssh alarm@$rpiip  # confirm: yes > password: alarm
 
 **Build RuneAudio+Re**
 - For default setup - select - Install all
-- Chromium - Browser on RPi - Not available for RPi 0 and 1 (too much for CPU)
-- FFmpeg - Select install for [extended decoders](https://github.com/rern/RuneOS/blob/master/ffmpeg.md)
+- Feature options:
+	- Avahi - Connect by: runeaudio.local
+	- Bluez - Bluetooth supports
+	- Chromium - Browser on RPi - Not available for RPi 0 and 1 (too much for CPU)
+	- FFmpeg - Select install for [extended decoders](https://github.com/rern/RuneOS/blob/master/ffmpeg.md)
+	- hostapd - RPi access point
+	- Kid3 - Metadata tag editor
+	- Python - programming language
+	- Samba - File sharing
+	- Shairport-sync - AirPlay
+	- upmpdcli - UPnP
 ```sh
 # switch user to root
 su # password: root
