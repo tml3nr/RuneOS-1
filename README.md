@@ -84,6 +84,7 @@ chmod +x write-alarm.sh
 - Wait 30 seconds
 
 ▼ skip if already known IP ▼ **Get IP address of RPi**
+- On Linux PC
 ```sh
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap -sP ${routerip%.*}.*
@@ -94,6 +95,7 @@ nmap -sP ${routerip%.*}.*
 	- Still not found, connect a monitor/tv and start over again
 
 **Connect PC to RPi**
+- On Linux PC
 ```sh
 # set ip
 read -r -p "RPi IP: " rpiip; echo
@@ -105,7 +107,10 @@ ssh-keygen -R $rpiip 2> /dev/null
 ssh alarm@$rpiip  # confirm: yes > password: alarm
 ```
 
-**Initialize and upgrade**
+**Build RuneAudio+Re**
+- Select - Install all for default setup
+- Chromium - Browser on RPi - Not available for RPi 0 and 1 (too much for CPU)
+- FFmpeg - Select install for extended decoder: 16sv 3g2 3gp 4xm 8svx aa3 aac ac3 adx afc aif aifc aiff al alaw amr anim apc ape asf atrac au aud avi avm2 avs bap bfi c93 cak cin cmv cpk daud dct divx dts dv dvd dxa eac3 film flac flc fli fll flx flv g726 gsm gxf iss m1v m2v m2t m2ts m4a m4b m4v mad mj2 mjpeg mjpg mka mkv mlp mm mmf mov mp+ mp1 mp2 mp3 mp4 mpc mpeg mpg mpga mpp mpu mve mvi mxf nc nsv nut nuv oga ogm ogv ogx oma ogg omg opus psp pva qcp qt r3d ra ram rl2 rm rmvb roq rpl rvc shn smk snd sol son spx str swf tak tgi tgq tgv thp ts tsp tta xa xvid uv uv2 vb vid vob voc vp6 vmd wav webm wma wmv wsaud wsvga wv wve
 ```sh
 # switch user to root
 su # password: root
@@ -113,159 +118,19 @@ su # password: root
 # change directory to root
 cd
 
-# initialize pgp key
-pacman-key --init
-pacman-key --populate archlinuxarm
-
-# fill entropy pool (fix - Kernel entropy pool is not initialized)
-systemctl start systemd-random-seed
-
-# fix dns errors
-systemctl stop systemd-resolved
-
-# system-wide kernel and packages upgrade
-pacman -Syu
-# if download is too slow or stuck, Ctrl+C then pacman -Syu again
+# build script
+wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/write-rune.sh
+chmod +x write-rune.sh
+./write-rune.sh
 ```
 
-**(Optional)**
-- Create image of Arch Linux Arm to skip all previous steps in next rebuild 
-	- [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
-	- On rebuild:
-		- Write image file to micro SD card
-		- `pacman -Syu` then continue
-
-**Packages**
+▼ skip if NOT install UPnP ▼ upmpdcli - generate RSA private key
 ```sh
-# package list
-packages='alsa-utils avahi bluez bluez-utils chromium cronie dnsmasq dosfstools ffmpeg gcc hostapd '
-packages+='ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip '
-packages+='samba shairport-sync sudo udevil wget xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit'
-
-# get RPi hardware code
-hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-echo 00 01 02 03 04 09 | grep -q $hwcode && nobt=1 || nobt=
-
-# ▼ skip if NOT RPi 0, 1 ▼ remove browser on rpi - too much for CPU
-if echo 00 01 02 03 04 09 | grep -q $hwcode; then
-    packages=${packages/ chromium}
-    packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
-fi
-
-# remove bluetooth if not RPi 0 W, 3, 4
-[[ $nobt ]] && packages=${packages/ bluez bluez-utils}
-```
-
-▼ skip to install all ▼ **Exclude optional packages**
-```sh
-# remove connect by name: runeaudio.local
-packages=${packages/ avahi}
-
-# remove bluetooth support
-packages=${packages/ bluez bluez-utils}
-
-# remove access point
-packages=${packages/ dnsmasq}
-packages=${packages/ hostapd}
-
-# remove airplay
-packages=${packages/ shairport-sync}
-
-# remove browser on rpi
-packages=${packages/ chromium}
-packages=${packages/ xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit}
-
-# remove extended audio format:
-#   16sv 3g2 3gp 4xm 8svx aa3 aac ac3 adx afc aif aifc aiff al alaw amr anim apc ape asf atrac au aud avi avm2 avs 
-#   bap bfi c93 cak cin cmv cpk daud dct divx dts dv dvd dxa eac3 film flac flc fli fll flx flv g726 gsm gxf iss 
-#   m1v m2v m2t m2ts m4a m4b m4v mad mj2 mjpeg mjpg mka mkv mlp mm mmf mov mp+ mp1 mp2 mp3 mp4 mpc mpeg mpg mpga mpp mpu mve mvi mxf 
-#   nc nsv nut nuv oga ogm ogv ogx oma ogg omg opus psp pva qcp qt r3d ra ram rl2 rm rmvb roq rpl rvc shn smk snd sol son spx str swf 
-#   tak tgi tgq tgv thp ts tsp tta xa xvid uv uv2 vb vid vob voc vp6 vmd wav webm wma wmv wsaud wsvga wv wve
-packages=${packages/ ffmpeg}
-
-# remove file sharing
-packages=${packages/ samba}
-
-# remove python (to install UPnP, do not remove)
-packages=${packages/ python python-pip}
-```
-
-**Install packages**
-```sh
-# install packages
-pacman -S $packages # select default
-
-# optional - install RPi.GPIO
-pip --no-cache-dir install RPi.GPIO
-```
-
-**RuneUI, custom packages and config files**
-- RuneAudio Enhancement interface
-- Custom packages (not available as standard package)
-	- `nginx-mainline-pushstream`
-	- `kid3-cli`
-	- `matchbox-window-manager`
-	- `bluealsa`
-	- `upmpdcli`
-- Configuration files set to default
-- Initialize / restore database and settings
-```sh
-# get custom packages and setup files
-wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
-
-# expand to target directories
-bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
-[[ $nobt ]] && rm /root/bluealsa* /root/armv6h/bluealsa* /boot/overlays/bcmbt.dtbo
-
-# set permissions and ownership
-chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
-chown -R http:http /srv/http
-```
-
-▼ skip to install all ▼ **Exclude optional packages**
-```sh
-# remove bluetooth
-rm -f bluealsa*
-
-# remove metadata tag editor
-rm -f kid3-cli*
-
-# remove UPnP
-rm -f libupnpp* upmpdcli*
-```
-
-▼ skip to install all ▼ **Exclude removed packages configurations**
-```sh
-[[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
-if [[ ! -e /usr/bin/chromium ]]; then
-    rm -f libmatchbox* matchbox*
-    rm /etc/systemd/system/localbrowser*
-    rm /etc/X11/xinit/xinitrc
-fi
-[[ ! -e /usr/bin/bluetoothctl ]] && rm -r /etc/systemd/system/bluetooth.service.d
-[[ ! -e /usr/bin/hostapd ]] && rm -r /etc/{hostapd,dnsmasq.conf}
-[[ ! -e /usr/bin/smbd ]] && rm -r /etc/samba
-[[ ! -e /usr/bin/shairport-sync ]] && rm /etc/systemd/system/shairport*
-```
-
-**Install custom packages**
-```sh
-# install
-pacman -U *.pkg.tar.xz
-
-# ▼ skip if removed UPnP ▼ upmpdcli - fix missing symlink and generate RSA private key
 if [[ -e /usr/bin/upmpdcli ]]; then
-    ln -s /lib/libjsoncpp.so.{21,20}
     mpd --no-config 2> /dev/null
     upmpdcli -c /etc/upmpdcli.conf
 fi
-# Ctrl+C when 'writing RSA key' shown
-```
-
-**Configurations**
-```sh
-# configure settings
-runeconfigure.sh
+# Ctrl+C at 'writing RSA key'
 ```
 
 **Finish**
