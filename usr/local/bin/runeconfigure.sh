@@ -4,7 +4,7 @@ version=e2
 addoversion=20191101
 
 # remove cache and custom package files
-rm /var/cache/pacman/pkg/* /root/*.xz /root/*.zip /usr/local/bin/{write*,wifisetup}.sh
+rm /var/cache/pacman/pkg/* /root/*.xz /root/*.zip /usr/local/bin/write*
 rm -r /root/armv6h
 
 # bluetooth - RPi 4 filename
