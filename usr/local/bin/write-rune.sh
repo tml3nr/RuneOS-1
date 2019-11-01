@@ -11,7 +11,7 @@ systemctl start systemd-random-seed
 systemctl stop systemd-resolved
 
 echo -e "\nSystem-wide kernel and packages upgrade ...\n"
-pacman -Syu --noconfirm
+pacman -Syu --noconfirm --needed
 
 packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip sudo udevil wget '
 
@@ -58,7 +58,7 @@ else
 fi
 
 echo -e "\nInstall packages ...\n"
-pacman -S --noconfirm $packages
+pacman -S --noconfirm --needed $packages
 
 [[ $pyt == y || $pyt == Y ]] && yes | pip --no-cache-dir install RPi.GPIO
 
