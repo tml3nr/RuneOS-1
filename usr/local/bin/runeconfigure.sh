@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm $0
+
 version=e2
 addoversion=20191101
 
@@ -127,5 +129,3 @@ echo '$2a$12$rNJSBU0FOJM/jP98tA.J7uzFWAnpbXFYx5q1pmNhPnXnUu3L1Zz6W' > $dirsystem
 # set permissions and ownership
 chown -R http:http "$dirdata"
 chown -R mpd:audio "$dirdata/mpd"
-
-rm $0
