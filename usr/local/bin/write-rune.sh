@@ -13,7 +13,7 @@ systemctl start systemd-random-seed
 systemctl stop systemd-resolved
 
 echo -e "\nSystem-wide kernel and packages upgrade ...\n"
-pacman -Syu -noconfirm
+pacman -Syu --noconfirm
 
 packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip sudo udevil wget '
 
