@@ -89,7 +89,4 @@ pacman -U --noconfirm *.xz
 
 runeconfigure.sh
 
-# for init RSA key
-[[ -e /usr/bin/upmpdcli ]] && mpd --no-config 2> /dev/null
-
 echo -e "\nDone\n"
