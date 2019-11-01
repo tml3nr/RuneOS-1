@@ -74,7 +74,12 @@ chmod +x write-alarm.sh
 ./write-alarm.sh
 # if download is too slow,ctrl+c > ./write-alarm.sh again
 
+# remove downloaded file
 rm write-alarm.sh
+
+# ▼ skip if already known RPi IP ▼ scan IP list for reference
+routerip=$( ip route get 1 | cut -d' ' -f3 )
+nmap -sP ${routerip%.*}.*
 ```
 
 **Start Arch Linux Arm**
@@ -83,26 +88,18 @@ rm write-alarm.sh
 - Remove all other USB devices if any
 - Power on
 - Wait 30 seconds
-
-▼ skip to 'Connect PC to RPi' if already known IP ▼ **Get IP address of RPi**
-- On Linux PC
+- ▼ skip if already known RPi IP ▼ **Get IP address of RPi** - On Linux PC:
 ```sh
-routerip=$( ip route get 1 | cut -d' ' -f3 )
+# scan IP list again
 nmap -sP ${routerip%.*}.*
-```
-- If RPi not show up in result:
-	- RPi 4 may listed as unknown
-	- Restart router and scan with `nmap -sP ${routerip%.*}.*` again
-	- Still not found, plugin wired LAN and scan again
-	- Still not found, connect a monitor/tv and a keyboard
-```sh
-# login user: alarm, password: alarm
+# compare to find new one = RPi
 
-# connect wifi
-su  # password: root
-wifi-menu
+# If RPi not show up in result:
+#	- RPi 4 may listed as unknown
+#	- Restart router and scan again
+#	- Still not found, plugin wired LAN and scan again
+#   - Still not found, start over again
 ```
-- Still not found, start over again
 
 **Connect PC to RPi**
 - On Linux PC
