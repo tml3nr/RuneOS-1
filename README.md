@@ -128,9 +128,7 @@ su # password: root
 cd
 
 # build script
-curl -O https://raw.githubusercontent.com/rern/RuneOS/master/usr/local/bin/write-rune.sh
-chmod +x write-rune.sh
-./write-rune.sh
+/root/write-rune.sh
 ```
 
 ▼ skip if NOT install UPnP ▼ upmpdcli - generate RSA private key
