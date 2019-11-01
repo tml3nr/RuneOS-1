@@ -1,7 +1,5 @@
 #!/bin/bash
 
-rm $0
-
 echo -e "\nInitialize pgp key ...\n"
 pacman-key --init
 pacman-key --populate archlinuxarm
@@ -99,3 +97,5 @@ fi
 pacman -U --noconfirm *.xz
 
 runeconfigure.sh
+
+rm $0
