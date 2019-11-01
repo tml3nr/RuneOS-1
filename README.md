@@ -77,7 +77,7 @@ chmod +x write-alarm.sh
 # remove downloaded file
 rm write-alarm.sh
 
-# ▼ skip if already known RPi IP ▼ scan IP list for reference
+# scan IP list for reference
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap -sP ${routerip%.*}.*
 ```
@@ -88,11 +88,11 @@ nmap -sP ${routerip%.*}.*
 - Remove all other USB devices if any
 - Power on
 - Wait 30 seconds
-- ▼ skip if already known RPi IP ▼ **Get IP address of RPi** - On Linux PC:
+
+**Get IP address of RPi** - On Linux PC:
 ```sh
-# scan IP list again
+# scan IP list again and compare to find new one = RPi
 nmap -sP ${routerip%.*}.*
-# compare to find new one = RPi
 
 # If RPi not show up in result:
 #	- RPi 4 may listed as unknown
