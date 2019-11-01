@@ -97,5 +97,3 @@ fi
 pacman -U --noconfirm *.xz
 
 runeconfigure.sh
-
-rm $0
