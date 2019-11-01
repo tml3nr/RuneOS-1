@@ -24,6 +24,7 @@ showBOOT() {
     showData "$( df -h | grep BOOT )" "BOOT: " "$BOOT"
 }
 showUUID() {
+    dev=$( df | grep ROOT | awk '{print $1}' )
     UUID=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
     showData "$( df -h | grep ROOT )" "UUID" "${UUID/UUID=}"
 }
