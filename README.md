@@ -36,23 +36,6 @@ RuneOS
 	- Copy-paste unless corrections needed
 	- Comments - Lines with leading `#` can be skipped.
 
-**Download Arch Linux Arm**
-```sh
-# switch user to root
-su
-
-# change directory to root
-cd
-
-# functions
-wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/functions.sh
-. functions.sh
-
-# download ArchLinuxARM
-download
-```
-- If downlod is too slow, `Ctrl+C` > `rm $file` > `download`
-
 **Prepare partitions**
 - SD card mode (normal)
 	- Insert micro SD card
@@ -81,59 +64,17 @@ download
 				- Format: `ext4`
 				- Label: `ROOT`
 
-**Write `ROOT` partition**
-- Open **Files** app
-- Click `BOOT` and `ROOT` to mount
-- Hover mouse pointer over `BOOT` and `ROOT` - note paths for verifications
+**Download and write `BOOT` and `ROOT`**
 ```sh
-# install packages (skip if already installed)
-apt install bsdtar nmap  # arch linux: pacman -S bsdtar nmap
+# switch user to root
+su -
 
-# get ROOT path and verify
-showData "$( df -h | grep ROOT )" "ROOT: " "$( df | grep ROOT | awk '{print $NF}' )"
-
-# expand to ROOT
-bsdtar xpvf $file -C $ROOT  # if errors - install missing packages
-
-# wait until writing finished, delete downloaded file
-rm $file functions.sh
+# write script
+wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/write-alarm.sh
+chmod +x write-alarm.sh
+./write-alarm.sh
 ```
-
-**Write `BOOT` partition**
-```sh
-# get BOOT path and verify
-showData "$( df -h | grep BOOT )" "BOOT: " "$( df | grep BOOT | awk '{print $NF}' )"
-
-# move to BOOT
-mv -v $ROOT/boot/* $BOOT 2> /dev/null
-
-# ▼ skip if NOT RPi 0 ▼ fix: kernel panic
-echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
-```
-
-▼ skip if SD card mode ▼ **Setup USB as root partition**
-```sh
-# get UUID and verify
-dev=$( df | grep ROOT | awk '{print $1}' )
-showData "$( df -h | grep ROOT )" "root=" "$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '"' )"
-
-# set root device
-sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
-echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
-```
-
-▼ skip if connect wired LAN ▼ **Setup Wi-Fi auto-connect**
-- Pre-configure Wi-Fi to auto-connect on startup for headless(no monitor)
-```sh
-wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/wifisetup.sh; chmod +x wifisetup.sh; ./wifisetup.sh
-```
-
-**Unmount and remove**
-- Click `Unmount` in **Files** or:
-```sh
-umount -l $BOOT
-umount -l $ROOT
-```
+- If downlod is too slow, `Ctrl+C` > `wget ...` again
 
 **Start Arch Linux Arm**
 - Move micro SD card (and USB drive if in USB drive mode) to RPi
@@ -142,18 +83,19 @@ umount -l $ROOT
 - Power on
 - Wait 30 seconds
 
+▼ skip if already known IP ▼ **Get IP address of RPi**
+```sh
+routerip=$( ip route get 1 | cut -d' ' -f3 )
+nmap -sP ${routerip%.*}.*
+```
+- If RPi not show up in result:
+	- RPi 4 may listed as unknown
+	- Plugin wired LAN and `nmap ...` again
+	- Still not found, connect a monitor/tv and start over again
+
 **Connect PC to RPi**
 ```sh
-# get RPi IP address and verify
-routerip=$( ip route get 1 | cut -d' ' -f3 )
-nmap=$( nmap -sP ${routerip%.*}.* | grep -B2 Raspberry )
-
-showData "$nmap\n" "RPi IP: " "$( echo "$nmap" | head -1 | awk '{print $NF}' | tr -d '()' )"
-
-# ▼ skip if rpiip is correct ▼ scan all IPs - multiple RPis or incorrect IP (RPi 4 might listed as unknown)
-nmap -sP ${routerip%.*}.*
-
-# ▼ skip if rpiip is correct ▼ set rpiip manually
+# set ip
 read -r -p "RPi IP: " rpiip; echo
 
 # remove existing key if any
@@ -161,22 +103,6 @@ ssh-keygen -R $rpiip 2> /dev/null
 
 # connect
 ssh alarm@$rpiip  # confirm: yes > password: alarm
-```
-
-▼ skip if `ssh` connected successfully ▼ **Connect Wi-Fi manually**
-- If RPi not show up in `nmap` list > power off
-- Connect a monitor/tv and a keyboard > power on
-- If there's a lot of `[FAILED]`s about network, start over again.
-- Continue with connected monitor/tv and keyboard.
-```sh
-# login
-alarm  # password: alarm
-
-# switch user to root
-su # password: root
-
-# connect wi-fi
-wifi-menu
 ```
 
 **Initialize and upgrade**
