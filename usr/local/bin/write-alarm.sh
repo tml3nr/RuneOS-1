@@ -135,4 +135,8 @@ if [[ $ans == y || $ans == Y ]]; then
     cd
 fi
 
+# get write.rune.sh
+wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/write-rune.sh -P $ROOT/root
+chmod +x $ROOT/root/write-rune.sh
+
 umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted.\nMove to Raspberry Pi."
