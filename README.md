@@ -35,7 +35,7 @@ RuneOS
 	- Comments - Lines with leading `#` can be skipped.
 
 **Prepare partitions**
-- SD card mode (normal)
+- **SD card mode** (normal)
 	- Insert micro SD card
 	- Delete all partitions (make sure it's the micro SD card)
 	- Create partitions with **GParted** app
@@ -45,7 +45,7 @@ RuneOS
 | #1  | 100MiB      | primary | fat32  | BOOT  |
 | #2  | (the rest)  | primary | ext4   | ROOT  |
 	
-- USB drive mode (run RuneAudio+R from USB drive)
+- **USB drive mode** (run RuneAudio+R from USB drive)
 	- Insert Micro SD card
 		- Delete all partitions (make sure it's the micro SD card)
 		- Format: `fat32`
