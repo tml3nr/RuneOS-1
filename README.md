@@ -128,7 +128,7 @@ su # password: root
 cd
 
 # build script
-/root/write-rune.sh
+write-rune.sh
 ```
 
 ▼ skip if NOT install UPnP ▼ upmpdcli - generate RSA private key
