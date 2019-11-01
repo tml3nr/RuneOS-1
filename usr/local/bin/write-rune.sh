@@ -33,7 +33,7 @@ else
         read -rn 1 -p "Install Bluez - Bluetooth supports [y/N]: " blue; echo
         [[ $blue == y || $blue == Y ]] && packages+='bluez bluez-utils '
     fi
-    if [[ echo 04 08 0d 0e 11 | grep -q $hwcode ]]; then
+    if echo 04 08 0d 0e 11 | grep -q $hwcode; then
         read -rn 1 -p "Install Chromium - Browser on RPi [y/N]: " ans; echo
         [[ $ans == y || $ans == Y ]] && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
     fi
