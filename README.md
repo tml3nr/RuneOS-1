@@ -131,6 +131,7 @@ cd
 
 # build script
 write-rune.sh
+# if download is too slow or errors occured, ctrl+c > write-rune.sh again
 ```
 
 ▼ skip if NOT install UPnP ▼ upmpdcli - generate RSA private key
