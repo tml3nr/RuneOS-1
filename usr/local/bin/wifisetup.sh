@@ -15,7 +15,6 @@ printf %"$cols"s | tr ' ' -
 echo $( df -h | grep ROOT )
 echo ROOT: $ROOT
 printf %"$cols"s | tr ' ' -
-echo
 read -rsn1 -p "Confirm ROOT path? (y/N): " ans; echo
 [[ $ans != Y && $ans != y ]] && exit
 
@@ -26,27 +25,38 @@ selectSecurity() {
 	tcolor 1 'WPA'
 	tcolor 2 'WEP'
 	tcolor 3 'None'
-	read -p 'Select [1-3]: ' wpa
-	[[ -z $wpa ]] || (( $wpa > 3 )) && echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
+	read -rn 1 -p 'Select [1-3]: ' ans
+	[[ -z $ans ]] || (( $ans > 3 )) && echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
+	if [[ $ans == 1 ]]; then
+		wpa=wpa
+	elif [[ $ans == 2 ]]; then
+		wpa=wep
+	else
+		wpa=
+	fi
 }
 setCredential() {
 	echo
 	read -p 'SSID: ' ssid
 	read -p 'Password: ' password
 	selectSecurity
-	echo -e "\nSSID: $ssid\nPassword: $password\nSecurity: $wpa"
+	echo
+	printf %"$cols"s | tr ' ' -
+	echo -e "\nSSID: $ssid\nPassword: $password\nSecurity: ${wpa^^}"
+	printf %"$cols"s | tr ' ' -
 	read -rn1 -p "Confirm and continue? [y/N]: " ans; echo
 	[[ $ans != Y && $ans != y ]] && setCredential
 }
 setCredential
 
 # profile
-echo "Interface=wlan0
+profile="Interface=wlan0
 Connection=wireless
 IP=dhcp
-ESSID=\"$ssid\"
-Security=$wpa
-Key=$password" > "$ROOT/etc/netctl/$ssid"
+ESSID=\"$ssid\""
+[[ -n $wpa ]] && profile+="Security=$wpa
+Key=$password"
+echo $profile > "$ROOT/etc/netctl/$ssid"
 
 # enable startup
 dir="$ROOT/etc/systemd/system/netctl@$ssid.service.d"
