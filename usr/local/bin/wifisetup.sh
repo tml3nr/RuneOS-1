@@ -20,12 +20,25 @@ read -rsn1 -p "Confirm ROOT path? (y/N): " ans; echo
 [[ $ans != Y && $ans != y ]] && exit
 
 echo -e "\nSetup Wi-Fi connection\n"
-read -p 'SSID: ' ssid
-read -p 'Password: ' password
-read -p 'wpa or wep: ' wpa
-echo
-read -rsn1 -p "Confirm and continue? [y/N]: " ans; echo
-[[ $ans != Y && $ans != y ]] && exit
+
+selectSecurity() {
+	echo Security:
+	tcolor 1 'WPA'
+	tcolor 2 'WEP'
+	tcolor 3 'None'
+	read -p 'Select [1-3]: ' wpa
+	[[ -z $wpa ]] || (( $wpa > 3 )) && echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
+}
+setCredential() {
+	echo
+	read -p 'SSID: ' ssid
+	read -p 'Password: ' password
+	selectSecurity
+	echo -e "\nSSID: $ssid\nPassword: $password\nSecurity: $wpa"
+	read -rn1 -p "Confirm and continue? [y/N]: " ans; echo
+	[[ $ans != Y && $ans != y ]] && setCredential
+}
+setCredential
 
 # profile
 echo "Interface=wlan0
@@ -47,6 +60,4 @@ ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
 cd
 
 # unmount
-umount -l $ROOT
-echo -e "\nROOT unmounted."
-echo -e "Move to RPi and power on.\n"
+umount -l $ROOT && echo -e "\n$ROOT unmounted.\nMove to Raspberry Pi."
