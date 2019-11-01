@@ -145,6 +145,7 @@ write-rune.sh
 mpd --no-config &> /dev/null
 upmpdcli
 # ctrl+c when reach 'writing RSA key'
+killall mpd upmpdcli
 ```
 
 **Finish**
