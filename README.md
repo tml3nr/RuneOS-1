@@ -215,21 +215,11 @@ wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 
 # expand to target directories
 bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
-[[ $nobt ]] && rm bluealsa* /boot/overlays/bcmbt.dtbo
+[[ $nobt ]] && rm /root/bluealsa* /root/armv6h/bluealsa* /boot/overlays/bcmbt.dtbo
 
 # set permissions and ownership
 chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
-
-# ▼ skip if NOT RPi 0, 1 ▼ no splash, hdmi sound, armv6h packages
-if echo 00 01 02 03 04 09 0c | grep -q $hwcode; then
-    # RPi 0 - fix: kernel panic
-    [[ $hwcode == 09 || $hwcode == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
-    # RPi 0 - only W has wifi and bluetooth
-    [[ $hwcode != 0c ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
-    rm *.pkg.tar.xz
-    mv armv6h/* .
-fi
 ```
 
 ▼ skip to install all ▼ **Exclude optional packages**
