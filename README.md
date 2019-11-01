@@ -128,7 +128,7 @@ su # password: root
 cd
 
 # build script
-wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/write-rune.sh
+curl -O https://raw.githubusercontent.com/rern/RuneOS/master/usr/local/bin/write-rune.sh
 chmod +x write-rune.sh
 ./write-rune.sh
 ```
