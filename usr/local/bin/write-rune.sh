@@ -25,7 +25,7 @@ if [[ $ans == y || $ans == Y ]]; then
     # RPi 0W, 3, 4
     [[ -n $nobt ]] && packages+='bluez bluez-utils '
     # RPi 2, 3, 4
-    [[ echo 04 08 0d 0e 11 | grep -q $hwcode ]] && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
+    echo 04 08 0d 0e 11 | grep -q $hwcode && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
 else
     read -rn 1 -p "Install Avahi - Connect by: runeaudio.local [y/N]: " ans; echo
     [[ $ans == y || $ans == Y ]] && packages+='avahi '
