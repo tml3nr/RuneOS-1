@@ -23,26 +23,6 @@ showBOOT() {
     BOOT=$( df | grep BOOT | awk '{print $NF}' )
     showData "$( df -h | grep BOOT )" "BOOT: " "$BOOT"
 }
-showUUID() {
-    dev=$( df | grep ROOT | awk '{print $1}' )
-    UUID=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
-    showData "$( df -h | grep ROOT )" "UUID" "${UUID/UUID=}"
-}
-download() {
-    if [[ $rpi == 0 || $rpi == 1 ]]; then
-        file=ArchLinuxARM-rpi-latest.tar.gz
-    elif [[ $rpi == 2 ]]; then
-        file=ArchLinuxARM-rpi-2-latest.tar.gz
-    elif [[ $rpi == 3 ]]; then
-        file=ArchLinuxARM-rpi-3-latest.tar.gz
-    elif [[ $rpi == 4 ]]; then
-        file=ArchLinuxARM-rpi-4-latest.tar.gz
-    fi
-    if [[ -n $file ]]; then
-        echo -e "\nConnecting ..."
-        wget -qN --show-progress http://os.archlinuxarm.org/os/$file
-    fi
-}
 selectRPi() {
     echo -e "\nRaspberry Pi:"
     tcolor 0 'RPi Zero'
@@ -71,7 +51,18 @@ tcolor 1 'Micro SD card'
 tcolor 2 'USB drive'
 read -rn 1 -p "Select [1/2]: " mode; echo
 
-download
+if [[ $rpi == 0 || $rpi == 1 ]]; then
+	file=ArchLinuxARM-rpi-latest.tar.gz
+elif [[ $rpi == 2 ]]; then
+	file=ArchLinuxARM-rpi-2-latest.tar.gz
+elif [[ $rpi == 3 ]]; then
+	file=ArchLinuxARM-rpi-3-latest.tar.gz
+elif [[ $rpi == 4 ]]; then
+	file=ArchLinuxARM-rpi-4-latest.tar.gz
+fi
+
+echo -e "\nConnecting ..."
+wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 [[ $? != 0 ]] && echo -e "\nDownload failed." && exit
 
 echo -e "\nExpand to ROOT ..."
@@ -82,7 +73,8 @@ echo -e "\nMove /boot to BOOT ..."
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
 if [[ $mode == 2 ]]; then
-    UUID=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
+	dev=$( df | grep ROOT | awk '{print $1}' )
+    uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
     sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
     echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 fi
