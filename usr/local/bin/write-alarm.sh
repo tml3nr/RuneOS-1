@@ -61,7 +61,7 @@ elif [[ $rpi == 4 ]]; then
 	file=ArchLinuxARM-rpi-4-latest.tar.gz
 fi
 
-echo -e "\nConnecting ..."
+echo -e "\nDownloading ..."
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 [[ $? != 0 ]] && echo -e "\nDownload failed." && exit
 
