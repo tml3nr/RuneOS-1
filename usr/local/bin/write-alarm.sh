@@ -110,7 +110,7 @@ if [[ $ans == y || $ans == Y ]]; then
     ESSID=\"$ssid\""
     [[ -n $wpa ]] && profile+="Security=$wpa
     Key=$password"
-    echo $profile > > "$ROOT/etc/netctl/$ssid"
+    echo $profile > "$ROOT/etc/netctl/$ssid"
 
     # enable startup
     dir="$ROOT/etc/systemd/system/netctl@$ssid.service.d"
