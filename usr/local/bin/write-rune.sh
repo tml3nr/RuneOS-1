@@ -42,7 +42,7 @@ else
     read -rn 1 -p "Install hostapd - RPi access point [y/N]: " ans; echo
     [[ $ans == y || $ans == Y ]] && packages+='dnsmasq hostapd '
     read -rn 1 -p "Install Kid3 - Metadata tag editor [y/N]: " kid3; echo
-	read -rn 1 -p "Install Python [y/N]: " pyt; echo
+	read -rn 1 -p "Install Python - programming language [y/N]: " pyt; echo
     [[ $pyt == y || $pyt == Y ]] && packages+='python python-pip '
     read -rn 1 -p "Install Samba - File sharing [y/N]: " ans; echo
     [[ $ans == y || $ans == Y ]] && packages+='samba '
