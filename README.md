@@ -61,6 +61,7 @@ RuneOS
 			- Create a new partition in the new 4GB space
 				- Format: `ext4`
 				- Label: `ROOT`
+- Open **File** app - click `BOOT` and `ROOT` to mount
 
 **Download and write `BOOT` and `ROOT`**
 ```sh
@@ -83,7 +84,7 @@ rm write-alarm.sh
 - Power on
 - Wait 30 seconds
 
-▼ skip if already known IP ▼ **Get IP address of RPi**
+▼ skip to 'Connect PC to RPi' if already known IP ▼ **Get IP address of RPi**
 - On Linux PC
 ```sh
 routerip=$( ip route get 1 | cut -d' ' -f3 )
