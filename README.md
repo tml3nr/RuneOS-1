@@ -20,9 +20,9 @@ RuneOS
 - Network connection
 	- Wired LAN (more stable)
 	- Wi-Fi connection (only if necessary)
-- Normal SD mode
+- Normal SD mode (normal)
 	- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
-- USB mode (for hard drive or fast thumb drive)
+- USB drive mode  (run RuneAudio+R from USB drive - hard drive or fast thumb drive)
 	- Micro SD card - 100MB+ - `BOOT` partition only
 	- USB drive - 4GB+ - `ROOT` partition (or existing USB hard drive with data)
 ---
@@ -35,7 +35,7 @@ RuneOS
 	- Comments - Lines with leading `#` can be skipped.
 
 **Prepare partitions**
-- **SD card mode** (normal)
+- **SD card mode**
 	- Insert micro SD card
 	- Delete all partitions (make sure it's the micro SD card)
 	- Create partitions with **GParted** app
@@ -45,7 +45,7 @@ RuneOS
 | #1  | 100MiB      | primary | fat32  | BOOT  |
 | #2  | (the rest)  | primary | ext4   | ROOT  |
 	
-- **USB drive mode** (run RuneAudio+R from USB drive)
+- **USB drive mode**
 	- Insert Micro SD card
 		- Delete all partitions (make sure it's the micro SD card)
 		- Format: `fat32`
