@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm $0
+
 [[ ! -e /usr/bin/bsdtar ]] && apt install -y bsdtar
 [[ ! -e /usr/bin/nmap ]] && apt install -y nmap
 
