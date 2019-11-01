@@ -86,6 +86,7 @@ fi
 [[ ! -e /usr/bin/hostapd ]] && rm -r /etc/{hostapd,dnsmasq.conf}
 [[ ! -e /usr/bin/smbd ]] && rm -r /etc/samba
 [[ ! -e /usr/bin/shairport-sync ]] && rm /etc/systemd/system/shairport*
+[[ ! -e /usr/bin/upmpdcli ]] && rm /etc/upmpdcli.conf
 
 pacman -U --noconfirm *.xz
 
