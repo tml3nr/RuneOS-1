@@ -41,25 +41,18 @@ else
     [[ $ans == y || $ans == Y ]] && packages+='ffmpeg '
     read -rn 1 -p "Install hostapd - RPi access point [y/N]: " ans; echo
     [[ $ans == y || $ans == Y ]] && packages+='dnsmasq hostapd '
+    read -rn 1 -p "Install Kid3 - Metadata tag editor [y/N]: " kid3; echo
+	read -rn 1 -p "Install Python [y/N]: " pyt; echo
+    [[ $pyt == y || $pyt == Y ]] && packages+='python python-pip '
     read -rn 1 -p "Install Samba - File sharing [y/N]: " ans; echo
     [[ $ans == y || $ans == Y ]] && packages+='samba '
     read -rn 1 -p "Install Shairport-sync - AirPlay [y/N]: " ans; echo
     [[ $ans == y || $ans == Y ]] && packages+='shairport-sync '
-    
-    read -rn 1 -p "Install Kid3 - Metadata tag editor [y/N]: " kid3; echo
     read -rn 1 -p "Install upmpdcli - UPnP [y/N]: " upnp; echo
-    if [[ $upnp != y && $upnp != Y ]]; then
-        read -rn 1 -p "Install Python [y/N]: " pyt; echo
-        if [[ $pyt == y || $pyt == Y ]]; then
-            packages+='python python-pip '
-            read -rn 1 -p "Install Python pip [y/N]: " pip; echo
-        fi
-    fi
 fi
 
 echo -e "\nInstall packages ...\n"
 pacman -S --noconfirm --needed $packages
-
 [[ $pyt == y || $pyt == Y ]] && yes | pip --no-cache-dir install RPi.GPIO
 
 echo -e "\nInstall custom packages and web interface ...\n"
