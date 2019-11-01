@@ -61,7 +61,7 @@ RuneOS
 			- Create a new partition in the new 4GB space
 				- Format: `ext4`
 				- Label: `ROOT`
-- Open **File** app - click `BOOT` and `ROOT` to mount
+- Open **Files** app - click `BOOT` and `ROOT` to mount
 
 **Download and write `BOOT` and `ROOT`**
 ```sh
