@@ -71,10 +71,6 @@ fi
 chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 
-[[ $blue == n || $blue == N ]] && rm /root/blue*
-[[ $kid3 == n || $kid3 == N ]] && rm /root/kid3*
-[[ $upnp == n || $upnp == N ]] && rm /root/{libupnpp*,upmpdcli*}
-
 # remove config of excluded packages
 [[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
 if [[ ! -e /usr/bin/chromium ]]; then
@@ -82,11 +78,12 @@ if [[ ! -e /usr/bin/chromium ]]; then
     rm /etc/systemd/system/localbrowser*
     rm /etc/X11/xinit/xinitrc
 fi
-[[ ! -e /usr/bin/bluetoothctl ]] && rm -r /etc/systemd/system/bluetooth.service.d
+[[ ! -e /usr/bin/bluetoothctl ]] && rm -r /etc/systemd/system/bluetooth.service.d /root/blue*
 [[ ! -e /usr/bin/hostapd ]] && rm -r /etc/{hostapd,dnsmasq.conf}
+[[ $kid3 == n || $kid3 == N ]] && rm /root/kid3*
 [[ ! -e /usr/bin/smbd ]] && rm -r /etc/samba
 [[ ! -e /usr/bin/shairport-sync ]] && rm /etc/systemd/system/shairport*
-[[ ! -e /usr/bin/upmpdcli ]] && rm /etc/upmpdcli.conf
+[[ $upnp == n || $upnp == N ]] && rm /etc/upmpdcli.conf /root/{libupnpp*,upmpdcli*}
 
 pacman -U --noconfirm *.xz
 
