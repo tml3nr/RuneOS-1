@@ -71,9 +71,9 @@ fi
 chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 
-[[ $blue != y && $blue != Y ]] && rm /root/blue*
-[[ $kid3 != y && $kid3 != Y ]] && rm /root/kid3*
-[[ $upnp != y && $upnp != Y ]] && rm /root/{libupnpp*,upmpdcli*}
+[[ $blue == n || $blue == N ]] && rm /root/blue*
+[[ $kid3 == n || $kid3 == N ]] && rm /root/kid3*
+[[ $upnp == n || $upnp == N ]] && rm /root/{libupnpp*,upmpdcli*}
 
 # remove config of excluded packages
 [[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
