@@ -101,7 +101,7 @@ nmap -sP ${routerip%.*}.*
 su  # password: root
 wifi-menu
 ```
-	- Still not found, start over again
+- Still not found, start over again
 
 **Connect PC to RPi**
 - On Linux PC
