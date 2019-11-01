@@ -90,15 +90,25 @@ if [[ $ans == y || $ans == Y ]]; then
         tcolor 1 'WPA'
         tcolor 2 'WEP'
         tcolor 3 'None'
-        read -rn 1 -p 'Select [1-3]: ' wpa
-        [[ -z $wpa ]] || (( $wpa > 3 )) && echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
+        read -rn 1 -p 'Select [1-3]: ' ans
+        [[ -z $ans ]] || (( $ans > 3 )) && echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
+        if [[ $ans == 1 ]]; then
+            wpa=wpa
+        elif [[ $ans == 2 ]]; then
+            wpa=wep
+        else
+            wpa=
+        fi
     }
     setCredential() {
         echo
         read -p 'SSID: ' ssid
         read -p 'Password: ' password
         selectSecurity
-        echo -e "\nSSID: $ssid\nPassword: $password\nSecurity: $wpa"
+        echo
+        printf %"$cols"s | tr ' ' -
+        echo -e "\nSSID: $ssid\nPassword: $password\nSecurity: ${wpa^^}"
+        printf %"$cols"s | tr ' ' -
         read -rn1 -p "Confirm and continue? [y/N]: " ans; echo
         [[ $ans != Y && $ans != y ]] && setCredential
     }
