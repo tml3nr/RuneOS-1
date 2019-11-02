@@ -13,7 +13,7 @@ verifypath() {
 		echo -e "\n$( df -h | grep $mountpoint )"
 		echo -e "$1: \e[36m$mountpoint\e[m\n"
 	else
-		echo -e "\n\e[m36$1\e[m not mounted or incorrect label. && exit
+		echo -e "\n\e[m36$1\e[m not mounted or incorrect label." && exit
 	fi
 	read -rn 1 -p "Confirm and continue? [y/n]: " ans; echo
 	[[ $ans != y && $ans != Y ]] && exit
