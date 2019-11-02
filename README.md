@@ -68,14 +68,14 @@ RuneOS
 # switch user to root
 su -
 
-# write script
+# get script
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-alarm.sh
 chmod +x create-alarm.sh
 ./create-alarm.sh
 # if download is too slow, ctrl+c and ./create-alarm.sh again
 
-# remove downloaded file
-rm write-alarm.sh
+# remove script
+rm create-alarm.sh
 
 # scan IP list for reference
 routerip=$( ip route get 1 | cut -d' ' -f3 )
