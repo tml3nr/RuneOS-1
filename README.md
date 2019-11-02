@@ -1,6 +1,6 @@
 RuneOS
 ---
-- For all Raspberry Pi: 0, 1, 2, 3 and 4 (3A+ and 3B+: not yet tested but should work)
+- For all Raspberry Pi: Zero, 1, 2, 3 and 4 (3A+ and 3B+: not yet tested but should work)
 - Build RuneAudio+Re from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) latest releases.
 - With options to exclude features, it can be as light as possible in terms of build time and disk space.
 
