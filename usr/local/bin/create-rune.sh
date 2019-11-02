@@ -76,7 +76,7 @@ wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 
 # no onboard wireless
-[[ $nobt ]] && rm /root/bluealsa* /root/armv6h/bluealsa* /boot/overlays/bcmbt.dtbo
+[[ ! $wireless ]] && rm /root/bluealsa* /root/armv6h/bluealsa* /boot/overlays/bcmbt.dtbo
 
 # RPi 0, 1
 if echo 00 01 02 03 09 0c | grep -q $hwcode; then
