@@ -16,12 +16,12 @@ showData() {
 showROOT() {
     ROOT=$( df | grep ROOT | awk '{print $NF}' )
     showData "$( df -h | grep ROOT )" "ROOT: " "$ROOT"
-	[[ -z $ROOT ]] && echo Not mounted or incorrect label. && showROOT
+	[[ -z $ROOT ]] && echo Not mounted or incorrect label. && exit
 }
 showBOOT() {
     BOOT=$( df | grep BOOT | awk '{print $NF}' )
     showData "$( df -h | grep BOOT )" "BOOT: " "$BOOT"
-	[[ -z $BOOT ]] && echo Not mounted or incorrect label. && showBOOT
+	[[ -z $BOOT ]] && echo Not mounted or incorrect label. && exit
 }
 selectRPi() {
     echo -e "\nRaspberry Pi:"
