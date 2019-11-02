@@ -97,12 +97,12 @@ nmap -sP ${routerip%.*}.*
 nmap -sP ${routerip%.*}.*
 
 # If RPi not show up in result:
-#	- RPi 4 may listed as unknown
-#	- If not use wired LAN:
+#  - RPi 4 may listed as unknown
+#  - If not use wired LAN:
 #     - Connect with wired LAN
-#	  - Restart RPi
+#     - Restart RPi
 #     - Scan again
-#	- Start over again
+#  - Start over again
 ```
 
 **Connect PC to RPi**
