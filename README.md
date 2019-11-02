@@ -91,7 +91,7 @@ nmap -sP ${routerip%.*}.*
 - Power on
 - Wait 30 seconds
 
-**Get IP address of RPi**
+**Connect PC to RPi**
 ```sh
 # scan IP list again and compare to find new one => RPi
 nmap -sP ${routerip%.*}.*
@@ -103,10 +103,7 @@ nmap -sP ${routerip%.*}.*
 #     - Restart RPi
 #     - Scan again
 #  - If still not found, start over again
-```
 
-**Connect PC to RPi**
-```sh
 # set ip
 read -r -p "Raspberry Pi IP: " rpiip; echo
 
