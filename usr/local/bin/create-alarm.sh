@@ -156,9 +156,9 @@ if [[ $ssid ]]; then
 	cd
 fi
 
-# get write-rune.sh
-wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/write-rune.sh -P $ROOT/usr/local/bin
-chmod +x $ROOT/usr/local/bin/write-rune.sh
+# get create-rune.sh
+wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-rune.sh -P $ROOT/usr/local/bin
+chmod +x $ROOT/usr/local/bin/create-rune.sh
 
 umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted.\nMove to Raspberry Pi."
 
