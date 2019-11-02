@@ -9,12 +9,12 @@ RuneOS
 	- Prepare partitions
 	- Download
 	- Write `ROOT` and `BOOT` partitions
-	- (Optional) Pre-configure Wi-Fi connection for headless system (no monitor)
+	- Optional - Pre-configure Wi-Fi connection
 	- Start Arch Linux Arm
 	- Connect PC to RPi
 - Create RuneAudio+Re system
-	- Upgrade kernel and default packages to latest versions
-	- Install packages with options to exclude features
+	- Upgrade kernel and default packages
+	- Install packages and web interface
 	- Configure
 	- Set default settings
 
