@@ -130,10 +130,7 @@ ssh alarm@$rpiip  # confirm: yes > password: alarm
 	- upmpdcli - UPnP
 ```sh
 # switch user to root
-su # password: root
-
-# change directory to root
-cd
+su -  # password: root
 
 # build script
 write-rune.sh
