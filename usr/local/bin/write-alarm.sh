@@ -7,18 +7,18 @@ cols=$( tput cols )
 hr() {
 	printf %"$cols"s | tr ' ' -
 }
-showpath() {
+verifypath() {
 	mountpoint=$( df | grep $1 | awk '{print $NF}' )
 	hr
 	if [[ -n $mountpoint ]]; then
 		echo $( df -h | grep $mountpoint )
-		echo $1: $mountpoint
+		echo -e "$1: \e[36m$mountpoint\e[m"
 		hr
 	else
 		echo $1 not mounted or incorrect label. && exit
 		hr
 	fi
-	read -rn 1 -p "Confirm path - $1 [y/N]: " ans; echo
+	read -rn 1 -p "Confirm and continue? [y/n]: " ans; echo
 	[[ $ans != y && $ans != Y ]] && exit
 	[[ -n $( ls $mountpoint | grep -v lost+found ) ]] && echo $mountpoint not empty. && exit
 }
@@ -31,9 +31,42 @@ selectMode() {
 		echo -e "\nSelect 1 or 2\n" && selectMode
 	else
 		[[ $mode == 1 ]] && dev='Micro SD card' || dev='USB drive'
-		read -rn 1 -p "ROOT on $dev [y/N]: " ans; echo
+		hr
+		echo -e "Run ROOT on \e[36m$dev\e[m"
+		hr
+		read -rn 1 -p "Confirm and continue? [y/n]: " ans; echo
 		[[ $ans != y && $ans != Y ]] && selectMode
 	fi
+}
+selectSecurity() {
+	echo Security:
+	echo -e '  \e[36m1\e[m WPA'
+	echo -e '  \e[36m2\e[m WEP'
+	echo -e '  \e[36m3\e[m None'
+	read -rn 1 -p 'Select [1-3]: ' ans
+	if [[ -z $ans || $ans -gt 3 ]]; then
+		echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
+	else
+		if [[ $ans == 1 ]]; then
+			wpa=wpa
+		elif [[ $ans == 2 ]]; then
+			wpa=wep
+		else
+			wpa=
+		fi
+	fi
+}
+setCredential() {
+	echo
+	read -p 'SSID: ' ssid
+	read -p 'Password: ' password
+	selectSecurity
+	echo
+	hr
+	echo -e "\nSSID: \e[36m$ssid\e[m\nPassword: \e[36m$password\e[m\nSecurity: \e[36m${wpa^^}\e[m"
+	hr
+	read -rn1 -p "Confirm and continue? [y/n]: " ans; echo
+	[[ $ans != Y && $ans != y ]] && setCredential
 }
 selectRPi() {
 	echo -e "\nRaspberry Pi:"
@@ -59,54 +92,24 @@ selectRPi() {
 			file=ArchLinuxARM-rpi-4-latest.tar.gz
 		fi
 	fi
-	echo
-	read -rn 1 -p "Raspberry Pi $rpi ? [y/N]: " ans; echo
+	hr
+	echo -e "Raspberry Pi \e[36m$rpi\e[m"
+	hr
+	read -rn 1 -p "Confirm and continue? [y/n]: " ans; echo
 	[[ $ans != y && $ans != Y ]] && selectRPi
 }
 
 # -----------------------------------------------------------------------
-showpath BOOT
+verifypath BOOT
 
-showpath ROOT
+verifypath ROOT
 
 selectMode
 
 selectRPi
 
-read -rn 1 -p "Auto-connect Wi-Fi on boot? [y/N]: " ans; echo
-if [[ $ans == y || $ans == Y ]]; then
-	selectSecurity() {
-		echo Security:
-		echo -e '  \e[36m1\e[m WPA'
-		echo -e '  \e[36m2\e[m WEP'
-		echo -e '  \e[36m3\e[m None'
-		read -rn 1 -p 'Select [1-3]: ' ans
-		if [[ -z $ans || $ans -gt 3 ]]; then
-			echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
-		else
-			if [[ $ans == 1 ]]; then
-				wpa=wpa
-			elif [[ $ans == 2 ]]; then
-				wpa=wep
-			else
-				wpa=
-			fi
-		fi
-	}
-	setCredential() {
-		echo
-		read -p 'SSID: ' ssid
-		read -p 'Password: ' password
-		selectSecurity
-		echo
-		printf %"$cols"s | tr ' ' -
-		echo -e "\nSSID: $ssid\nPassword: $password\nSecurity: ${wpa^^}"
-		printf %"$cols"s | tr ' ' -
-		read -rn1 -p "Confirm and continue? [y/N]: " ans; echo
-		[[ $ans != Y && $ans != y ]] && setCredential
-	}
-	setCredential
-fi
+read -rn 1 -p "Auto-connect Wi-Fi on boot? [y/n]: " ans; echo
+[[ $ans == y || $ans == Y ]] && setCredential
 # -----------------------------------------------------------------------
 
 echo -e "\nDownloading ..."
