@@ -10,7 +10,7 @@ cols=$( tput cols )
 
 showData() {
     printf %"$cols"s | tr ' ' -
-    [[ -n $3 ]] && echo -e "$1\n$2$3" || echo $2 not found.
+    [[ -n $3 ]] && echo -e "$1\n$2$3" || echo $2 Not found!
     printf %"$cols"s | tr ' ' -
 }
 showROOT() {
@@ -27,11 +27,12 @@ selectRPi() {
     echo -e "\nRaspberry Pi:"
     tcolor 0 'RPi Zero'
     tcolor 1 'RPi 1'
-    tcolor 2 'RPi 3+'
-    tcolor 3 'RPi 3 and 2'
+    tcolor 2 'RPi 2'
+    tcolor 3 'RPi 3'
     tcolor 4 'RPi 4'
-    read -rn 1 -p "Select [0-4]: " rpi; echo
-    [[ -z $rpi ]] || (( $rpi > 4 )) && echo -e "\nSelect 0, 1, 2, 3 or 4\n" && selectRPi
+    tcolor 5 'RPi 3+'
+    read -rn 1 -p "Select [0-5]: " rpi; echo
+    [[ -z $rpi ]] || (( $rpi > 5 )) && echo -e "\nSelect 0, 1, 2, 3, 4 or 5\n" && selectRPi
 }
 
 selectRPi
@@ -53,10 +54,10 @@ read -rn 1 -p "Select [1/2]: " mode; echo
 
 if [[ $rpi == 0 || $rpi == 1 ]]; then
 	file=ArchLinuxARM-rpi-latest.tar.gz
-elif [[ $rpi == 2 ]]; then
-	file=ArchLinuxARM-rpi-3-latest.tar.gz
-elif [[ $rpi == 3 ]]; then
+elif [[ $rpi == 2 || $rpi == 3 ]]; then
 	file=ArchLinuxARM-rpi-2-latest.tar.gz
+elif [[ $rpi == 5 ]]; then
+	file=ArchLinuxARM-rpi-3-latest.tar.gz
 elif [[ $rpi == 4 ]]; then
 	file=ArchLinuxARM-rpi-4-latest.tar.gz
 fi
