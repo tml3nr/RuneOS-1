@@ -84,7 +84,7 @@ echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 
 **Done**
 
-### Raspbian partitions (USB bootable)
+**Raspbian partitions** (USB bootable)
 
 | Type    | No. | Label  | Format | Size  | flag |
 |---------|-----|--------|--------|-------|------|
