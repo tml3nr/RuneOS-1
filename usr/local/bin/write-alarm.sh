@@ -7,6 +7,9 @@ cols=$( tput cols )
 hr() {
     printf %"$cols"s | tr ' ' -
 }
+tc() {
+    echo -e "\e[38;5;6m$1\e[0m"
+}
 tcolor() {
     echo -e "  \e[38;5;6m$1\e[0m" "$2"
 }
@@ -32,14 +35,28 @@ showBOOT() {
 }
 selectRPi() {
     echo -e "\nRaspberry Pi:"
-    tcolor 0 'RPi Zero'
-    tcolor 1 'RPi 1'
-    tcolor 2 'RPi 2'
-    tcolor 3 'RPi 3'
-    tcolor 4 'RPi 4'
-    tcolor 5 'RPi 3+'
+    echo -e '  \e[36m0\e[m RPi Zero'
+    echo -e '  \e[36m1\e[m RPi 1'
+    echo -e '  \e[36m2\e[m RPi 2'
+    echo -e '  \e[36m3\e[m RPi 3'
+    echo -e '  \e[36m4\e[m RPi 4'
+    echo -e '  \e[36m5\e[m RPi 3+'
     read -rn 1 -p "Select [0-5]: " rpi; echo
     [[ -z $rpi ]] || (( $rpi > 5 )) && echo -e "\nSelect 0, 1, 2, 3, 4 or 5\n" && selectRPi
+    if [[ $rpi == 0 || $rpi == 1 ]]; then
+        file=ArchLinuxARM-rpi-latest.tar.gz
+        [[ $rpi == 0 ]] && rpi=Zero
+    elif [[ $rpi == 2 || $rpi == 3 ]]; then
+        file=ArchLinuxARM-rpi-2-latest.tar.gz
+    elif [[ $rpi == 5 ]]; then
+        file=ArchLinuxARM-rpi-3-latest.tar.gz
+        rpi=3+
+    elif [[ $rpi == 4 ]]; then
+        file=ArchLinuxARM-rpi-4-latest.tar.gz
+    fi
+    echo
+    read -rn 1 -p "Raspberry Pi $rpi [y/N]: " ans; echo
+    [[ $ans != y && $ans != Y ]] && selectRPi
 }
 # -----------------------------------------------------------------------
 
@@ -59,15 +76,6 @@ tcolor 2 'USB drive'
 read -rn 1 -p "Select [1/2]: " mode; echo
 
 selectRPi
-if [[ $rpi == 0 || $rpi == 1 ]]; then
-	file=ArchLinuxARM-rpi-latest.tar.gz
-elif [[ $rpi == 2 || $rpi == 3 ]]; then
-	file=ArchLinuxARM-rpi-2-latest.tar.gz
-elif [[ $rpi == 5 ]]; then
-	file=ArchLinuxARM-rpi-3-latest.tar.gz
-elif [[ $rpi == 4 ]]; then
-	file=ArchLinuxARM-rpi-4-latest.tar.gz
-fi
 
 read -rn 1 -p "Setup Wi-Fi auto-connect [y/N]: " ans; echo
 if [[ $ans == y || $ans == Y ]]; then
