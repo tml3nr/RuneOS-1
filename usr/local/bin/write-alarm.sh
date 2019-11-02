@@ -5,10 +5,10 @@
 
 cols=$( tput cols )
 hr() {
-    printf %"$cols"s | tr ' ' -
+	printf %"$cols"s | tr ' ' -
 }
 showpath() {
-    mountpoint=$( df | grep $1 | awk '{print $NF}' )
+	mountpoint=$( df | grep $1 | awk '{print $NF}' )
 	hr
 	if [[ -n $mountpoint ]]; then
 		echo $( df -h | grep $mountpoint )
@@ -17,34 +17,34 @@ showpath() {
 	else
 		echo $1 not mounted or incorrect label. && exit
 		hr
-    fi
+	fi
 	read -rn 1 -p "Confirm path - $1 [y/N]: " ans; echo
 	[[ $ans != y && $ans != Y ]] && exit
 	[[ -n $( ls $mountpoint | grep -v lost+found ) ]] && echo $mountpoint not empty. && exit
 }
 selectMode() {
-    echo -e "\nRun ROOT partition on:"
-    echo -e '  \e[36m1\e[m Micro SD card'
-    echo -e '  \e[36m2\e[m USB drive'
-    read -rn 1 -p "Select [1/2]: " mode; echo
-    if [[ -z $mode || $mode -gt 5 ]]; then
-        echo -e "\nSelect 1 or 2\n" && selectMode
-    else
-        [[ $mode == 1 ]] && dev='Micro SD card' || dev='USB drive'
-        read -rn 1 -p "ROOT on $dev [y/N]: " ans; echo
-        [[ $ans != y && $ans != Y ]] && selectMode
-    fi
+	echo -e "\nRun ROOT partition on:"
+	echo -e '  \e[36m1\e[m Micro SD card'
+	echo -e '  \e[36m2\e[m USB drive'
+	read -rn 1 -p "Select [1/2]: " mode; echo
+	if [[ -z $mode || $mode -gt 5 ]]; then
+		echo -e "\nSelect 1 or 2\n" && selectMode
+	else
+		[[ $mode == 1 ]] && dev='Micro SD card' || dev='USB drive'
+		read -rn 1 -p "ROOT on $dev [y/N]: " ans; echo
+		[[ $ans != y && $ans != Y ]] && selectMode
+	fi
 }
 selectRPi() {
-    echo -e "\nRaspberry Pi:"
-    echo -e '  \e[36m0\e[m RPi Zero'
-    echo -e '  \e[36m1\e[m RPi 1'
-    echo -e '  \e[36m2\e[m RPi 2'
-    echo -e '  \e[36m3\e[m RPi 3'
-    echo -e '  \e[36m4\e[m RPi 4'
-    echo -e '  \e[36m5\e[m RPi 3+'
-    read -rn 1 -p "Select [0-5]: " rpi; echo
-    if [[ -z $rpi || $rpi -gt 5 ]]; then
+	echo -e "\nRaspberry Pi:"
+	echo -e '  \e[36m0\e[m RPi Zero'
+	echo -e '  \e[36m1\e[m RPi 1'
+	echo -e '  \e[36m2\e[m RPi 2'
+	echo -e '  \e[36m3\e[m RPi 3'
+	echo -e '  \e[36m4\e[m RPi 4'
+	echo -e '  \e[36m5\e[m RPi 3+'
+	read -rn 1 -p "Select [0-5]: " rpi; echo
+	if [[ -z $rpi || $rpi -gt 5 ]]; then
 		echo -e "\nSelect 0, 1, 2, 3, 4 or 5\n" && selectRPi
 	else
 		if [[ $rpi == 0 || $rpi == 1 ]]; then
@@ -59,9 +59,9 @@ selectRPi() {
 			file=ArchLinuxARM-rpi-4-latest.tar.gz
 		fi
 	fi
-    echo
-    read -rn 1 -p "Raspberry Pi $rpi ? [y/N]: " ans; echo
-    [[ $ans != y && $ans != Y ]] && selectRPi
+	echo
+	read -rn 1 -p "Raspberry Pi $rpi ? [y/N]: " ans; echo
+	[[ $ans != y && $ans != Y ]] && selectRPi
 }
 
 # -----------------------------------------------------------------------
@@ -75,13 +75,13 @@ selectRPi
 
 read -rn 1 -p "Auto-connect Wi-Fi on boot? [y/N]: " ans; echo
 if [[ $ans == y || $ans == Y ]]; then
-    selectSecurity() {
-        echo Security:
-        echo -e '  \e[36m1\e[m WPA'
-        echo -e '  \e[36m2\e[m WEP'
-        echo -e '  \e[36m3\e[m None'
-        read -rn 1 -p 'Select [1-3]: ' ans
-        if [[ -z $ans || $ans -gt 3 ]]; then
+	selectSecurity() {
+		echo Security:
+		echo -e '  \e[36m1\e[m WPA'
+		echo -e '  \e[36m2\e[m WEP'
+		echo -e '  \e[36m3\e[m None'
+		read -rn 1 -p 'Select [1-3]: ' ans
+		if [[ -z $ans || $ans -gt 3 ]]; then
 			echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
 		else
 			if [[ $ans == 1 ]]; then
@@ -92,20 +92,20 @@ if [[ $ans == y || $ans == Y ]]; then
 				wpa=
 			fi
 		fi
-    }
-    setCredential() {
-        echo
-        read -p 'SSID: ' ssid
-        read -p 'Password: ' password
-        selectSecurity
-        echo
-        printf %"$cols"s | tr ' ' -
-        echo -e "\nSSID: $ssid\nPassword: $password\nSecurity: ${wpa^^}"
-        printf %"$cols"s | tr ' ' -
-        read -rn1 -p "Confirm and continue? [y/N]: " ans; echo
-        [[ $ans != Y && $ans != y ]] && setCredential
-    }
-    setCredential
+	}
+	setCredential() {
+		echo
+		read -p 'SSID: ' ssid
+		read -p 'Password: ' password
+		selectSecurity
+		echo
+		printf %"$cols"s | tr ' ' -
+		echo -e "\nSSID: $ssid\nPassword: $password\nSecurity: ${wpa^^}"
+		printf %"$cols"s | tr ' ' -
+		read -rn1 -p "Confirm and continue? [y/N]: " ans; echo
+		[[ $ans != Y && $ans != y ]] && setCredential
+	}
+	setCredential
 fi
 # -----------------------------------------------------------------------
 
@@ -122,9 +122,9 @@ mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
 if [[ $mode == 2 ]]; then
 	dev=$( df | grep ROOT | awk '{print $1}' )
-    uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
-    sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
-    echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
+	uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
+	sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
+	echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 fi
 
 # RPi 0 - fix: kernel panic
@@ -132,26 +132,26 @@ fi
 
 # wifi
 if [[ $ssid ]]; then
-    echo -e "\nSetup Wi-Fi ..."
-    # profile
-    profile="Interface=wlan0
-    Connection=wireless
-    IP=dhcp
-    ESSID=\"$ssid\""
-    [[ -n $wpa ]] && profile+="Security=$wpa
-    Key=$password"
-    echo $profile > "$ROOT/etc/netctl/$ssid"
+	echo -e "\nSetup Wi-Fi ..."
+	# profile
+	profile="Interface=wlan0
+	Connection=wireless
+	IP=dhcp
+	ESSID=\"$ssid\""
+	[[ -n $wpa ]] && profile+="Security=$wpa
+	Key=$password"
+	echo $profile > "$ROOT/etc/netctl/$ssid"
 
-    # enable startup
-    dir="$ROOT/etc/systemd/system/netctl@$ssid.service.d"
-    mkdir $dir
-    echo '[Unit]
-    BindsTo=sys-subsystem-net-devices-wlan0.device
-    After=sys-subsystem-net-devices-wlan0.device' > "$dir/profile.conf"
+	# enable startup
+	dir="$ROOT/etc/systemd/system/netctl@$ssid.service.d"
+	mkdir $dir
+	echo '[Unit]
+	BindsTo=sys-subsystem-net-devices-wlan0.device
+	After=sys-subsystem-net-devices-wlan0.device' > "$dir/profile.conf"
 
-    cd $ROOT/etc/systemd/system/multi-user.target.wants
-    ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
-    cd
+	cd $ROOT/etc/systemd/system/multi-user.target.wants
+	ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
+	cd
 fi
 
 # get write.rune.sh
