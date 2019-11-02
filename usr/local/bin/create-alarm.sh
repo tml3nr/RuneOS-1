@@ -96,7 +96,7 @@ selectRPi() {
 
 # -----------------------------------------------------------------------
 hr
-echo -e "\n\e[36mArch Linux Arm system ...\e[m\n"
+echo -e "\n\n\e[36mArch Linux Arm system ...\e[m\n"
 hr
 
 verifypath BOOT
