@@ -98,6 +98,7 @@ selectRPi() {
 hr
 echo -e "\n\n\e[36mCreate Arch Linux Arm ...\e[m\n"
 hr
+echo
 
 verifypath BOOT
 
@@ -107,7 +108,7 @@ selectMode
 
 selectRPi
 
-read -ren 1 -p $'Auto-connect \e[36mWi-Fi\e[m on boot? [y/n]: ' ans; echo
+read -ren 1 -p $'\nAuto-connect \e[36mWi-Fi\e[m on boot? [y/n]: ' ans; echo
 [[ $ans == y || $ans == Y ]] && setCredential
 
 # -----------------------------------------------------------------------
