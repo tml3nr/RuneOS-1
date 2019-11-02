@@ -3,6 +3,15 @@
 version=e2
 addoversion=20191101
 
+cols=$( tput cols )
+hr() {
+	printf %"$cols"s | tr ' ' -
+}
+
+hr
+echo -e "\n\e[36mRuneAudio+Re systm ...\e[m\n"
+hr
+
 echo -e "\n\e[36mInitialize PGP key ...\e[m\n"
 pacman-key --init
 pacman-key --populate archlinuxarm
