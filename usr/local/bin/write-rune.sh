@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo -e "\nInitialize pgp key ...\n"
+echo -e "\n\e[36mInitialize PGP key ...\e[m\n"
 pacman-key --init
 pacman-key --populate archlinuxarm
 
@@ -10,7 +10,7 @@ systemctl start systemd-random-seed
 # fix dns errors
 systemctl stop systemd-resolved
 
-echo -e "\nSystem-wide kernel and packages upgrade ...\n"
+echo -e "\n\e[36mSystem-wide kernel and packages upgrade ...\e[m\n"
 pacman -Syu --noconfirm --needed
 
 packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip sudo udevil wget '
@@ -19,7 +19,7 @@ packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 echo 00 01 02 03 04 09 | grep -q $hwcode && nobt=1 || nobt=
 
-read -rn 1 -p "Install all packages [Y/n]: " ans; echo
+read -ren 1 -p $'Install \e[36mall packages\e[m [y/n]: ' ans; echo
 if [[ $ans == y || $ans == Y ]]; then
     packages+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
     # RPi 0W, 3, 4
@@ -27,35 +27,35 @@ if [[ $ans == y || $ans == Y ]]; then
     # RPi 2, 3, 4
     echo 04 08 0d 0e 11 | grep -q $hwcode && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
 else
-    read -rn 1 -p "Install Avahi - Connect by: runeaudio.local [y/N]: " ans; echo
+    read -ren 1 -p $'Install \e[36mAvahi\e[m - Connect by: runeaudio.local [y/n]: ' ans; echo
     [[ $ans == y || $ans == Y ]] && packages+='avahi '
     if [[ -n $nobt ]]; then
-        read -rn 1 -p "Install Bluez - Bluetooth supports [y/N]: " blue; echo
+        read -ren 1 -p $'Install \e[36mBluez\e[m - Bluetooth supports [y/n]: ' blue; echo
         [[ $blue == y || $blue == Y ]] && packages+='bluez bluez-utils '
     fi
     if echo 04 08 0d 0e 11 | grep -q $hwcode; then
-        read -rn 1 -p "Install Chromium - Browser on RPi [y/N]: " ans; echo
+        read -ren 1 -p $'Install \e[36mChromium\e[m - Browser on RPi [y/n]: ' ans; echo
         [[ $ans == y || $ans == Y ]] && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
     fi
-    read -rn 1 -p "Install FFmpeg - Extended decoder[y/N]: " ans; echo
+    read -ren 1 -p $'Install \e[36mFFmpeg\e[m - Extended decoder[y/n]: ' ans; echo
     [[ $ans == y || $ans == Y ]] && packages+='ffmpeg '
-    read -rn 1 -p "Install hostapd - RPi access point [y/N]: " ans; echo
+    read -ren 1 -p $'Install \e[36mhostapd\e[m - RPi access point [y/n]: ' ans; echo
     [[ $ans == y || $ans == Y ]] && packages+='dnsmasq hostapd '
-    read -rn 1 -p "Install Kid3 - Metadata tag editor [y/N]: " kid3; echo
-	read -rn 1 -p "Install Python - programming language [y/N]: " pyt; echo
+    read -ren 1 -p $'Install \e[36mKid3\e[m - Metadata tag editor [y/n]: ' kid3; echo
+	read -ren 1 -p $'Install \e[36mPython\e[m - programming language [y/n]: ' pyt; echo
     [[ $pyt == y || $pyt == Y ]] && packages+='python python-pip '
-    read -rn 1 -p "Install Samba - File sharing [y/N]: " ans; echo
+    read -ren 1 -p $'Install \e[36mSamba\e[m - File sharing [y/n]: ' ans; echo
     [[ $ans == y || $ans == Y ]] && packages+='samba '
-    read -rn 1 -p "Install Shairport-sync - AirPlay [y/N]: " ans; echo
+    read -ren 1 -p $'Install \e[36mShairport-sync\e[m - AirPlay [y/n]: ' ans; echo
     [[ $ans == y || $ans == Y ]] && packages+='shairport-sync '
-    read -rn 1 -p "Install upmpdcli - UPnP [y/N]: " upnp; echo
+    read -ren 1 -p $'Install \e[36mupmpdcli\e[m - UPnP [y/n]: ' upnp; echo
 fi
 
-echo -e "\nInstall packages ...\n"
+echo -e "\n\e[36mInstall packages ...\e[m\n"
 pacman -S --noconfirm --needed $packages
 [[ $pyt == y || $pyt == Y ]] && yes | pip --no-cache-dir install RPi.GPIO
 
-echo -e "\nInstall custom packages and web interface ...\n"
+echo -e "\n\e[36mInstall custom packages and web interface ...\e[m\n"
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 
@@ -89,4 +89,4 @@ pacman -U --noconfirm *.xz
 
 runeconfigure.sh
 
-echo -e "\nDone\n"
+echo -e "\n\e[36mDone\e[m\n"
