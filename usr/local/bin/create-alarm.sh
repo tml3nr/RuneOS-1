@@ -109,17 +109,22 @@ selectRPi
 
 read -ren 1 -p $'Auto-connect \e[36mWi-Fi\e[m on boot? [y/n]: ' ans; echo
 [[ $ans == y || $ans == Y ]] && setCredential
-# -----------------------------------------------------------------------
 
+# -----------------------------------------------------------------------
 echo -e "\n\e[36mDownloading ...\e[m"
+
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 [[ $? != 0 ]] && echo -e "\nDownload failed." && exit
 
+#---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to ROOT ...\e[m"
+
 bsdtar xpvf $file -C $ROOT
 rm $file
 
+#---------------------------------------------------------------------------------
 echo -e "\n\e[36mMove /boot to BOOT ...\e[m"
+
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
 if [[ $mode == 2 ]]; then
