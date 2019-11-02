@@ -94,8 +94,10 @@ echo -e "\n\e[36mCreate Arch Linux Arm ...\e[m\n"
 hr
 
 verifypath BOOT
+BOOT=$mountpoint
 
 verifypath ROOT
+ROOT=$mountpoint
 
 selectMode
 
