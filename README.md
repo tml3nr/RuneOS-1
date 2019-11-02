@@ -102,7 +102,7 @@ nmap -sP ${routerip%.*}.*
 #     - Connect with wired LAN
 #     - Restart RPi
 #     - Scan again
-#  - Start over again
+#  - If still not found, start over again
 ```
 
 **Connect PC to RPi**
