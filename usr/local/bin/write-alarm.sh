@@ -108,19 +108,19 @@ selectMode
 
 selectRPi
 
-read -rn 1 -p "Auto-connect Wi-Fi on boot? [y/n]: " ans; echo
+read -ren 1 -p $'Auto-connect \e[36mWi-Fi\e[m on boot? [y/n]: ' ans; echo
 [[ $ans == y || $ans == Y ]] && setCredential
 # -----------------------------------------------------------------------
 
-echo -e "\nDownloading ..."
+echo -e "\n\e[36mDownloading ...\e[m"
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 [[ $? != 0 ]] && echo -e "\nDownload failed." && exit
 
-echo -e "\nExpand to ROOT ..."
+echo -e "\n\e[36mExpand to ROOT ...\e[m"
 bsdtar xpvf $file -C $ROOT
 rm $file
 
-echo -e "\nMove /boot to BOOT ..."
+echo -e "\n\e[36mMove /boot to BOOT ...\e[m"
 mv -v $ROOT/boot/* $BOOT 2> /dev/null
 
 if [[ $mode == 2 ]]; then
@@ -135,7 +135,7 @@ fi
 
 # wifi
 if [[ $ssid ]]; then
-	echo -e "\nSetup Wi-Fi ..."
+	echo -e "\n\e[36mSetup Wi-Fi ...\e[m"
 	# profile
 	profile="Interface=wlan0
 	Connection=wireless
@@ -162,3 +162,5 @@ wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin
 chmod +x $ROOT/usr/local/bin/write-rune.sh
 
 umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted.\nMove to Raspberry Pi."
+
+echo -e "\n\e[36mDone\e[m"
