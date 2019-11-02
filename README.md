@@ -25,7 +25,7 @@ RuneOS
 - Raspberry Pi
 - Network connection - Wired LAN (or Wi-Fi if necessary)
 - Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
-- Optional - with USB drive (run RuneAudio+R from USB drive)
+- Optional - USB drive (run RuneAudio+R from USB drive)
 	- Micro SD card - 100MB+ - `BOOT` partition only
 	- USB drive - 4GB+ - `ROOT` partition (or existing USB hard drive with data)
 	- For hard drives or faster-than-SD-card thumb drives
@@ -44,7 +44,7 @@ RuneOS
 | #1  | 100MiB      | primary | fat32  | BOOT  |
 | #2  | (the rest)  | primary | ext4   | ROOT  |
 	
-- **Optional - with USB drive** (Run on USB drive instead of SD card)
+- **Optional - USB drive**
 	- Insert Micro SD card
 		- Delete all partitions (Caution: make sure it's the SD card)
 		- Format: `fat32`
