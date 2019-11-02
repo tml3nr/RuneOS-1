@@ -9,7 +9,7 @@ hr() {
 }
 
 hr
-echo -e "\n\n\e[36mRuneAudio+Re systm ...\e[m\n"
+echo -e "\n\n\e[36mCreate RuneAudio+Re ...\e[m\n"
 hr
 
 #---------------------------------------------------------------------------------
