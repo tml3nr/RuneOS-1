@@ -100,6 +100,8 @@ selectRPi() {
 }
 
 # -----------------------------------------------------------------------
+echo -e "\n\e[m36Arch Linux Arm system ...\e[m\n"
+
 verifypath BOOT
 
 verifypath ROOT
