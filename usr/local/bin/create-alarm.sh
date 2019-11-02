@@ -52,7 +52,6 @@ selectSecurity() {
 	fi
 }
 setCredential() {
-	echo
 	read -p 'SSID: ' ssid
 	read -p 'Password: ' password
 	selectSecurity
@@ -102,7 +101,7 @@ selectMode
 
 selectRPi
 
-read -ren 1 -p $'\nAuto-connect \e[36mWi-Fi\e[m on boot? [y/n]: ' ans; echo
+read -ren 1 -p $'\nAuto-connect Wi-Fi on boot? [y/n]: ' ans; echo
 [[ $ans == y || $ans == Y ]] && setCredential
 
 # -----------------------------------------------------------------------
