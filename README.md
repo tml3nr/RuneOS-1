@@ -10,7 +10,8 @@ RuneOS
 	- Download
 	- Write `ROOT` and `BOOT` partitions
 	- (Optional) Pre-configure Wi-Fi connection for headless system (no monitor)
-- Start Arch Linux Arm
+	- Start Arch Linux Arm
+	- Connect PC to RPi
 - Create RuneAudio+Re system
 	- Upgrade kernel and default packages to latest versions
 	- Install packages with options to exclude features
@@ -22,12 +23,9 @@ RuneOS
 	- GParted and Files app (normally already installed)
 	- Basic skill of terminal command line
 - Raspberry Pi
-- Network connection
-	- Wired LAN (more stable)
-	- Wi-Fi connection (only if necessary)
-- Normal SD mode (normal)
-	- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
-- USB drive mode  (run RuneAudio+R from USB drive)
+- Network connection - Wired LAN (or Wi-Fi if necessary)
+- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
+- Optional - with USB drive (run RuneAudio+R from USB drive)
 	- Micro SD card - 100MB+ - `BOOT` partition only
 	- USB drive - 4GB+ - `ROOT` partition (or existing USB hard drive with data)
 	- For hard drives or faster-than-SD-card thumb drives
@@ -36,7 +34,7 @@ RuneOS
 ### Create Arch Linux Arm system
 
 **Prepare partitions**
-- **SD card mode**
+- **Micro SD card only**
 	- Insert micro SD card
 	- Delete all partitions (make sure it's the micro SD card)
 	- Create partitions with **GParted** app
@@ -46,7 +44,7 @@ RuneOS
 | #1  | 100MiB      | primary | fat32  | BOOT  |
 | #2  | (the rest)  | primary | ext4   | ROOT  |
 	
-- **USB drive mode**
+- **Optional - with USB drive**
 	- Insert Micro SD card
 		- Delete all partitions (make sure it's the micro SD card)
 		- Format: `fat32`
@@ -85,9 +83,7 @@ nmap -sP ${routerip%.*}.*
 ```
 
 **Start Arch Linux Arm**
-- Move micro SD card (and USB drive if in USB drive mode) to RPi
-- Plug in wired LAN (RPi without wired LAN or Wi-Fi - plug in USB Wi-Fi)
-- Remove all other USB devices if any
+- Move micro SD card (and optional USB drive) to RPi
 - Power on
 - Wait 30 seconds
 
