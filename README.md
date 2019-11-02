@@ -46,7 +46,7 @@ RuneOS
 	
 - **Optional - with USB drive** (Run on USB drive instead of SD card)
 	- Insert Micro SD card
-		- Delete all partitions (make sure it's the micro SD card)
+		- Delete all partitions (Caution: make sure it's the SD card)
 		- Format: `fat32`
 		- Label: `BOOT`
 	- Plug in USB drive
