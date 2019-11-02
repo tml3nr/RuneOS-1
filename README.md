@@ -1,16 +1,20 @@
 RuneOS
 ---
 - For all Raspberry Pi: 0, 1, 2, 3 and 4 (3A+ and 3B+: not yet tested but should work)
-- Build RuneAudio+Re from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) releases.
+- Build RuneAudio+Re from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) latest releases.
 - With options to exclude features, it can be as light as possible in terms of build time and disk space.
 
 **Procedure**
-- Download and write to `ROOT` and `BOOT` partitions
-- (Optional) Pre-configure Wi-Fi connection for headless system (no monitor)
+- Create Arch Linux Arm system
+	- Download
+	- Write `ROOT` and `BOOT` partitions
+	- (Optional) Pre-configure Wi-Fi connection for headless system (no monitor)
 - Start Arch Linux Arm
-- Upgrade kernel and default packages to latest versions
-- Install packages with options to exclude features
-- Configure settings
+- Create RuneAudio+Re system
+	- Upgrade kernel and default packages to latest versions
+	- Install packages with options to exclude features
+	- Configure
+	- Set default settings
 
 **Need**
 - Linux PC (or Linux in VirtualBox on Windows with network set as `Bridge Adapter`)
