@@ -55,7 +55,7 @@ setCredential() {
 	read -p 'SSID: ' ssid
 	read -p 'Password: ' password
 	selectSecurity
-	echo -e "\n\nSSID: \e[36m$ssid\e[m\nPassword: \e[36m$password\e[m\nSecurity: \e[36m${wpa^^}\e[m\n"
+	echo -e "\nSSID: \e[36m$ssid\e[m\nPassword: \e[36m$password\e[m\nSecurity: \e[36m${wpa^^}\e[m\n"
 	read -rn1 -p "Confirm and continue? [y/n]: " ans; echo
 	[[ $ans != Y && $ans != y ]] && setCredential
 }
