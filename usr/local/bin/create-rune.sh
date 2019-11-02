@@ -107,7 +107,7 @@ pacman -U --noconfirm *.xz
 echo -e "\n\e[36[mConfigure ...\e[m\n"
 
 # remove cache and custom package files
-rm /var/cache/pacman/pkg/* /root/{*.xz,*.zip} /usr/local/bin/write*
+rm /var/cache/pacman/pkg/* /root/{*.xz,*.zip} /usr/local/bin/create-*
 rm -r /root/armv6h
 
 # bluetooth - RPi 4 filename
