@@ -16,17 +16,19 @@ showData() {
 showROOT() {
     ROOT=$( df | grep ROOT | awk '{print $NF}' )
     showData "$( df -h | grep ROOT )" "ROOT: " "$ROOT"
+	[[ -z $ROOT ]] && echo Not mounted or incorrect label. && showROOT
 }
 showBOOT() {
     BOOT=$( df | grep BOOT | awk '{print $NF}' )
     showData "$( df -h | grep BOOT )" "BOOT: " "$BOOT"
+	[[ -z $BOOT ]] && echo Not mounted or incorrect label. && showBOOT
 }
 selectRPi() {
     echo -e "\nRaspberry Pi:"
     tcolor 0 'RPi Zero'
     tcolor 1 'RPi 1'
-    tcolor 2 'RPi 2-3'
-    tcolor 3 'RPi 3+'
+    tcolor 2 'RPi 3+'
+    tcolor 3 'RPi 3 and 2'
     tcolor 4 'RPi 4'
     read -rn 1 -p "Select [0-4]: " rpi; echo
     [[ -z $rpi ]] || (( $rpi > 4 )) && echo -e "\nSelect 0, 1, 2, 3 or 4\n" && selectRPi
@@ -52,9 +54,9 @@ read -rn 1 -p "Select [1/2]: " mode; echo
 if [[ $rpi == 0 || $rpi == 1 ]]; then
 	file=ArchLinuxARM-rpi-latest.tar.gz
 elif [[ $rpi == 2 ]]; then
-	file=ArchLinuxARM-rpi-2-latest.tar.gz
-elif [[ $rpi == 3 ]]; then
 	file=ArchLinuxARM-rpi-3-latest.tar.gz
+elif [[ $rpi == 3 ]]; then
+	file=ArchLinuxARM-rpi-2-latest.tar.gz
 elif [[ $rpi == 4 ]]; then
 	file=ArchLinuxARM-rpi-4-latest.tar.gz
 fi
