@@ -6,6 +6,7 @@ RuneOS
 
 **Procedure**
 - Create Arch Linux Arm system
+	- Prepare partitions
 	- Download
 	- Write `ROOT` and `BOOT` partitions
 	- (Optional) Pre-configure Wi-Fi connection for headless system (no monitor)
@@ -31,7 +32,7 @@ RuneOS
 	- USB drive - 4GB+ - `ROOT` partition (or existing USB hard drive with data)
 ---
 
-### Build
+### Create Arch Linux Arm system
 
 - On Linux PC
 	- Command lines - gray code blocks
@@ -119,7 +120,8 @@ ssh-keygen -R $rpiip 2> /dev/null
 ssh alarm@$rpiip  # confirm: yes > password: alarm
 ```
 
-**Build RuneAudio+Re**
+### Create RuneAudio+Re system
+
 - For default setup - select - Install all
 - Feature options:
 	- Avahi - Connect by: runeaudio.local
