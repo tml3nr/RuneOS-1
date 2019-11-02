@@ -9,14 +9,11 @@ hr() {
 }
 verifypath() {
 	mountpoint=$( df | grep $1 | awk '{print $NF}' )
-	hr
 	if [[ -n $mountpoint ]]; then
-		echo $( df -h | grep $mountpoint )
-		echo -e "$1: \e[36m$mountpoint\e[m"
-		hr
+		echo -e "\n$( df -h | grep $mountpoint )"
+		echo -e "$1: \e[36m$mountpoint\e[m\n"
 	else
-		echo $1 not mounted or incorrect label. && exit
-		hr
+		echo -e "\n\e[m36$1\e[m not mounted or incorrect label. && exit
 	fi
 	read -rn 1 -p "Confirm and continue? [y/n]: " ans; echo
 	[[ $ans != y && $ans != Y ]] && exit
@@ -31,9 +28,7 @@ selectMode() {
 		echo -e "\nSelect 1 or 2\n" && selectMode
 	else
 		[[ $mode == 1 ]] && dev='Micro SD card' || dev='USB drive'
-		hr
-		echo -e "Run ROOT on \e[36m$dev\e[m"
-		hr
+		echo -e "\nRun ROOT on \e[36m$dev\e[m\n"
 		read -rn 1 -p "Confirm and continue? [y/n]: " ans; echo
 		[[ $ans != y && $ans != Y ]] && selectMode
 	fi
@@ -100,7 +95,9 @@ selectRPi() {
 }
 
 # -----------------------------------------------------------------------
+hr
 echo -e "\n\e[m36Arch Linux Arm system ...\e[m\n"
+hr
 
 verifypath BOOT
 
@@ -166,3 +163,4 @@ chmod +x $ROOT/usr/local/bin/write-rune.sh
 umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted.\nMove to Raspberry Pi."
 
 echo -e "\n\e[36mDone\e[m"
+hr
