@@ -71,7 +71,7 @@ su -
 # write script
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/write-alarm.sh
 chmod +x write-alarm.sh
-./write-alarm.sh
+./create-alarm.sh
 # if download is too slow, ctrl+c and ./write-alarm.sh again
 
 # remove downloaded file
@@ -129,7 +129,7 @@ ssh alarm@$rpiip  # confirm: yes > password: alarm
 su -  # password: root
 
 # build script
-write-rune.sh
+create-rune.sh
 # if download is too slow or errors occured, ctrl+c > write-rune.sh again
 
 # ▼ skip if NOT install UPnP ▼ fix - init RSA key
