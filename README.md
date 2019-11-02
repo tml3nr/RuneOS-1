@@ -80,7 +80,7 @@ rm create-alarm.sh
 
 # scan IP list for reference
 routerip=$( ip route get 1 | cut -d' ' -f3 )
-nmap -sP ${routerip%.*}.*
+scan1=$( nmap -sP ${routerip%.*}.* )
 ```
 
 **Start Arch Linux Arm**
@@ -90,10 +90,13 @@ nmap -sP ${routerip%.*}.*
 
 **Connect PC to RPi**
 ```sh
-# scan IP list again and compare to find new one => RPi
-nmap -sP ${routerip%.*}.*
+# scan IP list again
+scan2=$( nmap -sP ${routerip%.*}.* )
 
-# If RPi not show up in result:
+# diff to get new one => RPi
+diff <( echo "$scan1" ) <( echo "$scan2" )
+
+# If RPi not show up:
 #  - RPi 4 may listed as unknown
 #  - If not use wired LAN:
 #     - Connect with wired LAN
