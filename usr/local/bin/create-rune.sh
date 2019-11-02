@@ -12,7 +12,9 @@ hr
 echo -e "\n\e[36mRuneAudio+Re systm ...\e[m\n"
 hr
 
+#---------------------------------------------------------------------------------
 echo -e "\n\e[36mInitialize PGP key ...\e[m\n"
+
 pacman-key --init
 pacman-key --populate archlinuxarm
 
@@ -23,6 +25,7 @@ systemctl start systemd-random-seed
 systemctl stop systemd-resolved
 
 echo -e "\n\e[36mSystem-wide kernel and packages upgrade ...\e[m\n"
+
 pacman -Syu --noconfirm --needed
 
 packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip sudo udevil wget '
@@ -65,13 +68,15 @@ else
     [[ $ans == y || $ans == Y ]] && packages+='shairport-sync '
     read -ren 1 -p $'Install \e[36mupmpdcli\e[m - UPnP [y/n]: ' upnp; echo
 fi
-#-------------------------------------------------------------------
 
+#-------------------------------------------------------------------
 echo -e "\n\e[36mInstall packages ...\e[m\n"
+
 pacman -S --noconfirm --needed $packages
 [[ $pyt == y || $pyt == Y ]] && yes | pip --no-cache-dir install RPi.GPIO
 
 echo -e "\n\e[36mInstall custom packages and web interface ...\e[m\n"
+
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 
@@ -200,7 +205,9 @@ systemctl enable $startup
 # fix sd card dirty bits if any
 fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
 
-echo -e "\n\e[m36Setup default settings ...\e[m\n"
+#---------------------------------------------------------------------------------
+echo -e "\n\e[m36Default settings ...\e[m\n"
+
 # data and subdirectories
 dirdata=/srv/http/data
 dirdisplay=$dirdata/display
