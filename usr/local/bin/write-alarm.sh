@@ -22,6 +22,19 @@ showpath() {
 	[[ $ans != y && $ans != Y ]] && exit
 	[[ -n $( ls $mountpoint | grep -v lost+found ) ]] && echo $mountpoint not empty. && exit
 }
+selectMode() {
+    echo -e "\nRun ROOT partition on:"
+    echo -e '  \e[36m1\e[m Micro SD card'
+    echo -e '  \e[36m2\e[m USB drive'
+    read -rn 1 -p "Select [1/2]: " mode; echo
+    if [[ -z $mode || $mode -gt 5 ]]; then
+        echo -e "\nSelect 1 or 2\n" && selectMode
+    else
+        [[ $mode == 1 ]] && dev='Micro SD card' || dev='USB drive'
+        read -rn 1 -p "ROOT on $dev [y/N]: " ans; echo
+        [[ $ans != y && $ans != Y ]] && selectMode
+    fi
+}
 selectRPi() {
     echo -e "\nRaspberry Pi:"
     echo -e '  \e[36m0\e[m RPi Zero'
@@ -31,20 +44,23 @@ selectRPi() {
     echo -e '  \e[36m4\e[m RPi 4'
     echo -e '  \e[36m5\e[m RPi 3+'
     read -rn 1 -p "Select [0-5]: " rpi; echo
-    [[ -z $rpi ]] || (( $rpi > 5 )) && echo -e "\nSelect 0, 1, 2, 3, 4 or 5\n" && selectRPi
-    if [[ $rpi == 0 || $rpi == 1 ]]; then
-        file=ArchLinuxARM-rpi-latest.tar.gz
-        [[ $rpi == 0 ]] && rpi=Zero
-    elif [[ $rpi == 2 || $rpi == 3 ]]; then
-        file=ArchLinuxARM-rpi-2-latest.tar.gz
-    elif [[ $rpi == 5 ]]; then
-        file=ArchLinuxARM-rpi-3-latest.tar.gz
-        rpi=3+
-    elif [[ $rpi == 4 ]]; then
-        file=ArchLinuxARM-rpi-4-latest.tar.gz
-    fi
+    if [[ -z $rpi || $rpi -gt 5 ]]; then
+		echo -e "\nSelect 0, 1, 2, 3, 4 or 5\n" && selectRPi
+	else
+		if [[ $rpi == 0 || $rpi == 1 ]]; then
+			file=ArchLinuxARM-rpi-latest.tar.gz
+			[[ $rpi == 0 ]] && rpi=Zero
+		elif [[ $rpi == 2 || $rpi == 3 ]]; then
+			file=ArchLinuxARM-rpi-2-latest.tar.gz
+		elif [[ $rpi == 5 ]]; then
+			file=ArchLinuxARM-rpi-3-latest.tar.gz
+			rpi=3+
+		elif [[ $rpi == 4 ]]; then
+			file=ArchLinuxARM-rpi-4-latest.tar.gz
+		fi
+	fi
     echo
-    read -rn 1 -p "Raspberry Pi $rpi [y/N]: " ans; echo
+    read -rn 1 -p "Raspberry Pi $rpi ? [y/N]: " ans; echo
     [[ $ans != y && $ans != Y ]] && selectRPi
 }
 
@@ -53,14 +69,11 @@ showpath BOOT
 
 showpath ROOT
 
-echo -e "\nRun ROOT partition on:"
-echo -e '  \e[36m1\e[m Micro SD card'
-echo -e '  \e[36m2\e[m USB drive'
-read -rn 1 -p "Select [1/2]: " mode; echo
+selectMode
 
 selectRPi
 
-read -rn 1 -p "Setup Wi-Fi auto-connect [y/N]: " ans; echo
+read -rn 1 -p "Auto-connect Wi-Fi on boot? [y/N]: " ans; echo
 if [[ $ans == y || $ans == Y ]]; then
     selectSecurity() {
         echo Security:
@@ -68,14 +81,17 @@ if [[ $ans == y || $ans == Y ]]; then
         echo -e '  \e[36m2\e[m WEP'
         echo -e '  \e[36m3\e[m None'
         read -rn 1 -p 'Select [1-3]: ' ans
-        [[ -z $ans ]] || (( $ans > 3 )) && echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
-        if [[ $ans == 1 ]]; then
-            wpa=wpa
-        elif [[ $ans == 2 ]]; then
-            wpa=wep
-        else
-            wpa=
-        fi
+        if [[ -z $ans || $ans -gt 3 ]]; then
+			echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
+		else
+			if [[ $ans == 1 ]]; then
+				wpa=wpa
+			elif [[ $ans == 2 ]]; then
+				wpa=wep
+			else
+				wpa=
+			fi
+		fi
     }
     setCredential() {
         echo
