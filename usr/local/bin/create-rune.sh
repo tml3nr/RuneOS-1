@@ -6,10 +6,11 @@ addoversion=20191101
 cols=$( tput cols )
 hr() {
 	printf %"$cols"s | tr ' ' -
+	echo
 }
 
 hr
-echo -e "\n\n\e[36mCreate RuneAudio+Re ...\e[m\n"
+echo -e "\n\e[36mCreate RuneAudio+Re ...\e[m\n"
 hr
 
 #---------------------------------------------------------------------------------
