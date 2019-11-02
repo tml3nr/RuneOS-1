@@ -29,7 +29,7 @@ packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils
 
 # get RPi hardware code
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-echo 00 01 02 03 04 09 | grep -q $hwcode && nobt=1 || nobt=
+echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
 
 #-------------------------------------------------------------------
 echo -e "\n\e[m36Features ...\e[m\n"
@@ -38,13 +38,13 @@ read -ren 1 -p $'Install \e[36mall packages\e[m [y/n]: ' ans; echo
 if [[ $ans == y || $ans == Y ]]; then
     packages+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
     # RPi 0W, 3, 4
-    [[ -n $nobt ]] && packages+='bluez bluez-utils '
+    [[ $wireless ]] && packages+='bluez bluez-utils '
     # RPi 2, 3, 4
     echo 04 08 0d 0e 11 | grep -q $hwcode && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
 else
     read -ren 1 -p $'Install \e[36mAvahi\e[m - Connect by: runeaudio.local [y/n]: ' ans; echo
     [[ $ans == y || $ans == Y ]] && packages+='avahi '
-    if [[ -n $nobt ]]; then
+    if [[ $wireless ]]; then
         read -ren 1 -p $'Install \e[36mBluez\e[m - Bluetooth supports [y/n]: ' blue; echo
         [[ $blue == y || $blue == Y ]] && packages+='bluez bluez-utils '
     fi
@@ -126,7 +126,7 @@ if [[ $hwcode == 11 ]]; then
 fi
 
 # RPi 0, 1, 2 - no onboard wireless
-echo 00 01 02 03 04 09 | grep -q $hwcode && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
+[[ ! $wireless ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
 
 # RPi 0 - fix kernel panic
 [[ $hwcode == 09 || $hwcode == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
