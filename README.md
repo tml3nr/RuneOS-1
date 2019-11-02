@@ -64,6 +64,7 @@ RuneOS
 - Hover mouse over `BOOT` and `ROOT` and note the paths
 
 **Download and write `BOOT` and `ROOT`**
+- Note: Download file for RPi 3: `ArchLinuxARM-rpi-2-latest.tar.gz`
 ```sh
 # switch user to root
 su -
