@@ -35,11 +35,6 @@ RuneOS
 
 ### Create Arch Linux Arm system
 
-- On Linux PC
-	- Command lines - gray code blocks
-	- Copy-paste unless corrections needed
-	- Comments - Lines with leading `#` can be skipped.
-
 **Prepare partitions**
 - **SD card mode**
 	- Insert micro SD card
@@ -96,20 +91,21 @@ nmap -sP ${routerip%.*}.*
 - Power on
 - Wait 30 seconds
 
-**Get IP address of RPi** - On Linux PC:
+**Get IP address of RPi**
 ```sh
 # scan IP list again and compare to find new one => RPi
 nmap -sP ${routerip%.*}.*
 
 # If RPi not show up in result:
 #	- RPi 4 may listed as unknown
-#	- Restart router and scan again
-#	- Still not found, plugin wired LAN and scan again
-#	- Still not found, start over again
+#	- If not use wired LAN:
+#     - Connect with wired LAN
+#	  - Restart RPi
+#     - Scan again
+#	- Start over again
 ```
 
 **Connect PC to RPi**
-- On Linux PC
 ```sh
 # set ip
 read -r -p "Raspberry Pi IP: " rpiip; echo
