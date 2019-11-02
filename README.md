@@ -9,7 +9,7 @@ RuneOS
 	- Prepare partitions
 	- Download
 	- Write `ROOT` and `BOOT` partitions
-	- Optional - Pre-configure Wi-Fi connection
+	- Optional - pre-configure Wi-Fi connection
 	- Start Arch Linux Arm
 	- Connect PC to RPi
 - Create RuneAudio+Re system
@@ -23,11 +23,11 @@ RuneOS
 	- GParted and Files app (normally already installed)
 	- Basic skill of terminal command line
 - Raspberry Pi
-- Network connection - Wired LAN (or Wi-Fi if necessary)
-- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
+- Network connection - wired LAN (or Wi-Fi if necessary)
+- Micro SD card: 4GB+ - `BOOT` + `ROOT` partitions
 - Optional: Micro SD card + USB drive (run RuneAudio+R from USB drive)
-	- Micro SD card - 100MB+ - `BOOT` partition only
-	- USB drive - 4GB+ - `ROOT` partition (or existing USB hard drive with data)
+	- Micro SD card: 100MB+ - `BOOT` partition only
+	- USB drive: 4GB+ - `ROOT` partition (or existing USB hard drive with data)
 	- For hard drives or faster-than-SD-card thumb drives
 ---
 
@@ -120,7 +120,7 @@ ssh alarm@$rpiip  # confirm: yes > password: alarm
 	- FFmpeg - [Extended decoders](https://github.com/rern/RuneOS/blob/master/ffmpeg.md)
 	- hostapd - RPi access point
 	- Kid3 - Metadata tag editor
-	- Python - programming language
+	- Python - Programming language
 	- Samba - File sharing
 	- Shairport-sync - AirPlay
 	- upmpdcli - UPnP
