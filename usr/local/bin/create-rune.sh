@@ -138,6 +138,9 @@ fi
 chmod -R 666 /var/lib/alsa  # fix permission
 sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules   # omit test rules
 
+# boot partition - fix dirty bits if any
+fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
+
 # bluetooth (skip if removed bluetooth)
 [[ -e /usr/bin/bluetoothctl ]] && sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
 
@@ -146,10 +149,6 @@ sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules   # omit tes
 
 # lvm - remove invalid value
 sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
-
-# mpd - music directories
-mkdir -p /mnt/MPD/{NAS,SD,USB}
-chown -R mpd:audio /mnt/MPD
 
 # mpd - create missing log file
 touch /var/log/mpd.log
@@ -202,13 +201,10 @@ fi
 
 systemctl enable $startup
 
-# fix sd card dirty bits if any
-fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
-
 #---------------------------------------------------------------------------------
 echo -e "\n\e[m36Default settings ...\e[m\n"
 
-# data and subdirectories
+# data - settings directories
 dirdata=/srv/http/data
 dirdisplay=$dirdata/display
 dirsystem=$dirdata/system
@@ -236,9 +232,12 @@ echo RuneAudio | tee $dirsystem/{hostname,soundprofile} > /dev/null
 echo 0 0 0 > $dirsystem/mpddb
 echo '$2a$12$rNJSBU0FOJM/jP98tA.J7uzFWAnpbXFYx5q1pmNhPnXnUu3L1Zz6W' > $dirsystem/password
 
+# mpd - music directories
+mkdir -p /mnt/MPD/{NAS,SD,USB}
+
 # set permissions and ownership
 chown -R http:http "$dirdata"
-chown -R mpd:audio "$dirdata/mpd"
+chown -R mpd:audio "$dirdata/mpd" /mnt/MPD
 
 echo -e "\n\e[36mDone\e[m\n"
 hr
