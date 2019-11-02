@@ -156,7 +156,7 @@ if [[ $ssid ]]; then
 	cd
 fi
 
-# get write.rune.sh
+# get write-rune.sh
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/write-rune.sh -P $ROOT/usr/local/bin
 chmod +x $ROOT/usr/local/bin/write-rune.sh
 
