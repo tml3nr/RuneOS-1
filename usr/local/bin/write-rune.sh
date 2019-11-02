@@ -232,3 +232,4 @@ chown -R http:http "$dirdata"
 chown -R mpd:audio "$dirdata/mpd"
 
 echo -e "\n\e[36mDone\e[m\n"
+hr
