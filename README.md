@@ -27,9 +27,10 @@ RuneOS
 	- Wi-Fi connection (only if necessary)
 - Normal SD mode (normal)
 	- Micro SD card - 4GB+ - `BOOT` + `ROOT` partitions
-- USB drive mode  (run RuneAudio+R from USB drive - hard drive or fast thumb drive)
+- USB drive mode  (run RuneAudio+R from USB drive)
 	- Micro SD card - 100MB+ - `BOOT` partition only
 	- USB drive - 4GB+ - `ROOT` partition (or existing USB hard drive with data)
+	- For hard drives or faster-than-SD-card thumb drives
 ---
 
 ### Create Arch Linux Arm system
