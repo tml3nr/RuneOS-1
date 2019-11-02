@@ -22,6 +22,9 @@ packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 echo 00 01 02 03 04 09 | grep -q $hwcode && nobt=1 || nobt=
 
+#-------------------------------------------------------------------
+echo -e "\n\e[m36Features ...\e[m\n"
+
 read -ren 1 -p $'Install \e[36mall packages\e[m [y/n]: ' ans; echo
 if [[ $ans == y || $ans == Y ]]; then
     packages+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
@@ -53,6 +56,7 @@ else
     [[ $ans == y || $ans == Y ]] && packages+='shairport-sync '
     read -ren 1 -p $'Install \e[36mupmpdcli\e[m - UPnP [y/n]: ' upnp; echo
 fi
+#-------------------------------------------------------------------
 
 echo -e "\n\e[36mInstall packages ...\e[m\n"
 pacman -S --noconfirm --needed $packages
