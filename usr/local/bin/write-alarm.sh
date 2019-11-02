@@ -7,12 +7,6 @@ cols=$( tput cols )
 hr() {
     printf %"$cols"s | tr ' ' -
 }
-tc() {
-    echo -e "\e[38;5;6m$1\e[0m"
-}
-tcolor() {
-    echo -e "  \e[38;5;6m$1\e[0m" "$2"
-}
 showpath() {
     mountpoint=$( df | grep $1 | awk '{print $NF}' )
 	hr
@@ -24,14 +18,9 @@ showpath() {
 		echo $1 not mounted or incorrect label. && exit
 		hr
     fi
-}
-showBOOT() {
-    BOOT=$( df | grep BOOT | awk '{print $NF}' )
-	hr
-    echo $( df -h | grep BOOT )
-	echo BOOT: $BOOT
-	hr
-    [[ -z $BOOT ]] && echo Not mounted or incorrect label. && exit
+	read -rn 1 -p "Confirm path - $1 [y/N]: " ans; echo
+	[[ $ans != y && $ans != Y ]] && exit
+	[[ -n $( ls $mountpoint | grep -v lost+found ) ]] && echo $mountpoint not empty. && exit
 }
 selectRPi() {
     echo -e "\nRaspberry Pi:"
@@ -58,21 +47,15 @@ selectRPi() {
     read -rn 1 -p "Raspberry Pi $rpi [y/N]: " ans; echo
     [[ $ans != y && $ans != Y ]] && selectRPi
 }
-# -----------------------------------------------------------------------
 
+# -----------------------------------------------------------------------
 showpath BOOT
-read -rn 1 -p "Confirm path - BOOT [y/N]: " ans; echo
-[[ $ans != y && $ans != Y ]] && exit
-[[ -n $( ls $BOOT ) ]] && echo $BOOT not empty. && exit
 
 showpath ROOT
-read -rn 1 -p "Confirm path - ROOT [y/N]: " ans; echo
-[[ $ans != y && $ans != Y ]] && exit
-[[ -n $( ls $ROOT | grep -v lost+found ) ]] && echo $ROOT not empty. && exit
 
 echo -e "\nRun ROOT partition on:"
-tcolor 1 'Micro SD card'
-tcolor 2 'USB drive'
+echo -e '  \e[36m1\e[m Micro SD card'
+echo -e '  \e[36m2\e[m USB drive'
 read -rn 1 -p "Select [1/2]: " mode; echo
 
 selectRPi
@@ -81,55 +64,9 @@ read -rn 1 -p "Setup Wi-Fi auto-connect [y/N]: " ans; echo
 if [[ $ans == y || $ans == Y ]]; then
     selectSecurity() {
         echo Security:
-        tcolor 1 'WPA'
-        tcolor 2 'WEP'
-        tcolor 3 'None'
-        read -rn 1 -p 'Select [1-3]: ' ans
-        [[ -z $ans ]] || (( $ans > 3 )) && echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
-        if [[ $ans == 1 ]]; then
-            wpa=wpa
-        elif [[ $ans == 2 ]]; then
-            wpa=wep
-        else
-            wpa=
-        fi
-    }
-fi
-# -----------------------------------------------------------------------
-
-echo -e "\nDownloading ..."
-wget -qN --show-progress http://os.archlinuxarm.org/os/$file
-[[ $? != 0 ]] && echo -e "\nDownload failed." && exit
-
-echo -e "\nExpand to ROOT ..."
-bsdtar xpvf $file -C $ROOT  # if errors - install missing packages
-rm $file
-
-echo -e "\nMove /boot to BOOT ..."
-mv -v $ROOT/boot/* $BOOT 2> /dev/null
-
-if [[ $mode == 2 ]]; then
-	dev=$( df | grep ROOT | awk '{print $1}' )
-    uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
-    sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
-    echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
-fi
-
-# get write.rune.sh
-wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/write-rune.sh -P $ROOT/usr/local/bin
-chmod +x $ROOT/usr/local/bin/write-rune.sh
-
-# RPi 0 - fix: kernel panic
-[[ $rpi == 0 ]] && echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
-
-echo
-read -rn 1 -p "Setup Wi-Fi auto-connect [y/N]: " ans; echo
-if [[ $ans == y || $ans == Y ]]; then
-    selectSecurity() {
-        echo Security:
-        tcolor 1 'WPA'
-        tcolor 2 'WEP'
-        tcolor 3 'None'
+        echo -e '  \e[36m1\e[m WPA'
+        echo -e '  \e[36m2\e[m WEP'
+        echo -e '  \e[36m3\e[m None'
         read -rn 1 -p 'Select [1-3]: ' ans
         [[ -z $ans ]] || (( $ans > 3 )) && echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
         if [[ $ans == 1 ]]; then
@@ -153,7 +90,33 @@ if [[ $ans == y || $ans == Y ]]; then
         [[ $ans != Y && $ans != y ]] && setCredential
     }
     setCredential
+fi
+# -----------------------------------------------------------------------
 
+echo -e "\nDownloading ..."
+wget -qN --show-progress http://os.archlinuxarm.org/os/$file
+[[ $? != 0 ]] && echo -e "\nDownload failed." && exit
+
+echo -e "\nExpand to ROOT ..."
+bsdtar xpvf $file -C $ROOT
+rm $file
+
+echo -e "\nMove /boot to BOOT ..."
+mv -v $ROOT/boot/* $BOOT 2> /dev/null
+
+if [[ $mode == 2 ]]; then
+	dev=$( df | grep ROOT | awk '{print $1}' )
+    uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
+    sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
+    echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
+fi
+
+# RPi 0 - fix: kernel panic
+[[ $rpi == 0 ]] && echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
+
+# wifi
+if [[ $ssid ]]; then
+    echo -e "\nSetup Wi-Fi ..."
     # profile
     profile="Interface=wlan0
     Connection=wireless
@@ -174,5 +137,9 @@ if [[ $ans == y || $ans == Y ]]; then
     ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
     cd
 fi
+
+# get write.rune.sh
+wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/write-rune.sh -P $ROOT/usr/local/bin
+chmod +x $ROOT/usr/local/bin/write-rune.sh
 
 umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted.\nMove to Raspberry Pi."
