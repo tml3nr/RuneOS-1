@@ -44,17 +44,17 @@ RuneOS
 | #1  | 100MiB      | primary | fat32  | BOOT  |
 | #2  | (the rest)  | primary | ext4   | ROOT  |
 	
-- **Optional - with USB drive**
+- **Optional - with USB drive** (Run on USB drive instead of SD card)
 	- Insert Micro SD card
 		- Delete all partitions (make sure it's the micro SD card)
 		- Format: `fat32`
 		- Label: `BOOT`
 	- Plug in USB drive
-		- Blank:
+		- Blank drive:
 			- Delete all partitions (Caution: make sure it's the USB drive)
 			- Format: `ext4`
 			- Label: `ROOT`
-		- With existing data:
+		- Drive with existing data:
 			- No need to reformat or change format of existing partition
 			- Resize the existing to get 4GB unallocated space (anywhere - at the end, middle or start of the disk)
 			- Create a new partition in the new 4GB space
