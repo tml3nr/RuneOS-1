@@ -110,22 +110,20 @@ echo -e "\n\e[36[mConfigure ...\e[m\n"
 rm /var/cache/pacman/pkg/* /root/{*.xz,*.zip} /usr/local/bin/create-*
 rm -r /root/armv6h
 
-hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-
-# boot splash
-if echo 04 08 0d 0e 11 | grep -q $hwcode; then
-	cmdline='root=/dev/mmcblk0p2 rw rootwait selinux=0 fsck.repair=yes smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 '
-	cmdline+='elevator=noop console=tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
-	echo $cmdline > /boot/cmdline.txt
-fi
-
 # RPi 4
 if [[ $hwcode == 11 ]]; then
 	sed -i '/force_turbo=1/ d' /boot/config.txt
 	mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
 fi
 
-# RPi 0, 1, 2 - no onboard wireless
+# RPi 4, 3, 2 - boot splash
+if echo 04 08 0d 0e 11 | grep -q $hwcode; then
+	cmdline='root=/dev/mmcblk0p2 rw rootwait selinux=0 fsck.repair=yes smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 '
+	cmdline+='elevator=noop console=tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
+	echo $cmdline > /boot/cmdline.txt
+fi
+
+# RPi 2, 1, 0 - no onboard wireless
 [[ ! $wireless ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
 
 # RPi 0 - fix kernel panic
