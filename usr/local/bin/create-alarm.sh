@@ -5,7 +5,7 @@
 
 cols=$( tput cols )
 hr() {
-	printf %"$cols"s | tr ' ' -
+	printf %"$cols"s | tr ' ' -; echo
 }
 verifypath() {
 	mountpoint=$( df | grep $1 | awk '{print $NF}' )
@@ -96,9 +96,8 @@ selectRPi() {
 
 # -----------------------------------------------------------------------
 hr
-echo -e "\n\n\e[36mCreate Arch Linux Arm ...\e[m\n"
+echo -e "\n\e[36mCreate Arch Linux Arm ...\e[m\n"
 hr
-echo
 
 verifypath BOOT
 
