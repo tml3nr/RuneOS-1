@@ -62,6 +62,7 @@ RuneOS
 				- Format: `ext4`
 				- Label: `ROOT`
 - Open **Files** app - click `BOOT` and `ROOT` to mount
+- Hover mouse over `BOOT` and `ROOT` and note the paths
 
 **Download and write `BOOT` and `ROOT`**
 ```sh
@@ -91,7 +92,7 @@ nmap -sP ${routerip%.*}.*
 
 **Get IP address of RPi** - On Linux PC:
 ```sh
-# scan IP list again and compare to find new one = RPi
+# scan IP list again and compare to find new one => RPi
 nmap -sP ${routerip%.*}.*
 
 # If RPi not show up in result:
@@ -105,7 +106,7 @@ nmap -sP ${routerip%.*}.*
 - On Linux PC
 ```sh
 # set ip
-read -r -p "RPi IP: " rpiip; echo
+read -r -p "Raspberry Pi IP: " rpiip; echo
 
 # remove existing key if any
 ssh-keygen -R $rpiip 2> /dev/null
