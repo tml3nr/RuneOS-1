@@ -5,8 +5,7 @@ addoversion=20191101
 
 cols=$( tput cols )
 hr() {
-	printf %"$cols"s | tr ' ' -
-	echo
+	printf %"$cols"s | tr ' ' -; echo
 }
 
 hr
