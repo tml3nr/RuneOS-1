@@ -144,15 +144,9 @@ if [[ $ssid ]]; then
 	echo $profile > "$ROOT/etc/netctl/$ssid"
 
 	# enable startup
-	dir="$ROOT/etc/systemd/system/netctl@$ssid.service.d"
-	mkdir $dir
-	echo '[Unit]
-	BindsTo=sys-subsystem-net-devices-wlan0.device
-	After=sys-subsystem-net-devices-wlan0.device' > "$dir/profile.conf"
-
 	pwd=$PWD
 	cd $ROOT/etc/systemd/system/multi-user.target.wants
-	ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
+	ln -s ../../../../lib/systemd/system/netctl-auto@.service netctl-auto@wlan0.service
 	cd "$pwd"
 fi
 
