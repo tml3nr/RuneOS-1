@@ -59,7 +59,7 @@ setCredential() {
 	read -p 'Password: ' password
 	selectSecurity
 	echo -e "\n\nSSID: \e[36m$ssid\e[m\nPassword: \e[36m$password\e[m\nSecurity: \e[36m${wpa^^}\e[m\n"
-	read -rn1 -p "Confirm and continue? [y/n]: " ans; echo
+	read -rn1 -p "Confirm and continue? [y/n]: " ans; echo; echo
 	[[ $ans != Y && $ans != y ]] && setCredential
 }
 selectRPi() {
