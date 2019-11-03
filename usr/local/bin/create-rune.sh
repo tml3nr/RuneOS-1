@@ -161,13 +161,6 @@ if [[ $hwcode == 11 ]]; then
 	mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
 fi
 
-# RPi 4, 3, 2 - boot splash
-if echo 04 08 0d 0e 11 | grep -q $hwcode && [[ -e /usr/bin/chromium ]]; then
-	cmdline='root=/dev/mmcblk0p2 rw rootwait selinux=0 fsck.repair=yes smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 '
-	cmdline+='elevator=noop console=tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
-	echo $cmdline > /boot/cmdline.txt
-fi
-
 # RPi 2, 1, 0 - no onboard wireless
 [[ ! $wireless ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
 
@@ -183,6 +176,22 @@ fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
 
 # bluetooth (skip if removed bluetooth)
 [[ -e /usr/bin/bluetoothctl ]] && sed -i 's/#*\(AutoEnable=\).*/\1true/' /etc/bluetooth/main.conf
+
+# chromium
+if [[ -e /usr/bin/chromium ]]; then
+	# boot splash
+	cmdline='root=/dev/mmcblk0p2 rw rootwait selinux=0 fsck.repair=yes smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 '
+	cmdline+='elevator=noop console=tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
+	echo $cmdline > /boot/cmdline.txt
+	
+    # bootsplash - set default image
+    ln -s /srv/http/assets/img/{NORMAL,start}.png
+    
+    # login prompt - remove
+    systemctl disable getty@tty1
+else
+	rm /etc/systemd/system/{bootsplash,localbrowser}* /etc/X11/xinit/xinitrc /srv/http/assets/img/{CW,CWW,NORMAL,UD}* /usr/local/bin/ply-image
+fi
 
 # cron - for addons updates
 ( crontab -l &> /dev/null; echo '00 01 * * * /srv/http/addons-update.sh &' ) | crontab -
@@ -223,21 +232,9 @@ echo 'WIRELESS_REGDOM="00"' > /etc/conf.d/wireless-regdom
 
 # startup services
 systemctl daemon-reload
-
-startup='avahi-daemon bootsplash cronie devmon@mpd localbrowser nginx php-fpm startup'
-
-if [[ -e /usr/bin/chromium ]]; then
-    # bootsplash - set default image
-    ln -s /srv/http/assets/img/{NORMAL,start}.png
-    
-    # login prompt - remove
-    systemctl disable getty@tty1
-else
-    startup=${startup/bootsplash }
-    startup=${startup/localbrowser }
-fi
-
-[[ ! -e /usr/bin/avahi-daemon ]] && startup=${startup/avahi-daemon }
+startup='cronie devmon@mpd nginx php-fpm startup '
+[[ -e /usr/bin/avahi-daemon ]] && startup+='avahi-daemon '
+[[ -e /usr/bin/chromium ]] && startup+='bootsplash localbrowser '
 
 systemctl enable $startup
 
