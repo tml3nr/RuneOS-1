@@ -28,7 +28,9 @@ RuneOS
 	- GParted and Files app (normally already installed)
 	- Basic skill of terminal command line
 - Raspberry Pi
-- Network connection - wired LAN (or Wi-Fi if necessary)
+- Network connection to Raspberry Pi 
+	- Wired LAN
+	- Optional: Wi-Fi if necessary
 - Micro SD card: 4GB+ - `BOOT` + `ROOT` partitions
 - Optional: Micro SD card + USB drive (run RuneAudio+R from USB drive)
 	- Micro SD card: 100MB+ - `BOOT` partition only
