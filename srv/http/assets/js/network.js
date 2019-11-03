@@ -387,7 +387,7 @@ function connect( wlan, ssid, data ) {
 				var cmd = [];
 			}
 			cmd.push(
-				  'netctl enable "'+ ssid +'"'
+				  'systemctl enable netctl-auto@wlan0'
 				, pstream( 'network' )
 			);
 			$.post( 'commands.php', { bash: cmd }, function() {
