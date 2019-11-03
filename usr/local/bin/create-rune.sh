@@ -3,13 +3,19 @@
 version=e2
 addoversion=20191101
 
-cols=$( tput cols )
-hr() {
-	printf %"$cols"s | tr ' ' -; echo
-}
 # get RPi hardware code
+# RPi Zero - 09
+# RPi Zero W - 0c
+# RPi 1 - 00, 01, 02, 03
+# RPi 2 - 04
+# RPi 3 - 08
+# RPi 3+ - 0d, 0e
+# RPi 4 - 11
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
+
+cols=$( tput cols )
+hr() { printf %"$cols"s | tr ' ' -; echo }
 
 hr
 echo -e "\n\e[36mCreate RuneAudio+Re ...\e[m\n"
