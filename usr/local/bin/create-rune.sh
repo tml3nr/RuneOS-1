@@ -114,6 +114,7 @@ packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils
 echo -e "\n\e[36mInstall packages ...\e[m\n"
 
 pacman -S --noconfirm --needed $packages $features
+
 [[ $pyt == y || $pyt == Y ]] && yes | pip --no-cache-dir install RPi.GPIO
 
 echo -e "\n\e[36mInstall custom packages and web interface ...\e[m\n"
@@ -124,18 +125,16 @@ bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 
-# RPi 0, 1 - packages for armv6h
+# RPi 0, 1 - switch packages for armv6h
 if echo 00 01 02 03 09 0c | grep -q $hwcode; then
     rm /root/*.xz
     mv /root/armv6h/* /root
 fi
 
-# RPi 0, 1, 2 - no onboard wireless
-if [[ ! $wireless || $blue == n || $blue == N ]]; then
+if [[ $blue == n || $blue == N || ! $wireless ]]; then
 	rm /root/bluealsa* /root/armv6h/bluealsa* /boot/overlays/bcmbt.dtbo
 	sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
 fi
-
 [[ $kid3 == n || $kid3 == N ]] && rm /root/kid3*
 [[ $upnp == n || $upnp == N ]] && rm /etc/upmpdcli.conf /root/{libupnpp*,upmpdcli*}
 
