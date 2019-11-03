@@ -129,7 +129,7 @@ if [[ $mode == 2 ]]; then
 fi
 
 # RPi 0 - fix: kernel panic
-[[ $rpi == 0 ]] && echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
+[[ $rpi == Zero ]] && echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
 
 # wifi
 if [[ $ssid ]]; then
