@@ -5,8 +5,8 @@ RuneOS
 - With options to exclude features, it can be as light as possible in terms of build time and disk space.
 
 **Procedure**
+- Prepare partitions
 - Create Arch Linux Arm
-	- Prepare partitions
 	- Verify partitions
 	- Optional - pre-configure Wi-Fi connection (headless mode)
 	- Download
@@ -36,40 +36,42 @@ RuneOS
 	- For hard drives or faster-than-SD-card thumb drives
 ---
 
-### Create Arch Linux Arm system
+### Prepare partitions
 
-**Prepare partitions**
-- **Micro SD card only**
-	- Insert micro SD card
-	- Delete all partitions (make sure it's the micro SD card)
-	- Create partitions with **GParted** app
+**Micro SD card only**
+- Insert micro SD card
+- Delete all partitions (make sure it's the micro SD card)
+- Create partitions with **GParted** app
 
 | No. | Size        | Type    | Format | Label |
 |-----|-------------|---------|--------|-------|
 | #1  | 100MiB      | primary | fat32  | BOOT  |
 | #2  | (the rest)  | primary | ext4   | ROOT  |
 	
-- **Optional: Micro SD card + USB drive**
-	- Insert Micro SD card
-		- Delete all partitions (Caution: make sure it's the SD card)
-		- Format: `fat32`
-		- Label: `BOOT`
-	- Plug in USB drive
-		- Blank drive:
-			- Delete all partitions (Caution: make sure it's the USB drive)
+**Optional: Micro SD card + USB drive**
+- Insert Micro SD card
+	- Delete all partitions (Caution: make sure it's the SD card)
+	- Format: `fat32`
+	- Label: `BOOT`
+- Plug in USB drive
+	- Blank drive:
+		- Delete all partitions (Caution: make sure it's the USB drive)
+		- Format: `ext4`
+		- Label: `ROOT`
+	- Drive with existing data:
+		- No need to reformat or change format of existing partition
+		- Resize the existing to get 4GB unallocated space (anywhere - at the end, middle or start of the disk)
+		- Create a new partition in the new 4GB space
 			- Format: `ext4`
 			- Label: `ROOT`
-		- Drive with existing data:
-			- No need to reformat or change format of existing partition
-			- Resize the existing to get 4GB unallocated space (anywhere - at the end, middle or start of the disk)
-			- Create a new partition in the new 4GB space
-				- Format: `ext4`
-				- Label: `ROOT`
+
+### Create Arch Linux Arm
+
 - Open **Files** app - click `BOOT` and `ROOT` to mount
 - Hover mouse over `BOOT` and `ROOT` and note the paths
+- Note: Download file for RPi 3: `ArchLinuxARM-rpi-2-latest.tar.gz`
 
 **Download and write `BOOT` and `ROOT`**
-- Note: Download file for RPi 3: `ArchLinuxARM-rpi-2-latest.tar.gz`
 ```sh
 # switch user to root
 su -
@@ -124,7 +126,7 @@ ssh-keygen -R $rpiip &> /dev/null
 ssh alarm@$rpiip
 ```
 
-### Create RuneAudio+Re system
+### Create RuneAudio+Re
 
 - For default setup: select `Install all`
 - Feature options:
