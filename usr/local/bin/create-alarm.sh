@@ -105,7 +105,7 @@ read -ren 1 -p $'\nAuto-connect Wi-Fi on boot? [y/n]: ' ans; echo
 [[ $ans == y || $ans == Y ]] && setCredential
 
 # -----------------------------------------------------------------------
-echo -e "\n\e[36mDownloading ...\e[m"
+echo -e "\n\e[36mDownloading ...\e[m\n"
 
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 [[ $? != 0 ]] && echo -e "\nDownload failed." && exit
