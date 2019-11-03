@@ -5,7 +5,7 @@
 
 trap ctrl_c INT
 ctrl_c() {
-    rm ArchLinuxArm*
+    rm -f ArchLinuxArm*
     exit
 }
 cols=$( tput cols )
