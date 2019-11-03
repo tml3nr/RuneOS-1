@@ -121,6 +121,9 @@ echo -e "\n\e[36mInstall custom packages and web interface ...\e[m\n"
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 
+chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
+chown -R http:http /srv/http
+
 # RPi 0, 1 - packages for armv6h
 if echo 00 01 02 03 09 0c | grep -q $hwcode; then
     rm /root/*.xz
@@ -128,18 +131,16 @@ if echo 00 01 02 03 09 0c | grep -q $hwcode; then
 fi
 
 # RPi 0, 1, 2 - no onboard wireless
-if [[ ! $wireless ]]; then
+if [[ ! $wireless || $blue == n || $blue == N ]]; then
 	rm /root/bluealsa* /root/armv6h/bluealsa* /boot/overlays/bcmbt.dtbo
 	sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
 fi
 
-chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
-chown -R http:http /srv/http
-
 [[ $kid3 == n || $kid3 == N ]] && rm /root/kid3*
 [[ $upnp == n || $upnp == N ]] && rm /etc/upmpdcli.conf /root/{libupnpp*,upmpdcli*}
 
-pacman -U /root/*.xz
+pacman -U --noconfirm --needed /root/*.xz
+
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mConfigure ...\e[m\n"
 
