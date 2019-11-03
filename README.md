@@ -72,8 +72,7 @@ RuneOS
 - Open **Files** app - click `BOOT` and `ROOT` to mount
 - Hover mouse over `BOOT` and `ROOT` and note the paths
 - Note: Download file for RPi 3: `ArchLinuxARM-rpi-2-latest.tar.gz`
-
-**Download and write `BOOT` and `ROOT`**
+- Download and write `BOOT` and `ROOT`
 ```sh
 # switch user to root
 su -
@@ -95,12 +94,10 @@ nmap -sP ${routerip%.*}.*
 
 ### Connect PC to Raspberry Pi
 
-**Start Arch Linux Arm**
 - Move micro SD card (and optional USB drive) to RPi
-- Power on
+- Power on to start Arch Linux Arm
 - Wait 30 seconds
-
-**Get IP adddress**
+- Get IP adddress
 ```sh
 # scan IP list again and find Raspberry Pi or compare with previous for a new item
 nmap -sP ${routerip%.*}.*
@@ -115,8 +112,7 @@ nmap -sP ${routerip%.*}.*
 #     - Scan again
 #     - If still not found, start over again
 ```
-
-**Connect**
+- Connect
 ```sh
 # connect
 read -r -p "Raspberry Pi IP: " rpiip; echo
