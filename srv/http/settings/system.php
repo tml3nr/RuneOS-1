@@ -56,8 +56,9 @@ if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 		<div class="col-l">Player name</div>
 		<div class="col-r">
 			<input type="text" id="hostname" value="<?=$data->hostname?>" readonly style="cursor: pointer">
-			<span class="help-block hide">Set the player hostname. This will change the address used to reach the RuneUI. Local access point, AirPlay, Samba and UPnP/upnp will broadcast this name when enabled.<br>
-			(No spaces or special charecters allowed in the name.)</span>
+			<span class="help-block hide">Set the player hostname. This will change the address used to reach RuneAudio.
+				<br>RuneAudio web interface, Local access point, AirPlay, Samba and UPnP/upnp will broadcast this name when enabled.
+				<br>(No spaces or special charecters allowed in the name.)</span>
 		</div>
 		<div class="col-l">Timezone</div>
 		<div class="col-r">
@@ -169,6 +170,14 @@ if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 			<div class="switchlabel" for="upnp"></div>
 			<i id="setting-upnp" class="setting fa fa-gear <?=( $data->upnp === 'checked' ? '' : 'hide' )?>"></i>
 			<span class="help-block hide"><wh>upmpdcli</wh> - Receive audio streaming via UPnP / DLNA.</span>
+		</div>
+<?php } ?>
+<?php if ( file_exists( '/usr/bin/avahi-daemon' ) ) { ?>
+		<div class="col-l gr">URL by name<i class="fa fa-external-link fa-lg wh"></i></div>
+		<div class="col-r">
+			<input id="avahi" type="checkbox"<?=$data->avahi?>>
+			<div class="switchlabel" for="avahi"></div>
+			<span class="help-block hide"><wh>Avahi</wh> - Connect URL by name(e.g., runeaudio.local) from remote browsers.</span>
 		</div>
 <?php } ?>
 	<div style="clear: both"></div>
