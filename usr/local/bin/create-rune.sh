@@ -12,7 +12,77 @@ hr
 echo -e "\n\e[36mCreate RuneAudio+Re ...\e[m\n"
 hr
 
-#---------------------------------------------------------------------------------
+#-------------------------------------------------------------------
+echo -e "\n\e[m36Features ...\e[m\n"
+
+selectFeatures() {
+	read -ren 1 -p $'Install \e[36mall packages\e[m [y/n]: ' ans; echo
+	if [[ $ans == y || $ans == Y ]]; then
+		packages+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
+		# RPi 0W, 3, 4
+		[[ $wireless ]] && packages+='bluez bluez-utils '
+		# RPi 2, 3, 4
+		echo 04 08 0d 0e 11 | grep -q $hwcode && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
+
+		echo -e "Install \e[36mall packages\e[m\n"
+		read -ren 1 -p $'Confirm and continue? [y/n]: ' ans; echo
+		[[ $ans != y && $ans != Y ]] && selectFeature
+	else
+		list=
+
+		pkg="\e[36mAvahi\e[m - Connect by: runeaudio.local"
+		read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
+		[[ $ans == y || $ans == Y ]] && packages+='avahi ' && list+="$pkg\n"
+
+		if [[ $wireless ]]; then
+			pkg="\e[36mBluez\e[m - Bluetooth supports"
+			read -ren 1 -p $"Install $pkg [y/n]: " blue; echo
+			[[ $blue == y || $blue == Y ]] && packages+='bluez bluez-utils ' && list+="$pkg\n"
+		fi
+
+		if echo 04 08 0d 0e 11 | grep -q $hwcode; then
+			pkg="\e[36mChromium\e[m - Browser on RPi"
+			read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
+			[[ $ans == y || $ans == Y ]] && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$pkg\n"
+		fi
+
+		pkg="\e[36mFFmpeg\e[m - Extended decoder"
+		read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
+		[[ $ans == y || $ans == Y ]] && packages+='ffmpeg ' && list+="$pkg\n"
+
+		pkg="\e[36mhostapd\e[m - RPi access point"
+		read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
+		[[ $ans == y || $ans == Y ]] && packages+='dnsmasq hostapd ' && list+="$pkg\n"
+
+		pkg="\e[36mKid3\e[m - Metadata tag editor"
+		read -ren 1 -p $"Install $pkg [y/n]: " kid3; echo
+		[[ $kid3 == y || $kid3 == Y ]] && list+="$pkg\n"
+
+		pkg="\e[36mPython\e[m - Programming language"
+		read -ren 1 -p $"Install $pkg [y/n]: " pyth; echo
+		[[ $pyth == y || $pyth == Y ]] && packages+='python python-pip ' && list+="$pkg\n"
+
+		pkg="\e[36mSamba\e[m - File sharing"
+		read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
+		[[ $ans == y || $ans == Y ]] && packages+='samba ' && list+="$pkg\n"
+
+		pkg="\e[36mShairport-sync\e[m - AirPlay"
+		read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
+		[[ $ans == y || $ans == Y ]] && packages+='shairport-sync ' && list+="$pkg\n"
+
+		pkg="\e[36mupmpdcli\e[m - UPnP"
+		read -ren 1 -p $"Install $pkg [y/n]: " upnp; echo
+		[[ $upnp == y || $upnp == Y ]] && list+="$pkg\n"
+
+		if [[ -n $list ]]; then
+			list="Install packages:\n$list\n"
+			read -ren 1 -p $'Confirm and continue? [y/n]: ' ans; echo
+			[[ $ans != y && $ans != Y ]] && selectFeature
+		fi
+	fi
+}
+selectFeatures
+#-------------------------------------------------------------------
 echo -e "\n\n\e[36mInitialize PGP key ...\e[m\n"
 
 pacman-key --init
@@ -34,75 +104,7 @@ packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
 
-#-------------------------------------------------------------------
-echo -e "\n\e[m36Features ...\e[m\n"
-
-read -ren 1 -p $'Install \e[36mall packages\e[m [y/n]: ' ans; echo
-if [[ $ans == y || $ans == Y ]]; then
-    packages+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
-	# RPi 0W, 3, 4
-    [[ $wireless ]] && packages+='bluez bluez-utils '
-    # RPi 2, 3, 4
-    echo 04 08 0d 0e 11 | grep -q $hwcode && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
-	
-	echo -e "Install \e[36mall packages\e[m\n"
-	read -ren 1 -p $'Confirm and continue? [y/n]: ' ans; echo
-	[[ $ans != y && $ans != Y ]] && exit
-else
-    list=
-	
-	pkg="\e[36mAvahi\e[m - Connect by: runeaudio.local"
-	read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
-    [[ $ans == y || $ans == Y ]] && packages+='avahi ' && list+="$pkg\n"
-	
-    if [[ $wireless ]]; then
-        pkg="\e[36mBluez\e[m - Bluetooth supports"
-		read -ren 1 -p $"Install $pkg [y/n]: " blue; echo
-        [[ $blue == y || $blue == Y ]] && packages+='bluez bluez-utils ' && list+="$pkg\n"
-    fi
-	
-    if echo 04 08 0d 0e 11 | grep -q $hwcode; then
-		pkg="\e[36mChromium\e[m - Browser on RPi"
-        read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
-        [[ $ans == y || $ans == Y ]] && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$pkg\n"
-    fi
-	
-	pkg="\e[36mFFmpeg\e[m - Extended decoder"
-    read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
-    [[ $ans == y || $ans == Y ]] && packages+='ffmpeg ' && list+="$pkg\n"
-	
-	pkg="\e[36mhostapd\e[m - RPi access point"
-    read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
-    [[ $ans == y || $ans == Y ]] && packages+='dnsmasq hostapd ' && list+="$pkg\n"
-	
-	pkg="\e[36mKid3\e[m - Metadata tag editor"
-    read -ren 1 -p $"Install $pkg [y/n]: " kid3; echo
-	[[ $kid3 == y || $kid3 == Y ]] && list+="$pkg\n"
-	
-	pkg="\e[36mPython\e[m - Programming language"
-	read -ren 1 -p $"Install $pkg [y/n]: " pyth; echo
-    [[ $pyth == y || $pyth == Y ]] && packages+='python python-pip ' && list+="$pkg\n"
-	
-	pkg="\e[36mSamba\e[m - File sharing"
-    read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
-    [[ $ans == y || $ans == Y ]] && packages+='samba ' && list+="$pkg\n"
-	
-	pkg="\e[36mShairport-sync\e[m - AirPlay"
-    read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
-    [[ $ans == y || $ans == Y ]] && packages+='shairport-sync ' && list+="$pkg\n"
-	
-	pkg="\e[36mupmpdcli\e[m - UPnP"
-    read -ren 1 -p $"Install $pkg [y/n]: " upnp; echo
-	[[ $upnp == y || $upnp == Y ]] && list+="$pkg\n"
-	
-	if [[ -n $list ]]; then
-		list="Install packages:\n$list\n"
-		read -ren 1 -p $'Confirm and continue? [y/n]: ' ans; echo
-		[[ $ans != y && $ans != Y ]] && exit
-	fi
-fi
-
-#-------------------------------------------------------------------
+#-----------------------------------------------------------------------------
 echo -e "\n\e[36mInstall packages ...\e[m\n"
 
 pacman -S --noconfirm --needed $packages
