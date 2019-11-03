@@ -1,5 +1,8 @@
 #!/bin/bash
 
+[[ ! -e /usr/bin/bsdtar ]] && apt install -y bsdtar
+[[ ! -e /usr/bin/nmap ]] && apt install -y nmap
+
 cols=$( tput cols )
 hr() {
 	printf %"$cols"s | tr ' ' -; echo
