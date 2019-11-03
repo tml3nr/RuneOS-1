@@ -108,7 +108,7 @@ nmap -sP ${routerip%.*}.*
 read -r -p "Raspberry Pi IP: " rpiip; echo
 
 # remove existing key if any
-ssh-keygen -R $rpiip 2> /dev/null
+ssh-keygen -R $rpiip &> /dev/null
 
 # connect - confirm: yes > password: alarm
 ssh alarm@$rpiip
