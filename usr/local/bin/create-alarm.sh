@@ -150,9 +150,10 @@ if [[ $ssid ]]; then
 	BindsTo=sys-subsystem-net-devices-wlan0.device
 	After=sys-subsystem-net-devices-wlan0.device' > "$dir/profile.conf"
 
+	pwd=$PWD
 	cd $ROOT/etc/systemd/system/multi-user.target.wants
 	ln -s ../../../../lib/systemd/system/netctl@.service "netctl@$ssid.service"
-	cd
+	cd "$pwd"
 fi
 
 # get create-rune.sh
