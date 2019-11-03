@@ -82,6 +82,7 @@ rm create-alarm.sh
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap -sP ${routerip%.*}.*
 ```
+- If unattended, scroll up to verify there's no errors.
 
 **Start Arch Linux Arm**
 - Move micro SD card (and optional USB drive) to RPi
@@ -95,12 +96,13 @@ nmap -sP ${routerip%.*}.*
 
 # If RPi not show up:
 #  - RPi 4 may listed as unknown
+#  - If used wired LAN, start over again
 #  - If not use wired LAN:
 #     - Power off RPi
 #     - Connect with wired LAN
 #     - Power on RPi
 #     - Scan again
-#  - If still not found, start over again
+#     - If still not found, start over again
 
 # set ip
 read -r -p "Raspberry Pi IP: " rpiip; echo
@@ -142,6 +144,7 @@ killall mpd upmpdcli
 ```
 
 **Finish**
+- If unattended, scroll up to verify there's no errors.
 ```sh
 # reboot
 shutdown -r now
