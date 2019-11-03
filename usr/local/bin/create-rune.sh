@@ -1,7 +1,6 @@
 #!/bin/bash
 
 version=e2
-addoversion=20191101
 
 # get RPi hardware code
 # RPi Zero - 09
@@ -251,7 +250,7 @@ for dir in addons bookmarks coverarts display gpio lyrics mpd playlists sampling
 	mkdir "$dirdata/$dir"
 done
 # addons
-echo $addoversion > /srv/http/data/addons/rare
+echo $( grep -A 2 rare /srv/http/addons-list.php | tail -1 | cut -d"'" -f4 ) > /srv/http/data/addons/rare
 # display
 playback="bars buttons cover time volume"
 library="album artist albumartist composer coverart genre nas sd usb webradio"
