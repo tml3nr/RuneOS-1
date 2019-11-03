@@ -104,14 +104,14 @@ nmap -sP ${routerip%.*}.*
 #     - Scan again
 #     - If still not found, start over again
 
-# set ip
+# connect
 read -r -p "Raspberry Pi IP: " rpiip; echo
 
 # remove existing key if any
 ssh-keygen -R $rpiip 2> /dev/null
 
-# connect
-ssh alarm@$rpiip  # confirm: yes > password: alarm
+# connect - confirm: yes > password: alarm
+ssh alarm@$rpiip
 ```
 
 ### Create RuneAudio+Re system
