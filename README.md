@@ -96,8 +96,9 @@ nmap -sP ${routerip%.*}.*
 # If RPi not show up:
 #  - RPi 4 may listed as unknown
 #  - If not use wired LAN:
+#     - Power off RPi
 #     - Connect with wired LAN
-#     - Restart RPi
+#     - Power on RPi
 #     - Scan again
 #  - If still not found, start over again
 
