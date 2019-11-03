@@ -145,9 +145,12 @@ if [[ $ssid ]]; then
 
 	# enable startup
 	pwd=$PWD
-	cd $ROOT/etc/systemd/system/multi-user.target.wants
+	dir=$ROOT/etc/systemd/sys-subsystem-net-devices-wlan0.device.wants
+	mkdir -p $dir
+	cd $dir
 	ln -s ../../../../lib/systemd/system/netctl-auto@.service netctl-auto@wlan0.service
 	cd "$pwd"
+
 fi
 
 # get create-rune.sh
