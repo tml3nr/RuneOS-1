@@ -174,7 +174,7 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 				local = 1;
 				$.post( 'commands.php', { bash: [
 					  'netctl stop "'+ ssid +'"'
-					, 'systemctl disable netctl-auto@wlan0
+					, 'systemctl disable netctl-auto@wlan0'
 					, 'rm "/etc/netctl/'+ ssid +'" "/srv/http/data/system/netctl-'+ ssid +'"'
 					, pstream( 'network' )
 					] }, function() {
