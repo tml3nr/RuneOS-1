@@ -61,7 +61,7 @@ if [[ -e $dirsystem/hostname ]]; then
 fi
 # localbrowser
 if [[ -e $dirsystem/localbrowser && -e /usr/bin/chromium ]]; then
-	echo -e "$bar Restore browser on RPi settings ..."
+	echo -e "$bar Restore Browser on RPi settings ..."
 	if [[ -e $dirsystem/localbrowser-cursor ]]; then
 		sed -i -e "s/\(-use_cursor \).*/\1$( cat $dirsystem/localbrowser-cursor ) \&/
 			 " -e "s/\(xset dpms 0 0 \).*/\1$( cat $dirsystem/localbrowser-screenoff ) \&/" /etc/X11/xinit/xinitrc
@@ -78,7 +78,7 @@ else
 fi
 # login
 if [[ -e $dirsystem/login ]]; then
-	echo -e "$bar Enable login ..."
+	echo -e "$bar Enable Login ..."
 	sed -i 's/\(bind_to_address\).*/\1         "127.0.0.1"/' /etc/mpd.conf
 else
 	sed -i 's/\(bind_to_address\).*/\1         "0.0.0.0"/' /etc/mpd.conf
@@ -134,7 +134,7 @@ else
 fi
 # samba
 if [[ -e $dirsystem/samba && -e /etc/samba ]]; then
-	echo -e "$bar Enable file sharing ..."
+	echo -e "$bar Enable File sharing ..."
 	sed -i '/read only = no/ d' /etc/samba/smb.conf
 	[[ -e $dirsystem/samba-writesd ]] && sed -i '/path = .*USB/ a\tread only = no' /etc/samba/smb.conf
 	[[ -e $dirsystem/samba-writeusb ]] && sed -i '/path = .*LocalStorage/ a\tread only = no' /etc/samba/smb.conf
@@ -144,7 +144,7 @@ else
 fi
 # timezone
 if [[ -e $dirsystem/timezone ]]; then
-	echo -e "$bar Set time zone ..."
+	echo -e "$bar Restore timezone ..."
 	ln -sf /usr/share/zoneinfo/$( cat $dirsystem/timezone ) /etc/localtime
 fi
 # upnp
