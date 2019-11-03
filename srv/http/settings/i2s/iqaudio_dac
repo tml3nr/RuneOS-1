@@ -1,4 +1,4 @@
-sysname:snd_rpi_iqaudio_dac
+sysname:iqaudio_dac
 extlabel:IQaudIO Pi-DAC (I&#178;S)
 mixer_numid:1
 mixer_control:Playback Digital
