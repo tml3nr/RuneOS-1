@@ -18,7 +18,7 @@ cols=$( tput cols )
 hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
 
 hr
-echo -e "\n\e[36mCreate RuneAudio+Re ...\e[m\n"
+echo -e "\n\e[36mCreate RuneAudio+R $version ...\e[m\n"
 hr
 
 #-------------------------------------------------------------------
@@ -276,5 +276,5 @@ mkdir -p /mnt/MPD/{NAS,SD,USB}
 chown -R http:http "$dirdata"
 chown -R mpd:audio "$dirdata/mpd" /mnt/MPD
 
-echo -e "\n\e[36mRuneAudio+Re created successfully.\e[m\n"
+echo -e "\n\e[36mRuneAudio+R $version created successfully.\e[m\n"
 hr
