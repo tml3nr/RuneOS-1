@@ -11,6 +11,7 @@ xinitrc=/etc/X11/xinit/xinitrc
 data+=' "accesspoint":"'$( [[ -e /srv/http/data/system/accesspoint ]] && echo 1 )'"'
 data+=',"airplay":"'$( systemctl -q is-active shairport-sync && echo checked )'"'
 data+=',"audiooutput":"'$( cat /srv/http/data/system/audiooutput )'"'
+data+=',"avahi":"'$( systemctl -q is-active avahi-daemon && echo checked )'"'
 data+=',"bluetooth":"'$bluetooth'"'
 data+=',"cursor":"'$( grep -q 'cursor yes' $xinitrc && echo 1 || echo 0 )'"'
 data+=',"date":"'$( date +'%F<gr> &bull; </gr>%R' )'"'
