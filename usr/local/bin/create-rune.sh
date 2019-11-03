@@ -7,13 +7,16 @@ cols=$( tput cols )
 hr() {
 	printf %"$cols"s | tr ' ' -; echo
 }
+# get RPi hardware code
+hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
+echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
 
 hr
 echo -e "\n\e[36mCreate RuneAudio+Re ...\e[m\n"
 hr
 
 #-------------------------------------------------------------------
-echo -e "\n\e[m36Features ...\e[m\n"
+echo -e "\n\e[36mFeatures ...\e[m\n"
 
 selectFeatures() {
 	read -ren 1 -p $'Install \e[36mall packages\e[m [y/n]: ' ans; echo
@@ -31,51 +34,51 @@ selectFeatures() {
 		list=
 
 		pkg="\e[36mAvahi\e[m - Connect by: runeaudio.local"
-		read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
 		[[ $ans == y || $ans == Y ]] && packages+='avahi ' && list+="$pkg\n"
 
 		if [[ $wireless ]]; then
 			pkg="\e[36mBluez\e[m - Bluetooth supports"
-			read -ren 1 -p $"Install $pkg [y/n]: " blue; echo
+			read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " blue; echo
 			[[ $blue == y || $blue == Y ]] && packages+='bluez bluez-utils ' && list+="$pkg\n"
 		fi
 
 		if echo 04 08 0d 0e 11 | grep -q $hwcode; then
 			pkg="\e[36mChromium\e[m - Browser on RPi"
-			read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
+			read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
 			[[ $ans == y || $ans == Y ]] && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$pkg\n"
 		fi
 
 		pkg="\e[36mFFmpeg\e[m - Extended decoder"
-		read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
 		[[ $ans == y || $ans == Y ]] && packages+='ffmpeg ' && list+="$pkg\n"
 
 		pkg="\e[36mhostapd\e[m - RPi access point"
-		read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
 		[[ $ans == y || $ans == Y ]] && packages+='dnsmasq hostapd ' && list+="$pkg\n"
 
 		pkg="\e[36mKid3\e[m - Metadata tag editor"
-		read -ren 1 -p $"Install $pkg [y/n]: " kid3; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " kid3; echo
 		[[ $kid3 == y || $kid3 == Y ]] && list+="$pkg\n"
 
 		pkg="\e[36mPython\e[m - Programming language"
-		read -ren 1 -p $"Install $pkg [y/n]: " pyth; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " pyth; echo
 		[[ $pyth == y || $pyth == Y ]] && packages+='python python-pip ' && list+="$pkg\n"
 
 		pkg="\e[36mSamba\e[m - File sharing"
-		read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
 		[[ $ans == y || $ans == Y ]] && packages+='samba ' && list+="$pkg\n"
 
 		pkg="\e[36mShairport-sync\e[m - AirPlay"
-		read -ren 1 -p $"Install $pkg [y/n]: " ans; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
 		[[ $ans == y || $ans == Y ]] && packages+='shairport-sync ' && list+="$pkg\n"
 
 		pkg="\e[36mupmpdcli\e[m - UPnP"
-		read -ren 1 -p $"Install $pkg [y/n]: " upnp; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " upnp; echo
 		[[ $upnp == y || $upnp == Y ]] && list+="$pkg\n"
 
 		if [[ -n $list ]]; then
-			list="Install packages:\n$list\n"
+			echo -e "Install features:\n$list"
 			read -ren 1 -p $'Confirm and continue? [y/n]: ' ans; echo
 			[[ $ans != y && $ans != Y ]] && selectFeature
 		fi
@@ -99,10 +102,6 @@ echo -e "\n\e[36mSystem-wide kernel and packages upgrade ...\e[m\n"
 pacman -Syu --noconfirm --needed
 
 packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip sudo udevil wget '
-
-# get RPi hardware code
-hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
 
 #-----------------------------------------------------------------------------
 echo -e "\n\e[36mInstall packages ...\e[m\n"
@@ -237,7 +236,7 @@ fi
 systemctl enable $startup
 
 #---------------------------------------------------------------------------------
-echo -e "\n\e[m36Default settings ...\e[m\n"
+echo -e "\n\e[36mDefault settings ...\e[m\n"
 
 # data - settings directories
 dirdata=/srv/http/data
