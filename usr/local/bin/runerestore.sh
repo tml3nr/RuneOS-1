@@ -89,12 +89,12 @@ fi
 # mpd.conf
 if [[ -e $dirsystem/mpd-* ]]; then
 	echo -e "\nRestore \e[36mMPD\e[m options ...\n"
-	[[ -e $dirsystem/mpd-autoupdate ]] && echo "   Enable auto update ..." && sed -i 's/\(auto_update\s*"\).*/\1yes"/' /etc/mpd.conf
-	[[ -e $dirsystem/mpd-buffer ]] && echo "   Set buffer ..." && sed -i "s/\(audio_buffer_size\s*\"\).*/\1$( cat $dirsystem/mpd-buffer )\"/" /etc/mpd.conf
-	[[ -e $dirsystem/mpd-ffmpeg ]] && echo "   Enable ffmpeg ..." && sed -i '/ffmpeg/ {n;s/\(enabled\s*"\).*/\1yes"/}' /etc/mpd.conf
-	[[ -e $dirsystem/mpd-mixertype ]] && echo "   Sey mixer type ..." && sed -i "s/\(mixer_type\s*\"\).*/\1$( cat $dirsystem/mpd-mixertype )\"/" /etc/mpd.conf
-	[[ -e $dirsystem/mpd-normalization ]] && echo "   Set volume normalization ..." && sed -i 's/\(volume_normalization\s*"\).*/\1yes"/' /etc/mpd.conf
-	[[ -e $dirsystem/mpd-replaygain ]] && echo "   Set replay gain ..." && sed -i "s/\(replaygain\s*\"\).*/\1$( cat $dirsystem/mpd-replaygain )\"/" /etc/mpd.conf
+	[[ -e $dirsystem/mpd-autoupdate ]] && sed -i 's/\(auto_update\s*"\).*/\1yes"/' /etc/mpd.conf
+	[[ -e $dirsystem/mpd-buffer ]] && sed -i "s/\(audio_buffer_size\s*\"\).*/\1$( cat $dirsystem/mpd-buffer )\"/" /etc/mpd.conf
+	[[ -e $dirsystem/mpd-ffmpeg ]] && sed -i '/ffmpeg/ {n;s/\(enabled\s*"\).*/\1yes"/}' /etc/mpd.conf
+	[[ -e $dirsystem/mpd-mixertype ]] && sed -i "s/\(mixer_type\s*\"\).*/\1$( cat $dirsystem/mpd-mixertype )\"/" /etc/mpd.conf
+	[[ -e $dirsystem/mpd-normalization ]] && sed -i 's/\(volume_normalization\s*"\).*/\1yes"/' /etc/mpd.conf
+	[[ -e $dirsystem/mpd-replaygain ]] && sed -i "s/\(replaygain\s*\"\).*/\1$( cat $dirsystem/mpd-replaygain )\"/" /etc/mpd.conf
 fi
 # netctl profiles
 if ls $dirsystem/netctl-* &> /dev/null; then
@@ -163,10 +163,10 @@ if [[ -e $dirsystem/upnp && /etc/upmpdcli.conf ]]; then
 		 	" -e "s/#*\($1$qlty = \).*/\1$quality/
 			 " /etc/upmpdcli.conf
 	}
-	[[ -e $dirsystem/upnp-gmusicuser ]] && echo "   Enable Google Music ..." && setUpnp gmusic
-	[[ -e $dirsystem/upnp-qobuzuser ]] && echo "   Enable Qobuz ..." && setUpnp qobuz
-	[[ -e $dirsystem/upnp-tidaluser ]] && echo "   Enable Tidal ..." && setUpnp tidal
-	[[ -e $dirsystem/upnp-spotifyluser ]] && echo "   Enable Spotify ..." && setUpnp spotify
+	[[ -e $dirsystem/upnp-gmusicuser ]] && setUpnp gmusic
+	[[ -e $dirsystem/upnp-qobuzuser ]] && setUpnp qobuz
+	[[ -e $dirsystem/upnp-tidaluser ]] && setUpnp tidal
+	[[ -e $dirsystem/upnp-spotifyluser ]] && setUpnp spotify
 	if [[ -e $dirsystem/upnp-ownqueue ]]; then
 		sed -i '/^ownqueue/ d' /etc/upmpdcli.conf
 	else
