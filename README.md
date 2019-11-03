@@ -117,11 +117,10 @@ nmap -sP ${routerip%.*}.*
 # connect
 read -r -p "Raspberry Pi IP: " rpiip; echo
 
-# remove existing key if any
+# remove existing key if any and connect
 ssh-keygen -R $rpiip &> /dev/null
-
-# connect - confirm: yes > password: alarm
 ssh alarm@$rpiip
+# confirm: yes > password: alarm
 ```
 
 ### Create RuneAudio+Re
@@ -140,7 +139,8 @@ ssh alarm@$rpiip
 	- upmpdcli - UPnP
 ```sh
 # switch user to root
-su -  # password: root
+su -
+# password: root
 
 # build script
 create-rune.sh
@@ -150,6 +150,7 @@ create-rune.sh
 mpd --no-config &> /dev/null
 upmpdcli
 # ctrl+c when reach 'writing RSA key'
+
 killall mpd upmpdcli
 ```
 
