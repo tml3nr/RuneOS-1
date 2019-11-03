@@ -30,7 +30,7 @@ $( '#hostname' ).click( function() {
 				service += ' hostapd';
 			}
 			if ( $( '#airplay' ).length ) {
-				cmd.push( 'sed -i "s/name =.*/name = \"'+ hostname +'\"/" /etc/shairport-sync.conf' );
+				cmd.push( 'sed -i "s/name =.*/name = \\"'+ hostname +'\\"/" /etc/shairport-sync.conf' );
 				service += ' shairport-sync shairport-meta';
 			}
 			if ( $( '#samba' ).length ) {
