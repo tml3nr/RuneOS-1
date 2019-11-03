@@ -252,7 +252,6 @@ for dir in addons bookmarks coverarts display gpio lyrics mpd playlists sampling
 done
 # addons
 echo $addoversion > /srv/http/data/addons/rare
-echo $version > $dirsystem/version
 # display
 playback="bars buttons cover time volume"
 library="album artist albumartist composer coverart genre nas sd usb webradio"
@@ -269,6 +268,7 @@ echo 1 | tee $dirsystem/{localbrowser,onboard-audio,onboard-wlan} > /dev/null
 echo RuneAudio | tee $dirsystem/{hostname,soundprofile} > /dev/null
 echo 0 0 0 > $dirsystem/mpddb
 echo '$2a$12$rNJSBU0FOJM/jP98tA.J7uzFWAnpbXFYx5q1pmNhPnXnUu3L1Zz6W' > $dirsystem/password
+echo $version > $dirsystem/version
 
 # mpd - music directories
 mkdir -p /mnt/MPD/{NAS,SD,USB}
