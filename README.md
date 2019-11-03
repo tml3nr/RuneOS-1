@@ -5,7 +5,7 @@ RuneOS
 - With options to exclude features, it can be as light as possible in terms of build time and disk space.
 
 **Procedure**
-- Create Arch Linux Arm system
+- Create Arch Linux Arm
 	- Prepare partitions
 	- Verify partitions
 	- Optional - pre-configure Wi-Fi connection
@@ -15,7 +15,7 @@ RuneOS
 	- Start Arch Linux Arm
 	- Get IP address
 	- Connect
-- Create RuneAudio+Re system
+- Create RuneAudio+Re
 	- Verify partitions
 	- Optional - select features
 	- Upgrade kernel and default packages
