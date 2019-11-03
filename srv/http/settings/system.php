@@ -27,7 +27,7 @@ $selecttimezone.= '</select>';
 include '/srv/http/settings/system-i2smodules.php';
 $optioni2smodule = '';
 foreach( $i2slist as $name => $sysname ) {
-	$selected = ( $name === $data->audiooutput && $sysname === $data->i2ssysname ) ? ' selected' : '';
+	$selected = ( $name === $data->audiooutput || $sysname === $data->i2ssysname ) ? ' selected' : '';
 	$optioni2smodule.= "<option value=\"$sysname\"$selected>$name</option>";
 }
 if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
