@@ -18,15 +18,15 @@ echo -e "\n\e[m36Features ...\e[m\n"
 selectFeatures() {
 	read -ren 1 -p $'Install \e[36mall packages\e[m [y/n]: ' ans; echo
 	if [[ $ans == y || $ans == Y ]]; then
+		echo -e "Install \e[36mall packages\e[m\n"
+		read -ren 1 -p $'Confirm and continue? [y/n]: ' ans; echo
+		[[ $ans != y && $ans != Y ]] && selectFeature
+
 		packages+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
 		# RPi 0W, 3, 4
 		[[ $wireless ]] && packages+='bluez bluez-utils '
 		# RPi 2, 3, 4
 		echo 04 08 0d 0e 11 | grep -q $hwcode && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
-
-		echo -e "Install \e[36mall packages\e[m\n"
-		read -ren 1 -p $'Confirm and continue? [y/n]: ' ans; echo
-		[[ $ans != y && $ans != Y ]] && selectFeature
 	else
 		list=
 
