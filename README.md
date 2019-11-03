@@ -78,7 +78,7 @@ su -
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-alarm.sh
 chmod +x create-alarm.sh
 ./create-alarm.sh
-# if download is too slow, ctrl+c > rm Arch* > ./create-alarm.sh
+# if download is too slow, ctrl+c and run ./create-alarm.sh again
 
 # remove script
 rm create-alarm.sh
