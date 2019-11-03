@@ -8,7 +8,7 @@ RuneOS
 - Create Arch Linux Arm
 	- Prepare partitions
 	- Verify partitions
-	- Optional - pre-configure Wi-Fi connection
+	- Optional - pre-configure Wi-Fi connection (headless mode)
 	- Download
 	- Write `ROOT` and `BOOT` partitions
 - Connect PC to Raspberry Pi
