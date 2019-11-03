@@ -55,7 +55,7 @@ if [[ -e $dirsystem/hostname ]]; then
 	hostname $namelc
 	echo $namelc > /etc/hostname
 	sed -i "s/^\(ssid=\).*/\1$name/" /etc/hostapd/hostapd.conf &> /dev/null
-	sed -i 's/\(zeroconf_name           "\).*/\1$name"/' /etc/mpd.conf
+	sed -i "s/\(zeroconf_name           \"\).*/\1$name\"/" /etc/mpd.conf
 	sed -i "s/\(netbios name = \).*/\1$name/" /etc/samba/smb.conf &> /dev/null
 	sed -i "s/^\(name = \).*/\1$name" /etc/shairport-sync.conf &> /dev/null
 	sed -i "s/^\(friendlyname = \).*/\1$name/" /etc/upmpdcli.conf &> /dev/null
