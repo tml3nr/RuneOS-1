@@ -251,7 +251,7 @@ for dir in addons bookmarks coverarts display gpio lyrics mpd playlists sampling
 	mkdir "$dirdata/$dir"
 done
 # addons
-echo $addoversion > /srv/http/data/addons/rr$version
+echo $addoversion > /srv/http/data/addons/rare
 echo $version > $dirsystem/version
 # display
 playback="bars buttons cover time volume"
