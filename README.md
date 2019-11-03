@@ -51,11 +51,11 @@ RuneOS
 | #2  | (the rest)  | primary | ext4   | ROOT  |
 	
 **Optional: Micro SD card + USB drive**
-- Insert Micro SD card
+- Micro SD card
 	- Delete all partitions (Caution: make sure it's the SD card)
 	- Format: `fat32`
 	- Label: `BOOT`
-- Plug in USB drive
+- USB drive
 	- Blank drive:
 		- Delete all partitions (Caution: make sure it's the USB drive)
 		- Format: `ext4`
