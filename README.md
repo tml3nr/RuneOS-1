@@ -7,12 +7,17 @@ RuneOS
 **Procedure**
 - Create Arch Linux Arm system
 	- Prepare partitions
+	- Verify partitions
+	- Optional - pre-configure Wi-Fi connection
 	- Download
 	- Write `ROOT` and `BOOT` partitions
-	- Optional - pre-configure Wi-Fi connection
+- Connect PC to Raspberry Pi
 	- Start Arch Linux Arm
-	- Connect PC to RPi
+	- Get IP address
+	- Connect
 - Create RuneAudio+Re system
+	- Verify partitions
+	- Optional - select features
 	- Upgrade kernel and default packages
 	- Install packages and web interface
 	- Configure
@@ -84,12 +89,14 @@ nmap -sP ${routerip%.*}.*
 ```
 - If unattended, scroll up to verify there's no errors.
 
+### Connect PC to Raspberry Pi
+
 **Start Arch Linux Arm**
 - Move micro SD card (and optional USB drive) to RPi
 - Power on
 - Wait 30 seconds
 
-**Connect PC to RPi**
+**Get IP adddress**
 ```sh
 # scan IP list again and find Raspberry Pi or compare with previous for a new item
 nmap -sP ${routerip%.*}.*
@@ -103,7 +110,10 @@ nmap -sP ${routerip%.*}.*
 #     - Power on RPi
 #     - Scan again
 #     - If still not found, start over again
+```
 
+**Connect
+```sh
 # connect
 read -r -p "Raspberry Pi IP: " rpiip; echo
 
