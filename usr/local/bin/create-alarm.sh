@@ -3,11 +3,6 @@
 [[ ! -e /usr/bin/bsdtar ]] && apt install -y bsdtar
 [[ ! -e /usr/bin/nmap ]] && apt install -y nmap
 
-trap ctrl_c INT
-ctrl_c() {
-    rm -f ArchLinuxArm*
-    exit
-}
 cols=$( tput cols )
 hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
 verifypath() {
@@ -112,7 +107,7 @@ read -ren 1 -p $'\nAuto-connect Wi-Fi on boot? [y/n]: ' ans; echo
 # -----------------------------------------------------------------------
 echo -e "\n\e[36mDownloading ...\e[m\n"
 
-wget -qN --show-progress http://os.archlinuxarm.org/os/$file
+wget -qN --show-progress http://os.archlinuxarm.org/os/$file -O $file
 [[ $? != 0 ]] && echo -e "\nDownload failed." && exit
 
 #---------------------------------------------------------------------------------
