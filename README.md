@@ -144,7 +144,7 @@ su -  # password: root
 
 # build script
 create-rune.sh
-# if download is too slow or errors occured, ctrl+c > create-rune.sh again
+# if download is too slow or errors occured, ctrl+c and run create-rune.sh again
 
 # ▼ skip if NOT install UPnP ▼ fix - init RSA key
 mpd --no-config &> /dev/null
