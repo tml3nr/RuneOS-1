@@ -16,7 +16,7 @@ echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
 
 trap ctrl_c INT
 ctrl_c() {
-    rm /var/lib/pacman/db.lck
+    rm -f /var/lib/pacman/db.lck
     exit
 }
 cols=$( tput cols )
