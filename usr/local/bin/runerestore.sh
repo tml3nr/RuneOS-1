@@ -13,7 +13,7 @@ dirsystem=$dirdata/system
 
 # addons
 rm /srv/http/data/addons/*
-echo $( grep -A 2 rre2 /srv/http/addons-list.php | tail -1 | cut -d"'" -f4 ) > /srv/http/data/addons/rre2
+echo $( grep -A 2 rare /srv/http/addons-list.php | tail -1 | cut -d"'" -f4 ) > /srv/http/data/addons/rare
 
 # accesspoint
 if [[ -e $dirsystem/accesspoint && -e /etc/hostapd/hostapd.conf && -e $dirsystem/accesspoint-passphrase ]]; then
