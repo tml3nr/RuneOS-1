@@ -190,7 +190,7 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 				local = 1;
 				$.post( 'commands.php', { bash: [
 					  'netctl stop "'+ ssid +'"'
-					, 'netctl disable "'+ ssid +'"'
+					, 'systemctl disable netctl-auto@wlan'
 					, pstream( 'network' )
 					] }, function() {
 						wlconnected = '';
