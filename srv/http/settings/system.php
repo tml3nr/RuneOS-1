@@ -36,6 +36,7 @@ if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 	<heading>System Status</heading>
 		<div class="col-l text gr">
 			RuneAudio<br>
+			IP address<br>
 			Kernel<br>
 			Hardware<br>
 			Time<br>
@@ -44,6 +45,7 @@ if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 		</div>
 		<div class="col-r text">
 			<i class="fa fa-addons gr"></i> <?=$data->version?><br>
+			<?=$data->ip?><br>
 			<?=$data->kernel?><br>
 			<?=$data->hardware?><br>
 			<?=$data->date?><gr>&emsp;@ </gr><?=$zonestring?><br>
