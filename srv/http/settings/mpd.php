@@ -6,7 +6,7 @@ $autoplay = file_exists( '/srv/http/data/system/autoplay' ) ? 'checked' : '';
 $hardwarecode = exec( 'cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2' );
 
 exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
-$outputs = array_diff( $outputs, [ 'bcm2835 ALSA_3' ] ); // remove 2nd hdmi
+if ( $hardwarecode != 11 ) $outputs = array_diff( $outputs, [ 'bcm2835 ALSA_3' ] ); // remove 2nd hdmi
 $htmlacards = '';
 foreach( $outputs as $output ) {
 	$index = exec( $sudo.'/aplay -l | grep "'.preg_replace( '/_.$/', '', $output ).'" | cut -c6' );
