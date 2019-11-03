@@ -161,7 +161,7 @@ fi
 wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-rune.sh -P $ROOT/usr/local/bin
 chmod +x $ROOT/usr/local/bin/create-rune.sh
 
-umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted.\nMove to Raspberry Pi."
+umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted."
 
-echo -e "\n\e[36mDone\e[m"
+echo -e "\n\e[36mArch Linux Arm created successfully.\e[m"
 hr
