@@ -26,6 +26,8 @@ fi
 if [[ -e $dirsystem/airplay && -e /etc/shairport-sync.conf ]]; then
 	echo -e "$bar Enable AirPlay ..."
 	systemctl enable shairport-sync
+else
+	systemctl disable shairport-sync
 fi
 # color
 if [[ -e $dirdisplay/color ]]; then
@@ -36,6 +38,7 @@ fi
 # fstab
 if ls $dirsystem/fstab-* &> /dev/null; then
 	echo -e "$bar Restore NAS mounts ..."
+	sed -i '\|/mnt/MPD/NAS| d' /etc/fstab
 	files=( /srv/http/data/system/fstab-* )
 	for file in "${files[@]}"; do
 		cat $file >> /etc/fstab
@@ -71,13 +74,14 @@ if [[ -e $dirsystem/localbrowser && -e /usr/bin/chromium ]]; then
 	fi
 	systemctl enable localbrowser
 else
-	echo -e "$bar Disable browser on RPi ..."
 	systemctl disable localbrowser
 fi
 # login
 if [[ -e $dirsystem/login ]]; then
 	echo -e "$bar Enable login ..."
-	sed -i 's/\(bind_to_address\).*/\1         "localhost"/' /etc/mpd.conf
+	sed -i 's/\(bind_to_address\).*/\1         "127.0.0.1"/' /etc/mpd.conf
+else
+	sed -i 's/\(bind_to_address\).*/\1         "0.0.0.0"/' /etc/mpd.conf
 fi
 # mpd.conf
 if [[ -e $dirsystem/mpd-* ]]; then
@@ -92,14 +96,17 @@ fi
 # netctl profiles
 if ls $dirsystem/netctl-* &> /dev/null; then
 	echo -e "$bar Restore Wi-Fi connections ..."
+	rm /etc/netctl/*
 	files=( /srv/http/data/system/netctl-* )
-	for file in "${files[@]}"; do
-		profile=${file/netctl-}
-		cp "$file" "/etc/netctl/$profile"
-	done
-	(( ${#files[@]} > 1 )) && echo -e "$info There are more than 1 profiles."
-	echo "   Set $profile as current connection ..."
-	netctl enable "$profile"
+	if [[ -n $files ]]; then
+		for file in "${files[@]}"; do
+			profile=${file/netctl-}
+			cp "$file" "/etc/netctl/$profile"
+		done
+		systemctl enable netctl-auto@wlan0
+	else
+		systemctl disable netctl-auto@wlan0
+	fi
 fi
 # ntp
 if [[ -e $dirsystem/ntp ]]; then
@@ -110,22 +117,30 @@ fi
 if [[ ! -e $dirsystem/onboard-audio ]]; then
 	echo -e "$bar Disable onboard audio ..."
 	sed -i 's/\(dtparam=audio=\).*/\1off/' /boot/config.txt
+else
+	sed -i 's/\(dtparam=audio=\).*/\1on/' /boot/config.txt
 fi
 if [[ -e $dirsystem/onboard-bluetooth ]]; then
 	echo -e "$bar Enable onboard Bluetooth ..."
 	sed -i '/^#dtoverlay=pi3-disable-bt/ s/^#//' /boot/config.txt
+else
+	sed -i '/^dtoverlay=pi3-disable-bt/ s/^/#/' /boot/config.txt
 fi
 if [[ ! -e $dirsystem/onboard-wlan ]]; then
 	echo -e "$bar Disable onboard Wi-Fi ..."
 	sed -i '/^dtoverlay=pi3-disable-wifi/ s/^/#/' /boot/config.txt
-	systemctl disable netctl-auto@wlan0
+else
+	sed -i '/^#dtoverlay=pi3-disable-wifi/ s/^#//' /boot/config.txt
 fi
 # samba
 if [[ -e $dirsystem/samba && -e /etc/samba ]]; then
 	echo -e "$bar Enable file sharing ..."
+	sed -i '/read only = no/ d' /etc/samba/smb.conf
 	[[ -e $dirsystem/samba-writesd ]] && sed -i '/path = .*USB/ a\tread only = no' /etc/samba/smb.conf
 	[[ -e $dirsystem/samba-writeusb ]] && sed -i '/path = .*LocalStorage/ a\tread only = no' /etc/samba/smb.conf
 	systemctl enable nmb smb
+else
+	systemctl disable nmb smb
 fi
 # timezone
 if [[ -e $dirsystem/timezone ]]; then
@@ -134,7 +149,7 @@ if [[ -e $dirsystem/timezone ]]; then
 fi
 # upnp
 if [[ -e $dirsystem/upnp && /etc/upmpdcli.conf ]]; then
-	echo -e "$bar Enable and restore UPnP settings ..."
+	echo -e "$bar Restore UPnP settings ..."
 	setUpnp() {
 		user=( $( cat $dirsystem/upnp-$1user ) )
 		pass=( $( cat $dirsystem/upnp-$1pass ) )
@@ -156,6 +171,8 @@ if [[ -e $dirsystem/upnp && /etc/upmpdcli.conf ]]; then
 		sed -i '/^#ownqueue = / a\ownqueue = 0' /etc/upmpdcli.conf
 	fi
 	systemctl enable upmpdcli
+else
+	systemctl disable upmpdcli
 fi
 
 # set permissions and ownership
