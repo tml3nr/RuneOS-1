@@ -97,7 +97,7 @@ nmap -sP ${routerip%.*}.*
 - Move micro SD card (and optional USB drive) to RPi
 - Power on to start Arch Linux Arm
 - Wait 30 seconds
-- Get IP adddress
+- Get IP adddress (if not pre-assign for RPi)
 ```sh
 # scan IP list again and find Raspberry Pi or compare with previous for a new item
 nmap -sP ${routerip%.*}.*
