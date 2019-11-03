@@ -78,7 +78,7 @@ chmod +x create-alarm.sh
 # remove script
 rm create-alarm.sh
 
-# scan IP list for reference
+# if not pre-assign ip for RPi, scan IP list for reference
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap -sP ${routerip%.*}.*
 ```
