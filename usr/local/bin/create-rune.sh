@@ -136,26 +136,15 @@ fi
 chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 
-# remove config of excluded packages
-[[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
-if [[ ! -e /usr/bin/chromium ]]; then
-    rm /etc/systemd/system/{bootsplash,localbrowser}* /etc/X11/xinit/xinitrc /srv/http/assets/img/{CW,CWW,NORMAL,UD}* /root/*matchbox* /usr/local/bin/ply-image
-fi
-[[ ! -e /usr/bin/bluetoothctl ]] && rm -r /etc/systemd/system/bluetooth.service.d /root/blue*
-[[ ! -e /usr/bin/hostapd ]] && rm -r /etc/{hostapd,dnsmasq.conf}
 [[ $kid3 == n || $kid3 == N ]] && rm /root/kid3*
-[[ ! -e /usr/bin/smbd ]] && rm -r /etc/samba
-[[ ! -e /usr/bin/shairport-sync ]] && rm /etc/systemd/system/shairport*
 [[ $upnp == n || $upnp == N ]] && rm /etc/upmpdcli.conf /root/{libupnpp*,upmpdcli*}
 
-pacman -U --noconfirm *.xz
-
+pacman -U /root/*.xz
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mConfigure ...\e[m\n"
 
-# remove cache and custom package files
-rm /var/cache/pacman/pkg/* /root/{*.xz,*.zip} /usr/local/bin/create-*
-rm -r /root/armv6h
+# RPi 0 - fix kernel panic
+[[ $hwcode == 09 || $hwcode == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
 
 # RPi 4
 if [[ $hwcode == 11 ]]; then
@@ -163,8 +152,16 @@ if [[ $hwcode == 11 ]]; then
 	mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
 fi
 
-# RPi 0 - fix kernel panic
-[[ $hwcode == 09 || $hwcode == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
+# remove config of excluded features
+[[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
+[[ ! -e /usr/bin/bluetoothctl ]] && rm -r /etc/systemd/system/bluetooth.service.d /root/blue*
+[[ ! -e /usr/bin/hostapd ]] && rm -r /etc/{hostapd,dnsmasq.conf}
+[[ ! -e /usr/bin/smbd ]] && rm -r /etc/samba
+[[ ! -e /usr/bin/shairport-sync ]] && rm /etc/systemd/system/shairport*
+
+# remove cache and custom package files
+rm /var/cache/pacman/pkg/* /root/{*.xz,*.zip} /usr/local/bin/create-*
+rm -r /root/armv6h
 
 # alsa
 chmod -R 666 /var/lib/alsa  # fix permission
@@ -188,6 +185,8 @@ if [[ -e /usr/bin/chromium ]]; then
     
     # login prompt - remove
     systemctl disable getty@tty1
+else
+    rm /etc/systemd/system/{bootsplash,localbrowser}* /etc/X11/xinit/xinitrc /srv/http/assets/img/{CW,CWW,NORMAL,UD}* /root/*matchbox* /usr/local/bin/ply-image
 fi
 
 # cron - for addons updates
