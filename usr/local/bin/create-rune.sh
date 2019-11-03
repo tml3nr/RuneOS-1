@@ -25,43 +25,43 @@ hr
 echo -e "\n\e[36mFeatures ...\e[m\n"
 
 selectFeatures() {
-	read -ren 1 -p $'Install \e[36mall packages\e[m [y/n]: ' ans; echo
+	read -ren 1 -p $'Install \e[36mall features\e[m [y/n]: ' ans; echo
 	if [[ $ans == y || $ans == Y ]]; then
-		echo -e "Install \e[36mall packages\e[m\n"
+		echo -e "Install \e[36mall features\e[m\n"
 		read -ren 1 -p $'Confirm and continue? [y/n]: ' ans; echo
 		[[ $ans != y && $ans != Y ]] && selectFeature
 
-		packages+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
+		features+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
 		# RPi 0W, 3, 4
-		[[ $wireless ]] && packages+='bluez bluez-utils '
+		[[ $wireless ]] && features+='bluez bluez-utils '
 		# RPi 2, 3, 4
-		echo 04 08 0d 0e 11 | grep -q $hwcode && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
+		echo 04 08 0d 0e 11 | grep -q $hwcode && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
 	else
 		list=
 
 		pkg="\e[36mAvahi\e[m - Connect by: runeaudio.local"
 		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
-		[[ $ans == y || $ans == Y ]] && packages+='avahi ' && list+="$pkg\n"
+		[[ $ans == y || $ans == Y ]] && features+='avahi ' && list+="$pkg\n"
 
 		if [[ $wireless ]]; then
 			pkg="\e[36mBluez\e[m - Bluetooth supports"
 			read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " blue; echo
-			[[ $blue == y || $blue == Y ]] && packages+='bluez bluez-utils ' && list+="$pkg\n"
+			[[ $blue == y || $blue == Y ]] && features+='bluez bluez-utils ' && list+="$pkg\n"
 		fi
 
 		if echo 04 08 0d 0e 11 | grep -q $hwcode; then
 			pkg="\e[36mChromium\e[m - Browser on RPi"
 			read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
-			[[ $ans == y || $ans == Y ]] && packages+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$pkg\n"
+			[[ $ans == y || $ans == Y ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$pkg\n"
 		fi
 
 		pkg="\e[36mFFmpeg\e[m - Extended decoder"
 		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
-		[[ $ans == y || $ans == Y ]] && packages+='ffmpeg ' && list+="$pkg\n"
+		[[ $ans == y || $ans == Y ]] && features+='ffmpeg ' && list+="$pkg\n"
 
 		pkg="\e[36mhostapd\e[m - RPi access point"
 		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
-		[[ $ans == y || $ans == Y ]] && packages+='dnsmasq hostapd ' && list+="$pkg\n"
+		[[ $ans == y || $ans == Y ]] && features+='dnsmasq hostapd ' && list+="$pkg\n"
 
 		pkg="\e[36mKid3\e[m - Metadata tag editor"
 		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " kid3; echo
@@ -69,15 +69,15 @@ selectFeatures() {
 
 		pkg="\e[36mPython\e[m - Programming language"
 		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " pyth; echo
-		[[ $pyth == y || $pyth == Y ]] && packages+='python python-pip ' && list+="$pkg\n"
+		[[ $pyth == y || $pyth == Y ]] && features+='python python-pip ' && list+="$pkg\n"
 
 		pkg="\e[36mSamba\e[m - File sharing"
 		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
-		[[ $ans == y || $ans == Y ]] && packages+='samba ' && list+="$pkg\n"
+		[[ $ans == y || $ans == Y ]] && features+='samba ' && list+="$pkg\n"
 
 		pkg="\e[36mShairport-sync\e[m - AirPlay"
 		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
-		[[ $ans == y || $ans == Y ]] && packages+='shairport-sync ' && list+="$pkg\n"
+		[[ $ans == y || $ans == Y ]] && features+='shairport-sync ' && list+="$pkg\n"
 
 		pkg="\e[36mupmpdcli\e[m - UPnP"
 		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " upnp; echo
@@ -91,6 +91,7 @@ selectFeatures() {
 	fi
 }
 selectFeatures
+
 #-------------------------------------------------------------------
 echo -e "\n\n\e[36mInitialize PGP key ...\e[m\n"
 
@@ -112,7 +113,7 @@ packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils
 #-----------------------------------------------------------------------------
 echo -e "\n\e[36mInstall packages ...\e[m\n"
 
-pacman -S --noconfirm --needed $packages
+pacman -S --noconfirm --needed $packages $features
 [[ $pyt == y || $pyt == Y ]] && yes | pip --no-cache-dir install RPi.GPIO
 
 echo -e "\n\e[36mInstall custom packages and web interface ...\e[m\n"
@@ -120,13 +121,16 @@ echo -e "\n\e[36mInstall custom packages and web interface ...\e[m\n"
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
 
-# no onboard wireless
-[[ ! $wireless ]] && rm /root/bluealsa* /root/armv6h/bluealsa* /boot/overlays/bcmbt.dtbo
-
-# RPi 0, 1
+# RPi 0, 1 - packages for armv6h
 if echo 00 01 02 03 09 0c | grep -q $hwcode; then
     rm /root/*.xz
     mv /root/armv6h/* /root
+fi
+
+# RPi 0, 1, 2 - no onboard wireless
+if [[ ! $wireless ]]; then
+	rm /root/bluealsa* /root/armv6h/bluealsa* /boot/overlays/bcmbt.dtbo
+	sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
 fi
 
 chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
@@ -135,9 +139,7 @@ chown -R http:http /srv/http
 # remove config of excluded packages
 [[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
 if [[ ! -e /usr/bin/chromium ]]; then
-    rm -f libmatchbox* matchbox*
-    rm /etc/systemd/system/localbrowser*
-    rm /etc/X11/xinit/xinitrc
+    rm /etc/systemd/system/{bootsplash,localbrowser}* /etc/X11/xinit/xinitrc /srv/http/assets/img/{CW,CWW,NORMAL,UD}* /root/*matchbox* /usr/local/bin/ply-image
 fi
 [[ ! -e /usr/bin/bluetoothctl ]] && rm -r /etc/systemd/system/bluetooth.service.d /root/blue*
 [[ ! -e /usr/bin/hostapd ]] && rm -r /etc/{hostapd,dnsmasq.conf}
@@ -160,9 +162,6 @@ if [[ $hwcode == 11 ]]; then
 	sed -i '/force_turbo=1/ d' /boot/config.txt
 	mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
 fi
-
-# RPi 2, 1, 0 - no onboard wireless
-[[ ! $wireless ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
 
 # RPi 0 - fix kernel panic
 [[ $hwcode == 09 || $hwcode == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
@@ -189,8 +188,6 @@ if [[ -e /usr/bin/chromium ]]; then
     
     # login prompt - remove
     systemctl disable getty@tty1
-else
-	rm /etc/systemd/system/{bootsplash,localbrowser}* /etc/X11/xinit/xinitrc /srv/http/assets/img/{CW,CWW,NORMAL,UD}* /usr/local/bin/ply-image
 fi
 
 # cron - for addons updates
