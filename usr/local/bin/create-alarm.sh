@@ -161,5 +161,5 @@ chmod +x $ROOT/usr/local/bin/create-rune.sh
 
 umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted."
 
-echo -e "\n\e[36mArch Linux Arm created successfully.\e[m"
+echo -e "\n\e[36mArch Linux Arm for Raspberry Pi $rpi created successfully.\e[m"
 hr
