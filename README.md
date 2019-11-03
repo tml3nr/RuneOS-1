@@ -112,7 +112,7 @@ nmap -sP ${routerip%.*}.*
 #     - If still not found, start over again
 ```
 
-**Connect
+**Connect**
 ```sh
 # connect
 read -r -p "Raspberry Pi IP: " rpiip; echo
