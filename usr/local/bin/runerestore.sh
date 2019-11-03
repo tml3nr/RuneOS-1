@@ -1,5 +1,7 @@
 #!/bin/bash
 
+version=e2
+
 cols=$( tput cols )
 hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
 
@@ -180,6 +182,8 @@ if [[ -e $dirsystem/upnp && /etc/upmpdcli.conf ]]; then
 else
 	systemctl disable upmpdcli
 fi
+# version
+echo $version > $dirsystem/version
 
 # set permissions and ownership
 chown -R http:http "$dirdata"
