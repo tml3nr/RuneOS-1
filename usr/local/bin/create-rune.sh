@@ -15,7 +15,7 @@ hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
 
 cols=$( tput cols )
-hr() { printf %"$cols"s | tr ' ' -; echo }
+hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
 
 hr
 echo -e "\n\e[36mCreate RuneAudio+Re ...\e[m\n"
