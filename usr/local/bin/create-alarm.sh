@@ -108,7 +108,7 @@ read -ren 1 -p $'\nAuto-connect Wi-Fi on boot? [y/n]: ' ans; echo
 echo -e "\n\e[36mDownloading ...\e[m\n"
 
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file -O $file
-[[ $? != 0 ]] && echo -e "\nDownload failed." && exit
+[[ $? != 0 ]] && echo -e "\nDownload failed!\n" && exit
 
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to ROOT ...\e[m"
