@@ -3,6 +3,11 @@
 [[ ! -e /usr/bin/bsdtar ]] && apt install -y bsdtar
 [[ ! -e /usr/bin/nmap ]] && apt install -y nmap
 
+trap ctrl_c INT
+ctrl_c() {
+    rm ArchLinuxArm*
+    exit
+}
 cols=$( tput cols )
 hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
 verifypath() {
