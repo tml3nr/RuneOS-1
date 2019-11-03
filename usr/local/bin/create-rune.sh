@@ -156,7 +156,7 @@ if [[ $hwcode == 11 ]]; then
 fi
 
 # RPi 4, 3, 2 - boot splash
-if echo 04 08 0d 0e 11 | grep -q $hwcode; then
+if echo 04 08 0d 0e 11 | grep -q $hwcode && [[ -e /usr/bin/chromium ]]; then
 	cmdline='root=/dev/mmcblk0p2 rw rootwait selinux=0 fsck.repair=yes smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 '
 	cmdline+='elevator=noop console=tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
 	echo $cmdline > /boot/cmdline.txt
