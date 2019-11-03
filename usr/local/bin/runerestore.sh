@@ -1,8 +1,11 @@
 #!/bin/bash
 
-. /srv/http/addons-functions.sh
+cols=$( tput cols )
+hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
 
-title -l '=' "$bar $( tcolor 'RuneAudio+R e' ) Restore database and settings ..."
+hr
+echo -e "\n\e[36mRestore database and settings ...\e[m\n"
+hr
 
 dirdata=/srv/http/data
 dirdisplay=$dirdata/display
@@ -10,7 +13,7 @@ dirsystem=$dirdata/system
 
 # accesspoint
 if [[ -e $dirsystem/accesspoint && -e /etc/hostapd/hostapd.conf && -e $dirsystem/accesspoint-passphrase ]]; then
-	echo -e "$bar Enable and restore RPi access point settings ..."
+	echo -e "\nEnable and restore \e[36mRPi access point\e[m settings ...\n"
 	passphrase=$( cat $dirsystem/accesspoint-passphrase )
 	ip=$( cat $dirsystem/accesspoint-ip )
 	iprange=$( cat $dirsystem/accesspoint-iprange )
@@ -24,7 +27,7 @@ if [[ -e $dirsystem/accesspoint && -e /etc/hostapd/hostapd.conf && -e $dirsystem
 fi
 # airplay
 if [[ -e $dirsystem/airplay && -e /etc/shairport-sync.conf ]]; then
-	echo -e "$bar Enable AirPlay ..."
+	echo -e "\nEnable \e[36mAirPlay\e[m ...\n"
 	systemctl enable shairport-sync
 else
 	systemctl disable shairport-sync
@@ -37,7 +40,7 @@ if [[ -e $dirdisplay/color ]]; then
 fi
 # fstab
 if ls $dirsystem/fstab-* &> /dev/null; then
-	echo -e "$bar Restore NAS mounts ..."
+	echo -e "\nRestore \e[36mNAS\e[m mounts ...\n"
 	sed -i '\|/mnt/MPD/NAS| d' /etc/fstab
 	files=( /srv/http/data/system/fstab-* )
 	for file in "${files[@]}"; do
@@ -46,7 +49,7 @@ if ls $dirsystem/fstab-* &> /dev/null; then
 fi
 # hostname
 if [[ -e $dirsystem/hostname ]]; then
-	echo -e "$bar Restore host name ..."
+	echo -e "\nRestore \e[36mHostname\e[m ...\n"
 	name=$( cat $dirsystem/hostname )
 	namelc=$( echo $name | tr '[:upper:]' '[:lower:]' )
 	hostname $namelc
@@ -61,7 +64,7 @@ if [[ -e $dirsystem/hostname ]]; then
 fi
 # localbrowser
 if [[ -e $dirsystem/localbrowser && -e /usr/bin/chromium ]]; then
-	echo -e "$bar Restore Browser on RPi settings ..."
+	echo -e "\nRestore \e[36mBrowser on RPi\e[m settings ...\n"
 	if [[ -e $dirsystem/localbrowser-cursor ]]; then
 		sed -i -e "s/\(-use_cursor \).*/\1$( cat $dirsystem/localbrowser-cursor ) \&/
 			 " -e "s/\(xset dpms 0 0 \).*/\1$( cat $dirsystem/localbrowser-screenoff ) \&/" /etc/X11/xinit/xinitrc
@@ -78,14 +81,14 @@ else
 fi
 # login
 if [[ -e $dirsystem/login ]]; then
-	echo -e "$bar Enable Login ..."
+	echo -e "\nEnable \e[36mLogin\e[m ...\n"
 	sed -i 's/\(bind_to_address\).*/\1         "127.0.0.1"/' /etc/mpd.conf
 else
 	sed -i 's/\(bind_to_address\).*/\1         "0.0.0.0"/' /etc/mpd.conf
 fi
 # mpd.conf
 if [[ -e $dirsystem/mpd-* ]]; then
-	echo -e "$bar Restore MPD options ..."
+	echo -e "\nRestore \e[36mMPD\e[m options ...\n"
 	[[ -e $dirsystem/mpd-autoupdate ]] && echo "   Enable auto update ..." && sed -i 's/\(auto_update\s*"\).*/\1yes"/' /etc/mpd.conf
 	[[ -e $dirsystem/mpd-buffer ]] && echo "   Set buffer ..." && sed -i "s/\(audio_buffer_size\s*\"\).*/\1$( cat $dirsystem/mpd-buffer )\"/" /etc/mpd.conf
 	[[ -e $dirsystem/mpd-ffmpeg ]] && echo "   Enable ffmpeg ..." && sed -i '/ffmpeg/ {n;s/\(enabled\s*"\).*/\1yes"/}' /etc/mpd.conf
@@ -95,7 +98,7 @@ if [[ -e $dirsystem/mpd-* ]]; then
 fi
 # netctl profiles
 if ls $dirsystem/netctl-* &> /dev/null; then
-	echo -e "$bar Restore Wi-Fi connections ..."
+	echo -e "\nRestore \e[36mWi-Fi\e[m connections ...\n"
 	rm /etc/netctl/*
 	files=( /srv/http/data/system/netctl-* )
 	if [[ -n $files ]]; then
@@ -110,31 +113,31 @@ if ls $dirsystem/netctl-* &> /dev/null; then
 fi
 # ntp
 if [[ -e $dirsystem/ntp ]]; then
-	echo -e "$bar Restore NTP servers ..."
+	echo -e "\nRestore \e[36mNTP\e[m servers ...\n"
 	sed -i "s/#*NTP=.*/NTP=$( cat $dirsystem/ntp )/" /etc/systemd/timesyncd.conf
 fi
 # onboard devices
 if [[ ! -e $dirsystem/onboard-audio ]]; then
-	echo -e "$bar Disable onboard audio ..."
+	echo -e "\nDisable \e[36mOnboard audio\e[m ...\n"
 	sed -i 's/\(dtparam=audio=\).*/\1off/' /boot/config.txt
 else
 	sed -i 's/\(dtparam=audio=\).*/\1on/' /boot/config.txt
 fi
 if [[ -e $dirsystem/onboard-bluetooth ]]; then
-	echo -e "$bar Enable onboard Bluetooth ..."
+	echo -e "\nEnable \e[36mOnboard Bluetooth\e[m ...\n"
 	sed -i '/^#dtoverlay=pi3-disable-bt/ s/^#//' /boot/config.txt
 else
 	sed -i '/^dtoverlay=pi3-disable-bt/ s/^/#/' /boot/config.txt
 fi
 if [[ ! -e $dirsystem/onboard-wlan ]]; then
-	echo -e "$bar Disable onboard Wi-Fi ..."
+	echo -e "\nDisable\e[36mOonboard Wi-Fi\e[m ...\n"
 	sed -i '/^dtoverlay=pi3-disable-wifi/ s/^/#/' /boot/config.txt
 else
 	sed -i '/^#dtoverlay=pi3-disable-wifi/ s/^#//' /boot/config.txt
 fi
 # samba
 if [[ -e $dirsystem/samba && -e /etc/samba ]]; then
-	echo -e "$bar Enable File sharing ..."
+	echo -e "\nEnable \e[36mFile sharing\e[m ...\n"
 	sed -i '/read only = no/ d' /etc/samba/smb.conf
 	[[ -e $dirsystem/samba-writesd ]] && sed -i '/path = .*USB/ a\tread only = no' /etc/samba/smb.conf
 	[[ -e $dirsystem/samba-writeusb ]] && sed -i '/path = .*LocalStorage/ a\tread only = no' /etc/samba/smb.conf
@@ -144,12 +147,12 @@ else
 fi
 # timezone
 if [[ -e $dirsystem/timezone ]]; then
-	echo -e "$bar Restore timezone ..."
+	echo -e "\nRestore \e[36mTimezone\e[m ...\n"
 	ln -sf /usr/share/zoneinfo/$( cat $dirsystem/timezone ) /etc/localtime
 fi
 # upnp
 if [[ -e $dirsystem/upnp && /etc/upmpdcli.conf ]]; then
-	echo -e "$bar Restore UPnP settings ..."
+	echo -e "\nRestore \e[36mUPnP\e[m settings ...\n"
 	setUpnp() {
 		user=( $( cat $dirsystem/upnp-$1user ) )
 		pass=( $( cat $dirsystem/upnp-$1pass ) )
@@ -167,7 +170,6 @@ if [[ -e $dirsystem/upnp && /etc/upmpdcli.conf ]]; then
 	if [[ -e $dirsystem/upnp-ownqueue ]]; then
 		sed -i '/^ownqueue/ d' /etc/upmpdcli.conf
 	else
-		echo -e "   Disable UPnP clear playlist ..."
 		sed -i '/^#ownqueue = / a\ownqueue = 0' /etc/upmpdcli.conf
 	fi
 	systemctl enable upmpdcli
@@ -179,4 +181,5 @@ fi
 chown -R http:http "$dirdata"
 chown -R mpd:audio "$dirdata/mpd"
 
-echo -e "\n$bar Database and settings restored successfully.\n"
+echo -e "\n\e[36mDatabase and settings restored successfully.\e[m\n"
+hr
