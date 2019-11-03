@@ -136,12 +136,14 @@ if [[ $ssid ]]; then
 	echo -e "\n\e[36mSetup Wi-Fi ...\e[m"
 	# profile
 	profile="Interface=wlan0
-	Connection=wireless
-	IP=dhcp
-	ESSID=\"$ssid\""
-	[[ -n $wpa ]] && profile+="Security=$wpa
-	Key=$password"
-	echo $profile > "$ROOT/etc/netctl/$ssid"
+Connection=wireless
+IP=dhcp
+ESSID=\"$ssid\""
+	[[ -n $wpa ]] && profile+="
+Security=$wpa
+Key=$password
+"
+	echo "$profile" > "$ROOT/etc/netctl/$ssid"
 
 	# enable startup
 	pwd=$PWD
