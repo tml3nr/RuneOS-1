@@ -80,7 +80,7 @@ rm create-alarm.sh
 
 # scan IP list for reference
 routerip=$( ip route get 1 | cut -d' ' -f3 )
-scan1=$( nmap -sP ${routerip%.*}.* )
+nmap -sP ${routerip%.*}.*
 ```
 
 **Start Arch Linux Arm**
@@ -90,11 +90,8 @@ scan1=$( nmap -sP ${routerip%.*}.* )
 
 **Connect PC to RPi**
 ```sh
-# scan IP list again
-scan2=$( nmap -sP ${routerip%.*}.* )
-
-# diff to get new one => RPi
-diff <( echo "$scan1" ) <( echo "$scan2" )
+# scan IP list again and find Raspberry Pi or compare with previous for a new item
+nmap -sP ${routerip%.*}.*
 
 # If RPi not show up:
 #  - RPi 4 may listed as unknown
