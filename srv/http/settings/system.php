@@ -177,7 +177,8 @@ if ( $data->accesspoint ) echo '<input id="accesspoint" type="hidden">';
 		<div class="col-r">
 			<input id="avahi" type="checkbox"<?=$data->avahi?>>
 			<div class="switchlabel" for="avahi"></div>
-			<span class="help-block hide"><wh>Avahi</wh> - Connect URL by name(e.g., runeaudio.local) from remote browsers.</span>
+			<span class="help-block hide"><wh>Avahi</wh> - Connect URL by name(e.g., runeaudio.local) from remote browsers.
+				<br>Should be disabled if not used.</span>
 		</div>
 <?php } ?>
 	<div style="clear: both"></div>
