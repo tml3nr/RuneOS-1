@@ -4,9 +4,7 @@
 [[ ! -e /usr/bin/nmap ]] && apt install -y nmap
 
 cols=$( tput cols )
-hr() {
-	printf %"$cols"s | tr ' ' -; echo
-}
+hr() { printf %"$cols"s | tr ' ' -; echo }
 verifypath() {
 	mountpoint=$( df | grep $1 | awk '{print $NF}' )
 	if [[ -n $mountpoint ]]; then
