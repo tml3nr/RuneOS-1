@@ -161,7 +161,7 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 	
 } else if ( isset( $_POST[ 'coversave' ] ) ) {
 	$base64 = explode( ',', $_POST[ 'base64' ] )[ 1 ];
-	exec( 'echo '.base64_decode( $base64 )." | $sudo/tee $tmpfile ".'"'.$_POST[ 'coversave' ].'"' );
+	exec( 'echo '.base64_decode( $base64 ).' | $sudo/tee "'.$_POST[ 'coversave' ].'"' );
 	
 } else if ( isset( $_POST[ 'getbookmarks' ] ) ) {
 	$data = getBookmark();
