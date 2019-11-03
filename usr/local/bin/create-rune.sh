@@ -149,7 +149,7 @@ fi
 pacman -U --noconfirm *.xz
 
 #---------------------------------------------------------------------------------
-echo -e "\n\e[36[mConfigure ...\e[m\n"
+echo -e "\n\e[36mConfigure ...\e[m\n"
 
 # remove cache and custom package files
 rm /var/cache/pacman/pkg/* /root/{*.xz,*.zip} /usr/local/bin/create-*
