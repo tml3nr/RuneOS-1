@@ -17,7 +17,7 @@ verifypath() {
 	fi
 	read -rn 1 -p "Confirm and continue? [y/n]: " ans; echo
 	[[ $ans != y && $ans != Y ]] && exit
-	[[ -n $( ls $mountpoint | grep -v lost+found ) ]] && echo $mountpoint not empty. && exit
+	[[ -n $( ls $mountpoint | grep -v 'lost+found\|System Volume Information' ) ]] && echo $mountpoint not empty. && exit
 }
 selectMode() {
 	echo -e "\nRun ROOT partition on:"
