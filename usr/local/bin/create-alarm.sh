@@ -108,13 +108,16 @@ read -ren 1 -p $'\nAuto-connect Wi-Fi on boot? [y/n]: ' ans; echo
 echo -e "\n\e[36mDownloading ...\e[m\n"
 
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file -O $file
-[[ $? != 0 ]] && echo -e "\nDownload failed!\n" && exit
+wget -qN --show-progress http://os.archlinuxarm.org/os/$file.md5 -O $file.md5
+
+# verify
+[[ $? != 0 || ! md5sum -c $file.md5 ]] && echo -e "\nDownload incomplete!\n" && exit
 
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to ROOT ...\e[m"
 
 bsdtar xpvf $file -C $ROOT
-rm $file
+rm $file $file.md5
 
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mMove /boot to BOOT ...\e[m"
