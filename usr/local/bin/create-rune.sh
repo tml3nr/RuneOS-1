@@ -10,14 +10,12 @@ version=e2
 # RPi 3 - 08
 # RPi 3+ - 0d, 0e
 # RPi 4 - 11
+
+trap 'rm -f /var/lib/pacman/db.lck' EXIT
+
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
 
-trap ctrl_c INT
-ctrl_c() {
-	rm -f /var/lib/pacman/db.lck
-	exit
-}
 cols=$( tput cols )
 hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
 
