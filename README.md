@@ -83,9 +83,6 @@ chmod +x create-alarm.sh
 # if download is too slow, ctrl+c and run ./create-alarm.sh again
 # note: RPi 3 filename: ArchLinuxARM-rpi-2-latest.tar.gz
 
-# remove script
-rm create-alarm.sh
-
 # if not pre-assign ip for RPi, scan IP list for reference
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap -sP ${routerip%.*}.*
