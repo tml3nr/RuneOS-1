@@ -111,7 +111,7 @@ wget -qN --show-progress http://os.archlinuxarm.org/os/$file -O $file
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file.md5 -O $file.md5
 
 # verify
-echo Verifying downloaded file ..."
+echo "Verify downloaded file ..."
 ! md5sum -c $file.md5 && echo -e "\nDownload incomplete!\n" && exit
 
 #---------------------------------------------------------------------------------
