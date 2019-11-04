@@ -74,7 +74,7 @@ RuneOS
 - Download and write `BOOT` and `ROOT`
 ```sh
 # switch user to root
-su -
+su
 
 # get script
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-alarm.sh
@@ -133,7 +133,7 @@ ssh alarm@$rpiip
 	- upmpdcli - UPnP
 ```sh
 # switch user to root
-su -
+su
 # password: root
 
 # build script
