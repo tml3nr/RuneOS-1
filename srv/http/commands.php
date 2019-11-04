@@ -384,6 +384,9 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 		echo -1;
 	}
 	
+} else if ( isset( $_POST[ 'screenoff' ] ) ) {
+	exec( "DISPLAY=:0 $sudo/xset dpms force off" );
+	
 } else if ( isset( $_POST[ 'setdisplay' ] ) ) {
 	$data = $_POST[ 'setdisplay' ];
 	if ( $data[ 0 ] === 'library' ) {

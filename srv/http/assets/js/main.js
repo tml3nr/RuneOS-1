@@ -250,12 +250,10 @@ var jsonpower = {
 }
 $( '#power' ).click( function( e ) {
 	if ( $( e.target ).hasClass( 'submenu' ) ) {
-		$.post( 'commands.php', { bash: [
-			  'export DISPLAY=":0"'
-			, 'xset dpms force off'
-		] } );
+		$.post( 'commands.php', { screenoff: 1 } );
 		return
 	}
+	
 	var infopower = jsonpower;
 	infopower.icon    = 'power';
 	infopower.title   = 'Power';
