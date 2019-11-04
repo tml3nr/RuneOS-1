@@ -82,7 +82,7 @@
 select,
 .selectric-hide-select select {
 	position: absolute;
-	left: -150%;
+	left: -300%;
 }
 .selectric-hide-select.selectric-is-native {
 	position: absolute;
