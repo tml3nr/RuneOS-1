@@ -96,18 +96,14 @@ nmap -sP ${routerip%.*}.*
 - Wait 30 seconds
 - Get IP adddress (if not pre-assign for RPi)
 ```sh
-# scan IP list again and find Raspberry Pi or compare with previous for a new item
+# scan IP list again and find Raspberry Pi or compare with previous for a new item (RPi 4 may listed as unknown)
 nmap -sP ${routerip%.*}.*
 
 # If RPi not show up:
-#  - RPi 4 may listed as unknown
-#  - If used wired LAN, start over again
-#  - If not use wired LAN:
-#     - Power off RPi
-#     - Connect with wired LAN
-#     - Power on RPi
-#     - Scan again
-#     - If still not found, start over again
+#  - Power off RPi
+#  - If not yet on wired LAN, connect it.
+#  - Power on and scan again
+#  - If still not found, start over again
 ```
 - Connect
 ```sh
