@@ -247,18 +247,18 @@ $( '#localbrowser' ).click( function() {
 	local = 1;
 	if ( O.onezero ) {
 		var cmd = [
-		  'systemctl enable --now localbrowser'
+		  'systemctl enable --now localbrowser bootsplash'
+		, 'systemctl disable getty@tty1'
 		, 'echo 1 > '+ dirsystem +'/localbrowser'
 		, "sed -i 's/\(console=\).*/\1tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0/' /boot/cmdline.txt"
-		, 'systemctl disable getty@tty1'
 		, pstream( 'system' )
 		];
 	} else {
 		var cmd = [
-		  'systemctl disable --now localbrowser'
+		  'systemctl disable --now localbrowser bootsplash'
+		, 'systemctl enable getty@tty1'
 		, 'rm -f '+ dirsystem +'/localbrowser'
 		, "sed -i 's/\(console=\).*/\1tty1/' /boot/cmdline.txt"
-		, 'systemctl enable getty@tty1'
 		, pstream( 'system' )
 		];
 	}
