@@ -163,6 +163,7 @@ fi
 # get create-rune.sh
 wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-rune.sh -P $ROOT/usr/local/bin
 chmod +x $ROOT/usr/local/bin/create-rune.sh
+[[ $? == 0 ]] && rm $0
 
 umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted."
 
