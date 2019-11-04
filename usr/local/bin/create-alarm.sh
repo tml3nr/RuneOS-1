@@ -124,6 +124,7 @@ bsdtar -C $BOOT --strip-components=2 --no-same-permissions --no-same-owner -xvf 
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to ROOT ...\e[m"
 
+mkdir $ROOT/boot
 bsdtar -C $ROOT --exclude='boot' -xpvf $file
 
 if [[ $mode == 2 ]]; then
