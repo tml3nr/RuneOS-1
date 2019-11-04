@@ -117,14 +117,14 @@ echo "Verify downloaded file ..."
 ! md5sum -c $file.md5 && echo -e "\nDownload incomplete!\n" && exit
 
 #---------------------------------------------------------------------------------
-echo -e "\n\e[36mExpand to ROOT ...\e[m"
-
-bsdtar xpvf $file -C $ROOT
-
-#---------------------------------------------------------------------------------
 echo -e "\n\e[36mMove /boot to BOOT ...\e[m"
 
-mv -v $ROOT/boot/* $BOOT 2> /dev/null
+bsdtar -C $BOOT --strip-components=2 --no-same-permissions --no-same-owner -xvf ArchLinuxARM-rpi-4-latest.tar.gz boot
+
+#---------------------------------------------------------------------------------
+echo -e "\n\e[36mExpand to ROOT ...\e[m"
+
+bsdtar -C $ROOT --exclude='boot' -xpvf $file
 
 if [[ $mode == 2 ]]; then
 	dev=$( df | grep ROOT | awk '{print $1}' )
