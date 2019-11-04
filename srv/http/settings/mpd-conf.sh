@@ -45,6 +45,8 @@ for line in "${lines[@]}"; do
 	aplaynameL=$( echo "$aplay" | grep "$name" | wc -l )
 	[[ $aplaynameL -gt 1 || $aplayname == 'bcm2835 ALSA' ]] && aplayname="$aplayname"_$(( subdevice + 1 ))
 	# name and output route command if any
+	mixer_control=
+	routecmd=
 	i2sfile="/srv/http/settings/i2s/$aplayname"
 	if [[ -e "$i2sfile" ]]; then
 		mixer_control=$( grep mixer_control "$i2sfile"  | cut -d: -f2- )
@@ -56,6 +58,8 @@ for line in "${lines[@]}"; do
 			name=$( grep extlabel "$i2sfile" | cut -d: -f2- )
 			[[ -z "$name" ]] && name=$aplayname
 		fi
+	else
+		name=$aplayname
 	fi
 	
 	mpdconf+='
