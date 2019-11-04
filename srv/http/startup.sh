@@ -16,12 +16,6 @@ touch /tmp/startup  # flag for mpd-conf.sh > suppress audio output notification
 
 dirsystem=/srv/http/data/system
 
-audiooutput=$( cat $dirsystem/audiooutput )
-
-if [[ -z $audiooutput ]] || ! mpc outputs | grep -q "$audiooutput"; then
-	echo "$( mpc outputs | head -1 | awk -F'[()]' '{print $2}' )" > $dirsystem/audiooutput
-fi
-
 /srv/http/settings/system-soundprofile.sh $( cat $dirsystem/soundprofile )
 
 mountpoints=$( grep /mnt/MPD/NAS /etc/fstab | awk '{print $2}' )
