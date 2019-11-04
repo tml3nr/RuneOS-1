@@ -3,6 +3,8 @@
 [[ ! -e /usr/bin/bsdtar ]] && apt install -y bsdtar
 [[ ! -e /usr/bin/nmap ]] && apt install -y nmap
 
+trap 'rm -f ArchLinuxARM*' EXIT
+
 cols=$( tput cols )
 hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
 verifypath() {
@@ -107,8 +109,8 @@ read -ren 1 -p $'\nAuto-connect Wi-Fi on boot? [y/n]: ' ans; echo
 # -----------------------------------------------------------------------
 echo -e "\n\e[36mDownloading ...\e[m\n"
 
-wget -qN --show-progress http://os.archlinuxarm.org/os/$file -O $file
-wget -qN --show-progress http://os.archlinuxarm.org/os/$file.md5 -O $file.md5
+wget -qN --show-progress http://os.archlinuxarm.org/os/$file
+wget -qN --show-progress http://os.archlinuxarm.org/os/$file.md5
 
 # verify
 echo "Verify downloaded file ..."
@@ -118,7 +120,6 @@ echo "Verify downloaded file ..."
 echo -e "\n\e[36mExpand to ROOT ...\e[m"
 
 bsdtar xpvf $file -C $ROOT
-rm $file $file.md5
 
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mMove /boot to BOOT ...\e[m"
