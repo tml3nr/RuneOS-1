@@ -147,11 +147,8 @@ upmpdcli
 ```
 
 **Finish**
-- If unattended, scroll up to verify there's no errors.
-```sh
-# reboot
-shutdown -r now
-```
+- At reboot prompt: If unattended, scroll up to verify there's no errors before reboot.
+
 ---
 
 **Optional**
