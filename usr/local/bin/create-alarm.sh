@@ -111,7 +111,7 @@ wget -qN --show-progress http://os.archlinuxarm.org/os/$file -O $file
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file.md5 -O $file.md5
 
 # verify
-[[ $? != 0 || ! md5sum -c $file.md5 ]] && echo -e "\nDownload incomplete!\n" && exit
+[[ $? != 0 ]] || ! md5sum -c $file.md5 && echo -e "\nDownload incomplete!\n" && exit
 
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to ROOT ...\e[m"
