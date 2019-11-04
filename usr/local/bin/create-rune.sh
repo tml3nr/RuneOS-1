@@ -2,15 +2,6 @@
 
 version=e2
 
-# get RPi hardware code
-# RPi Zero - 09
-# RPi Zero W - 0c
-# RPi 1 - 00, 01, 02, 03
-# RPi 2 - 04
-# RPi 3 - 08
-# RPi 3+ - 0d, 0e
-# RPi 4 - 11
-
 trap 'rm -f /var/lib/pacman/db.lck' EXIT
 
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
