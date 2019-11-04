@@ -96,7 +96,8 @@ nmap -sP ${routerip%.*}.*
 - Wait 30 seconds
 - Get IP adddress (if not pre-assign for RPi)
 ```sh
-# scan IP list again and find Raspberry Pi or compare with previous for a new item (RPi 4 may listed as unknown)
+# scan IP list again and find Raspberry Pi or compare with previous for a new item
+# note: RPi 4 may listed as unknown
 nmap -sP ${routerip%.*}.*
 
 # If RPi not show up:
