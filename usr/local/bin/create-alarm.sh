@@ -136,6 +136,8 @@ fi
 # RPi 0 - fix: kernel panic
 [[ $rpi == Zero ]] && echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
 
+echo -e "\n\e[36Finish moving files ...\e[m"  # fix - long time to finish moving
+
 # wifi
 if [[ $ssid ]]; then
 	echo -e "\n\e[36mSetup Wi-Fi ...\e[m"
