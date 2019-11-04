@@ -41,21 +41,27 @@ for line in "${lines[@]}"; do
 		done
 	fi
 	subdevice=${device: -1}
-	name=$( echo $line | awk -F'[][]' '{print $2}' )
-	nameL=$( echo "$aplay" | grep "$name" | wc -l )
-	[[ $nameL -gt 1 || $name == 'bcm2835 ALSA' ]] && sysname="$name"_$(( subdevice + 1 )) || sysname=$name
-	# output route command if any
-	if [[ $sysname == $audiooutput ]]; then
-		routecmd=$( grep route_cmd "/srv/http/settings/i2s/$audiooutput" | cut -d: -f2 )
-		[[ -n $routecmd ]] && eval ${routecmd/\*CARDID\*/$card}
+	aplayname=$( echo $line | awk -F'[][]' '{print $2}' )
+	aplaynameL=$( echo "$aplay" | grep "$name" | wc -l )
+	[[ $aplaynameL -gt 1 || $aplayname == 'bcm2835 ALSA' ]] && aplayname="$aplayname"_$(( subdevice + 1 ))
+	# name and output route command if any
+	i2sfile="/srv/http/settings/i2s/$aplayname"
+	if [[ -e "$i2sfile" ]]; then
+		mixer_control=$( grep mixer_control "$i2sfile"  | cut -d: -f2- )
+		routecmd=$( grep route_cmd "$i2sfile" | cut -d: -f2 )
+		if [[ $aplayname == $dirsystem/sysname ]]; then
+			name=$audiooutput
+			[[ -n $routecmd ]] && eval ${routecmd/\*CARDID\*/$card}
+		else
+			name=$( grep extlabel "$i2sfile" | cut -d: -f2- )
+			[[ -z "$name" ]] && name=$aplayname
+		fi
 	fi
-	i2sfile="/srv/http/settings/i2s/$sysname"
-	[[ -e "$i2sfile" ]] && mixer_control=$( grep mixer_control "$i2sfile"  | cut -d: -f2- )
 	
 	mpdconf+='
 
 audio_output {
-	name              "'$sysname'"
+	name              "'$name'"
 	device            "'$device'"
 	type              "alsa"
 	auto_resample     "no"
@@ -68,7 +74,7 @@ audio_output {
 	
 	fi
 	
-	if [[ -e /srv/http/data/system/mpd-dop && ${sysname:0:-2} != 'bcm2835 ALSA' ]]; then
+	if [[ -e /srv/http/data/system/mpd-dop && ${aplayname:0:-2} != 'bcm2835 ALSA' ]]; then
 		mpdconf+='
 	dop               "yes"'
 	
@@ -83,11 +89,9 @@ echo "$mpdconf" > $file
 
 systemctl restart mpd mpdidle
 
-[[ $1 == remove ]] && sysname=$audiooutput
+[[ $1 == remove ]] && name=$audiooutput
 
-file="/srv/http/settings/i2s/$sysname"
-[[ -e "$file" ]] && name=$( grep extlabel "$file" | cut -d: -f2- ) || name=$sysname
-
+# last one is new one
 curl -s -X POST 'http://127.0.0.1/pub?id=notify' -d '{ "title": "Audio Output Switched", "text": "'"$name"'", "icon": "output" }'
 curl -s -X POST 'http://127.0.0.1/pub?id=page' -d '{ "p": "mpd" }'
 

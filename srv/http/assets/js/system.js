@@ -108,7 +108,7 @@ $( '#i2smodule' ).change( function() {
 					+' /boot/config.txt'
 			, "echo 'Enable "+ name +"' > "+ filereboot
 			, "echo '"+ name +"' > "+ dirsystem +'/audiooutput'
-			, 'echo '+ sysname +' > '+ dirsystem +'/i2ssysname'
+			, 'echo '+ sysname +' > '+ dirsystem +'/sysname'
 			, 'rm -f '+ dirsystem +'/onboard-audio'
 			, pstream( 'system' )
 		] }, resetlocal );
@@ -124,7 +124,7 @@ $( '#i2smodule' ).change( function() {
 				+' /boot/config.txt'
 			, "echo 'Disable I&#178;S Module' > "+ filereboot
 			, 'echo bcm2835 ALSA_1 > '+ dirsystem +'/audiooutput'
-			, 'rm -f '+ dirsystem +'/i2ssysname'
+			, 'rm -f '+ dirsystem +'/sysname'
 			, 'echo 1 > '+ dirsystem +'/onboard-audio'
 			, pstream( 'system' )
 		] }, resetlocal );
@@ -245,24 +245,11 @@ $( '#airplay' ).click( function() {
 $( '#localbrowser' ).click( function() {
 	var O = getCheck( $( this ) );
 	local = 1;
-	if ( O.onezero ) {
-		var cmd = [
-		  "sed -i 's/\\(console=\\).*/\\1tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0/' /boot/cmdline.txt"
-		, 'echo 1 > '+ dirsystem +'/localbrowser'
-		, 'systemctl disable --now getty@tty1'
-		, 'systemctl enable --now localbrowser bootsplash'
+	$.post( 'commands.php', { bash: [
+		  'systemctl '+ O.enabledisable +' --now localbrowser'
+		, ( O.onezero ? 'echo 1 > '+ dirsystem +'/localbrowser' : 'rm -f '+ dirsystem +'/localbrowser' )
 		, pstream( 'system' )
-		];
-	} else {
-		var cmd = [
-		  "sed -i 's/\\(console=\\).*/\\1tty1/' /boot/cmdline.txt"
-		, 'rm -f '+ dirsystem +'/localbrowser'
-		, 'systemctl enable --now getty@tty1'
-		, 'systemctl disable --now localbrowser bootsplash'
-		, pstream( 'system' )
-		];
-	}
-	$.post( 'commands.php', { bash: cmd }, resetlocal );
+	] }, resetlocal );
 	$( '#setting-localbrowser' ).toggleClass( 'hide', !O.onezero );
 } );
 $( '#setting-localbrowser' ).click( function() {
