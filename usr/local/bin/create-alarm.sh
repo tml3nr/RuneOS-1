@@ -117,12 +117,12 @@ echo "Verify downloaded file ..."
 ! md5sum -c $file.md5 && echo -e "\nDownload incomplete!\n" && exit
 
 #---------------------------------------------------------------------------------
-echo -e "\n\e[36mMove /boot to BOOT ...\e[m"
+echo -e "\n\e[36mExpand to BOOT partition ...\e[m"
 
 bsdtar -C $BOOT --strip-components=2 --no-same-permissions --no-same-owner -xvf ArchLinuxARM-rpi-4-latest.tar.gz boot
 
 #---------------------------------------------------------------------------------
-echo -e "\n\e[36mExpand to ROOT ...\e[m"
+echo -e "\n\e[36mExpand to ROOT partition ...\e[m"
 
 mkdir $ROOT/boot
 bsdtar -C $ROOT --exclude='boot' -xpvf $file
