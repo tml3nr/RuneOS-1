@@ -2,22 +2,11 @@
 
 version=e2
 
-# get RPi hardware code
-# RPi Zero - 09
-# RPi Zero W - 0c
-# RPi 1 - 00, 01, 02, 03
-# RPi 2 - 04
-# RPi 3 - 08
-# RPi 3+ - 0d, 0e
-# RPi 4 - 11
+trap 'rm -f /var/lib/pacman/db.lck' EXIT
+
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
 
-trap ctrl_c INT
-ctrl_c() {
-	rm -f /var/lib/pacman/db.lck
-	exit
-}
 cols=$( tput cols )
 hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
 
@@ -255,7 +244,8 @@ done
 echo runeaudio > /etc/hostname
 sed -i 's/#NTP=.*/NTP=pool.ntp.org/' /etc/systemd/timesyncd.conf
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
-echo bcm2835 ALSA_1 > $dirsystem/audiooutput
+echo 'RaspberryPi Analog Out' > $dirsystem/audiooutput
+echo bcm2835 ALSA_1 > $dirsystem/sysname
 echo 1 | tee $dirsystem/{localbrowser,onboard-audio,onboard-wlan} > /dev/null
 echo RuneAudio | tee $dirsystem/{hostname,soundprofile} > /dev/null
 echo 0 0 0 > $dirsystem/mpddb
@@ -271,3 +261,6 @@ chown -R mpd:audio "$dirdata/mpd" /mnt/MPD
 
 echo -e "\n\e[36mRuneAudio+R $version created successfully.\e[m\n"
 hr
+
+read -resn 1 -p $'\nPress any key to reboot'; echo
+shutdown -r now

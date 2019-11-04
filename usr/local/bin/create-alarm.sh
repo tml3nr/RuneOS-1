@@ -3,6 +3,8 @@
 [[ ! -e /usr/bin/bsdtar ]] && apt install -y bsdtar
 [[ ! -e /usr/bin/nmap ]] && apt install -y nmap
 
+trap 'rm -f ArchLinuxARM*' EXIT
+
 cols=$( tput cols )
 hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
 verifypath() {
@@ -15,7 +17,7 @@ verifypath() {
 	fi
 	read -rn 1 -p "Confirm and continue? [y/n]: " ans; echo
 	[[ $ans != y && $ans != Y ]] && exit
-	[[ -n $( ls $mountpoint | grep -v lost+found ) ]] && echo $mountpoint not empty. && exit
+	[[ -n $( ls $mountpoint | grep -v 'lost+found\|System Volume Information' ) ]] && echo $mountpoint not empty. && exit
 }
 selectMode() {
 	echo -e "\nRun ROOT partition on:"
@@ -107,8 +109,8 @@ read -ren 1 -p $'\nAuto-connect Wi-Fi on boot? [y/n]: ' ans; echo
 # -----------------------------------------------------------------------
 echo -e "\n\e[36mDownloading ...\e[m\n"
 
-wget -qN --show-progress http://os.archlinuxarm.org/os/$file -O $file
-wget -qN --show-progress http://os.archlinuxarm.org/os/$file.md5 -O $file.md5
+wget -qN --show-progress http://os.archlinuxarm.org/os/$file
+wget -qN --show-progress http://os.archlinuxarm.org/os/$file.md5
 
 # verify
 echo "Verify downloaded file ..."
@@ -118,7 +120,6 @@ echo "Verify downloaded file ..."
 echo -e "\n\e[36mExpand to ROOT ...\e[m"
 
 bsdtar xpvf $file -C $ROOT
-rm $file $file.md5
 
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mMove /boot to BOOT ...\e[m"
@@ -162,6 +163,7 @@ fi
 # get create-rune.sh
 wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-rune.sh -P $ROOT/usr/local/bin
 chmod +x $ROOT/usr/local/bin/create-rune.sh
+[[ $? == 0 ]] && rm $0
 
 umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted."
 

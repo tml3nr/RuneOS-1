@@ -74,17 +74,14 @@ RuneOS
 - Download and write `BOOT` and `ROOT`
 ```sh
 # switch user to root
-su -
+su
 
 # get script
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-alarm.sh
 chmod +x create-alarm.sh
 ./create-alarm.sh
 # if download is too slow, ctrl+c and run ./create-alarm.sh again
-# note: RPi 3 filename: ArchLinuxARM-rpi-2-latest.tar.gz
-
-# remove script
-rm create-alarm.sh
+# note: RPi 3 shows filename as ArchLinuxARM-rpi-2-latest.tar.gz
 
 # if not pre-assign ip for RPi, scan IP list for reference
 routerip=$( ip route get 1 | cut -d' ' -f3 )
@@ -100,17 +97,14 @@ nmap -sP ${routerip%.*}.*
 - Get IP adddress (if not pre-assign for RPi)
 ```sh
 # scan IP list again and find Raspberry Pi or compare with previous for a new item
+# note: RPi 4 may listed as unknown
 nmap -sP ${routerip%.*}.*
 
 # If RPi not show up:
-#  - RPi 4 may listed as unknown
-#  - If used wired LAN, start over again
-#  - If not use wired LAN:
-#     - Power off RPi
-#     - Connect with wired LAN
-#     - Power on RPi
-#     - Scan again
-#     - If still not found, start over again
+#  - Power off RPi
+#  - If not yet on wired LAN, connect it.
+#  - Power on and scan again
+#  - If still not found, start over again
 ```
 - Connect
 ```sh
@@ -139,25 +133,22 @@ ssh alarm@$rpiip
 	- upmpdcli - UPnP
 ```sh
 # switch user to root
-su -
+su
 # password: root
 
 # build script
 create-rune.sh
 # if download is too slow or errors occured, ctrl+c and run create-rune.sh again
 
-# ▼ skip if NOT install UPnP ▼ fix - init RSA key
+# ▼ skip if NOT install UPnP ▼ fix - manually init RSA key
 mpd --no-config &> /dev/null
 upmpdcli
 # ctrl+c when reach 'writing RSA key'
 ```
 
 **Finish**
-- If unattended, scroll up to verify there's no errors.
-```sh
-# reboot
-shutdown -r now
-```
+- At reboot prompt: If unattended, scroll up to verify there's no errors before reboot.
+
 ---
 
 **Optional**
