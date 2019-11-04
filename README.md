@@ -77,9 +77,7 @@ RuneOS
 su -
 
 # get script
-wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-alarm.sh
-chmod +x create-alarm.sh
-./create-alarm.sh
+wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-alarm.sh; chmod +x create-alarm.sh; ./create-alarm.sh
 # if download is too slow, ctrl+c and run ./create-alarm.sh again
 # note: RPi 3 shows filename as ArchLinuxARM-rpi-2-latest.tar.gz
 
