@@ -239,8 +239,6 @@ startup='cronie devmon@mpd nginx php-fpm startup '
 systemctl enable $startup
 
 #---------------------------------------------------------------------------------
-echo -e "\n\e[36mDefault settings ...\e[m\n"
-
 # data - settings directories
 dirdata=/srv/http/data
 dirdisplay=$dirdata/display
