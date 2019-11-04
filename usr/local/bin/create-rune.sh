@@ -269,3 +269,6 @@ chown -R mpd:audio "$dirdata/mpd" /mnt/MPD
 
 echo -e "\n\e[36mRuneAudio+R $version created successfully.\e[m\n"
 hr
+
+read -resn 1 -p $'\nPress any key to reboot'; echo
+shutdown -r now
