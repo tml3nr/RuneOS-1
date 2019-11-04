@@ -245,11 +245,24 @@ $( '#airplay' ).click( function() {
 $( '#localbrowser' ).click( function() {
 	var O = getCheck( $( this ) );
 	local = 1;
-	$.post( 'commands.php', { bash: [
-		  'systemctl '+ O.enabledisable +' --now localbrowser'
-		, ( O.onezero ? 'echo 1 > '+ dirsystem +'/localbrowser' : 'rm -f '+ dirsystem +'/localbrowser' )
+	if ( O.onezero ) {
+		var cmd = [
+		  'systemctl enable --now localbrowser'
+		, 'echo 1 > '+ dirsystem +'/localbrowser'
+		, "sed -i 's/\(console=\).*/\1tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0/' /boot/cmdline.txt"
+		, 'systemctl disable getty@tty1'
 		, pstream( 'system' )
-	] }, resetlocal );
+		];
+	} else {
+		var cmd = [
+		  'systemctl disable --now localbrowser'
+		, 'rm -f '+ dirsystem +'/localbrowser'
+		, "sed -i 's/\(console=\).*/\1tty1/' /boot/cmdline.txt"
+		, 'systemctl enable getty@tty1'
+		, pstream( 'system' )
+		];
+	}
+	$.post( 'commands.php', { bash: cmd }, resetlocal );
 	$( '#setting-localbrowser' ).toggleClass( 'hide', !O.onezero );
 } );
 $( '#setting-localbrowser' ).click( function() {
