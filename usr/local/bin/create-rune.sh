@@ -15,8 +15,8 @@ echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
 
 trap ctrl_c INT
 ctrl_c() {
-    rm -f /var/lib/pacman/db.lck
-    exit
+	rm -f /var/lib/pacman/db.lck
+	exit
 }
 cols=$( tput cols )
 hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
@@ -131,8 +131,8 @@ chown -R http:http /srv/http
 
 # RPi 0, 1 - switch packages for armv6h
 if echo 00 01 02 03 09 0c | grep -q $hwcode; then
-    rm /root/*.xz
-    mv /root/armv6h/* /root
+	rm /root/*.xz
+	mv /root/armv6h/* /root
 fi
 
 if [[ $blue == n || $blue == N || ! $wireless ]]; then
@@ -180,17 +180,12 @@ fsck.fat -trawl /dev/mmcblk0p1 | grep -i 'dirty bit'
 # chromium
 if [[ -e /usr/bin/chromium ]]; then
 	# boot splash
-	cmdline='root=/dev/mmcblk0p2 rw rootwait selinux=0 fsck.repair=yes smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 '
-	cmdline+='elevator=noop console=tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0'
-	echo $cmdline > /boot/cmdline.txt
-	
-    # bootsplash - set default image
-    ln -s /srv/http/assets/img/{NORMAL,start}.png
-    
-    # login prompt - remove
-    systemctl disable getty@tty1
+	sed -i 's/\(console=\).*/\1tty3 plymouth.enable=0 quiet loglevel=0 logo.nologo vt.global_cursor_default=0/' /boot/cmdline.txt
+	ln -s /srv/http/assets/img/{NORMAL,start}.png
+	# login prompt - remove
+	systemctl disable getty@tty1
 else
-    rm -f /etc/systemd/system/{bootsplash,localbrowser}* /etc/X11/xinit/xinitrc /srv/http/assets/img/{CW,CCW,NORMAL,UD}* /root/*matchbox* /usr/local/bin/ply-image
+	rm -f /etc/systemd/system/{bootsplash,localbrowser}* /etc/X11/xinit/xinitrc /srv/http/assets/img/{CW,CCW,NORMAL,UD}* /root/*matchbox* /usr/local/bin/ply-image
 fi
 
 # cron - for addons updates
@@ -221,7 +216,7 @@ sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 # user - set expire to none
 users=$( cut -d: -f1 /etc/passwd )
 for user in $users; do
-    chage -E -1 $user
+	chage -E -1 $user
 done
 
 # upmpdcli - fix: missing symlink
