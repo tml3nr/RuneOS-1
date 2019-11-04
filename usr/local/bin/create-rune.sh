@@ -190,7 +190,7 @@ if [[ -e /usr/bin/chromium ]]; then
     # login prompt - remove
     systemctl disable getty@tty1
 else
-    rm /etc/systemd/system/{bootsplash,localbrowser}* /etc/X11/xinit/xinitrc /srv/http/assets/img/{CW,CWW,NORMAL,UD}* /root/*matchbox* /usr/local/bin/ply-image
+    rm -f /etc/systemd/system/{bootsplash,localbrowser}* /etc/X11/xinit/xinitrc /srv/http/assets/img/{CW,CCW,NORMAL,UD}* /root/*matchbox* /usr/local/bin/ply-image
 fi
 
 # cron - for addons updates
