@@ -71,7 +71,6 @@ RuneOS
 
 - Open **Files** app - click `BOOT` and `ROOT` to mount
 - Hover mouse over `BOOT` and `ROOT` and note the paths
-- Note: Download file for RPi 3: `ArchLinuxARM-rpi-2-latest.tar.gz`
 - Download and write `BOOT` and `ROOT`
 ```sh
 # switch user to root
@@ -82,6 +81,7 @@ wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin
 chmod +x create-alarm.sh
 ./create-alarm.sh
 # if download is too slow, ctrl+c and run ./create-alarm.sh again
+# note: RPi 3 filename: ArchLinuxARM-rpi-2-latest.tar.gz
 
 # remove script
 rm create-alarm.sh
