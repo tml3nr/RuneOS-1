@@ -119,7 +119,7 @@ echo "Verify downloaded file ..."
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to BOOT partition ...\e[m"
 
-bsdtar -C $BOOT --strip-components=2 --no-same-permissions --no-same-owner -xvf ArchLinuxARM-rpi-4-latest.tar.gz boot
+bsdtar -C $BOOT --strip-components=2 --no-same-permissions --no-same-owner -xvf $file boot
 
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to ROOT partition ...\e[m"
