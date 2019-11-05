@@ -18,7 +18,7 @@ hr
 echo -e "\n\e[36mFeatures ...\e[m\n"
 
 selectFeatures() {
-	read -ren 1 -p $'Install \e[36mall features\e[m [y/N]: ' ans; echo
+	read -ren 1 -p $'Install all features [y/N]: ' ans; echo
 	if [[ $ans == y || $ans == Y ]]; then
 		echo -e "Install \e[36mall features\e[m\n"
 		read -ren 1 -p 'Confirm and continue? [y/N]: ' ans; echo
