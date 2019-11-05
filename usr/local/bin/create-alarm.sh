@@ -15,7 +15,7 @@ verifypath() {
 	else
 		echo -e "\n\e[m36$1\e[m not mounted or incorrect label." && exit
 	fi
-	read -rn 1 -p "Confirm and continue? [y/n]: " ans; echo
+	read -rn 1 -p "Confirm and continue? [y/N]: " ans; echo
 	[[ $ans != y && $ans != Y ]] && exit
 	[[ -n $( ls $mountpoint | grep -v 'lost+found\|System Volume Information' ) ]] && echo $mountpoint not empty. && exit
 }
@@ -29,7 +29,7 @@ selectMode() {
 	else
 		[[ $mode == 1 ]] && dev='Micro SD card' || dev='USB drive'
 		echo -e "\nRun ROOT on \e[36m$dev\e[m\n"
-		read -rn 1 -p "Confirm and continue? [y/n]: " ans; echo
+		read -rn 1 -p "Confirm and continue? [y/N]: " ans; echo
 		[[ $ans != y && $ans != Y ]] && selectMode
 	fi
 }
@@ -56,7 +56,7 @@ setCredential() {
 	read -p 'Password: ' password
 	selectSecurity
 	echo -e "\n\nSSID: \e[36m$ssid\e[m\nPassword: \e[36m$password\e[m\nSecurity: \e[36m${wpa^^}\e[m\n"
-	read -rn1 -p "Confirm and continue? [y/n]: " ans; echo; echo
+	read -rn1 -p "Confirm and continue? [y/N]: " ans; echo; echo
 	[[ $ans != Y && $ans != y ]] && setCredential
 }
 selectRPi() {
@@ -84,7 +84,7 @@ selectRPi() {
 		fi
 	fi
 	echo -e "\nRaspberry Pi \e[36m$rpi\e[m\n"
-	read -rn 1 -p "Confirm and continue? [y/n]: " ans; echo
+	read -rn 1 -p "Confirm and continue? [y/N]: " ans; echo
 	[[ $ans != y && $ans != Y ]] && selectRPi
 }
 
@@ -103,7 +103,7 @@ selectMode
 
 selectRPi
 
-read -ren 1 -p $'\nAuto-connect Wi-Fi on boot? [y/n]: ' ans; echo
+read -ren 1 -p $'\nAuto-connect Wi-Fi on boot? [y/N]: ' ans; echo
 [[ $ans == y || $ans == Y ]] && setCredential
 
 # -----------------------------------------------------------------------
@@ -113,16 +113,16 @@ wget -qN --show-progress http://os.archlinuxarm.org/os/$file
 wget -qN --show-progress http://os.archlinuxarm.org/os/$file.md5
 
 # verify
-echo "Verify downloaded file ..."
+echo -e "\nVerify downloaded file ...\n"
 ! md5sum -c $file.md5 && echo -e "\nDownload incomplete!\n" && exit
 
 #---------------------------------------------------------------------------------
-echo -e "\n\e[36mExpand to BOOT partition ...\e[m"
+echo -e "\n\e[36mExpand to BOOT partition ...\e[m\n"
 
 bsdtar -C $BOOT --strip-components=2 --no-same-permissions --no-same-owner -xvf $file boot
 
 #---------------------------------------------------------------------------------
-echo -e "\n\e[36mExpand to ROOT partition ...\e[m"
+echo -e "\n\e[36mExpand to ROOT partition ...\e[m\n"
 
 mkdir $ROOT/boot
 bsdtar -C $ROOT --exclude='boot' -xpvf $file
