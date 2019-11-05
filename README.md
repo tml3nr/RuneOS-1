@@ -83,7 +83,6 @@ chmod +x create-alarm.sh
 # if download is too slow, ctrl+c and run ./create-alarm.sh again
 # note: RPi 3 shows filename as ArchLinuxARM-rpi-2-latest.tar.gz
 ```
-- Wait for writing SD card to finish, activity LED stop blinking, before continue at next prompt.
 - **Finished** - If unattended, scroll up to look for any errors.
 
 ### Connect PC to Raspberry Pi
