@@ -129,7 +129,7 @@ mkdir $ROOT/boot
 pv $file | bsdtar -C $ROOT --totals --exclude='boot' -xpf -
 
 if [[ $mode == 1 ]]; then
-	echo -e "\nIt takes some time to complete writing SD card ..."
+	echo -e "\nIt takes some minutes to complete writing SD card ..."
 else
 	dev=$( df | grep ROOT | awk '{print $1}' )
 	uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
