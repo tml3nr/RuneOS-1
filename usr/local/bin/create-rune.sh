@@ -153,7 +153,7 @@ fi
 [[ ! -e /usr/bin/shairport-sync ]] && rm /etc/systemd/system/shairport*
 
 # remove cache and custom package files
-rm /var/cache/pacman/pkg/* /root/{*.xz,*.zip} /usr/local/bin/create-*
+rm *.zip /root/*.xz /usr/local/bin/create-* /var/cache/pacman/pkg/*
 rm -r /root/armv6h
 
 # alsa
