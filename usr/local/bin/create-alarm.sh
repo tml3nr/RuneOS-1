@@ -128,6 +128,7 @@ echo -e "\n\e[36mExpand to ROOT partition ...\e[m\n"
 mkdir $ROOT/boot
 pv $file | bsdtar -C $ROOT --totals --exclude='boot' -xpf -
 
+# complete write from cache to disk before continue
 echo -e "\nIt takes some time to complete writing SD card or thumb drive ..."
 sync
 
