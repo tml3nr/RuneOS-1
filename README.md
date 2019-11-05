@@ -142,6 +142,7 @@ upmpdcli
 ```sh
 # reboot
 shutdown -r now
+```
 ---
 
 **Optional**
