@@ -176,7 +176,7 @@ hr
 
 read -ren 1 -p $'\nRaspberry Pi has pre-assigned IP address? [y/N]: ' ans; echo
 if [[ $ans != y && $ans != Y ]]; then
-	echo -e "\nScan IP address of existing hosts ...\n"
+	echo -e "Scan IP address of existing hosts ...\n"
 	routerip=$( ip route get 1 | cut -d' ' -f3 )
 	nmap -sP ${routerip%.*}.*
 fi
