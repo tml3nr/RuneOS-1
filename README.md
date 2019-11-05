@@ -86,7 +86,7 @@ chmod +x create-alarm.sh
 - If unattended, scroll up to verify there's no errors.
 
 ### Connect PC to Raspberry Pi
-- At `ssh` prompt, confirm and login with password: alarm
+- At `ssh` prompt, confirm `yes` and login with password: `alarm`
 - If connection failed or RPi not show up in scan:
 	- Power off RPi
 	- If not yet on wired LAN, connect it.
