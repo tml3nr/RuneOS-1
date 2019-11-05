@@ -2,6 +2,7 @@
 
 [[ ! -e /usr/bin/bsdtar ]] && apt install -y bsdtar
 [[ ! -e /usr/bin/nmap ]] && apt install -y nmap
+[[ ! -e /usr/bin/pv ]] && apt install -y pv
 
 trap 'rm -f ArchLinuxARM*' EXIT
 
@@ -119,13 +120,13 @@ echo -e "\nVerify downloaded file ...\n"
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to BOOT partition ...\e[m\n"
 
-bsdtar -C $BOOT --totals --strip-components=2 --no-same-permissions --no-same-owner -xvf $file boot
+pv $file | bsdtar -C $BOOT --totals --strip-components=2 --no-same-permissions --no-same-owner -xf - boot
 
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to ROOT partition ...\e[m\n"
 
 mkdir $ROOT/boot
-bsdtar -C $ROOT --totals --exclude='boot' -xpvf $file
+pv $file | bsdtar -C $ROOT --totals --exclude='boot' -xpf -
 
 if [[ $mode == 1 ]]; then
 	echo -e "\nIt takes some time to write SD card ..."
