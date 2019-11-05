@@ -36,6 +36,7 @@ RuneOS
 	- Micro SD card: 100MB+ - `BOOT` partition only
 	- USB drive: 4GB+ - `ROOT` partition (or existing USB hard drive with data)
 	- For hard drives or faster-than-SD-card thumb drives
+- Optional: Monitor/TV to see boot process
 ---
 
 ### Prepare partitions
@@ -80,7 +81,7 @@ su
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-alarm.sh
 chmod +x create-alarm.sh
 ./create-alarm.sh
-# if download is too slow, ctrl+c and run ./create-alarm.sh again
+# if download is too slow, press Ctrl+C and run ./create-alarm.sh again
 # note: RPi 3 shows filename as ArchLinuxARM-rpi-2-latest.tar.gz
 ```
 - **Finished** - If unattended, scroll up to look for any errors.
@@ -131,7 +132,7 @@ su
 
 # build script
 create-rune.sh
-# if download is too slow or errors occured, ctrl+c and run create-rune.sh again
+# if download is too slow or errors occured, press Ctrl+C and run create-rune.sh again
 ```
 
 - **Finish** - If unattended, scroll up to look for any errors.
