@@ -80,7 +80,7 @@ su
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-alarm.sh
 chmod +x create-alarm.sh
 ./create-alarm.sh
-# if download is too slow, press Ctrl+C and run ./create-alarm.sh again
+# if download errors or too slow, press Ctrl+C and run ./create-alarm.sh again
 # note: RPi 3 shows filename as ArchLinuxARM-rpi-2-latest.tar.gz
 ```
 - **Finished** - If unattended: scroll up to look for errors and start over if any.
@@ -131,7 +131,7 @@ su
 
 # build script
 create-rune.sh
-# if download is too slow or errors occured, press Ctrl+C and run create-rune.sh again
+# if download errors or too slow, press Ctrl+C and run create-rune.sh again
 ```
 - **Finish** - If unattended: scroll up to look for errors and start over if any.
 
