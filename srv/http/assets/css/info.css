@@ -232,6 +232,7 @@ input::-moz-focus-inner { /* dotted outline */
 	padding: 3px;
 	line-height: 14px;
 	border-radius: 3px;
+	background: #000000;
 }
 
 @media( hover:hover ) {
