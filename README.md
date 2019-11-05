@@ -6,7 +6,7 @@ RuneOS
 
 **Procedure**
 - Prepare partitions
-- Create Arch Linux Arm
+- Create Arch Linux Arm (by a script)
 	- Verify partitions
 	- Optional - pre-configure Wi-Fi connection (headless mode)
 	- Download
@@ -15,7 +15,7 @@ RuneOS
 	- Start Arch Linux Arm
 	- Get IP address
 	- Connect
-- Create RuneAudio+Re
+- Create RuneAudio+Re (by a script)
 	- Optional - select features
 	- Upgrade kernel and default packages
 	- Install feature packages and web interface
