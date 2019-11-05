@@ -132,6 +132,7 @@ if [[ $mode == 1 ]]; then
 	echo -e "\nIt takes some minutes to complete writing SD card ..."
 	sync
 else
+	sync
 	dev=$( df | grep ROOT | awk '{print $1}' )
 	uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
 	sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
