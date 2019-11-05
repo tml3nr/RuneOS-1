@@ -129,7 +129,8 @@ mkdir $ROOT/boot
 pv -ptbar $file | bsdtar -C $ROOT --totals --exclude='boot' -xpf -
 
 # complete write from cache to disk before continue
-echo -e "\nIt takes some time to complete writing SD card or thumb drive ..."
+echo -e "\nBe patient."
+echo -e "It takes several minutes to complete writing SD card or thumb drive ..."
 sync
 
 if [[ $mode == 2 ]]; then
