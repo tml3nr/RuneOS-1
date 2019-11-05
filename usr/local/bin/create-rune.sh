@@ -18,10 +18,10 @@ hr
 echo -e "\n\e[36mFeatures ...\e[m\n"
 
 selectFeatures() {
-	read -ren 1 -p $'Install \e[36mall features\e[m [y/n]: ' ans; echo
+	read -ren 1 -p $'Install \e[36mall features\e[m [y/N]: ' ans; echo
 	if [[ $ans == y || $ans == Y ]]; then
 		echo -e "Install \e[36mall features\e[m\n"
-		read -ren 1 -p $'Confirm and continue? [y/n]: ' ans; echo
+		read -ren 1 -p $'Confirm and continue? [y/N]: ' ans; echo
 		[[ $ans != y && $ans != Y ]] && selectFeature
 
 		features+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
@@ -33,52 +33,52 @@ selectFeatures() {
 		list=
 
 		pkg="\e[36mAvahi\e[m - Connect by: runeaudio.local"
-		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " ans; echo
 		[[ $ans == y || $ans == Y ]] && features+='avahi ' && list+="$pkg\n"
 
 		if [[ $wireless ]]; then
 			pkg="\e[36mBluez\e[m - Bluetooth supports"
-			read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " blue; echo
+			read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " blue; echo
 			[[ $blue == y || $blue == Y ]] && features+='bluez bluez-utils ' && list+="$pkg\n"
 		fi
 
 		if echo 04 08 0d 0e 11 | grep -q $hwcode; then
 			pkg="\e[36mChromium\e[m - Browser on RPi"
-			read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
+			read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " ans; echo
 			[[ $ans == y || $ans == Y ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$pkg\n"
 		fi
 
 		pkg="\e[36mFFmpeg\e[m - Extended decoder"
-		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " ans; echo
 		[[ $ans == y || $ans == Y ]] && features+='ffmpeg ' && list+="$pkg\n"
 
 		pkg="\e[36mhostapd\e[m - RPi access point"
-		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " ans; echo
 		[[ $ans == y || $ans == Y ]] && features+='dnsmasq hostapd ' && list+="$pkg\n"
 
 		pkg="\e[36mKid3\e[m - Metadata tag editor"
-		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " kid3; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " kid3; echo
 		[[ $kid3 == y || $kid3 == Y ]] && list+="$pkg\n"
 
 		pkg="\e[36mPython\e[m - Programming language"
-		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " pyth; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " pyth; echo
 		[[ $pyth == y || $pyth == Y ]] && features+='python python-pip ' && list+="$pkg\n"
 
 		pkg="\e[36mSamba\e[m - File sharing"
-		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " ans; echo
 		[[ $ans == y || $ans == Y ]] && features+='samba ' && list+="$pkg\n"
 
 		pkg="\e[36mShairport-sync\e[m - AirPlay"
-		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " ans; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " ans; echo
 		[[ $ans == y || $ans == Y ]] && features+='shairport-sync ' && list+="$pkg\n"
 
 		pkg="\e[36mupmpdcli\e[m - UPnP"
-		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/n]: " upnp; echo
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " upnp; echo
 		[[ $upnp == y || $upnp == Y ]] && list+="$pkg\n"
 
 		if [[ -n $list ]]; then
 			echo -e "Install features:\n$list"
-			read -ren 1 -p $'Confirm and continue? [y/n]: ' ans; echo
+			read -ren 1 -p $'Confirm and continue? [y/N]: ' ans; echo
 			[[ $ans != y && $ans != Y ]] && selectFeature
 		fi
 	fi
