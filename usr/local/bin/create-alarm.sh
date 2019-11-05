@@ -186,6 +186,7 @@ echo -e "Power on and wait 30 seconds for boot process.\n"
 read -resn 1 -p $'\nPress any key to continue\n'; echo
 
 if [[ $ans != y && $ans != Y ]]; then
+	echo -e "\nScan IP address ...\n"
 	nmap -sP ${routerip%.*}.*
 	echo -e "\nFind IP address of Raspberry Pi."
 	echo -e "(Compare with previous scan and if necessary. Raspberry Pi 4 may listed as unknown.)\n"
