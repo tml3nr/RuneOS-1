@@ -86,7 +86,7 @@ selectFeatures() {
 selectFeatures
 
 #-------------------------------------------------------------------
-echo -e "\n\n\e[36mInitialize PGP key ...\e[m\n"
+echo -e "\n\e[36mInitialize PGP key ...\e[m\n"
 
 pacman-key --init
 pacman-key --populate archlinuxarm
