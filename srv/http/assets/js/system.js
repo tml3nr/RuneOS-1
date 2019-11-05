@@ -599,7 +599,7 @@ $( '#setting-upnp' ).click( function() {
 					cmd += " -e '/^"+ service +".*/ s/^/#/'";
 				}
 			} );
-			cmd += $( '#ownqueuenot input' ).prop( 'checked' ) ? " -e '/^#ownqueue/ a\ownqueue = 0'" : " -e '/^ownqueue = / d'";
+			cmd += $( '#ownqueuenot input' ).prop( 'checked' ) ? " -e '/^#ownqueue =/ a\\ownqueue = 0'" : " -e '/ownqueue = 0/ d'";
 			cmd = [
 				  cmd +' /etc/upmpdcli.conf'
 				, 'systemctl try-restart upmpdcli'
