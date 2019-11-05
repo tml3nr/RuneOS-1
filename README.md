@@ -10,16 +10,15 @@ RuneOS
 	- Verify partitions
 	- Optional - pre-configure Wi-Fi connection (headless mode)
 	- Download
-	- Write `ROOT` and `BOOT` partitions
+	- Write `BOOT` and `ROOT` partitions
 - Connect PC to Raspberry Pi
 	- Start Arch Linux Arm
 	- Get IP address
 	- Connect
 - Create RuneAudio+Re
-	- Verify partitions
 	- Optional - select features
 	- Upgrade kernel and default packages
-	- Install packages and web interface
+	- Install feature packages and web interface
 	- Configure
 	- Set default settings
 
@@ -30,7 +29,7 @@ RuneOS
 - Raspberry Pi
 - Network connection to Raspberry Pi 
 	- Wired LAN
-	- Optional: Wi-Fi if necessary
+	- Optional: Wi-Fi (if necessary)
 - Micro SD card: 4GB+ - `BOOT` + `ROOT` partitions
 - Optional: Micro SD card + USB drive (run RuneAudio+R from USB drive)
 	- Micro SD card: 100MB+ - `BOOT` partition only
@@ -77,7 +76,7 @@ RuneOS
 # switch user to root
 su
 
-# get script
+# build script
 wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-alarm.sh
 chmod +x create-alarm.sh
 ./create-alarm.sh
@@ -134,7 +133,6 @@ su
 create-rune.sh
 # if download is too slow or errors occured, press Ctrl+C and run create-rune.sh again
 ```
-
 - **Finish** - If unattended: scroll up to look for errors and start over if any.
 
 ---
