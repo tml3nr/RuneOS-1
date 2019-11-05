@@ -120,13 +120,13 @@ echo -e "\nVerify downloaded file ...\n"
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to BOOT partition ...\e[m\n"
 
-pv $file | bsdtar -C $BOOT --totals --strip-components=2 --no-same-permissions --no-same-owner -xf - boot
+pv -ptbar $file | bsdtar -C $BOOT --totals --strip-components=2 --no-same-permissions --no-same-owner -xf - boot
 
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to ROOT partition ...\e[m\n"
 
 mkdir $ROOT/boot
-pv $file | bsdtar -C $ROOT --totals --exclude='boot' -xpf -
+pv -ptbar $file | bsdtar -C $ROOT --totals --exclude='boot' -xpf -
 
 # complete write from cache to disk before continue
 echo -e "\nIt takes some time to complete writing SD card or thumb drive ..."
