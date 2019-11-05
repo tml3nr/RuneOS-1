@@ -127,6 +127,7 @@ echo -e "\n\e[36mExpand to ROOT partition ...\e[m"
 mkdir $ROOT/boot
 bsdtar -C $ROOT --exclude='boot' -xpvf $file
 
+# wait for write to finish
 echo -e "\nWriting ROOT partition ...\n"
 
 if [[ $mode == 2 ]]; then
