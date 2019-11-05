@@ -95,6 +95,7 @@ chmod +x create-alarm.sh
 # scan ip address
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap -sP ${routerip%.*}.*
+# If still not found, start over again
 
 # connect
 read -r -p "Raspberry Pi IP: " rpiip; echo
@@ -106,7 +107,6 @@ read -ren 1 -p 'Confirm and continue? [y/N]: ' ans; echo
 ssh-keygen -R $rpiip &> /dev/null
 ssh alarm@$rpiip
 ```
-- If still not found, start over again
 
 ### Create RuneAudio+Re
 
