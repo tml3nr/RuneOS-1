@@ -91,6 +91,7 @@ chmod +x create-alarm.sh
 (skip if connected successfully) **If connection failed or RPi not show up in scan**
 - Power off RPi
 - If not yet on wired LAN, connect it.
+- If possible, connect a monitor/TV, to look for errors during boot.
 - Power on and scan again
 ```sh
 # scan ip address
