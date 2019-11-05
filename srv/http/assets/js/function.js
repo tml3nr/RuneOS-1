@@ -985,7 +985,6 @@ function imgError( image ) {
 	return true;
 }
 function infoCoverart( title, src, std ) {
-	console.log(title +' - '+ std)
 	$( '.edit' ).remove();
 	$( '#cover-art' ).css( 'opacity', '' );
 	if ( std == 13 ) {
