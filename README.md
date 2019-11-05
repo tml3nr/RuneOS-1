@@ -82,40 +82,31 @@ chmod +x create-alarm.sh
 ./create-alarm.sh
 # if download is too slow, ctrl+c and run ./create-alarm.sh again
 # note: RPi 3 shows filename as ArchLinuxARM-rpi-2-latest.tar.gz
-
-# if not pre-assign ip for RPi, scan IP list for reference
-routerip=$( ip route get 1 | cut -d' ' -f3 )
-nmap -sP ${routerip%.*}.*
 ```
 - If unattended, scroll up to verify there's no errors.
 
 ### Connect PC to Raspberry Pi
-
-- Move micro SD card (and optional USB drive) to RPi
-- Power on to start Arch Linux Arm
-- Wait 30 seconds
-- Get IP adddress (if not pre-assign for RPi)
+- At `ssh` prompt, Confirm and login with password: alarm
+- If connection failed or RPi not show up in scan:
+	- Power off RPi
+	- If not yet on wired LAN, connect it.
+	- Power on and scan again
 ```sh
-# scan IP list again and find Raspberry Pi or compare with previous for a new item
-# note: RPi 4 may listed as unknown
+# scan ip address
+routerip=$( ip route get 1 | cut -d' ' -f3 )
 nmap -sP ${routerip%.*}.*
 
-# If RPi not show up:
-#  - Power off RPi
-#  - If not yet on wired LAN, connect it.
-#  - Power on and scan again
-#  - If still not found, start over again
-```
-- Connect
-```sh
 # connect
 read -r -p "Raspberry Pi IP: " rpiip; echo
+echo -e "\nRaspberry Pi IP: $rpiip\n"
+read -ren 1 -p 'Confirm and continue? [y/N]: ' ans; echo
+[[ $ans != y && $ans != Y ]] && exit
 
 # remove existing key if any and connect
 ssh-keygen -R $rpiip &> /dev/null
 ssh alarm@$rpiip
-# confirm: yes > password: alarm
 ```
+- If still not found, start over again
 
 ### Create RuneAudio+Re
 
