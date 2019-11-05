@@ -183,7 +183,7 @@ fi
 
 echo -e "\nMove micro SD card (and optional USB drive) to RPi."
 echo -e "Power on and wait 30 seconds for boot process.\n"
-read -resn 1 -p $'\nPress any key to continue\n'; echo
+read -resn 1 -p $'Press any key to continue\n'; echo
 
 if [[ $ans != y && $ans != Y ]]; then
 	echo -e "\nRescan IP address ...\n"
