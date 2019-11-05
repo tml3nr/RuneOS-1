@@ -119,13 +119,13 @@ echo -e "\nVerify downloaded file ...\n"
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to BOOT partition ...\e[m\n"
 
-bsdtar -C $BOOT --strip-components=2 --no-same-permissions --no-same-owner -xvf $file boot
+bsdtar -C $BOOT --totals --strip-components=2 --no-same-permissions --no-same-owner -xvf $file boot
 
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mExpand to ROOT partition ...\e[m\n"
 
 mkdir $ROOT/boot
-bsdtar -C $ROOT --exclude='boot' -xpvf $file
+bsdtar -C $ROOT --totals --exclude='boot' -xpvf $file
 
 if [[ $mode == 1 ]]; then
 	echo -e "\nIt takes some time to write SD card ..."
