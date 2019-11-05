@@ -21,7 +21,7 @@ selectFeatures() {
 	read -ren 1 -p $'Install \e[36mall features\e[m [y/N]: ' ans; echo
 	if [[ $ans == y || $ans == Y ]]; then
 		echo -e "Install \e[36mall features\e[m\n"
-		read -ren 1 -p $'Confirm and continue? [y/N]: ' ans; echo
+		read -ren 1 -p 'Confirm and continue? [y/N]: ' ans; echo
 		[[ $ans != y && $ans != Y ]] && selectFeature
 
 		features+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
