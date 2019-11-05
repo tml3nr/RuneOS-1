@@ -117,14 +117,15 @@ echo "Verify downloaded file ..."
 ! md5sum -c $file.md5 && echo -e "\nDownload incomplete!\n" && exit
 
 #---------------------------------------------------------------------------------
-echo -e "\n\e[36mExpand to ROOT ...\e[m"
+echo -e "\n\e[36mExpand to BOOT partition ...\e[m"
 
-bsdtar xpvf $file -C $ROOT
+bsdtar -C $BOOT --strip-components=2 --no-same-permissions --no-same-owner -xvf $file boot
 
 #---------------------------------------------------------------------------------
-echo -e "\n\e[36mMove /boot to BOOT ...\e[m"
+echo -e "\n\e[36mExpand to ROOT partition ...\e[m"
 
-mv -v $ROOT/boot/* $BOOT 2> /dev/null
+mkdir $ROOT/boot
+bsdtar -C $ROOT --exclude='boot' -xpvf $file
 
 if [[ $mode == 2 ]]; then
 	dev=$( df | grep ROOT | awk '{print $1}' )
@@ -138,7 +139,7 @@ fi
 
 # wifi
 if [[ $ssid ]]; then
-	echo -e "\n\e[36mSetup Wi-Fi ...\e[m"
+	#echo -e "\n\e[36mSetup Wi-Fi ...\e[m"
 	# profile
 	profile="Interface=wlan0
 Connection=wireless

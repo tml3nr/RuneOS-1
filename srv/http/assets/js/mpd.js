@@ -32,11 +32,13 @@ function setMixerType( mixer, reloadpage ) {
 }
 $( '#audiooutput' ).change( function() {
 	var $selected = $( this ).find( ':selected' );
-	var name = $selected.val();
+	var name = $selected.text();
+	var sysname = $selected.val();
 	var index = $selected.data( 'index' );
 	var cmd = [
 		  "sed -i 's/output_device = .*/output_device = \"hw:"+ index +"\";/' /etc/shairport-sync.conf"
 		, 'echo '+ name +' > '+ dirsystem +'/audiooutput'
+		, 'echo '+ sysname +' > '+ dirsystem +'/sysname'
 		, 'systemctl try-restart shairport-sync shairport-meta'
 		, pstream( 'mpd' )
 	];
