@@ -87,11 +87,11 @@ chmod +x create-alarm.sh
 
 ### Connect PC to Raspberry Pi
 - At `Are you sure you want to continue connecting (yes/no)?`, confirm `yes` and login with password: `alarm`
--
-- (skip if connected successfully) If connection failed or RPi not show up in scan:
-	- Power off RPi
-	- If not yet on wired LAN, connect it.
-	- Power on and scan again
+
+**(skip if connected successfully) If connection failed or RPi not show up in scan**
+- Power off RPi
+- If not yet on wired LAN, connect it.
+- Power on and scan again
 ```sh
 # scan ip address
 routerip=$( ip route get 1 | cut -d' ' -f3 )
