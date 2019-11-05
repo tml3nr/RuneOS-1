@@ -128,11 +128,10 @@ echo -e "\n\e[36mExpand to ROOT partition ...\e[m\n"
 mkdir $ROOT/boot
 pv $file | bsdtar -C $ROOT --totals --exclude='boot' -xpf -
 
-if [[ $mode == 1 ]]; then
-	echo -e "\nIt takes some minutes to complete writing SD card ..."
-	sync
-else
-	sync
+echo -e "\nIt takes some time to complete writing SD card or thumb drive ..."
+sync
+
+if [[ $mode == 2 ]]; then
 	dev=$( df | grep ROOT | awk '{print $1}' )
 	uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
 	sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
