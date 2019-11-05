@@ -169,8 +169,6 @@ wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-rune.sh 
 chmod +x $ROOT/usr/local/bin/create-rune.sh
 [[ $? == 0 ]] && rm $0
 
-umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted."
-
 echo -e "\n\e[36mArch Linux Arm for Raspberry Pi $rpi created successfully.\e[m\n"
 hr
 
@@ -180,6 +178,8 @@ if [[ $ans != y && $ans != Y ]]; then
 	routerip=$( ip route get 1 | cut -d' ' -f3 )
 	nmap -sP ${routerip%.*}.*
 fi
+
+umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted."
 
 echo -e "\nMove micro SD card (and optional USB drive) to RPi."
 echo -e "Power on and wait 30 seconds for boot process.\n"
