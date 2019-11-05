@@ -193,7 +193,7 @@ if [[ $ans != y && $ans != Y ]]; then
 fi
 
 read -r -p "Raspberry Pi IP: " rpiip; echo
-echo -e "\nRaspberry Pi IP: \e[36m$rpiip\e[m\n"
+echo -e "Raspberry Pi IP: \e[36m$rpiip\e[m\n"
 read -ren 1 -p 'Confirm and continue? [y/N]: ' ans; echo
 [[ $ans != y && $ans != Y ]] && exit
 
