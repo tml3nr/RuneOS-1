@@ -84,7 +84,7 @@ chmod +x create-alarm.sh
 # if download is too slow, press Ctrl+C and run ./create-alarm.sh again
 # note: RPi 3 shows filename as ArchLinuxARM-rpi-2-latest.tar.gz
 ```
-- **Finished** - If unattended, scroll up to look for any errors.
+- **Finished** - If unattended: scroll up to look for errors and start over if any.
 
 ### Connect PC to Raspberry Pi
 - At `Are you sure you want to continue connecting (yes/no)?`, confirm `yes` and login with password: `alarm`
@@ -135,7 +135,7 @@ create-rune.sh
 # if download is too slow or errors occured, press Ctrl+C and run create-rune.sh again
 ```
 
-- **Finish** - If unattended, scroll up to look for any errors.
+- **Finish** - If unattended: scroll up to look for errors and start over if any.
 
 ---
 
