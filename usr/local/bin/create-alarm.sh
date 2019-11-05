@@ -128,7 +128,7 @@ mkdir $ROOT/boot
 bsdtar -C $ROOT --exclude='boot' -xpvf $file
 
 # wait for write to finish
-echo -e "\nWriting ROOT partition ...\n"
+[[ $mode == 1 ]] && echo -e "\nIt takes some time to write SD card ..."
 
 if [[ $mode == 2 ]]; then
 	dev=$( df | grep ROOT | awk '{print $1}' )
