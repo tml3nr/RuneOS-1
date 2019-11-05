@@ -259,8 +259,16 @@ mkdir -p /mnt/MPD/{NAS,SD,USB}
 chown -R http:http "$dirdata"
 chown -R mpd:audio "$dirdata/mpd" /mnt/MPD
 
+if [[ -e /usr/bin/upmpdcli ]]; then
+	echo -e "\nInit RSA key for upmpdcli UPnP\n"
+	echo -e "Press 'Ctrl+C' when 'writing RSA key' displayed."
+	read -resn 1 -p $'\nPress any key to start\n'; echo
+	mpd --no-config &> /dev/null
+	upmpdcli
+fi
+
 echo -e "\n\e[36mRuneAudio+R $version created successfully.\e[m\n"
 hr
 
-#read -resn 1 -p $'\nPress any key to reboot\n'; echo
-#shutdown -r now
+read -resn 1 -p $'\nPress any key to reboot\n'; echo
+shutdown -r now
