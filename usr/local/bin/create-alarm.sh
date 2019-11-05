@@ -142,7 +142,7 @@ fi
 
 # wifi
 if [[ $ssid ]]; then
-	#echo -e "\n\e[36mSetup Wi-Fi ...\e[m"
+	echo -e "\n\e[36mSetup Wi-Fi ...\e[m\n"
 	# profile
 	profile="Interface=wlan0
 Connection=wireless
