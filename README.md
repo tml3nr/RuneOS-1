@@ -30,10 +30,10 @@ RuneOS
 - Network connection to Raspberry Pi 
 	- Wired LAN
 	- Optional: Wi-Fi (if necessary)
-- Micro SD card: 4GB+ - `BOOT` + `ROOT` partitions
+- Micro SD card: 4GB+ for `BOOT` + `ROOT` partitions
 - Optional: Micro SD card + USB drive (run RuneAudio+R from USB drive)
-	- Micro SD card: 100MB+ - `BOOT` partition only
-	- USB drive: 4GB+ - `ROOT` partition (or existing USB hard drive with data)
+	- Micro SD card: 100MB+ for `BOOT` partition only
+	- USB drive: 4GB+ for `ROOT` partition (or USB hard drive with existing data)
 	- For hard drives or faster-than-SD-card thumb drives
 - Optional: Monitor/TV to see boot process
 ---
