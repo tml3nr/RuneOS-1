@@ -171,5 +171,27 @@ chmod +x $ROOT/usr/local/bin/create-rune.sh
 
 umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted."
 
-echo -e "\n\e[36mArch Linux Arm for Raspberry Pi $rpi created successfully.\e[m"
+echo -e "\n\e[36mArch Linux Arm for Raspberry Pi $rpi created successfully.\e[m\n"
 hr
+
+read -ren 1 -p $'Raspberry Pi has pre-assigned IP address? [y/N]: ' ans; echo
+if [[ $ans != y && $ans != Y ]]; then
+	echo -e "\nScan IP address of existing hosts ...\n"
+	routerip=$( ip route get 1 | cut -d' ' -f3 )
+	nmap -sP ${routerip%.*}.*
+fi
+
+echo -e "\nMove micro SD card (and optional USB drive) to RPi."
+echo -e "Power on and wait 30 seconds for boot process.\n"
+read -resn 1 -p $'\nPress any key to continue\n'; echo
+
+if [[ $ans != y && $ans != Y ]]; then
+	nmap -sP ${routerip%.*}.*
+	echo -e "\nFind IP address of Raspberry Pi."
+	echo -e "(Compare with previous scan and if necessary. Raspberry Pi 4 may listed as unknown.)\n"
+fi
+
+read -r -p "Raspberry Pi IP: " rpiip; echo
+# remove existing key if any and connect
+ssh-keygen -R $rpiip &> /dev/null
+ssh alarm@$rpiip
