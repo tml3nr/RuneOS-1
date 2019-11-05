@@ -985,6 +985,7 @@ function imgError( image ) {
 	return true;
 }
 function infoCoverart( title, src, std ) {
+	console.log(title +' - '+ std)
 	$( '.edit' ).remove();
 	$( '#cover-art' ).css( 'opacity', '' );
 	if ( std == 13 ) {
@@ -1001,6 +1002,7 @@ function infoCoverart( title, src, std ) {
 			, message : '<i class="fa fa-warning fa-lg"></i>&ensp;Upload image failed.'
 		} );
 	} else {
+		$( '.licoverimg' ).toggleClass( 'nocover', title === 'Remove' );
 		if ( title === 'Save' ) {
 			GUI.coversave = 0;
 			notify( 'Album Coverart', 'Saved.', 'coverart' );
@@ -1153,7 +1155,9 @@ function removeCoverart() {
 		var artist = $( '.licover .liartist' ).text();
 	}
 	$.post( 'commands.php', { bash: 'ls "/mnt/MPD/'+ path +'" | /usr/bin/grep -iE "^cover.jpg$|^cover.png$|^folder.jpg$|^folder.png$|^front.jpg$|^front.png$"' }, function( file ) {
-		if ( typeof file === 'object' ) {
+		var fileL = file.length;
+		var file = file[ 0 ];
+		if ( fileL.length > 1 ) {
 			info( {
 				  icon    : 'coverart'
 				, title   : 'Remove Album Coverart'
@@ -1581,7 +1585,7 @@ function replaceCoverart() {
 		, fileoklabel : 'Replace'
 		, ok          : function() {
 			var newimg = $( '#infoMessage .newimg' ).attr( 'src' );
-			$.post( 'commands.php', { imagefile: '/mnt/MPD/'+ path +'/cover.jpg', base64: newimg, coverfile: 1 }, function( std ) {
+			$.post( 'commands.php', { imagefile: '/mnt/MPD/'+ path +'/cover.jpg', base64: newimg.split( ',' ).pop(), coverfile: 1 }, function( std ) {
 				infoCoverart( 'Replace', newimg, std );
 			} );
 		}

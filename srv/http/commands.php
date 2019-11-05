@@ -268,17 +268,14 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1'.$hsg.'60%\2|g
 	$coverfile = isset( $_POST[ 'coverfile' ] );
 	if ( $coverfile ) exec( "$sudo/mv -f \"$imagefile\"{,.backup}", $output, $std );
 	if ( !isset( $_POST[ 'base64' ] ) ) { // delete
-		$delete = unlink( $imagefile );
-		if ( !$delete ) echo 13;
-		exit;
-	}
-	
-	$base64 = explode( ',', $_POST[ 'base64' ] )[ 1 ];
-	if ( $coverfile ) {
-		echo exec( 'echo '.base64_decode( $base64 )." | $sudo/tee \"$imagefile\"" );
+		exec( "$sudo/rm -f \"$imagefile\"", $output, $std );
+		echo $std;
 	} else {
-		$newfile = substr( $imagefile, 0, -3 ).'jpg'; // if existing is 'cover.svg'
-		echo file_put_contents( $imagefile, base64_decode( $base64 ) ) || exit( '-1' );
+		$tmpfile = "$dirtmp/tmp.jpg";
+		file_put_contents( $tmpfile, base64_decode( $_POST[ 'base64' ] ) ) || exit( '-1' );
+		if ( !$coverfile ) $imagefile = substr( $imagefile, 0, -3 ).'jpg'; // if existing is 'cover.svg'
+		exec( "$sudo/mv -f $tmpfile \"$imagefile\"", $output, $std );
+		echo $std;	
 	}
 	
 } else if ( isset( $_POST[ 'loadplaylist' ] ) ) {
