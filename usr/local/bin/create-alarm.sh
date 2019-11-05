@@ -174,7 +174,7 @@ umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted."
 echo -e "\n\e[36mArch Linux Arm for Raspberry Pi $rpi created successfully.\e[m\n"
 hr
 
-read -ren 1 -p $'Raspberry Pi has pre-assigned IP address? [y/N]: ' ans; echo
+read -ren 1 -p 'Raspberry Pi has pre-assigned IP address? [y/N]: ' ans; echo
 if [[ $ans != y && $ans != Y ]]; then
 	echo -e "\nScan IP address of existing hosts ...\n"
 	routerip=$( ip route get 1 | cut -d' ' -f3 )
@@ -192,6 +192,10 @@ if [[ $ans != y && $ans != Y ]]; then
 fi
 
 read -r -p "Raspberry Pi IP: " rpiip; echo
+echo -e "\nRaspberry Pi IP: $rpiip\n"
+read -ren 1 -p 'Confirm and continue? [y/N]: ' ans; echo
+[[ $ans != y && $ans != Y ]] && exit
+
 # remove existing key if any and connect
 ssh-keygen -R $rpiip &> /dev/null
 ssh alarm@$rpiip
