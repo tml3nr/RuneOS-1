@@ -41,7 +41,7 @@ fi
 [[ -n $notemptyboot && -n $notemptyroot ]] && notempty='BOOT and ROOT'
 if [[ -n $notempty ]]; then
 	dialog --backtitle "$title" --colors \
-		--msgbox '\n\Z1$notempty not empty\Z0\n\n' 0 0
+		--msgbox "\n\Z1$notempty not empty\Z0\n\n" 0 0
 	clear && exit
 fi
 
