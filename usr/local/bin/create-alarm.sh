@@ -16,6 +16,7 @@ fi
 # remove on exit
 trap 'rm -f ArchLinuxARM*; clear' EXIT
 
+#----------------------------------------------------------------------------
 title='Create Arch Linux Arm'
 dialog --colors \
     --infobox "\n             \Z1$title\Z0\n" 5 50
@@ -142,6 +143,7 @@ dialog --backtitle "$title" --colors \
     --infobox "\n\Z1Be patient.\Z0\nIt may takes 10+ minutes \nto complete writing SD card or thumb drive." 7 50
 sync
 
+#----------------------------------------------------------------------------
 # USB drive mode
 if [[ $mode == 2 ]]; then
 	dev=$( df | grep ROOT | awk '{print $1}' )
@@ -189,6 +191,7 @@ dialog --colors \
               created successfully.\n" 6 50
 sleep 3
 
+#----------------------------------------------------------------------------
 dialog --msgbox "\nMove micro SD card (and optional USB drive) to RPi.\n
 Power on and wait 30 seconds for boot then press ok to continue" 7 100
 
