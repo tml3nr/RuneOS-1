@@ -25,15 +25,23 @@ sleep 3
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 
-if [[ -z $BOOT || -z $ROOT ]]; then
+# check mounts
+[[ -z $BOOT ]] && partitions=BOOT
+[[ -z $ROOT ]] && partitions=ROOT
+[[ -z $BOOT && -z $ROOT ]] && partitions='BOOT and ROOT'
+if [[ -n $partitions ]]; then
 	dialog --backtitle "$title" --colors \
-		--msgbox '\n\Z1BOOT or ROOT not found\Z0\n\n' 0 0
+		--msgbox '\n\Z1$partitions not found\Z0\n\n' 0 0
 	clear && exit
 fi
 
-if [[ -n $( ls $BOOT | grep -v 'System Volume Information' ) || -n $( ls $ROOT | grep -v 'lost+found' ) ]]; then
+# check empty to prevent wrong partitions
+[[ -n $( ls $BOOT | grep -v 'System Volume Information' ) ]] && notemptyboot=BOOT
+[[ -n $( ls $ROOT | grep -v 'lost+found' ) ]] && notemptyroot=ROOT
+[[ -n $notemptyboot && -n $notemptyroot ]] && notempty='BOOT and ROOT'
+if [[ -n $notempty ]]; then
 	dialog --backtitle "$title" --colors \
-		--msgbox '\n\Z1BOOT or ROOT not empty\Z0\n\n' 0 0
+		--msgbox '\n\Z1$notempty not empty\Z0\n\n' 0 0
 	clear && exit
 fi
 
