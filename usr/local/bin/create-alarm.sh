@@ -86,13 +86,14 @@ if [[ $mode == 1 ]]; then
 else
 	dev='USB drive'
 	dev=$( df | grep ROOT | awk '{print $1}' )
-	uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
-	if [[ -z $uuid ]]; then
+	#uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
+	partuuid=$( /sbin/blkid | grep $dev | awk '{print $NF}' | tr -d '"' )
+	if [[ -z $partuuid ]]; then
 		dialog --backtitle "$title" --colors \
-			--msgbox '\n\Z1UUID of ROOT not found.\Z0\n\n' 0 0
+			--msgbox '\n\Z1PARTUUID of ROOT not found.\Z0\n\n' 0 0
 		clear && exit
 	fi
-	usbuuid="USB UUID  : \Z1${uuid/UUID=}\Z0\n"
+	usbuuid="PARTUUID  : \Z1${partuuid/PARTUUID=}\Z0\n"
 fi
 
 dialog --backtitle "$title" --colors \
@@ -164,8 +165,8 @@ sync
 #----------------------------------------------------------------------------
 # USB drive mode
 if [[ $mode == 2 ]]; then
-	sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
-	echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
+	sed -i "s|/dev/mmcblk0p2|$partuuid|" $BOOT/cmdline.txt
+	echo "$partuuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 fi
 
 # RPi 0 - fix: kernel panic
