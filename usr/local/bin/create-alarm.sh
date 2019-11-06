@@ -14,7 +14,7 @@ else
 fi
 
 # remove on exit
-trap 'rm -f ArchLinuxARM*' EXIT
+trap 'rm -f ArchLinuxARM*; clear' EXIT
 
 title='Create Arch Linux Arm'
 dialog --colors \
