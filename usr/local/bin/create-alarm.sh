@@ -81,7 +81,19 @@ mode=$( dialog --backtitle "$title" --colors \
 		1 'Micro SD card' on \
 		2 'USB drive' off )
 [[ $? == 255 ]] && clear && exit
-[[ $mode == 1 ]] && dev='Micro SD card' || dev='USB drive'
+if [[ $mode == 1 ]]; then
+	dev='Micro SD card'
+else
+	dev='USB drive'
+	dev=$( df | grep ROOT | awk '{print $1}' )
+	uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
+	if [[ -z $uuid ]]; then
+		dialog --backtitle "$title" --colors \
+			--msgbox '\n\Z1UUID of ROOT not found.\Z0\n\n' 0 0
+		clear && exit
+	fi
+	usbuuid="USB UUID  : \Z1${uuid/UUID=}\Z0\n"
+fi
 
 dialog --backtitle "$title" --colors \
 	--yesno '\n\Z1Connect Wi-Fi on boot?\Z0\n\n' 0 0
@@ -123,6 +135,7 @@ BOOT path : \Z1$BOOT\Z0\n\
 ROOT path : \Z1$ROOT\Z0\n\
 Target    : \Z1Raspberry Pi $rpi\Z0\n\
 Run on    : \Z1$dev\Z0\n\n\
+$usbuuid
 $wifi" 0 0
 [[ $? == 1 || $? == 255 ]] && clear && exit
 
@@ -151,8 +164,6 @@ sync
 #----------------------------------------------------------------------------
 # USB drive mode
 if [[ $mode == 2 ]]; then
-	dev=$( df | grep ROOT | awk '{print $1}' )
-	uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
 	sed -i "s|/dev/mmcblk0p2|$uuid|" $BOOT/cmdline.txt
 	echo "$uuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
 fi
@@ -207,6 +218,7 @@ Power on.\n
 title='Connect to Raspberry Pi'
 # scan ip
 dialog --backtitle "$title" --colors \
+	--defaultno \
 	--yesno '\n\Z1Scan for IP address of Raspberry Pi?\Z0\n\n' 0 0
 ans=$?
 [[ $ans == 255 ]] && clear && exit
