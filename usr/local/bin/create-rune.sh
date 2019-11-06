@@ -34,7 +34,8 @@ ans=$?
 [[ $ans == 255 ]] && clear && exit
 
 if [[ $ans == 0 ]]; then
-    features+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
+    features='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
+	list='\Z1All features\Z0'
 else
 	avahi='\Z1Avahi\Z0 - Connect by: runeaudio.local'
 	bluez='\Z1Bluez\Z0 - Bluetooth supports'
@@ -73,6 +74,10 @@ else
 	[[ $select == *' 9 '* ]] && features+='shairport-sync ' && list+="$shairport\n"
 	[[ $select == *' 10 '* ]] && upnp=1 && list+="$upmpdcli\n"
 fi
+
+dialog --backtitle "$title" --colors \
+	--yesno "\n\Z1Confirm features to install:\Z0\n\n$list\n\n" 0 0
+[[ $? == 1 || $? == 255 ]] && clear && exit
 
 clear
 
