@@ -26,13 +26,13 @@ ROOT=$( df | grep ROOT | awk '{print $NF}' )
 
 if [[ -z $BOOT || -z $ROOT ]]; then
 	dialog --backtitle "$title" --colors \
-		--msgbox '\n\Z1BOOT or ROOT not found\Z0\n\n\' 0 0
+		--msgbox '\n\Z1BOOT or ROOT not found\Z0\n\n' 0 0
 	exit
 fi
 
 if [[ -n $( ls $BOOT | grep -v 'System Volume Information' ) || -n $( ls $ROOT | grep -v 'lost+found' ) ]]; then
 	dialog --backtitle "$title" --colors \
-		--msgbox '\n\Z1BOOT or ROOT not empty\Z0\n\n\' 0 0
+		--msgbox '\n\Z1BOOT or ROOT not empty\Z0\n\n' 0 0
 	exit
 fi
 
