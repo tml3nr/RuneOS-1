@@ -72,11 +72,6 @@ else
 	[[ $select == *' 8 '* ]] && features+='samba ' && list+="$samba\n"
 	[[ $select == *' 9 '* ]] && features+='shairport-sync ' && list+="$shairport\n"
 	[[ $select == *' 10 '* ]] && upnp=1 && list+="$upmpdcli\n"
-	
-	dialog --backtitle "$title" --colors\
-		--yesno "\n\Z1Feature to install:\Z0\n\n
-$list\n" 0 0
-    [[ $? == 255 ]] && clear && exit
 fi
 
 clear
