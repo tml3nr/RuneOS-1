@@ -136,7 +136,7 @@ pv -n $file | bsdtar -C $BOOT --totals --strip-components=2 --no-same-permission
     dialog --backtitle "$title" \
         --gauge "Expand to BOOT ..." 0 50
 pv -n $file | bsdtar -C $ROOT --totals --exclude='boot' -xpf - 2>&1 | \
-    dialog --backtitle "$title" \n
+    dialog --backtitle "$title" \
         --gauge "Expand to ROOT ...\n" 0 50
 
 dialog --backtitle "$title" --colors \
