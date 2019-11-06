@@ -24,6 +24,18 @@ sleep 3
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 
+if [[ -z $BOOT || -z $ROOT ]]; then
+	dialog --backtitle "$title" --colors \
+		--msgbox '\n\Z1BOOT or ROOT not found\Z0\n\n\' 0 0
+	exit
+fi
+
+if [[ -n $( ls $BOOT | grep -v 'System Volume Information' ) || -n $( ls $BOOT | grep -v 'lost+found' ) ]]; then
+	dialog --backtitle "$title" --colors \
+		--msgbox '\n\Z1BOOT or ROOT not empty\Z0\n\n\' 0 0
+	exit
+fi
+
 # get build data
 dialog --backtitle "$title" --colors \
 	--yesno "\n\Z1Confirm path:\Z0\n\n\
