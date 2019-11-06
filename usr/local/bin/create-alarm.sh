@@ -86,9 +86,8 @@ getData() {
 		dev='Micro SD card'
 	else
 		dev='USB drive'
-		dev=$( df | grep ROOT | awk '{print $1}' )
 		#uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
-		partuuid=$( /sbin/blkid | grep $dev | awk '{print $NF}' | tr -d '"' )
+		partuuid=$( /sbin/blkid | grep $( df | grep ROOT | awk '{print $1}' ) | awk '{print $NF}' | tr -d '"' )
 		if [[ -z $partuuid ]]; then
 			dialog --backtitle "$title" --colors \
 				--msgbox '\n\Z1PARTUUID of ROOT not found.\Z0\n\n' 0 0
