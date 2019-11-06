@@ -70,7 +70,7 @@ kpartx -dv "$imagefile"
 
 **Setup USB as root partition**
 ```sh
-# get UUID and verify
+# get PARTUUID and verify
 dev=$( df | grep ROOT | awk '{print $1}' )
 partuuid=$( /sbin/blkid | grep $dev | awk '{print $NF}' | tr -d '"' )
 showData "$( df -h | grep ROOT )" $partuuid
