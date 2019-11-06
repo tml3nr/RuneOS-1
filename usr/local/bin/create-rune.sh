@@ -97,9 +97,12 @@ systemctl start systemd-random-seed
 # fix dns errors
 systemctl stop systemd-resolved
 
+# dialog package
+pacman -Sy --noconfirm --needed dialog
+
 echo -e "\n\e[36mSystem-wide kernel and packages upgrade ...\e[m\n"
 
-pacman -Syu --noconfirm --needed
+pacman -Su --noconfirm --needed
 
 packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip sudo udevil wget '
 
