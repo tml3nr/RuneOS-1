@@ -147,6 +147,7 @@ getData() {
 		getData
 	fi
 }
+getData
 
 # download
 wget http://os.archlinuxarm.org/os/$file 2>&1 | \
