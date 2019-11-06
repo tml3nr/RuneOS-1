@@ -31,7 +31,7 @@ ROOT=$( df | grep ROOT | awk '{print $NF}' )
 [[ -z $BOOT && -z $ROOT ]] && partitions='BOOT and ROOT'
 if [[ -n $partitions ]]; then
 	dialog --backtitle "$title" --colors \
-		--msgbox '\n\Z1$partitions not found\Z0\n\n' 0 0
+		--msgbox "\n\Z1$partitions not found\Z0\n\n" 0 0
 	clear && exit
 fi
 
@@ -46,99 +46,107 @@ if [[ -n $notempty ]]; then
 fi
 
 # get build data
-dialog --backtitle "$title" --colors \
-	--yesno "\n\Z1Confirm path:\Z0\n\n\
-BOOT: \Z1$BOOT\Z0\n\
-ROOT: \Z1$ROOT\Z0\n\n" 0 0
-[[ $? == 1 || $? == 255 ]] && clear && exit
-	
-rpi=$( dialog --backtitle "$title" --colors \
-	--output-fd 1 \
-	--radiolist '\n\Z1Target:\Z0' 0 0 6 \
-		0 'Raspberry Pi Zero' off \
-		1 'Raspberry Pi 1' off \
-		2 'Raspberry Pi 2' off \
-		3 'Raspberry Pi 3' on \
-		4 'Raspberry Pi 4' off \
-		5 'Raspberry Pi 3+' off )
-[[ $? == 255 ]] && clear && exit
+getData() {
+	dialog --backtitle "$title" --colors \
+		--yesno "\n\Z1Confirm path:\Z0\n\n\
+	BOOT: \Z1$BOOT\Z0\n\
+	ROOT: \Z1$ROOT\Z0\n\n" 0 0
+	[[ $? == 1 || $? == 255 ]] && clear && exit
 
-if [[ $rpi == 0 || $rpi == 1 ]]; then
-	file=ArchLinuxARM-rpi-latest.tar.gz
-	[[ $rpi == 0 ]] && rpi=Zero
-elif [[ $rpi == 2 || $rpi == 3 ]]; then
-	file=ArchLinuxARM-rpi-2-latest.tar.gz
-elif [[ $rpi == 5 ]]; then
-	file=ArchLinuxARM-rpi-3-latest.tar.gz
-	rpi=3+
-elif [[ $rpi == 4 ]]; then
-	file=ArchLinuxARM-rpi-4-latest.tar.gz
-fi
+	rpi=$( dialog --backtitle "$title" --colors \
+		--output-fd 1 \
+		--radiolist '\n\Z1Target:\Z0' 0 0 6 \
+			0 'Raspberry Pi Zero' off \
+			1 'Raspberry Pi 1' off \
+			2 'Raspberry Pi 2' off \
+			3 'Raspberry Pi 3' on \
+			4 'Raspberry Pi 4' off \
+			5 'Raspberry Pi 3+' off )
+	[[ $? == 255 ]] && clear && exit
 
-mode=$( dialog --backtitle "$title" --colors \
-	--output-fd 1 \
-	--radiolist "\n\Z1Run on:\Z0" 0 0 2 \
-		1 'Micro SD card' on \
-		2 'USB drive' off )
-[[ $? == 255 ]] && clear && exit
-if [[ $mode == 1 ]]; then
-	dev='Micro SD card'
-else
-	dev='USB drive'
-	dev=$( df | grep ROOT | awk '{print $1}' )
-	#uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
-	partuuid=$( /sbin/blkid | grep $dev | awk '{print $NF}' | tr -d '"' )
-	if [[ -z $partuuid ]]; then
-		dialog --backtitle "$title" --colors \
-			--msgbox '\n\Z1PARTUUID of ROOT not found.\Z0\n\n' 0 0
-		clear && exit
+	if [[ $rpi == 0 || $rpi == 1 ]]; then
+		file=ArchLinuxARM-rpi-latest.tar.gz
+		[[ $rpi == 0 ]] && rpi=Zero
+	elif [[ $rpi == 2 || $rpi == 3 ]]; then
+		file=ArchLinuxARM-rpi-2-latest.tar.gz
+	elif [[ $rpi == 5 ]]; then
+		file=ArchLinuxARM-rpi-3-latest.tar.gz
+		rpi=3+
+	elif [[ $rpi == 4 ]]; then
+		file=ArchLinuxARM-rpi-4-latest.tar.gz
 	fi
-	usbuuid="PARTUUID  : \Z1${partuuid/PARTUUID=}\Z0\n"
-fi
 
-dialog --backtitle "$title" --colors \
-	--yesno '\n\Z1Connect Wi-Fi on boot?\Z0\n\n' 0 0
-ans=$?
-[[ $ans == 255 ]] && clear && exit
-
-if [[ $ans == 0 ]]; then
-	ssid=$( dialog --backtitle "$title" --output-fd 1 \
-		--inputbox 'Wi-Fi - SSID:' 0 0 )
+	mode=$( dialog --backtitle "$title" --colors \
+		--output-fd 1 \
+		--radiolist "\n\Z1Run on:\Z0" 0 0 2 \
+			1 'Micro SD card' on \
+			2 'USB drive' off )
 	[[ $? == 255 ]] && clear && exit
-
-	password=$( dialog --backtitle "$title" --output-fd 1 \
-		--inputbox 'Wi-Fi - Password:' 0 0 )
-	[[ $? == 255 ]] && clear && exit
-		
-	wpa=$( dialog --backtitle "$title" --output-fd 1 \
-		--radiolist 'Wi-Fi -Security:' 0 0 3 \
-			1 'WPA' on \
-			2 'WEP' off \
-			3 'None' off )
-	[[ $? == 255 ]] && clear && exit
-	
-	if [[ $wpa == 1 ]]; then
-		wpa=wpa
-	elif [[ $wpa == 2 ]]; then
-		wpa=wep
+	if [[ $mode == 1 ]]; then
+		dev='Micro SD card'
 	else
-		wpa=
+		dev='USB drive'
+		dev=$( df | grep ROOT | awk '{print $1}' )
+		#uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
+		partuuid=$( /sbin/blkid | grep $dev | awk '{print $NF}' | tr -d '"' )
+		if [[ -z $partuuid ]]; then
+			dialog --backtitle "$title" --colors \
+				--msgbox '\n\Z1PARTUUID of ROOT not found.\Z0\n\n' 0 0
+			clear && exit
+		fi
+		usbuuid="PARTUUID  : \Z1${partuuid/PARTUUID=}\Z0\n"
 	fi
-	wifi="Wi-Fi settings\n\
- SSID     : \Z1$ssid\Z0\n\
- Password : \Z1$password\Z0\n\
- Security : \Z1${wpa^^}\Z0\n\n"
-fi
 
-dialog --backtitle "$title" --colors \
-	--yesno "\n\Z1Confirm data:\Z0\n\n\
-BOOT path : \Z1$BOOT\Z0\n\
-ROOT path : \Z1$ROOT\Z0\n\
-Target    : \Z1Raspberry Pi $rpi\Z0\n\
-Run on    : \Z1$dev\Z0\n\
-$usbuuid
-$wifi" 0 0
-[[ $? == 1 || $? == 255 ]] && clear && exit
+	dialog --backtitle "$title" --colors \
+		--yesno '\n\Z1Connect Wi-Fi on boot?\Z0\n\n' 0 0
+	ans=$?
+	[[ $ans == 255 ]] && clear && exit
+
+	if [[ $ans == 0 ]]; then
+		ssid=$( dialog --backtitle "$title" --output-fd 1 \
+			--inputbox 'Wi-Fi - SSID:' 0 0 )
+		[[ $? == 255 ]] && clear && exit
+
+		password=$( dialog --backtitle "$title" --output-fd 1 \
+			--inputbox 'Wi-Fi - Password:' 0 0 )
+		[[ $? == 255 ]] && clear && exit
+
+		wpa=$( dialog --backtitle "$title" --output-fd 1 \
+			--radiolist 'Wi-Fi -Security:' 0 0 3 \
+				1 'WPA' on \
+				2 'WEP' off \
+				3 'None' off )
+		[[ $? == 255 ]] && clear && exit
+
+		if [[ $wpa == 1 ]]; then
+			wpa=wpa
+		elif [[ $wpa == 2 ]]; then
+			wpa=wep
+		else
+			wpa=
+		fi
+		wifi="Wi-Fi settings\n\
+	 SSID     : \Z1$ssid\Z0\n\
+	 Password : \Z1$password\Z0\n\
+	 Security : \Z1${wpa^^}\Z0\n\n"
+	fi
+
+	dialog --backtitle "$title" --colors \
+		--extra-button --extra-label Revise \
+		--yesno "\n\Z1Confirm data:\Z0\n\n\
+	BOOT path : \Z1$BOOT\Z0\n\
+	ROOT path : \Z1$ROOT\Z0\n\
+	Target    : \Z1Raspberry Pi $rpi\Z0\n\
+	Run on    : \Z1$dev\Z0\n\
+	$usbuuid
+	$wifi" 0 0
+	ans=$?
+	if [[ $ans == 255 ]]; then
+		clear && exit
+	elif [[ $ans == 1 ]]; then
+		getData
+	fi
+}
 
 # download
 wget http://os.archlinuxarm.org/os/$file 2>&1 | \
