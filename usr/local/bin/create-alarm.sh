@@ -24,7 +24,7 @@ sleep 3
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 
-# get build data --------------------------------------------------------------
+# get build data
 dialog --backtitle "$title" --colors \
 	--yesno "\n\Z1Confirm path:\Z0\n\n\
 BOOT: \Z1$BOOT\Z0\n\
@@ -108,22 +108,25 @@ Run on    : \Z1$dev\Z0\n\n\
 $wifi" 0 0
 [[ $? == 1 || $? == 255 ]] && clear && exit
 
-#-------------------------------------------------------------------------------
 # download
 wget http://os.archlinuxarm.org/os/$file 2>&1 | \
     stdbuf -o0 awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | \
-    dialog --gauge "Download Arch Linux Arm ..." 0 50
+    dialog --backtitle "$title" \
+        --gauge "Download Arch Linux Arm ..." 0 50
 wget http://os.archlinuxarm.org/os/$file.md5 2>&1 | \
     stdbuf -o0 awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | \
-    dialog --gauge "Download checksum ..." 0 50
+    dialog --backtitle "$title" \
+        --gauge "Download checksum ..." 0 50
 
 # expand
 pv -n $file | bsdtar -C $BOOT --totals --strip-components=2 --no-same-permissions --no-same-owner -xf - boot 2>&1 | \
-    dialog --gauge "Expand to BOOT ..." 0 50
+    dialog --backtitle "$title" \
+        --gauge "Expand to BOOT ..." 0 50
 pv -n $file | bsdtar -C $ROOT --totals --exclude='boot' -xpf - 2>&1 | \
-    dialog --gauge "Expand to ROOT ...\n" 0 50
+    dialog --backtitle "$title" \n
+        --gauge "Expand to ROOT ...\n" 0 50
 
-dialog --colors \
+dialog --backtitle "$title" --colors \
     --infobox "\n\Z1Be patient.\Z0\nIt may takes 10+ minutes \nto complete writing SD card or thumb drive." 7 50
 sync
 
@@ -177,24 +180,26 @@ sleep 3
 dialog --msgbox "\nMove micro SD card (and optional USB drive) to RPi.\n
 Power on and wait 30 seconds for boot then press ok to continue" 7 100
 
-#-------------------------------------------------------------------------------
+title='Connect to Raspberry Pi'
 # scan ip
-dialog --backtitle "Connect to Raspberry Pi" --colors\
+dialog --backtitle "$title" --colors \
 	--yesno '\n\Z1Scan for IP address of Raspberry Pi?\Z0\n\n' 0 0
 ans=$?
 [[ $ans == 255 ]] && clear && exit
 
 if [[ $ans == 1 ]]; then
-    dialog --infobox "\nScan IP address ..." 5 50
+    dialog --backtitle "$title" \
+        --infobox "\nScan IP address ..." 5 50
     routerip=$( ip route get 1 | cut -d' ' -f3 )
     nmap=$( nmap -sP ${routerip%.*}.* | grep -v 'Starting\|Host is up\|Nmap done' | head -n -1 | sed 's/$/\\n/; s/Nmap.*for/\\nIP  :/; s/Address//' | tr -d '\n' )
-    dialog --colors --msgbox "\n\Z1Find IP address of Raspberry Pi:\Z0\n
+    dialog --backtitle "$title" --colors \
+        --msgbox "\n\Z1Find IP address of Raspberry Pi:\Z0\n
 (Raspberri Pi 4 may listed as Unknown)\n
 $nmap" 50 100
 fi
 
 # connect RPi
-rpiip=$( dialog --backtitle "Connect to Raspberry Pi" \
+rpiip=$( dialog --backtitle "$title" \
     --output-fd 1 \
     --inputbox 'Raspberry Pi IP:' 0 0 )
 [[ $? == 255 ]] && clear && exit
