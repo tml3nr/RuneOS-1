@@ -1,8 +1,16 @@
 #!/bin/bash
 
-[[ ! -e /usr/bin/bsdtar ]] && apt install -y bsdtar
-[[ ! -e /usr/bin/nmap ]] && apt install -y nmap
-[[ ! -e /usr/bin/pv ]] && apt install -y pv
+if [[ -e /usr/bin/pacman ]]; then
+	[[ ! -e /usr/bin/bsdtar ]] && pacman -S --noconfirm --needed bsdtar
+	[[ ! -e /usr/bin/dialog ]] && pacman -S --noconfirm --needed dialog
+	[[ ! -e /usr/bin/nmap ]] && pacman -S --noconfirm --needed nmap
+	[[ ! -e /usr/bin/pv ]] && pacman -S --noconfirm --needed pv
+else
+	[[ ! -e /usr/bin/bsdtar ]] && apt install -y bsdtar
+	[[ ! -e /usr/bin/dialog ]] && apt install -y dialog
+	[[ ! -e /usr/bin/nmap ]] && apt install -y nmap
+	[[ ! -e /usr/bin/pv ]] && apt install -y pv
+fi
 
 trap 'rm -f ArchLinuxARM*' EXIT
 
