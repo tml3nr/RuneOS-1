@@ -132,7 +132,7 @@ getData() {
 	fi
 
 	dialog --backtitle "$title" --colors \
-		--extra-button --extra-label Revise \
+		--cancel-label Revise \
 		--yesno "\n\Z1Confirm data:\Z0\n\n\
 	BOOT path : \Z1$BOOT\Z0\n\
 	ROOT path : \Z1$ROOT\Z0\n\
