@@ -134,7 +134,7 @@ dialog --backtitle "$title" --colors \
 BOOT path : \Z1$BOOT\Z0\n\
 ROOT path : \Z1$ROOT\Z0\n\
 Target    : \Z1Raspberry Pi $rpi\Z0\n\
-Run on    : \Z1$dev\Z0\n\n\
+Run on    : \Z1$dev\Z0\n\
 $usbuuid
 $wifi" 0 0
 [[ $? == 1 || $? == 255 ]] && clear && exit
