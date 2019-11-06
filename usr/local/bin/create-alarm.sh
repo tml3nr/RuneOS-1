@@ -95,7 +95,7 @@ if [[ $ans == 0 ]]; then
 		--radiolist 'Wi-Fi -Security:' 0 0 3 \
 			1 'WPA' on \
 			2 'WEP' off \
-			2 'None' off )
+			3 'None' off )
     [[ $? == 255 ]] && clear && exit
     
     if [[ $wpa == 1 ]]; then
