@@ -11,8 +11,82 @@ cols=$( tput cols )
 hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
 
 hr
-echo -e "\n\e[36mInitialize Arch Linux Arm ...\e[m\n"
+echo -e "\n\e[36mCreate RuneAudio+R $version ...\e[m\n"
 hr
+
+#-------------------------------------------------------------------
+echo -e "\n\e[36mFeatures ...\e[m\n"
+
+selectFeatures() {
+	read -ren 1 -p $'Install all features [y/N]: ' ans; echo
+	if [[ $ans == y || $ans == Y ]]; then
+		echo -e "Install \e[36mall features\e[m\n"
+		read -ren 1 -p 'Confirm and continue? [y/N]: ' ans; echo
+		[[ $ans != y && $ans != Y ]] && selectFeature
+
+		features+='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
+		# RPi 0W, 3, 4
+		[[ $wireless ]] && features+='bluez bluez-utils '
+		# RPi 2, 3, 4
+		echo 04 08 0d 0e 11 | grep -q $hwcode && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
+	else
+		list=
+
+		pkg="\e[36mAvahi\e[m - Connect by: runeaudio.local"
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " ans; echo
+		[[ $ans == y || $ans == Y ]] && features+='avahi ' && list+="$pkg\n"
+
+		if [[ $wireless ]]; then
+			pkg="\e[36mBluez\e[m - Bluetooth supports"
+			read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " blue; echo
+			[[ $blue == y || $blue == Y ]] && features+='bluez bluez-utils ' && list+="$pkg\n"
+		fi
+
+		if echo 04 08 0d 0e 11 | grep -q $hwcode; then
+			pkg="\e[36mChromium\e[m - Browser on RPi"
+			read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " ans; echo
+			[[ $ans == y || $ans == Y ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$pkg\n"
+		fi
+
+		pkg="\e[36mFFmpeg\e[m - Extended decoder"
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " ans; echo
+		[[ $ans == y || $ans == Y ]] && features+='ffmpeg ' && list+="$pkg\n"
+
+		pkg="\e[36mhostapd\e[m - RPi access point"
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " ans; echo
+		[[ $ans == y || $ans == Y ]] && features+='dnsmasq hostapd ' && list+="$pkg\n"
+
+		pkg="\e[36mKid3\e[m - Metadata tag editor"
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " kid3; echo
+		[[ $kid3 == y || $kid3 == Y ]] && list+="$pkg\n"
+
+		pkg="\e[36mPython\e[m - Programming language"
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " pyth; echo
+		[[ $pyth == y || $pyth == Y ]] && features+='python python-pip ' && list+="$pkg\n"
+
+		pkg="\e[36mSamba\e[m - File sharing"
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " ans; echo
+		[[ $ans == y || $ans == Y ]] && features+='samba ' && list+="$pkg\n"
+
+		pkg="\e[36mShairport-sync\e[m - AirPlay"
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " ans; echo
+		[[ $ans == y || $ans == Y ]] && features+='shairport-sync ' && list+="$pkg\n"
+
+		pkg="\e[36mupmpdcli\e[m - UPnP"
+		read -ren 1 -p $"Install $( echo -e "$pkg" ) [y/N]: " upnp; echo
+		[[ $upnp == y || $upnp == Y ]] && list+="$pkg\n"
+
+		if [[ -n $list ]]; then
+			echo -e "Install features:\n$list"
+			read -ren 1 -p $'Confirm and continue? [y/N]: ' ans; echo
+			[[ $ans != y && $ans != Y ]] && selectFeature
+		fi
+	fi
+}
+selectFeatures
+
+#-------------------------------------------------------------------
+echo -e "\n\e[36mInitialize PGP key ...\e[m\n"
 
 pacman-key --init
 pacman-key --populate archlinuxarm
@@ -23,71 +97,13 @@ systemctl start systemd-random-seed
 # fix dns errors
 systemctl stop systemd-resolved
 
-# dialog package
-pacman -Sy --noconfirm --needed dialog
-
-#----------------------------------------------------------------------------
-title="Build RuneAudio+R $version"
-dialog --backtitle "$title" --colors \
-	--yesno '\n\Z1Install all features?\Z0\n\n' 0 0
-ans=$?
-[[ $ans == 255 ]] && clear && exit
-
-if [[ $ans == 0 ]]; then
-    features='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
-	list='\Z1All features\Z0'
-else
-	avahi='\Z1Avahi\Z0 - Connect by: runeaudio.local'
-	bluez='\Z1Bluez\Z0 - Bluetooth supports'
-	chromium='\Z1Chromium\Z0 - Browser on RPi'
-	ffmpeg='\Z1FFmpeg\Z0 - Extended decoder'
-	hostapd='\Z1hostapd\Z0 - RPi access point'
-	kid3='\Z1Kid3\Z0 - Metadata tag editor'
-	python='\Z1Python\Z0 - Programming language'
-	samba='\Z1Samba\Z0 - File sharing'
-	shairport='\Z1Shairport-sync\Z0 - AirPlay'
-	upmpdcli='\Z1upmpdcli\Z0 - UPnP client'
-	select=$( dialog --backtitle "$title" --colors \
-	   --output-fd 1 \
-	   --checklist '\Z1Select features to install:\Z0' 0 0 10 \
-			1 "$avahi" off \
-			2 "$bluez" off \
-			3 "$chromium" off \
-			4 "$ffmpeg" off \
-			5 "$hostapd" off \
-			6 "$kid3" off \
-			7 "$python" off \
-			8 "$samba" off \
-			9 "$shairport" off \
-			10 "$upmpdcli" off )
-    [[ $? == 255 ]] && clear && exit
-    
-    select=" $select "
-	[[ $select == *' 1 '* ]] && features+='avahi ' && list+="$avahi\n"
-	[[ $select == *' 2 '* ]] && features+='bluez bluez-utils ' && list+="$bluez\n"
-	[[ $select == *' 3 '* ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$chromium\n"
-	[[ $select == *' 4 '* ]] && features+='ffmpeg ' && list+="$ffmpeg\n"
-	[[ $select == *' 5 '* ]] && features+='dnsmasq hostapd ' && list+="$hostapd\n"
-	[[ $select == *' 6 '* ]] && kid3=1 && list+="$kid3\n"
-	[[ $select == *' 7 '* ]] && features+='python python-pip ' && list+="$python\n"
-	[[ $select == *' 8 '* ]] && features+='samba ' && list+="$samba\n"
-	[[ $select == *' 9 '* ]] && features+='shairport-sync ' && list+="$shairport\n"
-	[[ $select == *' 10 '* ]] && upnp=1 && list+="$upmpdcli\n"
-fi
-
-dialog --backtitle "$title" --colors \
-	--yesno "\n\Z1Confirm features to install:\Z0\n\n$list\n\n" 0 0
-[[ $? == 1 || $? == 255 ]] && clear && exit
-
-clear
-
-#----------------------------------------------------------------------------
 echo -e "\n\e[36mSystem-wide kernel and packages upgrade ...\e[m\n"
 
-pacman -Su --noconfirm --needed
+pacman -Syu --noconfirm --needed
 
 packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip sudo udevil wget '
 
+#-----------------------------------------------------------------------------
 echo -e "\n\e[36mInstall packages ...\e[m\n"
 
 pacman -S --noconfirm --needed $packages $features
@@ -245,15 +261,14 @@ chown -R mpd:audio "$dirdata/mpd" /mnt/MPD
 
 if [[ -e /usr/bin/upmpdcli ]]; then
 	echo -e "\nInit RSA key for upmpdcli UPnP\n"
-	echo -e "Press \e[36mCtrl+C\e[m when \e[36mwriting RSA key\e[m displayed."
+	echo -e "Press 'Ctrl+C' when 'writing RSA key' displayed."
 	read -resn 1 -p $'\nPress any key to start\n'; echo
 	mpd --no-config &> /dev/null
 	upmpdcli
 fi
 
-dialog --backtitle "$title" --colors \
-	--msgbox "\n\Z1RuneAudio+R $version\Z0 built successfully.\n
-Press ok to reboot" 7 100
-[[ $? == 255 ]] && clear && exit
+echo -e "\n\e[36mRuneAudio+R $version created successfully.\e[m\n"
+hr
 
+read -resn 1 -p $'\nPress any key to reboot\n'; echo
 shutdown -r now
