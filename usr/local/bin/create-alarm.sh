@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# required packages
 if [[ -e /usr/bin/pacman ]]; then
 	[[ ! -e /usr/bin/bsdtar ]] && pacman -S --noconfirm --needed bsdtar
 	[[ ! -e /usr/bin/dialog ]] && pacman -S --noconfirm --needed dialog
@@ -12,135 +13,121 @@ else
 	[[ ! -e /usr/bin/pv ]] && apt install -y pv
 fi
 
+# remove on exit
 trap 'rm -f ArchLinuxARM*' EXIT
 
-cols=$( tput cols )
-hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
-verifypath() {
-	mountpoint=$( df | grep $1 | awk '{print $NF}' )
-	if [[ -n $mountpoint ]]; then
-		echo -e "\n$( df -h | grep $mountpoint )"
-		echo -e "$1: \e[36m$mountpoint\e[m\n"
+title='Create Arch Linux Arm'
+dialog --colors \
+    --infobox "\n             \Z1$title\Z0\n" 5 50
+sleep 3
+
+BOOT=$( df | grep BOOT | awk '{print $NF}' )
+ROOT=$( df | grep ROOT | awk '{print $NF}' )
+
+# get build data --------------------------------------------------------------
+dialog --backtitle "$title" --colors \
+	--yesno "\n\Z1Confirm path:\Z0\n\n\
+BOOT: \Z1$BOOT\Z0\n\
+ROOT: \Z1$ROOT\Z0\n\n" 0 0
+[[ $? == 1 || $? == 255 ]] && clear && exit
+	
+rpi=$( dialog --backtitle "$title" --colors \
+	--output-fd 1 \
+	--radiolist '\n\Z1Target:\Z0' 0 0 6 \
+        0 'Raspberry Pi Zero' off \
+        1 'Raspberry Pi 1' off \
+        2 'Raspberry Pi 2' off \
+        3 'Raspberry Pi 3' on \
+        4 'Raspberry Pi 4' off \
+        5 'Raspberry Pi 3+' off )
+[[ $? == 255 ]] && clear && exit
+
+if [[ $rpi == 0 || $rpi == 1 ]]; then
+	file=ArchLinuxARM-rpi-latest.tar.gz
+	[[ $rpi == 0 ]] && rpi=Zero
+elif [[ $rpi == 2 || $rpi == 3 ]]; then
+	file=ArchLinuxARM-rpi-2-latest.tar.gz
+elif [[ $rpi == 5 ]]; then
+	file=ArchLinuxARM-rpi-3-latest.tar.gz
+	rpi=3+
+elif [[ $rpi == 4 ]]; then
+	file=ArchLinuxARM-rpi-4-latest.tar.gz
+fi
+
+mode=$( dialog --backtitle "$title" --colors\
+	--output-fd 1 \
+	--radiolist "\n\Z1Run on:\Z0" 0 0 2 \
+        1 'Micro SD card' on \
+        2 'USB drive' off )
+[[ $? == 255 ]] && clear && exit
+[[ $mode == 1 ]] && dev='Micro SD card' || dev='USB drive'
+
+dialog --backtitle "$title" --colors\
+	--yesno '\n\Z1Connect Wi-Fi on boot?\Z0\n\n' 0 0
+ans=$?
+[[ $ans == 255 ]] && clear && exit
+
+if [[ $ans == 0 ]]; then
+	ssid=$( dialog --backtitle "$title" \
+		--output-fd 1 \
+		--inputbox 'Wi-Fi - SSID:' 0 0 )
+    [[ $? == 255 ]] && clear && exit
+
+	password=$( dialog --backtitle "$title" \
+		--output-fd 1 \
+		--inputbox 'Wi-Fi - Password:' 0 0 )
+    [[ $? == 255 ]] && clear && exit
+		
+	wpa=$( dialog --backtitle "$title" \
+		--output-fd 1 \
+		--radiolist 'Wi-Fi -Security:' 0 0 3 \
+			1 'WPA' on \
+			2 'WEP' off \
+			2 'None' off )
+    [[ $? == 255 ]] && clear && exit
+    
+    if [[ $wpa == 1 ]]; then
+		wpa=wpa
+	elif [[ $wpa == 2 ]]; then
+		wpa=wep
 	else
-		echo -e "\n\e[m36$1\e[m not mounted or incorrect label." && exit
+		wpa=
 	fi
-	read -rn 1 -p "Confirm and continue? [y/N]: " ans; echo
-	[[ $ans != y && $ans != Y ]] && exit
-	[[ -n $( ls $mountpoint | grep -v 'lost+found\|System Volume Information' ) ]] && echo $mountpoint not empty. && exit
-}
-selectMode() {
-	echo -e "\nRun ROOT partition on:"
-	echo -e '  \e[36m1\e[m Micro SD card'
-	echo -e '  \e[36m2\e[m USB drive'
-	read -rn 1 -p "Select [1/2]: " mode; echo
-	if [[ -z $mode || $mode -gt 5 ]]; then
-		echo -e "\nSelect 1 or 2\n" && selectMode
-	else
-		[[ $mode == 1 ]] && dev='Micro SD card' || dev='USB drive'
-		echo -e "\nRun ROOT on \e[36m$dev\e[m\n"
-		read -rn 1 -p "Confirm and continue? [y/N]: " ans; echo
-		[[ $ans != y && $ans != Y ]] && selectMode
-	fi
-}
-selectSecurity() {
-	echo Security:
-	echo -e '  \e[36m1\e[m WPA'
-	echo -e '  \e[36m2\e[m WEP'
-	echo -e '  \e[36m3\e[m None'
-	read -rn 1 -p 'Select [1-3]: ' ans
-	if [[ -z $ans || $ans -gt 3 ]]; then
-		echo -e "\nSelect 1, 2 or 3\n" && selectSecurity
-	else
-		if [[ $ans == 1 ]]; then
-			wpa=wpa
-		elif [[ $ans == 2 ]]; then
-			wpa=wep
-		else
-			wpa=
-		fi
-	fi
-}
-setCredential() {
-	read -p 'SSID: ' ssid
-	read -p 'Password: ' password
-	selectSecurity
-	echo -e "\n\nSSID: \e[36m$ssid\e[m\nPassword: \e[36m$password\e[m\nSecurity: \e[36m${wpa^^}\e[m\n"
-	read -rn1 -p "Confirm and continue? [y/N]: " ans; echo; echo
-	[[ $ans != Y && $ans != y ]] && setCredential
-}
-selectRPi() {
-	echo -e "\nRaspberry Pi:"
-	echo -e '  \e[36m0\e[m RPi Zero'
-	echo -e '  \e[36m1\e[m RPi 1'
-	echo -e '  \e[36m2\e[m RPi 2'
-	echo -e '  \e[36m3\e[m RPi 3'
-	echo -e '  \e[36m4\e[m RPi 4'
-	echo -e '  \e[36m5\e[m RPi 3+'
-	read -rn 1 -p "Select [0-5]: " rpi; echo
-	if [[ -z $rpi || $rpi -gt 5 ]]; then
-		echo -e "\nSelect 0, 1, 2, 3, 4 or 5\n" && selectRPi
-	else
-		if [[ $rpi == 0 || $rpi == 1 ]]; then
-			file=ArchLinuxARM-rpi-latest.tar.gz
-			[[ $rpi == 0 ]] && rpi=Zero
-		elif [[ $rpi == 2 || $rpi == 3 ]]; then
-			file=ArchLinuxARM-rpi-2-latest.tar.gz
-		elif [[ $rpi == 5 ]]; then
-			file=ArchLinuxARM-rpi-3-latest.tar.gz
-			rpi=3+
-		elif [[ $rpi == 4 ]]; then
-			file=ArchLinuxARM-rpi-4-latest.tar.gz
-		fi
-	fi
-	echo -e "\nRaspberry Pi \e[36m$rpi\e[m\n"
-	read -rn 1 -p "Confirm and continue? [y/N]: " ans; echo
-	[[ $ans != y && $ans != Y ]] && selectRPi
-}
+    wifi="Wi-Fi settings\n\
+ SSID     : \Z1$ssid\Z0\n\
+ Password : \Z1$password\Z0\n\
+ Security : \Z1${wpa^^}\Z0\n\n"
+fi
 
-# -----------------------------------------------------------------------
-hr
-echo -e "\n\e[36mCreate Arch Linux Arm ...\e[m\n"
-hr
+dialog --backtitle "$title" --colors \
+	--yesno "\n\Z1Confirm data:\Z0\n\n\
+BOOT path : \Z1$BOOT\Z0\n\
+ROOT path : \Z1$ROOT\Z0\n\
+Target    : \Z1Raspberry Pi $rpi\Z0\n\
+Run on    : \Z1$dev\Z0\n\n\
+$wifi" 0 0
+[[ $? == 1 || $? == 255 ]] && clear && exit
 
-verifypath BOOT
-BOOT=$mountpoint
+#-------------------------------------------------------------------------------
+# download
+wget http://os.archlinuxarm.org/os/$file 2>&1 | \
+    stdbuf -o0 awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | \
+    dialog --gauge "Download Arch Linux Arm ..." 0 50
+wget http://os.archlinuxarm.org/os/$file.md5 2>&1 | \
+    stdbuf -o0 awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | \
+    dialog --gauge "Download checksum ..." 0 50
 
-verifypath ROOT
-ROOT=$mountpoint
+# expand
+pv -n $file | bsdtar -C $BOOT --totals --strip-components=2 --no-same-permissions --no-same-owner -xf - boot 2>&1 | \
+    dialog --gauge "Expand to BOOT ..." 0 50
+pv -n $file | bsdtar -C $ROOT --totals --exclude='boot' -xpf - 2>&1 | \
+    dialog --gauge "Expand to ROOT ...\n" 0 50
 
-selectMode
-
-selectRPi
-
-read -ren 1 -p $'\nAuto-connect Wi-Fi on boot? [y/N]: ' ans; echo
-[[ $ans == y || $ans == Y ]] && setCredential
-
-# -----------------------------------------------------------------------
-echo -e "\n\e[36mDownloading ...\e[m\n"
-
-wget -qN --show-progress http://os.archlinuxarm.org/os/$file
-wget -qN --show-progress http://os.archlinuxarm.org/os/$file.md5
-
-# verify
-echo -e "\nVerify downloaded file ...\n"
-! md5sum -c $file.md5 && echo -e "\nDownload incomplete!\n" && exit
-
-#---------------------------------------------------------------------------------
-echo -e "\n\e[36mExpand to BOOT partition ...\e[m\n"
-
-pv -ptbar $file | bsdtar -C $BOOT --totals --strip-components=2 --no-same-permissions --no-same-owner -xf - boot
-
-#---------------------------------------------------------------------------------
-echo -e "\n\e[36mExpand to ROOT partition ...\e[m\n"
-
-mkdir $ROOT/boot
-pv -ptbar $file | bsdtar -C $ROOT --totals --exclude='boot' -xpf -
-
-# complete write from cache to disk before continue
-echo -e "\nBe patient."
-echo -e "It may takes 10+ minutes to complete writing SD card or thumb drive ..."
+dialog --colors \
+    --infobox "\n\Z1Be patient.\Z0\nIt may takes 10+ minutes \nto complete writing SD card or thumb drive." 7 50
 sync
 
+# USB drive mode
 if [[ $mode == 2 ]]; then
 	dev=$( df | grep ROOT | awk '{print $1}' )
 	uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
@@ -180,34 +167,40 @@ wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-rune.sh 
 chmod +x $ROOT/usr/local/bin/create-rune.sh
 [[ $? == 0 ]] && rm $0
 
-echo -e "\n\e[36mArch Linux Arm for Raspberry Pi $rpi created successfully.\e[m\n"
-hr
+umount -l $BOOT
+umount -l $ROOT
 
-read -ren 1 -p $'\nRaspberry Pi has pre-assigned IP address? [y/N]: ' ans; echo
-if [[ $ans != y && $ans != Y ]]; then
-	echo -e "Scan IP address of existing hosts ...\n"
-	routerip=$( ip route get 1 | cut -d' ' -f3 )
-	nmap -sP ${routerip%.*}.*
+dialog --colors \
+    --infobox "\n       Arch Linux Arm for \Z1Raspberry Pi $rpi\Z0\n\
+              created successfully.\n" 6 50
+sleep 3
+
+dialog --msgbox "\nMove micro SD card (and optional USB drive) to RPi.\n
+Power on and wait 30 seconds for boot then press ok to continue" 7 100
+
+#-------------------------------------------------------------------------------
+# scan ip
+dialog --backtitle "Connect to Raspberry Pi" --colors\
+	--yesno '\n\Z1Scan for IP address of Raspberry Pi?\Z0\n\n' 0 0
+ans=$?
+[[ $ans == 255 ]] && clear && exit
+
+if [[ $ans == 1 ]]; then
+    dialog --infobox "\nScan IP address ..." 5 50
+    routerip=$( ip route get 1 | cut -d' ' -f3 )
+    nmap=$( nmap -sP ${routerip%.*}.* | grep -v 'Starting\|Host is up\|Nmap done' | head -n -1 | sed 's/$/\\n/; s/Nmap.*for/\\nIP  :/; s/Address//' | tr -d '\n' )
+    dialog --colors --msgbox "\n\Z1Find IP address of Raspberry Pi:\Z0\n
+(Raspberri Pi 4 may listed as Unknown)\n
+$nmap" 50 100
 fi
 
-umount -l $BOOT && umount -l $ROOT && echo -e "\n$ROOT and $BOOT unmounted."
+# connect RPi
+rpiip=$( dialog --backtitle "Connect to Raspberry Pi" \
+    --output-fd 1 \
+    --inputbox 'Raspberry Pi IP:' 0 0 )
+[[ $? == 255 ]] && clear && exit
 
-echo -e "\nMove micro SD card (and optional USB drive) to RPi."
-echo -e "Power on and wait 30 seconds for boot process.\n"
-read -resn 1 -p $'Press any key to continue\n'; echo
+clear
 
-if [[ $ans != y && $ans != Y ]]; then
-	echo -e "\nRescan IP address ...\n"
-	nmap -sP ${routerip%.*}.*
-	echo -e "\nFind IP address of Raspberry Pi."
-	echo -e "(Compare with previous scan and if necessary. Raspberry Pi 4 may listed as unknown.)\n"
-fi
-
-read -r -p "Raspberry Pi IP: " rpiip; echo
-echo -e "Raspberry Pi IP: \e[36m$rpiip\e[m\n"
-read -ren 1 -p 'Confirm and continue? [y/N]: ' ans; echo
-[[ $ans != y && $ans != Y ]] && exit
-
-# remove existing key if any and connect
 ssh-keygen -R $rpiip &> /dev/null
 ssh alarm@$rpiip
