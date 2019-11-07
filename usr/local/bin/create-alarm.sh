@@ -221,6 +221,7 @@ scanIP() {
 	dialog --backtitle "$title" --colors \
 		--msgbox "\n\Z1Find IP address of Raspberry Pi:\Z0\n
 (Raspberri Pi 4 may listed as Unknown)\n
+[arrowdown] = scrolldown\n
 $nmap" 50 100
 
 	dialog --backtitle "$title" --colors \
