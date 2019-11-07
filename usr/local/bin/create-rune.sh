@@ -258,7 +258,7 @@ fi
 dialog --colors \
 	--msgbox "\n      
       \Z1RuneAudio+R $version\Z0 built successfully.\n\n
-              Press OK to reboot
+              Press \Z1Enter\Z0 to reboot
 " 9 50
 [[ $? == 255 ]] && clear && exit
 
