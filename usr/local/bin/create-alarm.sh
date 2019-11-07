@@ -102,7 +102,7 @@ getData() {
 		wifi="Wi-Fi settings\n\
 	 SSID     : \Z1$ssid\Z0\n\
 	 Password : \Z1$password\Z0\n\
-	 Security : \Z1${wpa^^}\Z0\n\n"
+	 Security : \Z1${wpa^^}\Z0\n"
 	fi
 
 	dialog --backtitle "$title" --colors \
