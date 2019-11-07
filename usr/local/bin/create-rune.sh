@@ -256,8 +256,10 @@ if [[ -e /usr/bin/upmpdcli ]]; then
 fi
 
 dialog --colors \
-	--msgbox "\n      \Z1RuneAudio+R $version\Z0 built successfully.\n\n
-			 Press ok to reboot" 9 50
+	--msgbox "\n      
+      \Z1RuneAudio+R $version\Z0 built successfully.\n\n
+              Press OK to reboot
+" 9 50
 [[ $? == 255 ]] && clear && exit
 
 shutdown -r now
