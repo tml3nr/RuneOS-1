@@ -90,10 +90,10 @@ getData() {
 		[[ $? == 255 ]] && clear && exit
 
 		wpa=$( dialog --backtitle "$title" --output-fd 1 \
-			--radiolist '\nWi-Fi -Security:\n[space] = select' 0 0 3 \
-				1 'WPA' on \
-				2 'WEP' off \
-				3 'None' off )
+			--menu '\nWi-Fi -Security:\n' 0 0 3 \
+				1 'WPA' \
+				2 'WEP' \
+				3 'None' )
 		[[ $? == 255 ]] && clear && exit
 
 		if [[ $wpa == 1 ]]; then
