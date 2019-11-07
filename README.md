@@ -6,13 +6,13 @@ RuneOS
 
 **Procedure**
 - Prepare partitions
-- Create Arch Linux Arm (by a script)
+- Create Arch Linux Arm (1st script)
 	- Verify partitions
 	- Optional - pre-configure Wi-Fi connection (headless mode)
 	- Download
 	- Write `BOOT` and `ROOT` partitions
 	- Connect PC to Raspberry Pi
-- Create RuneAudio+Re (by a script)
+- Create RuneAudio+Re (2nd script)
 	- Optional - select features
 	- Upgrade kernel and default packages
 	- Install feature packages and web interface
