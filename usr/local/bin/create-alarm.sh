@@ -198,8 +198,8 @@ umount -l $BOOT
 umount -l $ROOT
 
 dialog --colors \
-	--msgbox "\n       Arch Linux Arm for \Z1Raspberry Pi $rpi\Z0\n\
-              created successfully.\n" 8 58
+	--msgbox "\n        Arch Linux Arm for \Z1Raspberry Pi $rpi\Z0\n\
+               created successfully.\n" 8 58
 
 #----------------------------------------------------------------------------
 [[ ${partuuidBOOT:0:-3} != ${partuuidROOT:0:-3} ]] && usb=' and USB drive'
