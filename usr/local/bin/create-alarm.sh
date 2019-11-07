@@ -131,7 +131,7 @@ wget http://os.archlinuxarm.org/os/$file 2>&1 | \
 		--gauge "\n\Z1Download Arch Linux Arm ...\Z0\n[Ctrl+C] = cancel" 9 50
 
 # checksum
-wget http://os.archlinuxarm.org/os/$file.md5
+wget -qN http://os.archlinuxarm.org/os/$file.md5
 if ! md5sum -c $file.md5; then
     dialog --backtitle "$title" --colors \
         --msgbox '\n\Z1Download incomplete!\Z0\n' 0 0
