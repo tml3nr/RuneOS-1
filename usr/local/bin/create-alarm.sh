@@ -76,26 +76,6 @@ getData() {
 		file=ArchLinuxARM-rpi-4-latest.tar.gz
 	fi
 
-	mode=$( dialog --backtitle "$title" --colors \
-		--output-fd 1 \
-		--radiolist "\n\Z1Run on:\Z0" 0 0 2 \
-			1 'Micro SD card' on \
-			2 'USB drive' off )
-	[[ $? == 255 ]] && clear && exit
-	if [[ $mode == 1 ]]; then
-		dev='Micro SD card'
-	else
-		dev='USB drive'
-		#uuid=$( /sbin/blkid | grep $dev | cut -d' ' -f3 | tr -d '\"' )
-		partuuid=$( /sbin/blkid | grep $( df | grep ROOT | awk '{print $1}' ) | awk '{print $NF}' | tr -d '"' )
-		if [[ -z $partuuid ]]; then
-			dialog --backtitle "$title" --colors \
-				--msgbox '\n\Z1PARTUUID of ROOT not found.\Z0\n\n' 0 0
-			clear && exit
-		fi
-		usbuuid="PARTUUID  : \Z1${partuuid/PARTUUID=}\Z0\n"
-	fi
-
 	dialog --backtitle "$title" --colors \
 		--yesno '\n\Z1Connect Wi-Fi on boot?\Z0\n\n' 0 0
 	ans=$?
@@ -135,9 +115,7 @@ getData() {
 	BOOT path : \Z1$BOOT\Z0\n\
 	ROOT path : \Z1$ROOT\Z0\n\
 	Target    : \Z1Raspberry Pi $rpi\Z0\n\
-	Run on    : \Z1$dev\Z0\n\
-	$usbuuid
-	$wifi" 0 0
+	$wifi\n" 0 0
 	ans=$?
 	if [[ $ans == 255 ]]; then
 		clear && exit
@@ -170,11 +148,11 @@ dialog --backtitle "$title" --colors \
 sync
 
 #----------------------------------------------------------------------------
-# USB drive mode
-if [[ $mode == 2 ]]; then
-	sed -i "s|/dev/mmcblk0p2|$partuuid|" $BOOT/cmdline.txt
-	echo "$partuuid  /  ext4  defaults  0  0" >> $ROOT/etc/fstab
-fi
+partuuidBOOT=$( /sbin/blkid | grep $( df | grep ROOT | awk '{print $1}' ) | awk '{print $NF}' | tr -d '"' )
+partuuidROOT=$( /sbin/blkid | grep $( df | grep ROOT | awk '{print $1}' ) | awk '{print $NF}' | tr -d '"' )
+sed -i "s|/dev/mmcblk0p2|$partuuidROOT|" $BOOT/cmdline.txt
+echo "$partuuidBOOT  /boot  vfat  defaults  0  0
+$partuuidROOT  /  ext4  defaults  0  0" > $ROOT/etc/fstab
 
 # RPi 0 - fix: kernel panic
 [[ $rpi == Zero ]] && echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
