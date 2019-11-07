@@ -227,7 +227,13 @@ $nmap" 50 100
 	dialog --backtitle "$title" --colors \
 	--yesno '\n\Z1Found IP address of Raspberry Pi?\Z0\n\n' 0 0
 	ans=$?
-	[[ $ans == 255 || ( $ans == 1 && -n $rescan ) ]] && clear && exit
+	[[ $ans == 255 ]] && clear && exit
+	
+	if [[ $ans == 1 && -n $rescan ]]; then
+		dialog --backtitle "$title" \
+			--msgbox '\nTry start over again.\n\n' 0 0
+		clear && exit
+	fi
 }
 scanIP
 
@@ -236,7 +242,7 @@ if [[ $ans == 1 ]]; then
 		--yesno '\n\Z1Connect with Wi-Fi?\Z0\n\n' 0 0
 	if [[ $? == 0 ]]; then
 		rescan=1
-		dialog --backtitle "$title" --colors \
+		dialog --backtitle "$title" \
 			--msgbox '\n
 - Power off\n
 - Connect wired LAN\n
@@ -244,11 +250,12 @@ if [[ $ans == 1 ]]; then
 - Press OK to continue\n\n' 0 0
 		scanIP
 	else
-		dialog --backtitle "$title" --colors \
+		dialog --backtitle "$title" \
 			--msgbox '\n
 - Power off\n
 - Connect a monitor/TV\n
-- Power on and observe errors\n\n' 0 0
+- Power on and observe errors\n
+- Try start over again\n\n' 0 0
 		clear && exit
 	fi
 fi
