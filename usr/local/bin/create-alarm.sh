@@ -126,9 +126,12 @@ getData
 
 # download
 wget http://os.archlinuxarm.org/os/$file 2>&1 | \
-	stdbuf -o0 awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | \
-	dialog --backtitle "$title" --colors \
-		--gauge "\n\Z1Download Arch Linux Arm ...\Z0\n[Ctrl+C] = cancel" 9 50
+    stdbuf -o0 awk '/[.] +[0-9][0-9]?[0-9]?%/ { \
+        print "XXX\n"substr($0,63,3)
+        print "\\n\\Z1Download Arch Linux Arm\\Z0\\n"
+        print "Time left: "substr($0,74,5)"\nXXX" }' ) | \
+    dialog --backtitle "$title" --colors \
+        --gauge "\\n\\Z1Download ..." 9 50
 
 # checksum
 wget -qN http://os.archlinuxarm.org/os/$file.md5
