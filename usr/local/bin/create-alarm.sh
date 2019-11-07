@@ -208,7 +208,7 @@ dialog --backtitle "$title" --colors \
 BOOT and ROOT were unmounted.\n
 Move micro SD card$usb to RPi.\n
 Power on.\n
-\Z1Wait 30 seconds\Z0 for boot then press OK to continue." 12 55
+\Z1Wait 30 seconds\Z0 for boot then press \Z1Enter\Z0 to continue." 12 55
 
 #----------------------------------------------------------------------------
 title='Connect to Raspberry Pi'
@@ -248,7 +248,7 @@ if [[ $ans == 1 ]]; then
 - Connect wired LAN\n
 - Power on\n
 - Wait 30 seconds
-- Press OK to continue\n\n' 0 0
+- Press Enter to continue\n\n' 0 0
 		scanIP
 	else
 		dialog --backtitle "$title" \
