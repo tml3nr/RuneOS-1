@@ -216,9 +216,9 @@ systemctl enable $startup
 dirdata=/srv/http/data
 dirdisplay=$dirdata/display
 dirsystem=$dirdata/system
-mkdir "$dirdata"
+mkdir -p "$dirdata"
 for dir in addons bookmarks coverarts display gpio lyrics mpd playlists sampling system tmp webradios; do
-	mkdir "$dirdata/$dir"
+	mkdir -p "$dirdata/$dir"
 done
 # addons
 echo $( grep -A 2 rare /srv/http/addons-list.php | tail -1 | cut -d"'" -f4 ) > /srv/http/data/addons/rare
