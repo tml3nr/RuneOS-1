@@ -157,7 +157,7 @@ partuuidBOOT=$( /sbin/blkid | grep $( df | grep BOOT | awk '{print $1}' ) | awk 
 partuuidROOT=$( /sbin/blkid | grep $( df | grep ROOT | awk '{print $1}' ) | awk '{print $NF}' | tr -d '"' )
 sed -i "s|/dev/mmcblk0p2|$partuuidROOT|" $BOOT/cmdline.txt
 echo "$partuuidBOOT  /boot  vfat  defaults  0  0
-$partuuidROOT  /  ext4  defaults  0  0" > $ROOT/etc/fstab
+$partuuidROOT  /      ext4  defaults  0  0" > $ROOT/etc/fstab
 
 # RPi 0 - fix: kernel panic
 [[ $rpi == Zero ]] && echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
