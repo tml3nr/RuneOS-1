@@ -147,7 +147,9 @@ fi
 		--gauge "Expand to ROOT ...\n" 0 50
 
 dialog --backtitle "$title" --colors \
-	--infobox "\n\Z1Be patient.\Z0\nIt may takes 10+ minutes \nto complete writing SD card or thumb drive." 7 50
+	--infobox "\n\Z1Be patient.\Z0\n
+It may takes 10+ minutes to complete writing\n
+from cache to SD card or thumb drive." 7 50
 sync
 
 #----------------------------------------------------------------------------
