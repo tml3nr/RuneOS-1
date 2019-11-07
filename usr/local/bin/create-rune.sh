@@ -53,7 +53,7 @@ else
 	upmpdcli='\Z1upmpdcli\Z0 - UPnP client'
 	select=$( dialog --backtitle "$title" --colors \
 	   --output-fd 1 \
-	   --checklist '\Z1Select features to install:\Z0' 0 0 10 \
+	   --checklist '\Z1Select features to install:\Z0\n[space] = select' 0 0 10 \
 			1 "$avahi" off \
 			2 "$bluez" off \
 			3 "$chromium" off \
