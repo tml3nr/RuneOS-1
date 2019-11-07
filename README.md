@@ -79,6 +79,7 @@ chmod +x create-alarm.sh
 ./create-alarm.sh
 # if download errors or too slow, press Ctrl+C and run ./create-alarm.sh again
 ```
+- Follow instructions in the process until PC to Raspberry Pi connection is up.
 
 ### Create RuneAudio+Re
 
