@@ -195,7 +195,7 @@ umount -l $ROOT
 
 dialog --colors \
 	--msgbox "\n       Arch Linux Arm for \Z1Raspberry Pi $rpi\Z0\n\
-			  created successfully.\n" 8 58
+              created successfully.\n" 8 58
 
 #----------------------------------------------------------------------------
 [[ $mode == 2 ]] && usb=' and USB drive'
