@@ -233,14 +233,23 @@ if [[ $ans == 0 ]]; then
 		--infobox "\nScan IP address ..." 5 50
 	routerip=$( ip route get 1 | cut -d' ' -f3 )
 	scanIP
+	
+	dialog --backtitle "$title" \
+		--yesno '\n\Z1IP address found?\Z0\n\n' 0 0
 	if [[ $ans == 1 ]]; then
 		dialog --backtitle "$title" --colors \
-			--msgbox "\n\Z1IP address not found:\Z0\n\n
-- Power off RPi.\n
-- If not yet on wired LAN, connect it.\n
-- If possible, connect a monitor/TV.\n
-- Power on.\n\n
-Press OK to continue\n\n" 14 55
+			--yesno '\n\Z1Connect with Wi-Fi?\Z0\n\n
+\Z1Wi-Fi:\Z0\n
+    - Power off\n
+    - Connect wired LAN\n
+	- Power on.\n
+    - Press Yes to continue\n\n
+\Z1Wired LAN:\Z0\n
+	- Press No\n
+    - Power off\n
+    - Connect a monitor/TV\n
+    - Power on and observe errors\n\n' 0 0
+		[[ $? == 1 || $? == 255 ]] && clear && exit
 
 		scanIP
 	fi
