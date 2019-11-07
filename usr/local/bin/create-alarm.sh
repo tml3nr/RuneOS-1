@@ -37,7 +37,7 @@ ROOT=$( df | grep ROOT | awk '{print $NF}' )
 # partition warnings
 if [[ -n $warnings ]]; then
 	dialog --backtitle "$title" --colors \
-		--msgbox "\n\Z1Warnings:\n$warnings\Z0\n" 0 0
+		--msgbox "\n\Z1Warnings:\n\n$warnings\Z0\n" 0 0
 	clear && exit
 fi
 
