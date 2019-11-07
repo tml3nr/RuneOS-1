@@ -153,7 +153,7 @@ from cache to SD card or thumb drive." 7 50
 sync
 
 #----------------------------------------------------------------------------
-partuuidBOOT=$( /sbin/blkid | grep $( df | grep ROOT | awk '{print $1}' ) | awk '{print $NF}' | tr -d '"' )
+partuuidBOOT=$( /sbin/blkid | grep $( df | grep BOOT | awk '{print $1}' ) | awk '{print $NF}' | tr -d '"' )
 partuuidROOT=$( /sbin/blkid | grep $( df | grep ROOT | awk '{print $1}' ) | awk '{print $NF}' | tr -d '"' )
 sed -i "s|/dev/mmcblk0p2|$partuuidROOT|" $BOOT/cmdline.txt
 echo "$partuuidBOOT  /boot  vfat  defaults  0  0
@@ -198,7 +198,7 @@ dialog --colors \
               created successfully.\n" 8 58
 
 #----------------------------------------------------------------------------
-[[ $mode == 2 ]] && usb=' and USB drive'
+[[ ${partuuidBOOT:0:-3} == ${partuuidROOT:0:-3} ]] && usb=' and USB drive'
 dialog --backtitle "$title" --colors \
 	--msgbox "\n\Z1Finish.\Z0\n\n
 BOOT and ROOT were unmounted.\n
@@ -214,7 +214,7 @@ dialog --backtitle "$title" --colors \
 ans=$?
 [[ $ans == 255 ]] && clear && exit
 
-if [[ $ans == 1 ]]; then
+if [[ $ans == 0 ]]; then
 	dialog --backtitle "$title" \
 		--infobox "\nScan IP address ..." 5 50
 	routerip=$( ip route get 1 | cut -d' ' -f3 )
