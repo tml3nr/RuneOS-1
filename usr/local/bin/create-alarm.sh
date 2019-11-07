@@ -208,7 +208,7 @@ dialog --backtitle "$title" --colors \
 BOOT and ROOT were unmounted.\n
 Move micro SD card$usb to RPi.\n
 Power on.\n
-\Z1Wait 30 seconds\Z0 for boot then press ok to continue." 12 55
+\Z1Wait 30 seconds\Z0 for boot then press OK to continue." 12 55
 
 title='Connect to Raspberry Pi'
 # scan ip
@@ -217,15 +217,33 @@ dialog --backtitle "$title" --colors \
 ans=$?
 [[ $ans == 255 ]] && clear && exit
 
-if [[ $ans == 0 ]]; then
-	dialog --backtitle "$title" \
-		--infobox "\nScan IP address ..." 5 50
-	routerip=$( ip route get 1 | cut -d' ' -f3 )
+scanIP() {
 	nmap=$( nmap -sP ${routerip%.*}.* | grep -v 'Starting\|Host is up\|Nmap done' | head -n -1 | sed 's/$/\\n/; s/Nmap.*for/\\nIP  :/; s/Address//' | tr -d '\n' )
 	dialog --backtitle "$title" --colors \
 		--msgbox "\n\Z1Find IP address of Raspberry Pi:\Z0\n
 (Raspberri Pi 4 may listed as Unknown)\n
 $nmap" 50 100
+
+	dialog --backtitle "$title" --colors \
+	--yesno '\n\Z1Found IP address of Raspberry Pi?\Z0\n\n' 0 0
+	[[ $? == 1 || $? == 255 ]] && clear && exit
+}
+if [[ $ans == 0 ]]; then
+	dialog --backtitle "$title" \
+		--infobox "\nScan IP address ..." 5 50
+	routerip=$( ip route get 1 | cut -d' ' -f3 )
+	scanIP
+	if [[ $ans == 1 ]]; then
+		dialog --backtitle "$title" --colors \
+			--msgbox "\n\Z1IP address not found:\Z0\n\n
+- Power off RPi.\n
+- If not yet on wired LAN, connect it.\n
+- If possible, connect a monitor/TV.\n
+- Power on.\n\n
+Press OK to continue\n\n" 14 55
+
+		scanIP
+	fi
 fi
 
 # connect RPi
