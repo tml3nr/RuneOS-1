@@ -54,13 +54,13 @@ getData() {
 	[[ $? == 1 || $? == 255 ]] && clear && exit
 
 	rpi=$( dialog --backtitle "$title" --colors --output-fd 1 \
-		--radiolist '\n\Z1Target:\Z0\n[space] = select' 0 0 6 \
-			0 'Raspberry Pi Zero' off \
-			1 'Raspberry Pi 1' off \
-			2 'Raspberry Pi 2' off \
-			3 'Raspberry Pi 3' on \
-			4 'Raspberry Pi 4' off \
-			5 'Raspberry Pi 3+' off )
+		--menu '\n\Z1Target:\Z0\n[space] = select' 0 0 6 \
+			0 'Raspberry Pi Zero' \
+			1 'Raspberry Pi 1' \
+			2 'Raspberry Pi 2' \
+			3 'Raspberry Pi 3' \
+			4 'Raspberry Pi 4' \
+			5 'Raspberry Pi 3+' )
 	[[ $? == 255 ]] && clear && exit
 
 	if [[ $rpi == 0 || $rpi == 1 ]]; then
