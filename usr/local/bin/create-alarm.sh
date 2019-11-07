@@ -81,16 +81,16 @@ getData() {
 	[[ $ans == 255 ]] && clear && exit
 
 	if [[ $ans == 0 ]]; then
-		ssid=$( dialog --backtitle "$title" --output-fd 1 \
-			--inputbox 'Wi-Fi - SSID:' 0 0 )
+		ssid=$( dialog --backtitle "$title" --colors --output-fd 1 \
+			--inputbox '\n\Z1Wi-Fi\Z0 - SSID:' 0 0 )
 		[[ $? == 255 ]] && clear && exit
 
-		password=$( dialog --backtitle "$title" --output-fd 1 \
-			--inputbox 'Wi-Fi - Password:' 0 0 )
+		password=$( dialog --backtitle "$title" --colors --output-fd 1 \
+			--inputbox '\n\Z1Wi-Fi\Z0 - Password:' 0 0 )
 		[[ $? == 255 ]] && clear && exit
 
-		wpa=$( dialog --backtitle "$title" --output-fd 1 \
-			--menu '\nWi-Fi -Security:\n' 0 0 3 \
+		wpa=$( dialog --backtitle "$title" --colors --output-fd 1 \
+			--menu '\n\Z1Wi-Fi -Security:\Z1' 0 0 3 \
 				1 'WPA' \
 				2 'WEP' \
 				3 'None' )
