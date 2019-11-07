@@ -38,7 +38,7 @@ ans=$?
 [[ $ans == 255 ]] && clear && exit
 
 if [[ $ans == 0 ]]; then
-	features='avahi dnsmasq ffmpeg hostapd python python-pip samba shairport-sync '
+	features='avahi bluez bluez-utils chromium dnsmasq ffmpeg hostapd python python-pip samba shairport-sync xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
 	list='\Z1All features\Z0'
 else
 	avahi='\Z1Avahi\Z0 - Connect by: runeaudio.local'
