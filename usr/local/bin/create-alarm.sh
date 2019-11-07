@@ -125,7 +125,7 @@ getData() {
 getData
 
 # download
-wget http://os.archlinuxarm.org/os/$file 2>&1 | \
+( wget http://os.archlinuxarm.org/os/$file 2>&1 | \
     stdbuf -o0 awk '/[.] +[0-9][0-9]?[0-9]?%/ { \
         print "XXX\n"substr($0,63,3)
         print "\\n\\Z1Download Arch Linux Arm\\Z0\\n"
