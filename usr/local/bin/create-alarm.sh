@@ -26,22 +26,18 @@ BOOT=$( df | grep BOOT | awk '{print $NF}' )
 ROOT=$( df | grep ROOT | awk '{print $NF}' )
 
 # check mounts
-[[ -z $BOOT ]] && partitions=BOOT
-[[ -z $ROOT ]] && partitions=ROOT
-[[ -z $BOOT && -z $ROOT ]] && partitions='BOOT and ROOT'
-if [[ -n $partitions ]]; then
-	dialog --backtitle "$title" --colors \
-		--msgbox "\n\Z1$partitions not found\Z0\n\n" 0 0
-	clear && exit
-fi
-
+[[ -z $BOOT ]] && warnings+='BOOT not mounted\n'
+[[ -z $ROOT ]] && warnings+='ROOT not mounted\n'
+# check duplicate names
+(( ${#[BOOT[@]} > 1 )) && warnings+='BOOT has more than 1\n'
+(( ${#[ROOT[@]} > 1 )) && warnings+='ROOT has more than 1\n'
 # check empty to prevent wrong partitions
-[[ -n $( ls $BOOT | grep -v 'System Volume Information' ) ]] && notemptyboot=BOOT
-[[ -n $( ls $ROOT | grep -v 'lost+found' ) ]] && notemptyroot=ROOT
-[[ -n $notemptyboot && -n $notemptyroot ]] && notempty='BOOT and ROOT'
-if [[ -n $notempty ]]; then
+[[ -n $( ls $BOOT | grep -v 'System Volume Information' ) ]] && warnings+='BOOT not empty\n'
+[[ -n $( ls $ROOT | grep -v 'lost+found' ) ]] && warnings+='ROOT not empty\n'
+# partition warnings
+if [[ -n $warnings ]]; then
 	dialog --backtitle "$title" --colors \
-		--msgbox "\n\Z1$notempty not empty\Z0\n\n" 0 0
+		--msgbox "\n\Z1Warnings:\n$warnings\Z0\n" 0 0
 	clear && exit
 fi
 
