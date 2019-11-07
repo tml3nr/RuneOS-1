@@ -215,6 +215,8 @@ title='Connect to Raspberry Pi'
 # scan ip
 routerip=$( ip route get 1 | cut -d' ' -f3 )
 scanIP() {
+	dialog --backtitle "$title" \
+		--infobox "\nScan IP address ..." 5 50
 	nmap=$( nmap -sP ${routerip%.*}.* | grep -v 'Starting\|Host is up\|Nmap done' | head -n -1 | sed 's/$/\\n/; s/Nmap.*for/\\nIP  :/; s/Address//' | tr -d '\n' )
 	dialog --backtitle "$title" --colors \
 		--msgbox "\n\Z1Find IP address of Raspberry Pi:\Z0\n
@@ -223,31 +225,31 @@ $nmap" 50 100
 
 	dialog --backtitle "$title" --colors \
 	--yesno '\n\Z1Found IP address of Raspberry Pi?\Z0\n\n' 0 0
-	[[ $? == 1 || $? == 255 ]] && clear && exit
+	ans=$?
+	[[ $ans == 255 || ( $ans == 1 && -n $rescan ) ]] && clear && exit
 }
-
-dialog --backtitle "$title" \
-	--infobox "\nScan IP address ..." 5 50
 scanIP
-	
-dialog --backtitle "$title" --colors \
-	--yesno '\n\Z1Found IP address of Raspberry Pi?\Z0\n\n' 0 0
+
 if [[ $ans == 1 ]]; then
 	dialog --backtitle "$title" --colors \
-		--yesno '\n\Z1Connect with Wi-Fi?\Z0\n\n
-\Z1Wi-Fi:\Z0\n
-    - Power off\n
-    - Connect wired LAN\n
-	- Power on.\n
-    - Press Yes to continue\n\n
-\Z1Wired LAN:\Z0\n
-	- Press No\n
-    - Power off\n
-    - Connect a monitor/TV\n
-    - Power on and observe errors\n\n' 0 0
-	[[ $? == 1 || $? == 255 ]] && clear && exit
-
-	scanIP
+		--yesno '\n\Z1Connect with Wi-Fi?\Z0\n\n' 0 0
+	if [[ $? == 0 ]]; then
+		rescan=1
+		dialog --backtitle "$title" --colors \
+			--msgbox '\n
+- Power off\n
+- Connect wired LAN\n
+- Power on\n
+- Press OK to continue\n\n' 0 0
+		scanIP
+	else
+		dialog --backtitle "$title" --colors \
+			--msgbox '\n
+- Power off\n
+- Connect a monitor/TV\n
+- Power on and observe errors\n\n' 0 0
+		clear && exit
+	fi
 fi
 
 # connect RPi
