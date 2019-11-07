@@ -1639,7 +1639,7 @@ function saveCoverart() {
 					   +'<span class="bkname"><br><w>'+ GUI.status.Album +'</w>'
 					   +'<br>'+ artist +'<span>'
 		, ok      : function() { 
-			$.post( 'commands.php', { coversave: coverfile, base64: src }, function( std ) {
+			$.post( 'commands.php', { imagefile: coverfile, base64: src.split( ',' ).pop() }, function( std ) {
 				infoCoverart( 'Save', src, std );
 				$( '.licover-save' ).remove();
 			} );
