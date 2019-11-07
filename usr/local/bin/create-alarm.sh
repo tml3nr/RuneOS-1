@@ -247,6 +247,7 @@ if [[ $ans == 1 ]]; then
 - Power off\n
 - Connect wired LAN\n
 - Power on\n
+- Wait 30 seconds
 - Press OK to continue\n\n' 0 0
 		scanIP
 	else
