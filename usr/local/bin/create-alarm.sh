@@ -29,11 +29,11 @@ ROOT=$( df | grep ROOT | awk '{print $NF}' )
 [[ -z $BOOT ]] && warnings+='BOOT not mounted\n'
 [[ -z $ROOT ]] && warnings+='ROOT not mounted\n'
 # check duplicate names
-(( ${#[BOOT[@]} > 1 )) && warnings+='BOOT has more than 1\n'
-(( ${#[ROOT[@]} > 1 )) && warnings+='ROOT has more than 1\n'
+[[ -n $BOOT && ${#[BOOT[@]} -gt 1 ]] && warnings+='BOOT has more than 1\n'
+[[ -n $ROOT && ${#[ROOT[@]} -gt 1 ]] && warnings+='ROOT has more than 1\n'
 # check empty to prevent wrong partitions
-[[ -n $( ls $BOOT | grep -v 'System Volume Information' ) ]] && warnings+='BOOT not empty\n'
-[[ -n $( ls $ROOT | grep -v 'lost+found' ) ]] && warnings+='ROOT not empty\n'
+[[ -n $BOOT && -n $( ls $BOOT | grep -v 'System Volume Information' ) ]] && warnings+='BOOT not empty\n'
+[[ -n $ROOT && -n $( ls $ROOT | grep -v 'lost+found' ) ]] && warnings+='ROOT not empty\n'
 # partition warnings
 if [[ -n $warnings ]]; then
 	dialog --backtitle "$title" --colors \
