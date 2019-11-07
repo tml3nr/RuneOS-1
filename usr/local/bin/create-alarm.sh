@@ -156,8 +156,9 @@ from cache to SD card or thumb drive." 7 50
 sync
 
 #----------------------------------------------------------------------------
-partuuidBOOT=$( /sbin/blkid | grep $( df | grep BOOT | awk '{print $1}' ) | awk '{print $NF}' | tr -d '"' )
-partuuidROOT=$( /sbin/blkid | grep $( df | grep ROOT | awk '{print $1}' ) | awk '{print $NF}' | tr -d '"' )
+PATH=$PATH:/sbin  # Debian not include /sbin in PATH
+partuuidBOOT=$( blkid | grep $( df | grep BOOT | awk '{print $1}' ) | awk '{print $NF}' | tr -d '"' )
+partuuidROOT=$( blkid | grep $( df | grep ROOT | awk '{print $1}' ) | awk '{print $NF}' | tr -d '"' )
 sed -i "s|/dev/mmcblk0p2|$partuuidROOT|" $BOOT/cmdline.txt
 echo "$partuuidBOOT  /boot  vfat  defaults  0  0
 $partuuidROOT  /      ext4  defaults  0  0" > $ROOT/etc/fstab
