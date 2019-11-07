@@ -49,9 +49,8 @@ getData() {
 	ROOT: \Z1$ROOT\Z0\n\n" 0 0
 	[[ $? == 1 || $? == 255 ]] && clear && exit
 
-	rpi=$( dialog --backtitle "$title" --colors \
-		--output-fd 1 \
-		--radiolist '\n\Z1Target:\Z0' 0 0 6 \
+	rpi=$( dialog --backtitle "$title" --colors --output-fd 1 \
+		--radiolist '\n\Z1Target:\Z0\n[space] = select' 0 0 6 \
 			0 'Raspberry Pi Zero' off \
 			1 'Raspberry Pi 1' off \
 			2 'Raspberry Pi 2' off \
@@ -87,7 +86,7 @@ getData() {
 		[[ $? == 255 ]] && clear && exit
 
 		wpa=$( dialog --backtitle "$title" --output-fd 1 \
-			--radiolist 'Wi-Fi -Security:' 0 0 3 \
+			--radiolist 'Wi-Fi -Security:\n[space] = select' 0 0 3 \
 				1 'WPA' on \
 				2 'WEP' off \
 				3 'None' off )
