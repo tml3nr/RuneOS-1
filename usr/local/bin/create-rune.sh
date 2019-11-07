@@ -80,7 +80,8 @@ else
 fi
 
 dialog --backtitle "$title" --colors \
-	--yesno "\n\Z1Confirm features to install:\Z0\n\n$list\n\n" 0 0
+	--yesno "\n\Z1Confirm features to install:\Z0\n\n
+$list\n\n" 0 0
 [[ $? == 1 || $? == 255 ]] && clear && exit
 
 clear
