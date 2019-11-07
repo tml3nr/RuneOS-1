@@ -142,7 +142,7 @@ fi
 [[ ! -e /usr/bin/shairport-sync ]] && rm /etc/systemd/system/shairport*
 
 # remove cache and custom package files
-rm *.zip /root/*.xz /usr/local/bin/create-* /var/cache/pacman/pkg/*
+rm *.zip /root/*.xz /usr/local/bin/create-alarm.sh /var/cache/pacman/pkg/*
 rm -r /root/armv6h
 
 # alsa
@@ -263,4 +263,5 @@ dialog --colors \
 " 9 50
 [[ $? == 255 ]] && clear && exit
 
+rm /usr/local/bin/create-rune.sh
 shutdown -r now
