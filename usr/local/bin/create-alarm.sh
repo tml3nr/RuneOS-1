@@ -210,13 +210,10 @@ Move micro SD card$usb to RPi.\n
 Power on.\n
 \Z1Wait 30 seconds\Z0 for boot then press OK to continue." 12 55
 
+#----------------------------------------------------------------------------
 title='Connect to Raspberry Pi'
 # scan ip
-dialog --backtitle "$title" --colors \
-	--yesno '\n\Z1Scan IP address of Raspberry Pi?\Z0\n\n' 0 0
-ans=$?
-[[ $ans == 255 ]] && clear && exit
-
+routerip=$( ip route get 1 | cut -d' ' -f3 )
 scanIP() {
 	nmap=$( nmap -sP ${routerip%.*}.* | grep -v 'Starting\|Host is up\|Nmap done' | head -n -1 | sed 's/$/\\n/; s/Nmap.*for/\\nIP  :/; s/Address//' | tr -d '\n' )
 	dialog --backtitle "$title" --colors \
@@ -228,17 +225,16 @@ $nmap" 50 100
 	--yesno '\n\Z1Found IP address of Raspberry Pi?\Z0\n\n' 0 0
 	[[ $? == 1 || $? == 255 ]] && clear && exit
 }
-if [[ $ans == 0 ]]; then
-	dialog --backtitle "$title" \
-		--infobox "\nScan IP address ..." 5 50
-	routerip=$( ip route get 1 | cut -d' ' -f3 )
-	scanIP
+
+dialog --backtitle "$title" \
+	--infobox "\nScan IP address ..." 5 50
+scanIP
 	
-	dialog --backtitle "$title" \
-		--yesno '\n\Z1IP address found?\Z0\n\n' 0 0
-	if [[ $ans == 1 ]]; then
-		dialog --backtitle "$title" --colors \
-			--yesno '\n\Z1Connect with Wi-Fi?\Z0\n\n
+dialog --backtitle "$title" --colors \
+	--yesno '\n\Z1Found IP address of Raspberry Pi?\Z0\n\n' 0 0
+if [[ $ans == 1 ]]; then
+	dialog --backtitle "$title" --colors \
+		--yesno '\n\Z1Connect with Wi-Fi?\Z0\n\n
 \Z1Wi-Fi:\Z0\n
     - Power off\n
     - Connect wired LAN\n
@@ -249,10 +245,9 @@ if [[ $ans == 0 ]]; then
     - Power off\n
     - Connect a monitor/TV\n
     - Power on and observe errors\n\n' 0 0
-		[[ $? == 1 || $? == 255 ]] && clear && exit
+	[[ $? == 1 || $? == 255 ]] && clear && exit
 
-		scanIP
-	fi
+	scanIP
 fi
 
 # connect RPi
