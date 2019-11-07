@@ -19,7 +19,11 @@ trap 'rm -f ArchLinuxARM*; clear' EXIT
 #----------------------------------------------------------------------------
 title='Create Arch Linux Arm'
 dialog --colors \
-	--infobox "\n             \Z1$title\Z0\n" 5 50
+	--infobox "\n
+            \Z1$title\Z0\n
+                      for\n
+                 Raspberry Pi
+" 7 50
 sleep 3
 
 BOOT=$( df | grep BOOT | awk '{print $NF}' )
@@ -86,7 +90,7 @@ getData() {
 		[[ $? == 255 ]] && clear && exit
 
 		wpa=$( dialog --backtitle "$title" --output-fd 1 \
-			--radiolist '\nWi-Fi -Security:\n[space] = select' 0 0 3 \
+			--radiolist '\n\Z1Wi-Fi -Security:\Z0\n[space] = select' 0 0 3 \
 				1 'WPA' on \
 				2 'WEP' off \
 				3 'None' off )
@@ -123,12 +127,16 @@ getData
 # download
 wget http://os.archlinuxarm.org/os/$file 2>&1 | \
 	stdbuf -o0 awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | \
-	dialog --backtitle "$title" \
-		--gauge "Download Arch Linux Arm ..." 0 50
-wget http://os.archlinuxarm.org/os/$file.md5 2>&1 | \
-	stdbuf -o0 awk '/[.] +[0-9][0-9]?[0-9]?%/ { print substr($0,63,3) }' | \
-	dialog --backtitle "$title" \
-		--gauge "Download checksum ..." 0 50
+	dialog --backtitle "$title" --colors \
+		--gauge "\n\Z1Download Arch Linux Arm ...\Z0\n[Ctrl+C] = cancel" 9 50
+
+# checksum
+wget http://os.archlinuxarm.org/os/$file.md5
+if ! md5sum -c $file.md5; then
+    dialog --backtitle "$title" --colors \
+        --msgbox '\n\Z1Download incomplete!\Z0\n' 0 0
+    exit
+fi
 
 # expand
 ( pv -n $file | bsdtar -C $BOOT --strip-components=2 --no-same-permissions --no-same-owner -xf - boot ) 2>&1 | \
