@@ -209,8 +209,7 @@ Power on.\n
 title='Connect to Raspberry Pi'
 # scan ip
 dialog --backtitle "$title" --colors \
-	--defaultno \
-	--yesno '\n\Z1Scan for IP address of Raspberry Pi?\Z0\n\n' 0 0
+	--yesno '\n\Z1Scan IP address of Raspberry Pi?\Z0\n\n' 0 0
 ans=$?
 [[ $ans == 255 ]] && clear && exit
 
@@ -226,7 +225,7 @@ $nmap" 50 100
 fi
 
 # connect RPi
-rpiip=$( dialog --backtitle "$title" \
+rpiip=$( dialog --backtitle "$title" --output-fd 1 \
 	--inputbox 'Raspberry Pi IP:' 0 0 )
 [[ $? == 255 ]] && clear && exit
 
