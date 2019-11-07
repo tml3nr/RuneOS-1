@@ -194,14 +194,14 @@ wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-rune.sh 
 chmod +x $ROOT/usr/local/bin/create-rune.sh
 [[ $? == 0 ]] && rm $0
 
-umount -l $BOOT
-umount -l $ROOT
-
 dialog --colors \
 	--msgbox "\n        Arch Linux Arm for \Z1Raspberry Pi $rpi\Z0\n\
                created successfully.\n" 8 58
-
+			   
 #----------------------------------------------------------------------------
+umount -l $BOOT
+umount -l $ROOT
+
 [[ ${partuuidBOOT:0:-3} != ${partuuidROOT:0:-3} ]] && usb=' and USB drive'
 dialog --backtitle "$title" --colors \
 	--msgbox "\n\Z1Finish.\Z0\n\n
