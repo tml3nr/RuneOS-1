@@ -198,7 +198,7 @@ dialog --colors \
               created successfully.\n" 8 58
 
 #----------------------------------------------------------------------------
-[[ ${partuuidBOOT:0:-3} == ${partuuidROOT:0:-3} ]] && usb=' and USB drive'
+[[ ${partuuidBOOT:0:-3} != ${partuuidROOT:0:-3} ]] && usb=' and USB drive'
 dialog --backtitle "$title" --colors \
 	--msgbox "\n\Z1Finish.\Z0\n\n
 BOOT and ROOT were unmounted.\n
