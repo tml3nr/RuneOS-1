@@ -11,10 +11,7 @@ RuneOS
 	- Optional - pre-configure Wi-Fi connection (headless mode)
 	- Download
 	- Write `BOOT` and `ROOT` partitions
-- Connect PC to Raspberry Pi
-	- Start Arch Linux Arm
-	- Get IP address
-	- Connect
+	- Connect PC to Raspberry Pi
 - Create RuneAudio+Re (by a script)
 	- Optional - select features
 	- Upgrade kernel and default packages
@@ -81,33 +78,6 @@ wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin
 chmod +x create-alarm.sh
 ./create-alarm.sh
 # if download errors or too slow, press Ctrl+C and run ./create-alarm.sh again
-# note: RPi 3 shows filename as ArchLinuxARM-rpi-2-latest.tar.gz
-```
-- **Finished** - If unattended: scroll up to look for errors and start over if any.
-
-### Connect PC to Raspberry Pi
-- At `Are you sure you want to continue connecting (yes/no)?`, confirm `yes` and login with password: `alarm`
-
-(skip if connected successfully) **If connection failed or RPi not show up in scan**
-- Power off RPi
-- If not yet on wired LAN, connect it.
-- If possible, connect a monitor/TV, to look for errors during boot.
-- Power on and scan again
-```sh
-# scan ip address
-routerip=$( ip route get 1 | cut -d' ' -f3 )
-nmap -sP ${routerip%.*}.*
-# If still not found, start over again
-
-# connect
-read -r -p "Raspberry Pi IP: " rpiip; echo
-echo -e "\nRaspberry Pi IP: $rpiip\n"
-read -ren 1 -p 'Confirm and continue? [y/N]: ' ans; echo
-[[ $ans != y && $ans != Y ]] && exit
-
-# remove existing key if any and connect
-ssh-keygen -R $rpiip &> /dev/null
-ssh alarm@$rpiip
 ```
 
 ### Create RuneAudio+Re
