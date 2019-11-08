@@ -32,7 +32,7 @@ dialog  --backtitle "$title" --colors \
 	--infobox "\n\n                \Z1RuneAudio+R $version\Z0" 7 50
 sleep 3
 
-    avahi='\Z1Avahi\Z0     - Connect by: runeaudio.local'
+    avahi='\Z1Avahi\Z0     - URL as: runeaudio.local'
     bluez='\Z1Bluez\Z0     - Bluetooth supports'
  chromium='\Z1Chromium\Z0  - Browser on RPi'
    ffmpeg='\Z1FFmpeg\Z0    - Extended decoder'
