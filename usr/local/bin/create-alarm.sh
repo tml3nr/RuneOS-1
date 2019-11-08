@@ -230,8 +230,8 @@ scanIP() {
 $nmap" 50 100
 
 	dialog --backtitle "$title" --colors \
-        --ok-label Yes --extra-button --extra-label Rescan --cancel-label No \
-        --yesno '\n\Z1Found IP address of Raspberry Pi?\Z0' 7 38
+		--ok-label Yes --extra-button --extra-label Rescan --cancel-label No \
+		--yesno '\n\Z1Found IP address of Raspberry Pi?\Z0' 7 38
 	ans=$?
 	if [[ $ans == 3 ]]; then
 		scanIP
