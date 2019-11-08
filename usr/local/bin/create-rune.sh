@@ -33,16 +33,16 @@ dialog --colors \
 	--infobox "\n             \Z1$title\Z0\n" 5 50
 sleep 3
 
-avahi='\Z1Avahi\Z0 - Connect by: runeaudio.local'
-bluez='\Z1Bluez\Z0 - Bluetooth supports'
-chromium='\Z1Chromium\Z0 - Browser on RPi'
-ffmpeg='\Z1FFmpeg\Z0 - Extended decoder'
-hostapd='\Z1hostapd\Z0 - RPi access point'
-kid='\Z1Kid3\Z0 - Metadata tag editor'
-python='\Z1Python\Z0 - Programming language'
-samba='\Z1Samba\Z0 - File sharing'
-shairport='\Z1Shairport-sync\Z0 - AirPlay'
-upmpdcli='\Z1upmpdcli\Z0 - UPnP client'
+    avahi='\Z1Avahi\Z0     - Connect by: runeaudio.local'
+    bluez='\Z1Bluez\Z0     - Bluetooth supports'
+ chromium='\Z1Chromium\Z0  - Browser on RPi'
+   ffmpeg='\Z1FFmpeg\Z0    - Extended decoder'
+  hostapd='\Z1hostapd\Z0   - RPi access point'
+      kid='\Z1Kid3\Z0      - Metadata tag editor'
+   python='\Z1Python\Z0    - Programming language'
+    samba='\Z1Samba\Z0     - File sharing'
+shairport='\Z1Shairport\Z0 - AirPlay'
+ upmpdcli='\Z1upmpdcli\Z0  - UPnP client'
 
 selectFeatures() {
 	select=$( dialog --backtitle "$title" --colors \
