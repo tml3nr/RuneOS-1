@@ -48,8 +48,8 @@ selectFeatures() {
 	select=$( dialog --backtitle "$title" --colors \
 	   --output-fd 1 \
 	   --checklist '\Z1Select features to install:\n
-	\Z4[Enter] = Install all\n
-	[space] = Select / Deselect\Z0' 0 0 10 \
+\Z4[Enter] = Install all\n
+[space] = Select / Deselect\Z0' 0 0 10 \
 			1 "$avahi" on \
 			2 "$bluez" on \
 			3 "$chromium" on \
