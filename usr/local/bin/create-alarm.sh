@@ -253,14 +253,14 @@ if [[ $ans == 1 ]]; then
 - Connect wired LAN\n
 - Power on\n
 - Wait 30 seconds
-- Press Enter to rescan IP'
+- Press Enter to rescan'
 		scanIP
 	else
 		msgbox '
 - Power off\n
 - Connect a monitor/TV\n
 - Power on and observe errors\n
-- Try start over again'
+- Try starting over again'
 		clear && exit
 	fi
 fi
