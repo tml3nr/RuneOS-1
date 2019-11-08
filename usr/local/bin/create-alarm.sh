@@ -109,7 +109,11 @@ ROOT: \Z1$ROOT\Z0"
  Password : \Z1$password\Z0\n\
  Security : \Z1${wpa^^}\Z0\n"
 	fi
-
+	if [[ $rpi == 0 ]]; then
+		rpi=Zero
+	elif [[ $rpi == 5 ]]; then
+		rpi=3+
+	fi
 	yesno "\Z1Confirm data:\Z0\n\n\
 BOOT path : \Z1$BOOT\Z0\n\
 ROOT path : \Z1$ROOT\Z0\n\
