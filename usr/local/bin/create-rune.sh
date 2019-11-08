@@ -132,9 +132,6 @@ pacman -U --noconfirm --needed /root/*.xz
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mConfigure ...\e[m\n"
 
-# RPi 0 - fix kernel panic
-[[ $hwcode =~ ^(09|0c)$ ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
-
 # RPi 4
 if [[ $hwcode == 11 ]]; then
 	sed -i '/force_turbo=1/ d' /boot/config.txt
