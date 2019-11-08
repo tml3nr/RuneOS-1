@@ -132,11 +132,8 @@ pacman -U --noconfirm --needed /root/*.xz
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mConfigure ...\e[m\n"
 
-# RPi 4
-if [[ $hwcode == 11 ]]; then
-	sed -i '/force_turbo=1/ d' /boot/config.txt
-	mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
-fi
+# RPi 4 - rename bluetooth file
+[[ $hwcode == 11 ]] && mv /usr/lib/firmware/updates/brcm/BCM{4345C0,}.hcd
 
 # remove config of excluded features
 [[ ! -e /usr/bin/avahi-daemon ]] && rm -r /etc/avahi/services
