@@ -3,7 +3,6 @@
 version=e2
 
 trap 'rm -f /var/lib/pacman/db.lck; clear; exit' INT
-trap 'rm -f /var/lib/pacman/db.lck' EXIT
 
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
 echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
