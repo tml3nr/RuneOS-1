@@ -27,7 +27,7 @@ systemctl stop systemd-resolved
 pacman -Sy --noconfirm --needed dialog
 
 #----------------------------------------------------------------------------
-title="Build RuneAudio+R $version"
+title="Create RuneAudio+R $version"
 dialog  --backtitle "$title" --colors \
 	--infobox "\n\n                \Z1RuneAudio+R $version\Z0" 7 50
 sleep 3
