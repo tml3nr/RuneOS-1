@@ -59,7 +59,6 @@ selectFeatures() {
 			8 "$samba" on \
 			9 "$shairport" on \
 			10 "$upmpdcli" on )
-	[[ $? == 255 ]] && clear && exit
 	
 	select=" $select "
 	[[ $select == *' 1 '* ]] && features+='avahi ' && list+="$avahi\n"
@@ -78,14 +77,9 @@ selectFeatures
 dialog --backtitle "$title" --colors \
 	--yesno "\n\Z1Confirm features to install:\Z0\n\n
 $list\n\n" 0 0
-ans=$?
-if [[ $ans == 0 ]]; then
-	clear
-elif [[ $ans == 1 ]]; then
-	selectFeatures
-else
-	clear && exit
-fi
+[[ $? == 1 ]] && selectFeatures
+
+clear
 
 #----------------------------------------------------------------------------
 echo -e "\n\e[36mSystem-wide kernel and packages upgrade ...\e[m\n"
@@ -142,10 +136,6 @@ fi
 [[ ! -e /usr/bin/smbd ]] && rm -r /etc/samba
 [[ ! -e /usr/bin/shairport-sync ]] && rm /etc/systemd/system/shairport*
 
-# remove cache and custom package files
-rm *.zip /root/*.xz /usr/local/bin/create-alarm.sh /var/cache/pacman/pkg/*
-rm -r /root/armv6h
-
 # alsa
 chmod -R 666 /var/lib/alsa  # fix permission
 sed -i '/^TEST/ s/^/#/' /usr/lib/udev/rules.d/90-alsa-restore.rules   # omit test rules
@@ -176,9 +166,6 @@ sed -i '/event_timeout/ s/^/#/' /usr/lib/udev/rules.d/11-dm-lvm.rules
 # mpd - create missing log file
 touch /var/log/mpd.log
 chown mpd:audio /var/log/mpd.log
-
-# motd - remove default
-rm /etc/motd
 
 # netctl - allow write for http
 chmod -R 777 /etc/netctl
@@ -257,12 +244,14 @@ if [[ -e /usr/bin/upmpdcli ]]; then
 	upmpdcli
 fi
 
+# remove cache and files
+rm *.zip /root/*.xz /usr/local/bin/create-* /var/cache/pacman/pkg/* /etc/motd
+rm -r /root/armv6h
+
 dialog --colors \
 	--msgbox "\n      
       \Z1RuneAudio+R $version\Z0 built successfully.\n\n
               Press \Z1Enter\Z0 to reboot
 " 9 50
-[[ $? == 255 ]] && clear && exit
 
-rm /usr/local/bin/create-rune.sh
 shutdown -r now
