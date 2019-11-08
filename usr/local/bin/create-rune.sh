@@ -43,6 +43,10 @@ sleep 3
 shairport='\Z1Shairport\Z0 - AirPlay'
  upmpdcli='\Z1upmpdcli\Z0  - UPnP client'
 
+# no chromium for RPi 0, 1
+echo 00 01 02 03 04 09 0c | grep -q $hwcode && nochromium=1
+[[ -n $nochromium ]] && chromium='Chromium  - (n/a)'
+
 selectFeatures() {
 	select=$( dialog --backtitle "$title" --colors \
 	   --output-fd 1 \
@@ -62,7 +66,7 @@ selectFeatures() {
 	select=" $select "
 	[[ $select == *' 1 '* ]] && features+='avahi ' && list+="$avahi\n"
 	[[ $select == *' 2 '* ]] && features+='bluez bluez-utils ' && list+="$bluez\n"
-	[[ $select == *' 3 '* ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$chromium\n"
+	[[ $select == *' 3 '* && ! $nochromium ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$chromium\n"
 	[[ $select == *' 4 '* ]] && features+='ffmpeg ' && list+="$ffmpeg\n"
 	[[ $select == *' 5 '* ]] && features+='dnsmasq hostapd ' && list+="$hostapd\n"
 	[[ $select == *' 6 '* ]] && kid3=1 && list+="$kid\n"
