@@ -46,7 +46,7 @@ else
 	chromium='\Z1Chromium\Z0 - Browser on RPi'
 	ffmpeg='\Z1FFmpeg\Z0 - Extended decoder'
 	hostapd='\Z1hostapd\Z0 - RPi access point'
-	kid3='\Z1Kid3\Z0 - Metadata tag editor'
+	kid='\Z1Kid3\Z0 - Metadata tag editor'
 	python='\Z1Python\Z0 - Programming language'
 	samba='\Z1Samba\Z0 - File sharing'
 	shairport='\Z1Shairport-sync\Z0 - AirPlay'
@@ -59,7 +59,7 @@ else
 			3 "$chromium" off \
 			4 "$ffmpeg" off \
 			5 "$hostapd" off \
-			6 "$kid3" off \
+			6 "$kid" off \
 			7 "$python" off \
 			8 "$samba" off \
 			9 "$shairport" off \
@@ -72,7 +72,7 @@ else
 	[[ $select == *' 3 '* ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$chromium\n"
 	[[ $select == *' 4 '* ]] && features+='ffmpeg ' && list+="$ffmpeg\n"
 	[[ $select == *' 5 '* ]] && features+='dnsmasq hostapd ' && list+="$hostapd\n"
-	[[ $select == *' 6 '* ]] && kid3=1 && list+="$kid3\n"
+	[[ $select == *' 6 '* ]] && kid3=1 && list+="$kid\n"
 	[[ $select == *' 7 '* ]] && features+='python python-pip ' && list+="$python\n"
 	[[ $select == *' 8 '* ]] && features+='samba ' && list+="$samba\n"
 	[[ $select == *' 9 '* ]] && features+='shairport-sync ' && list+="$shairport\n"
