@@ -83,9 +83,10 @@ ROOT: \Z1$ROOT\Z0"
 		0|1) file=ArchLinuxARM-rpi-latest.tar.gz ;;
 		2|3) file=ArchLinuxARM-rpi-2-latest.tar.gz ;;
 		4) file=ArchLinuxARM-rpi-4-latest.tar.gz ;;
-		5) file=ArchLinuxARM-rpi-3-latest.tar.gz ;;
+		5) file=ArchLinuxARM-rpi-3-latest.tar.gz; rpi=3+ ;;
 	esac
-
+	[[ $rpi == 0 ]] && rpi=Zero
+	
 	yesno '\Z1Connect Wi-Fi on boot?\Z0'
 	if [[ $? == 0 ]]; then
 		ssid=$( inputbox '\Z1Wi-Fi\Z0 - SSID:' )
@@ -109,11 +110,7 @@ ROOT: \Z1$ROOT\Z0"
  Password : \Z1$password\Z0\n\
  Security : \Z1${wpa^^}\Z0\n"
 	fi
-	if [[ $rpi == 0 ]]; then
-		rpi=Zero
-	elif [[ $rpi == 5 ]]; then
-		rpi=3+
-	fi
+
 	yesno "\Z1Confirm data:\Z0\n\n\
 BOOT path : \Z1$BOOT\Z0\n\
 ROOT path : \Z1$ROOT\Z0\n\
@@ -158,8 +155,31 @@ echo "$partuuidBOOT  /boot  vfat  defaults  0  0
 $partuuidROOT  /      ext4  defaults  0  0" > $ROOT/etc/fstab
 echo "root=$partuuidROOT rw rootwait selinux=0 plymouth.enable=0 smsc95xx.turbo_mode=N dwc_otg.lpm_enable=0 elevator=noop fsck.repair=yes console=tty1" > $BOOT/cmdline.txt
 
+config='
+### system
+force_turbo=1
+gpu_mem=32
+initramfs initramfs-linux.img followkernel
+max_usb_current=1
+
+### onboard wifi, bluetooth and audio
+#dtoverlay=disable-wifi
+dtoverlay=disable-bt
+dtparam=audio=on
+
+### display
+disable_splash=1
+disable_overscan=1
+
+### i2s
+#dtparam=i2s=on'
+
 # RPi 0 - fix: kernel panic
-[[ $rpi == Zero ]] && echo -e 'force_turbo=1\nover_voltage=2' >> $BOOT/config.txt
+[[ $rpi == Zero ]] && config+='
+force_turbo=1
+over_voltage=2'
+
+echo $config > $BOOT/config.txt
 
 # wifi
 if [[ $ssid ]]; then
