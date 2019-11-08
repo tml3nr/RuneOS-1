@@ -78,18 +78,13 @@ ROOT: \Z1$ROOT\Z0"
 			3 'Raspberry Pi 3' \
 			4 'Raspberry Pi 4' \
 			5 'Raspberry Pi 3+' )
-
-	if [[ $rpi == 0 || $rpi == 1 ]]; then
-		file=ArchLinuxARM-rpi-latest.tar.gz
-		[[ $rpi == 0 ]] && rpi=Zero
-	elif [[ $rpi == 2 || $rpi == 3 ]]; then
-		file=ArchLinuxARM-rpi-2-latest.tar.gz
-	elif [[ $rpi == 5 ]]; then
-		file=ArchLinuxARM-rpi-3-latest.tar.gz
-		rpi=3+
-	elif [[ $rpi == 4 ]]; then
-		file=ArchLinuxARM-rpi-4-latest.tar.gz
-	fi
+	
+	case $rpi in
+		0|1) file=ArchLinuxARM-rpi-latest.tar.gz ;;
+		2|3) file=ArchLinuxARM-rpi-2-latest.tar.gz ;;
+		4) file=ArchLinuxARM-rpi-4-latest.tar.gz ;;
+		5) file=ArchLinuxARM-rpi-3-latest.tar.gz ;;
+	esac
 
 	yesno '\Z1Connect Wi-Fi on boot?\Z0'
 	if [[ $? == 0 ]]; then
