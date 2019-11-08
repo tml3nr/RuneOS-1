@@ -2,7 +2,7 @@
 
 version=e2
 
-trap 'rm -f /var/lib/pacman/db.lck; clean; exit' INT
+trap 'rm -f /var/lib/pacman/db.lck; clear; exit' INT
 trap 'rm -f /var/lib/pacman/db.lck' EXIT
 
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
