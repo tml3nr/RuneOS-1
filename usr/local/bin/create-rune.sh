@@ -46,17 +46,19 @@ upmpdcli='\Z1upmpdcli\Z0 - UPnP client'
 
 select=$( dialog --backtitle "$title" --colors \
    --output-fd 1 \
-   --checklist '\Z1Select features to install:\Z0\n[space] = select' 0 0 10 \
-		1 "$avahi" off \
-		2 "$bluez" off \
-		3 "$chromium" off \
-		4 "$ffmpeg" off \
-		5 "$hostapd" off \
-		6 "$kid" off \
-		7 "$python" off \
-		8 "$samba" off \
-		9 "$shairport" off \
-		10 "$upmpdcli" off )
+   --checklist '\Z1Select features to install:\Z0\n
+\Z4[Enter] = install all
+[space] = select / deselect\n\n' 0 0 10 \
+		1 "$avahi" on \
+		2 "$bluez" on \
+		3 "$chromium" on \
+		4 "$ffmpeg" on \
+		5 "$hostapd" on \
+		6 "$kid" on \
+		7 "$python" on \
+		8 "$samba" on \
+		9 "$shairport" on \
+		10 "$upmpdcli" on )
 [[ $? == 255 ]] && clear && exit
 
 select=" $select "
