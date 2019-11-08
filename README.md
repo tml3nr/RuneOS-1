@@ -90,9 +90,9 @@ wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin
 chmod +x create-alarm.sh
 ./create-alarm.sh
 ```
-- Download errors or too slow: press `Ctrl+C` and run `./create-alarm.sh` again
-- Follow instructions in the process until PC to Raspberry Pi connection is up.
+- Follow instructions until PC to Raspberry Pi connection is up.
 - At connecting propmt: confirm `yes` and password `alarm`
+- Errors or too slow download: press `Ctrl+C` and run `./create-alarm.sh` again
 
 ### Create RuneAudio+Re
 
@@ -104,8 +104,8 @@ su
 # run script
 create-rune.sh
 ```
-- Download errors or too slow: press `Ctrl+C` and run `create-rune.sh` again
-- **Finish** - If unattended: scroll up to look for errors and start over if any.
+- Errors or too slow download: press `Ctrl+C` and run `create-rune.sh` again
+- Notification shows when finished.
 
 ---
 
