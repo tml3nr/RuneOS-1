@@ -94,14 +94,14 @@ Run \Z1create-rune.sh\Z0 again.\n" 0 0
 echo -e "\n\e[36mSystem-wide kernel and packages upgrade ...\e[m\n"
 
 pacman -Su --noconfirm --needed
-[[ $? != 0 ]] && pacmanFailed 'System-wide upgrade failed!'
+[[ $? != 0 ]] && pacmanFailed 'System-wide upgrades download incomplete!'
 
 packages='alsa-utils cronie dosfstools gcc ifplugd imagemagick mpd mpc nfs-utils nss-mdns ntfs-3g parted php-fpm python python-pip sudo udevil wget '
 
 echo -e "\n\e[36mInstall packages ...\e[m\n"
 
 pacman -S --noconfirm --needed $packages $features
-[[ $? != 0 ]] && pacmanFailed 'Install packages failed!'
+[[ $? != 0 ]] && pacmanFailed 'Packages download incomplete!'
 
 [[ -e /usr/bin/python ]] && yes | pip --no-cache-dir install RPi.GPIO
 
@@ -127,7 +127,7 @@ fi
 [[ ! $upnp ]] && rm /etc/upmpdcli.conf /root/{libupnpp*,upmpdcli*}
 
 pacman -U --noconfirm --needed /root/*.xz
-[[ $? != 0 ]] && pacmanFailed 'Install custom packages failed!'
+[[ $? != 0 ]] && pacmanFailed 'Packages download incomplete!'
 
 #---------------------------------------------------------------------------------
 echo -e "\n\e[36mConfigure ...\e[m\n"
