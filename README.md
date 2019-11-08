@@ -86,9 +86,7 @@ RuneOS
 su
 
 # get script and run
-wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-alarm.sh
-chmod +x create-alarm.sh
-./create-alarm.sh
+wget -qN --show-progress https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-alarm.sh; chmod +x create-alarm.sh; ./create-alarm.sh
 ```
 - Follow instructions until PC to Raspberry Pi connection is up.
 - At connecting propmt: confirm `yes` and password `alarm`
