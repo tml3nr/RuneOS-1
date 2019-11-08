@@ -114,8 +114,7 @@ chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 
 # RPi 0, 1 - switch packages for armv6h
-#if echo 00 01 02 03 09 0c | grep -q $hwcode; then
-if [[ $hwcode =~ ^(00|01|02|03|09|0c)$ ]]; then
+if [[ $rpi01 ]]; then
 	rm /root/*.xz
 	mv /root/armv6h/* /root
 fi
