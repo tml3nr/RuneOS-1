@@ -79,7 +79,7 @@ selectFeatures
 dialog --backtitle "$title" --colors \
 	--yesno "\n\Z1Confirm features to install:\Z0\n\n
 $list\n\n" 0 0
-$ans=$?
+ans=$?
 if [[ $ans == 0 ]]; then
 	clear
 elif [[ $ans == 1 ]]; then
