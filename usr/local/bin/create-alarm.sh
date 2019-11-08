@@ -119,7 +119,7 @@ BOOT path : \Z1$BOOT\Z0\n\
 ROOT path : \Z1$ROOT\Z0\n\
 Target    : \Z1Raspberry Pi $rpi\Z0\n\
 $wifi"
-	[[ $ans == 1 ]] && getData
+	[[ $? == 1 ]] && getData
 }
 getData
 
