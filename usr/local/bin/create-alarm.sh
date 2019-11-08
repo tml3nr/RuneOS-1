@@ -89,9 +89,9 @@ ROOT: \Z1$ROOT\Z0"
 	
 	yesno '\Z1Connect Wi-Fi on boot?\Z0'
 	if [[ $? == 0 ]]; then
-		ssid=$( inputbox '\Z1Wi-Fi\Z0 - SSID:' )
+		ssid=$( inputbox '\Z1Wi-Fi\Z0 - SSID:' $ssid )
 
-		password=$( inputbox '\Z1Wi-Fi\Z0 - Password:' )
+		password=$( inputbox '\Z1Wi-Fi\Z0 - Password:' $password )
 
 		wpa=$( dialog --backtitle "$title" --colors --output-fd 1 \
 			--menu '\n\Z1Wi-Fi -Security:\Z1' 0 0 3 \
