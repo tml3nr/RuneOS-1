@@ -14,7 +14,17 @@ RuneOS
 	- Write `BOOT` and `ROOT` partitions
 	- Connect PC to Raspberry Pi
 - Create RuneAudio+Re (2nd script)
-	- Optional - select features
+	- Select features:
+		- Avahi - URL as: runeaudio.local`
+		- Bluez - Bluetooth support
+		- Chromium - Browser on RPi (Not available for RPi Zero and 1 - too much for CPU)
+		- FFmpeg - [Extended decoders](https://github.com/rern/RuneOS/blob/master/ffmpeg.md)
+		- hostapd - RPi access point
+		- Kid3 - Metadata tag editor
+		- Python - Programming language
+		- Samba - File sharing
+		- Shairport-sync - AirPlay
+		- upmpdcli - UPnP
 	- Upgrade kernel and default packages
 	- Install feature packages and web interface
 	- Configure
@@ -81,21 +91,10 @@ chmod +x create-alarm.sh
 # if download errors or too slow, press Ctrl+C and run ./create-alarm.sh again
 ```
 - Follow instructions in the process until PC to Raspberry Pi connection is up.
+- At connecting propmt: confirm `yes` and password `alarm`
 
 ### Create RuneAudio+Re
 
-- For default setup: select `Install all`
-- Feature options:
-	- Avahi - Connect by: `runeaudio.local`
-	- Bluez - Bluetooth support
-	- Chromium - Browser on RPi (Not available for RPi Zero and 1 - too much for CPU)
-	- FFmpeg - [Extended decoders](https://github.com/rern/RuneOS/blob/master/ffmpeg.md)
-	- hostapd - RPi access point
-	- Kid3 - Metadata tag editor
-	- Python - Programming language
-	- Samba - File sharing
-	- Shairport-sync - AirPlay
-	- upmpdcli - UPnP
 ```sh
 # switch user to root
 su
