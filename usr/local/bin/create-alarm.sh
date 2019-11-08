@@ -25,7 +25,7 @@ infobox() {
 	dialog --backtitle "$title" --colors --infobox "\n$1\n" $w $h
 }
 inputbox() {
-	dialog --backtitle "$title" --colors --output-fd 1 --inputbox "\n$1" 0 0
+	dialog --backtitle "$title" --colors --output-fd 1 --inputbox "\n$1" 0 0 $2
 }
 msgbox() {
 	[[ -z $2 ]] && w=0 || w=$2
@@ -266,7 +266,7 @@ if [[ $ans == 1 ]]; then
 fi
 
 # connect RPi
-rpiip=$( inputbox '\Z1Raspberry Pi IP:\Z0' )
+rpiip=$( inputbox '\Z1Raspberry Pi IP:\Z0' 192.168.1. )
 [[ $? == 255 ]] && clear && exit
 
 clear
