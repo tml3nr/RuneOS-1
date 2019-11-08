@@ -44,9 +44,8 @@ sleep 3
 shairport='\Z1Shairport\Z0 - AirPlay'
  upmpdcli='\Z1upmpdcli\Z0  - UPnP client'
 
-# no chromium for RPi 0, 1
 [[ $nowireless ]] && bluez='Bluez     - (no onboard)'
-  [[ $rpi01 ]] && chromium='Chromium  - (not for RPi Zero, 1)'
+[[ $rpi01 ]] &&   chromium='Chromium  - (not for RPi Zero, 1)'
 
 selectFeatures() {
 	select=$( dialog --backtitle "$title" --colors \
