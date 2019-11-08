@@ -226,7 +226,7 @@ scanIP() {
 	nmap=$( nmap -sP ${routerip%.*}.* | grep -v 'Starting\|Host is up\|Nmap done' | head -n -1 | sed 's/$/\\n/; s/Nmap.*for/\\nIP  :/; s/Address//' | tr -d '\n' )
 	msgbox "\Z1Find IP address of Raspberry Pi:\Z0\n
 (Raspberri Pi 4 may listed as Unknown)\n
-[arrowdown] = scrolldown\n
+\Z4[arrowdown] = scrolldown\Z0\n
 $nmap" 50 100
 
 	dialog --backtitle "$title" --colors \
