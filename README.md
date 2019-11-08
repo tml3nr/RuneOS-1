@@ -1,20 +1,20 @@
 RuneOS
 ---
-- For all Raspberry Pi: Zero, 1, 2, 3 and 4 (3+: not yet tested but should work)
-- Create RuneAudio+Re from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) latest releases.
+- For all **Raspberry Pi**: Zero, 1, 2, 3 and 4 (3+: not yet tested but should work)
+- Create **RuneAudio+R e** from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) latest releases.
 - Interactive interface by [**Dialog**](https://invisible-island.net/dialog/)
 - With option to pre-configure Wi-Fi connection (headless mode)
 - With options to exclude features, it can be as light as possible in terms of build time and disk space.
 
 **Procedure**
 - Prepare partitions
-- Create Arch Linux Arm (1st script)
+- Create **Arch Linux Arm**
 	- Verify partitions
 	- Optional - pre-configure Wi-Fi
 	- Download
 	- Write `BOOT` and `ROOT` partitions
 	- Connect PC to Raspberry Pi
-- Create RuneAudio+Re (2nd script)
+- Create **RuneAudio+R e**
 	- Select features:
 		- Avahi - URL as: runeaudio.local`
 		- Bluez - Bluetooth support
