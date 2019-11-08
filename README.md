@@ -1,4 +1,4 @@
-RuneOS
+RuneOS - DIY
 ---
 - For all **Raspberry Pi**: Zero, 1, 2, 3 and 4 (3+: not yet tested but should work)
 - Create **RuneAudio+R e** from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) latest releases.
