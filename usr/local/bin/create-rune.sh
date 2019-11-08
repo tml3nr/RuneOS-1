@@ -45,7 +45,7 @@ shairport='\Z1Shairport\Z0 - AirPlay'
 
 # no chromium for RPi 0, 1
 echo 00 01 02 03 04 09 0c | grep -q $hwcode && nochromium=1
-[[ -n $nochromium ]] && chromium='Chromium  - (n/a)'
+[[ -n $nochromium ]] && chromium='Chromium  - (not for RPi Zero, 1)'
 
 selectFeatures() {
 	select=$( dialog --backtitle "$title" --colors \
