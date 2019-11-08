@@ -185,8 +185,12 @@ for user in $users; do
 	chage -E -1 $user
 done
 
-# upmpdcli - fix: missing symlink
-[[ -e /usr/bin/upmpdcli ]] && ln -s /lib/libjsoncpp.so.{21,20}
+# upmpdcli - fix: missing symlink and init RSA key
+if [[ -e /usr/bin/upmpdcli ]]; then
+	ln -s /lib/libjsoncpp.so.{21,20}
+	mpd --no-config &> /dev/null
+	upmpdcli &> /dev/null &
+fi
 
 # wireless-regdom
 echo 'WIRELESS_REGDOM="00"' > /etc/conf.d/wireless-regdom
@@ -235,14 +239,6 @@ mkdir -p /mnt/MPD/{NAS,SD,USB}
 # set permissions and ownership
 chown -R http:http "$dirdata"
 chown -R mpd:audio "$dirdata/mpd" /mnt/MPD
-
-if [[ -e /usr/bin/upmpdcli ]]; then
-	echo -e "\nInit RSA key for upmpdcli UPnP\n"
-	echo -e "Press \e[36mCtrl+C\e[m when \e[36mwriting RSA key\e[m displayed."
-	read -resn 1 -p $'\nPress any key to start\n'; echo
-	mpd --no-config &> /dev/null
-	upmpdcli
-fi
 
 # remove cache and files
 rm *.zip /root/*.xz /usr/local/bin/create-* /var/cache/pacman/pkg/* /etc/motd
