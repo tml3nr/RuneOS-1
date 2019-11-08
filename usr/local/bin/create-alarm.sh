@@ -207,9 +207,10 @@ Power on.\n
 title='Connect to Raspberry Pi'
 # scan ip
 routerip=$( ip route get 1 | cut -d' ' -f3 )
+subip=${routerip%.*}.
 scanIP() {
 	infobox "Scan IP address ..." 5 50
-	nmap=$( nmap -sP ${routerip%.*}.* | grep -v 'Starting\|Host is up\|Nmap done' | head -n -1 | sed 's/$/\\n/; s/Nmap.*for/\\nIP  :/; s/Address//' | tr -d '\n' )
+	nmap=$( nmap -sP $subip* | grep -v 'Starting\|Host is up\|Nmap done' | head -n -1 | tac | sed 's/$/\\n/; s/Nmap.*for/\\nIP  :/; s/Address//' | tr -d '\n' )
 	msgbox "\Z1Find IP address of Raspberry Pi:\Z0\n
 (Raspberri Pi 4 may listed as Unknown)\n
 \Z4[arrowdown] = scrolldown\Z0\n
@@ -250,7 +251,7 @@ if [[ $ans == 1 ]]; then
 fi
 
 # connect RPi
-rpiip=$( inputbox '\Z1Raspberry Pi IP:\Z0' 192.168.1. )
+rpiip=$( inputbox '\Z1Raspberry Pi IP:\Z0' $subip )
 
 clear
 
