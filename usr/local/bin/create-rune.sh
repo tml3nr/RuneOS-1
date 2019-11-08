@@ -2,7 +2,7 @@
 
 version=e2
 
-trap 'rm -f /var/lib/pacman/db.lck' INT
+trap 'rm -f /var/lib/pacman/db.lck; clean; exit' INT
 trap 'rm -f /var/lib/pacman/db.lck' EXIT
 
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
@@ -44,41 +44,49 @@ samba='\Z1Samba\Z0 - File sharing'
 shairport='\Z1Shairport-sync\Z0 - AirPlay'
 upmpdcli='\Z1upmpdcli\Z0 - UPnP client'
 
-select=$( dialog --backtitle "$title" --colors \
-   --output-fd 1 \
-   --checklist '\Z1Select features to install:\Z0\n
-\Z4[Enter] = install all
-[space] = select / deselect\n\n' 0 0 10 \
-		1 "$avahi" on \
-		2 "$bluez" on \
-		3 "$chromium" on \
-		4 "$ffmpeg" on \
-		5 "$hostapd" on \
-		6 "$kid" on \
-		7 "$python" on \
-		8 "$samba" on \
-		9 "$shairport" on \
-		10 "$upmpdcli" on )
-[[ $? == 255 ]] && clear && exit
-
-select=" $select "
-[[ $select == *' 1 '* ]] && features+='avahi ' && list+="$avahi\n"
-[[ $select == *' 2 '* ]] && features+='bluez bluez-utils ' && list+="$bluez\n"
-[[ $select == *' 3 '* ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$chromium\n"
-[[ $select == *' 4 '* ]] && features+='ffmpeg ' && list+="$ffmpeg\n"
-[[ $select == *' 5 '* ]] && features+='dnsmasq hostapd ' && list+="$hostapd\n"
-[[ $select == *' 6 '* ]] && kid3=1 && list+="$kid\n"
-[[ $select == *' 7 '* ]] && features+='python python-pip ' && list+="$python\n"
-[[ $select == *' 8 '* ]] && features+='samba ' && list+="$samba\n"
-[[ $select == *' 9 '* ]] && features+='shairport-sync ' && list+="$shairport\n"
-[[ $select == *' 10 '* ]] && upnp=1 && list+="$upmpdcli\n"
+selectFeatures() {
+	select=$( dialog --backtitle "$title" --colors \
+	   --output-fd 1 \
+	   --checklist '\Z1Select features to install:\n
+	\Z4[Enter] = Install all\n
+	[space] = Select / Deselect\Z0' 0 0 10 \
+			1 "$avahi" on \
+			2 "$bluez" on \
+			3 "$chromium" on \
+			4 "$ffmpeg" on \
+			5 "$hostapd" on \
+			6 "$kid" on \
+			7 "$python" on \
+			8 "$samba" on \
+			9 "$shairport" on \
+			10 "$upmpdcli" on )
+	[[ $? == 255 ]] && clear && exit
+	
+	select=" $select "
+	[[ $select == *' 1 '* ]] && features+='avahi ' && list+="$avahi\n"
+	[[ $select == *' 2 '* ]] && features+='bluez bluez-utils ' && list+="$bluez\n"
+	[[ $select == *' 3 '* ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$chromium\n"
+	[[ $select == *' 4 '* ]] && features+='ffmpeg ' && list+="$ffmpeg\n"
+	[[ $select == *' 5 '* ]] && features+='dnsmasq hostapd ' && list+="$hostapd\n"
+	[[ $select == *' 6 '* ]] && kid3=1 && list+="$kid\n"
+	[[ $select == *' 7 '* ]] && features+='python python-pip ' && list+="$python\n"
+	[[ $select == *' 8 '* ]] && features+='samba ' && list+="$samba\n"
+	[[ $select == *' 9 '* ]] && features+='shairport-sync ' && list+="$shairport\n"
+	[[ $select == *' 10 '* ]] && upnp=1 && list+="$upmpdcli\n"
+}
+selectFeatures
 
 dialog --backtitle "$title" --colors \
 	--yesno "\n\Z1Confirm features to install:\Z0\n\n
 $list\n\n" 0 0
-[[ $? == 1 || $? == 255 ]] && clear && exit
-
-clear
+$ans=$?
+if [[ $ans == 0 ]]; then
+	clear
+elif [[ $ans == 1 ]]; then
+	selectFeatures
+else
+	clear && exit
+fi
 
 #----------------------------------------------------------------------------
 echo -e "\n\e[36mSystem-wide kernel and packages upgrade ...\e[m\n"
