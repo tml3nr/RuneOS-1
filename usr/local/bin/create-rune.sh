@@ -105,7 +105,7 @@ pacman -S --noconfirm --needed $packages $features
 
 [[ -e /usr/bin/python ]] && yes | pip --no-cache-dir install RPi.GPIO
 
-echo -e "\n\e[36mInstall custom packages and web interface ...\e[m\n"
+echo -e "\n\e[36mInstall customized packages and web interface ...\e[m\n"
 
 wget -q --show-progress https://github.com/rern/RuneOS/archive/master.zip
 bsdtar xvf *.zip --strip 1 --exclude=.* --exclude=*.md -C /
