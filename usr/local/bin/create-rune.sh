@@ -88,7 +88,7 @@ clear
 pacmanFailed() {
 	dialog --backtitle "$title" --colors \
 		--msgbox "\n$1\n\n
-Run \Z1create-rune.sh\Z0 again.\n" 0 0
+Run \Z1create-rune.sh\Z0 again.\n\n" 0 0
 	exit
 }
 echo -e "\n\e[36mSystem-wide kernel and packages upgrade ...\e[m\n"
