@@ -2,6 +2,7 @@
 
 version=e2
 
+trap 'rm -f /var/lib/pacman/db.lck' INT
 trap 'rm -f /var/lib/pacman/db.lck' EXIT
 
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
@@ -32,52 +33,43 @@ dialog --colors \
 	--infobox "\n             \Z1$title\Z0\n" 5 50
 sleep 3
 
-dialog --backtitle "$title" --colors \
-	--yesno '\n\Z1Install all features?\Z0\n\n' 0 0
-ans=$?
-[[ $ans == 255 ]] && clear && exit
+avahi='\Z1Avahi\Z0 - Connect by: runeaudio.local'
+bluez='\Z1Bluez\Z0 - Bluetooth supports'
+chromium='\Z1Chromium\Z0 - Browser on RPi'
+ffmpeg='\Z1FFmpeg\Z0 - Extended decoder'
+hostapd='\Z1hostapd\Z0 - RPi access point'
+kid='\Z1Kid3\Z0 - Metadata tag editor'
+python='\Z1Python\Z0 - Programming language'
+samba='\Z1Samba\Z0 - File sharing'
+shairport='\Z1Shairport-sync\Z0 - AirPlay'
+upmpdcli='\Z1upmpdcli\Z0 - UPnP client'
 
-if [[ $ans == 0 ]]; then
-	features='avahi bluez bluez-utils chromium dnsmasq ffmpeg hostapd python python-pip samba shairport-sync xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit '
-	list='\Z1All features\Z0'
-else
-	avahi='\Z1Avahi\Z0 - Connect by: runeaudio.local'
-	bluez='\Z1Bluez\Z0 - Bluetooth supports'
-	chromium='\Z1Chromium\Z0 - Browser on RPi'
-	ffmpeg='\Z1FFmpeg\Z0 - Extended decoder'
-	hostapd='\Z1hostapd\Z0 - RPi access point'
-	kid='\Z1Kid3\Z0 - Metadata tag editor'
-	python='\Z1Python\Z0 - Programming language'
-	samba='\Z1Samba\Z0 - File sharing'
-	shairport='\Z1Shairport-sync\Z0 - AirPlay'
-	upmpdcli='\Z1upmpdcli\Z0 - UPnP client'
-	select=$( dialog --backtitle "$title" --colors \
-	   --output-fd 1 \
-	   --checklist '\Z1Select features to install:\Z0\n[space] = select' 0 0 10 \
-			1 "$avahi" off \
-			2 "$bluez" off \
-			3 "$chromium" off \
-			4 "$ffmpeg" off \
-			5 "$hostapd" off \
-			6 "$kid" off \
-			7 "$python" off \
-			8 "$samba" off \
-			9 "$shairport" off \
-			10 "$upmpdcli" off )
-	[[ $? == 255 ]] && clear && exit
-	
-	select=" $select "
-	[[ $select == *' 1 '* ]] && features+='avahi ' && list+="$avahi\n"
-	[[ $select == *' 2 '* ]] && features+='bluez bluez-utils ' && list+="$bluez\n"
-	[[ $select == *' 3 '* ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$chromium\n"
-	[[ $select == *' 4 '* ]] && features+='ffmpeg ' && list+="$ffmpeg\n"
-	[[ $select == *' 5 '* ]] && features+='dnsmasq hostapd ' && list+="$hostapd\n"
-	[[ $select == *' 6 '* ]] && kid3=1 && list+="$kid\n"
-	[[ $select == *' 7 '* ]] && features+='python python-pip ' && list+="$python\n"
-	[[ $select == *' 8 '* ]] && features+='samba ' && list+="$samba\n"
-	[[ $select == *' 9 '* ]] && features+='shairport-sync ' && list+="$shairport\n"
-	[[ $select == *' 10 '* ]] && upnp=1 && list+="$upmpdcli\n"
-fi
+select=$( dialog --backtitle "$title" --colors \
+   --output-fd 1 \
+   --checklist '\Z1Select features to install:\Z0\n[space] = select' 0 0 10 \
+		1 "$avahi" off \
+		2 "$bluez" off \
+		3 "$chromium" off \
+		4 "$ffmpeg" off \
+		5 "$hostapd" off \
+		6 "$kid" off \
+		7 "$python" off \
+		8 "$samba" off \
+		9 "$shairport" off \
+		10 "$upmpdcli" off )
+[[ $? == 255 ]] && clear && exit
+
+select=" $select "
+[[ $select == *' 1 '* ]] && features+='avahi ' && list+="$avahi\n"
+[[ $select == *' 2 '* ]] && features+='bluez bluez-utils ' && list+="$bluez\n"
+[[ $select == *' 3 '* ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$chromium\n"
+[[ $select == *' 4 '* ]] && features+='ffmpeg ' && list+="$ffmpeg\n"
+[[ $select == *' 5 '* ]] && features+='dnsmasq hostapd ' && list+="$hostapd\n"
+[[ $select == *' 6 '* ]] && kid3=1 && list+="$kid\n"
+[[ $select == *' 7 '* ]] && features+='python python-pip ' && list+="$python\n"
+[[ $select == *' 8 '* ]] && features+='samba ' && list+="$samba\n"
+[[ $select == *' 9 '* ]] && features+='shairport-sync ' && list+="$shairport\n"
+[[ $select == *' 10 '* ]] && upnp=1 && list+="$upmpdcli\n"
 
 dialog --backtitle "$title" --colors \
 	--yesno "\n\Z1Confirm features to install:\Z0\n\n
