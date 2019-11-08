@@ -45,8 +45,8 @@ infobox "
 " 7 50
 sleep 3
 
-BOOT=$( df | grep BOOT | awk '{print $NF}' )
-ROOT=$( df | grep ROOT | awk '{print $NF}' )
+BOOT=$( df | grep 'BOOT$' | awk '{print $NF}' )
+ROOT=$( df | grep 'ROOT$' | awk '{print $NF}' )
 
 # check mounts
 [[ -z $BOOT ]] && warnings+='BOOT not mounted\n'
