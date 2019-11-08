@@ -16,6 +16,7 @@ else
 fi
 
 # remove on exit
+trap 'rm -f ArchLinuxARM*; clear; exit' INT
 trap 'rm -f ArchLinuxARM*; clear' EXIT
 
 #----------------------------------------------------------------------------
@@ -67,7 +68,7 @@ getData() {
 	yesno "\Z1Confirm path:\Z0\n\n\
 BOOT: \Z1$BOOT\Z0\n\
 ROOT: \Z1$ROOT\Z0"
-	[[ $? == 1 || $? == 255 ]] && clear && exit
+	[[ $? == 1 ]] && clear && exit
 
 	rpi=$( dialog --backtitle "$title" --colors --output-fd 1 \
 		--menu '\n\Z1Target:\Z0' 0 0 6 \
@@ -77,7 +78,6 @@ ROOT: \Z1$ROOT\Z0"
 			3 'Raspberry Pi 3' \
 			4 'Raspberry Pi 4' \
 			5 'Raspberry Pi 3+' )
-	[[ $? == 255 ]] && clear && exit
 
 	if [[ $rpi == 0 || $rpi == 1 ]]; then
 		file=ArchLinuxARM-rpi-latest.tar.gz
@@ -92,23 +92,16 @@ ROOT: \Z1$ROOT\Z0"
 	fi
 
 	yesno '\Z1Connect Wi-Fi on boot?\Z0'
-	ans=$?
-	[[ $ans == 255 ]] && clear && exit
-
-	if [[ $ans == 0 ]]; then
+	if [[ $? == 0 ]]; then
 		ssid=$( inputbox '\Z1Wi-Fi\Z0 - SSID:' )
-		[[ $? == 255 ]] && clear && exit
 
 		password=$( inputbox '\Z1Wi-Fi\Z0 - Password:' )
-		[[ $? == 255 ]] && clear && exit
 
 		wpa=$( dialog --backtitle "$title" --colors --output-fd 1 \
 			--menu '\n\Z1Wi-Fi -Security:\Z1' 0 0 3 \
 				1 'WPA' \
 				2 'WEP' \
 				3 'None' )
-		[[ $? == 255 ]] && clear && exit
-
 		if [[ $wpa == 1 ]]; then
 			wpa=wpa
 		elif [[ $wpa == 2 ]]; then
@@ -117,22 +110,17 @@ ROOT: \Z1$ROOT\Z0"
 			wpa=
 		fi
 		wifi="Wi-Fi settings\n\
-	 SSID     : \Z1$ssid\Z0\n\
-	 Password : \Z1$password\Z0\n\
-	 Security : \Z1${wpa^^}\Z0\n"
+ SSID     : \Z1$ssid\Z0\n\
+ Password : \Z1$password\Z0\n\
+ Security : \Z1${wpa^^}\Z0\n"
 	fi
 
 	yesno "\Z1Confirm data:\Z0\n\n\
-	BOOT path : \Z1$BOOT\Z0\n\
-	ROOT path : \Z1$ROOT\Z0\n\
-	Target    : \Z1Raspberry Pi $rpi\Z0\n\
-	$wifi"
-	ans=$?
-	if [[ $ans == 255 ]]; then
-		clear && exit
-	elif [[ $ans == 1 ]]; then
-		getData
-	fi
+BOOT path : \Z1$BOOT\Z0\n\
+ROOT path : \Z1$ROOT\Z0\n\
+Target    : \Z1Raspberry Pi $rpi\Z0\n\
+$wifi"
+	[[ $ans == 1 ]] && getData
 }
 getData
 
@@ -193,13 +181,11 @@ Key=$password
 	cd $dir
 	ln -s ../../../../lib/systemd/system/netctl-auto@.service netctl-auto@wlan0.service
 	cd "$pwd"
-
 fi
 
 # get create-rune.sh
 wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-rune.sh -P $ROOT/usr/local/bin
 chmod +x $ROOT/usr/local/bin/create-rune.sh
-[[ $? == 0 ]] && rm $0
 
 msgbox "
         Arch Linux Arm for \Z1Raspberry Pi $rpi\Z0\n\
@@ -235,8 +221,6 @@ $nmap" 50 100
 	ans=$?
 	if [[ $ans == 3 ]]; then
 		scanIP
-	elif [[ $ans == 255 ]]; then
-		clear && exit
 	elif [[ $ans == 1 && -n $rescan ]]; then
 		diadog --msgbox '  Try starting over again.' 0 0
 		clear && exit
@@ -267,7 +251,6 @@ fi
 
 # connect RPi
 rpiip=$( inputbox '\Z1Raspberry Pi IP:\Z0' 192.168.1. )
-[[ $? == 255 ]] && clear && exit
 
 clear
 
