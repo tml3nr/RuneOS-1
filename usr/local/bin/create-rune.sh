@@ -247,7 +247,7 @@ rm -r /root/armv6h
 dialog --colors \
 	--msgbox "\n      
       \Z1RuneAudio+R $version\Z0 built successfully.\n\n
-              Press \Z1Enter\Z0 to reboot
+            Press \Z1Enter\Z0 to reboot
 " 9 50
 
 shutdown -r now
