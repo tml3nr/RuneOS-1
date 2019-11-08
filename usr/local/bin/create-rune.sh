@@ -28,8 +28,8 @@ pacman -Sy --noconfirm --needed dialog
 
 #----------------------------------------------------------------------------
 title="Build RuneAudio+R $version"
-dialog --colors \
-	--infobox "\n             \Z1$title\Z0\n" 5 50
+dialog  --backtitle "$title" --colors \
+	--infobox "\n\n                \Z1RuneAudio+R $version\Z0" 7 50
 sleep 3
 
     avahi='\Z1Avahi\Z0     - Connect by: runeaudio.local'
