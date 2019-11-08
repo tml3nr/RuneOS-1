@@ -123,8 +123,8 @@ fi
 
 [[ ! -e /usr/bin/bluetoothctl ]] && rm /root/bluealsa* /root/armv6h/bluealsa* /boot/overlays/bcmbt.dtbo
 
-[[ $kid3 == n || $kid3 == N ]] && rm /root/kid3*
-[[ $upnp == n || $upnp == N ]] && rm /etc/upmpdcli.conf /root/{libupnpp*,upmpdcli*}
+[[ ! $kid3 ]] && rm /root/kid3*
+[[ ! $upnp ]] && rm /etc/upmpdcli.conf /root/{libupnpp*,upmpdcli*}
 
 pacman -U --noconfirm --needed /root/*.xz
 [[ $? != 0 ]] && pacmanFailed 'Install custom packages failed!'
