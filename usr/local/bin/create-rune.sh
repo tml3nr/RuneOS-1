@@ -5,8 +5,8 @@ version=e2
 trap 'rm -f /var/lib/pacman/db.lck; clear; exit' INT
 
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-[[ $hwcode =~ ^(08|0c|0d|0e|11)$ ]] && wireless=1
 [[ $hwcode =~ ^(00|01|02|03|09|0c)$ ]] && rpi01=1
+[[ $hwcode =~ ^(00|01|02|03|04|09)$ ]] && nowireless=1
 
 cols=$( tput cols )
 hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
@@ -45,7 +45,8 @@ shairport='\Z1Shairport\Z0 - AirPlay'
  upmpdcli='\Z1upmpdcli\Z0  - UPnP client'
 
 # no chromium for RPi 0, 1
-[[ $rpi01 ]] && chromium='Chromium  - (not for RPi Zero, 1)'
+[[ $nowireless ]] && bluez='Bluez     - (no onboard)'
+  [[ $rpi01 ]] && chromium='Chromium  - (not for RPi Zero, 1)'
 
 selectFeatures() {
 	select=$( dialog --backtitle "$title" --colors \
@@ -65,8 +66,8 @@ selectFeatures() {
 	
 	select=" $select "
 	[[ $select == *' 1 '* ]] && features+='avahi ' && list+="$avahi\n"
-	[[ $select == *' 2 '* ]] && features+='bluez bluez-utils ' && list+="$bluez\n"
-	[[ $select == *' 3 '* && ! $nochromium ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$chromium\n"
+	[[ $select == *' 2 '* && ! $nowireless ]] && features+='bluez bluez-utils ' && list+="$bluez\n"
+	[[ $select == *' 3 '* && ! $rpi01 ]] && features+='chromium xorg-server xf86-video-fbdev xf86-video-vesa xorg-xinit ' && list+="$chromium\n"
 	[[ $select == *' 4 '* ]] && features+='ffmpeg ' && list+="$ffmpeg\n"
 	[[ $select == *' 5 '* ]] && features+='dnsmasq hostapd ' && list+="$hostapd\n"
 	[[ $select == *' 6 '* ]] && kid3=1 && list+="$kid\n"
@@ -103,7 +104,7 @@ echo -e "\n\e[36mInstall packages ...\e[m\n"
 pacman -S --noconfirm --needed $packages $features
 [[ $? != 0 ]] && pacmanFailed 'Install packages failed!'
 
-[[ $pyt == y || $pyt == Y ]] && yes | pip --no-cache-dir install RPi.GPIO
+[[ -e /usr/bin/python ]] && yes | pip --no-cache-dir install RPi.GPIO
 
 echo -e "\n\e[36mInstall custom packages and web interface ...\e[m\n"
 
@@ -119,10 +120,10 @@ if [[ $rpi01 ]]; then
 	mv /root/armv6h/* /root
 fi
 
-if [[ $blue == n || $blue == N || ! $wireless ]]; then
-	rm /root/bluealsa* /root/armv6h/bluealsa* /boot/overlays/bcmbt.dtbo
-	sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
-fi
+[[ $nowireless ]] && sed -i '/disable-wifi\|disable-bt/ d' /boot/config.txt
+
+[[ ! -e /usr/bin/bluetoothctl ]] && rm /root/bluealsa* /root/armv6h/bluealsa* /boot/overlays/bcmbt.dtbo
+
 [[ $kid3 == n || $kid3 == N ]] && rm /root/kid3*
 [[ $upnp == n || $upnp == N ]] && rm /etc/upmpdcli.conf /root/{libupnpp*,upmpdcli*}
 
