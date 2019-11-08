@@ -5,7 +5,8 @@ version=e2
 trap 'rm -f /var/lib/pacman/db.lck; clear; exit' INT
 
 hwcode=$( cat /proc/cpuinfo | grep Revision | tail -c 4 | cut -c 1-2 )
-echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
+#echo 08 0c 0d 0e 11 | grep -q $hwcode && wireless=1 || wireless=
+[[ $hwcode =~ ^(08|0c|0d|0e|11)$ ]] && wireless=1
 
 cols=$( tput cols )
 hr() { printf "\e[36m%*s\e[m\n" $cols | tr ' ' -; }
@@ -44,7 +45,8 @@ shairport='\Z1Shairport\Z0 - AirPlay'
  upmpdcli='\Z1upmpdcli\Z0  - UPnP client'
 
 # no chromium for RPi 0, 1
-echo 00 01 02 03 04 09 0c | grep -q $hwcode && nochromium=1
+#echo 00 01 02 03 09 0c | grep -q $hwcode && nochromium=1
+[[ $hwcode =~ ^(00|01|02|03|09|0c)$ ]] && nochromium=1
 [[ -n $nochromium ]] && chromium='Chromium  - (not for RPi Zero, 1)'
 
 selectFeatures() {
@@ -114,7 +116,8 @@ chmod 755 /srv/http/* /srv/http/settings/* /usr/local/bin/*
 chown -R http:http /srv/http
 
 # RPi 0, 1 - switch packages for armv6h
-if echo 00 01 02 03 09 0c | grep -q $hwcode; then
+#if echo 00 01 02 03 09 0c | grep -q $hwcode; then
+if [[ $hwcode =~ ^(00|01|02|03|09|0c)$ ]]; then
 	rm /root/*.xz
 	mv /root/armv6h/* /root
 fi
@@ -133,8 +136,8 @@ pacman -U --noconfirm --needed /root/*.xz
 echo -e "\n\e[36mConfigure ...\e[m\n"
 
 # RPi 0 - fix kernel panic
-[[ $hwcode == 09 || $hwcode == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
-
+#[[ $hwcode == 09 || $hwcode == 0c ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
+[[ $hwcode =~ ^(09|0c)$ ]] && sed -i -e '/force_turbo=1/ i\over_voltage=2' -e '/dtparam=audio=on/ a\hdmi_drive=2' /boot/config.txt
 # RPi 4
 if [[ $hwcode == 11 ]]; then
 	sed -i '/force_turbo=1/ d' /boot/config.txt
