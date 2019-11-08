@@ -181,7 +181,7 @@ disable_overscan=1
 ### i2s
 #dtparam=i2s=on'
 
-echo $config > $BOOT/config.txt
+echo "$config" > $BOOT/config.txt
 
 # wifi
 if [[ $ssid ]]; then
