@@ -2,7 +2,7 @@ RuneOS
 ---
 - For all Raspberry Pi: Zero, 1, 2, 3 and 4 (3+: not yet tested but should work)
 - Build RuneAudio+Re from [**Arch Linux Arm**](https://archlinuxarm.org/about/downloads) latest releases.
-- Interactive interface
+- Interactive interface by [**Dialog**](https://invisible-island.net/dialog/)
 - With options to exclude features, it can be as light as possible in terms of build time and disk space.
 
 **Procedure**
