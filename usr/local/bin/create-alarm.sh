@@ -229,12 +229,16 @@ scanIP() {
 [arrowdown] = scrolldown\n
 $nmap" 50 100
 
-	yesno '\Z1Found IP address of Raspberry Pi?\Z0'
+	dialog --backtitle "$title" --colors \
+        --ok-label Yes --extra-button --extra-label Rescan --cancel-label No \
+        --yesno '\n\Z1Found IP address of Raspberry Pi?\Z0' 7 38
 	ans=$?
-	[[ $ans == 255 ]] && clear && exit
-	
-	if [[ $ans == 1 && -n $rescan ]]; then
-		msgbox '  Try start over again.'
+	if [[ $ans == 3 ]]; then
+		scanIP
+	elif [[ $ans == 255 ]]; then
+		clear && exit
+	elif [[ $ans == 1 && -n $rescan ]]; then
+		diadog --msgbox '  Try starting over again.' 0 0
 		clear && exit
 	fi
 }
@@ -249,7 +253,7 @@ if [[ $ans == 1 ]]; then
 - Connect wired LAN\n
 - Power on\n
 - Wait 30 seconds
-- Press Enter to continue'
+- Press Enter to rescan IP'
 		scanIP
 	else
 		msgbox '
