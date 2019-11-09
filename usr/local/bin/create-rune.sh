@@ -22,7 +22,8 @@ pacman-key --populate archlinuxarm
 systemctl start systemd-random-seed
 
 # fix dns errors
-systemctl stop systemd-resolved
+echo DNSSEC=no >> /etc/systemd/resolved.conf
+systemctl restart systemd-resolved
 
 # dialog package
 pacman -Sy --noconfirm --needed dialog
