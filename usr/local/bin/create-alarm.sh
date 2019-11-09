@@ -279,3 +279,5 @@ clear
 
 ssh-keygen -R $rpiip &> /dev/null
 ssh alarm@$rpiip
+
+[[ $? == 0 ]] && rm $0
