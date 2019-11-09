@@ -11,7 +11,7 @@ RuneOS - DIY RuneAudio+R e
 - Create **Arch Linux Arm**
 	- Verify partitions
 	- Optional - pre-configure Wi-Fi
-	- Download
+	- Download and verify
 	- Write `BOOT` and `ROOT` partitions
 	- Connect PC to Raspberry Pi
 - Create **RuneAudio+R e**
