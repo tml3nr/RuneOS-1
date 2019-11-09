@@ -132,7 +132,7 @@ getData
 wget -qN http://os.archlinuxarm.org/os/$file.md5
 if ! md5sum -c $file.md5; then
     msgbox '\Z1Download incomplete!\Z0\n\n
-Run \Z1./create-alarm.sh\Z0 again.'
+Run \Z1./create-alarm.sh\Z0 again.\n\n'
     exit
 fi
 
