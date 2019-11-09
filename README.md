@@ -116,7 +116,9 @@ create-rune.sh
 - Create a new file:
 	- Name     : `wifi`
 	- Location : `BOOT` partition/drive
-	- Content  : (replace `"NAME` and `PASSWORD` with your Wi-Fi)
+	- Content  :
+		- Replace `"NAME` and `PASSWORD` with ones for your Wi-Fi
+		- If security of your Wi-Fi is `wep`, replace `wpa` as well.
 ```sh
 Interface=wlan0
 Connection=wireless
