@@ -10,6 +10,14 @@
 # 5. check addons update
 # 6. disable wlan power saving
 
+if [[ -e /boot/wifi ]]; then
+	ssid=$( grep '^ESSID' /boot/wifi | cut -d'"' -f2 )
+	sed -i 's/\r//' /boot/wifi
+	mv /boot/wifi "/etc/netctl/$ssid"
+	netctl start "$ssid"
+	systemctl enable netctl-auto@wlan0
+fi
+
 touch /tmp/startup  # flag for mpd-conf.sh > suppress audio output notification
 
 /srv/http/settings/mpd-conf.sh # mpd mpdidle start here
