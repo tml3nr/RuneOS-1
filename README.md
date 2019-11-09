@@ -114,9 +114,9 @@ create-rune.sh
 - On Linux or Windows
 - Insert micro SD card
 - In `BOOT`
-	- Open file `wifi0' with text editor
+	- Open file `wifi0` with text editor
 	- Replace `"NAME` and `PASSWORD` with ones for your Wi-Fi
 	- If security of your Wi-Fi is `wep`, replace `wpa` as well.
-	- Save and rename `wifi0' to `wifi`
+	- Save and rename `wifi0` to `wifi`
 - Move micro SD card to Raspberry Pi
 - Power on
