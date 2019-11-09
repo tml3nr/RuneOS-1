@@ -1,8 +1,9 @@
+# Replace NAME and PASSWORD
+# Rename this file from 'wifi0' to 'wifi'
+
 Interface=wlan0
 Connection=wireless
 IP=dhcp
-
-# Replace NAME and PASSWORD
 ESSID="NAME"
 Key=PASSWORD
 Security=wpa
