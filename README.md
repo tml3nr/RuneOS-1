@@ -108,5 +108,20 @@ create-rune.sh
 ---
 
 **Optional**
-- [Setup Wi-Fi auto-connect](https://github.com/rern/RuneAudio/tree/master/wifi_setup) (if not set during build)
 - [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
+- Setup Wi-Fi auto-connect (if not set during build)
+	- On PC, Lunux or Windows
+	- Create a file
+		- Name     : `wifi`
+		- Location : `BOOT` partition/drive
+		- Content  : (replace `"NAME` and `PASSWORD` with your Wi-Fi)
+```sh
+Interface=wlan0
+Connection=wireless
+IP=dhcp
+ESSID="NAME"
+Security=wpa
+Key=PASSWORD
+```
+	- Move micro SD card back to Raspberry Pi
+	- Power on
