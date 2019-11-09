@@ -48,11 +48,13 @@ RuneOS - DIY RuneAudio+R e
 ---
 
 ### Prepare partitions
+- On Linux PC
 
 **Micro SD card only**
 - Insert micro SD card
-- Delete all partitions (make sure it's the micro SD card)
-- Create partitions with **GParted** app
+- Open **GParted** app
+- `Unmount` > `Delete` all partitions (make sure it's the micro SD card)
+- Create partitions:
 
 | No. | Size        | Type    | Format | Label |
 |-----|-------------|---------|--------|-------|
@@ -61,12 +63,12 @@ RuneOS - DIY RuneAudio+R e
 	
 **Optional: Micro SD card + USB drive**
 - Micro SD card
-	- Delete all partitions (Caution: make sure it's the SD card)
+	- `Unmount` > `Delete` all partitions (Caution: make sure it's the SD card)
 	- Format: `fat32`
 	- Label: `BOOT`
 - USB drive
 	- Blank drive:
-		- Delete all partitions (Caution: make sure it's the USB drive)
+		- `Unmount` > `Delete` all partitions (Caution: make sure it's the USB drive)
 		- Format: `ext4`
 		- Label: `ROOT`
 	- Drive with existing data:
@@ -77,10 +79,9 @@ RuneOS - DIY RuneAudio+R e
 			- Label: `ROOT`
 
 ### Create Arch Linux Arm
-
-- Open **Files** app - click `BOOT` and `ROOT` to mount
+- Open **Files** app 
+- Click `BOOT` and `ROOT` to mount
 - Hover mouse over `BOOT` and `ROOT` and note the paths
-- Download and write `BOOT` and `ROOT`
 ```sh
 # switch user to root
 su
@@ -88,12 +89,11 @@ su
 # get script and run
 wget -qN https://github.com/rern/RuneOS/raw/master/usr/local/bin/create-alarm.sh; chmod +x create-alarm.sh; ./create-alarm.sh
 ```
+- Errors or too slow download: press `Ctrl+C` and run `./create-alarm.sh` again
 - Follow instructions until PC to Raspberry Pi connection is up.
 - At connecting propmt: confirm `yes` and password `alarm`
-- Errors or too slow download: press `Ctrl+C` and run `./create-alarm.sh` again
 
 ### Create RuneAudio+Re
-
 ```sh
 # switch user to root
 su
@@ -111,8 +111,9 @@ create-rune.sh
 [**Create image file**](https://github.com/rern/RuneOS/blob/master/imagefile.md)  
 
 **Setup Wi-Fi auto-connect** (if not set during build)
-- On PC, Lunux or Windows
-- Create a file
+- On Linux or Windows
+- Insert micro SD card
+- Create a new file:
 	- Name     : `wifi`
 	- Location : `BOOT` partition/drive
 	- Content  : (replace `"NAME` and `PASSWORD` with your Wi-Fi)
@@ -124,5 +125,5 @@ ESSID="NAME"
 Security=wpa
 Key=PASSWORD
 ```
-- Move micro SD card back to Raspberry Pi
+- Move micro SD card to Raspberry Pi
 - Power on
