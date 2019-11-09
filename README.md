@@ -107,7 +107,8 @@ create-rune.sh
 
 ---
 
-Optional - [**Create image file**](https://github.com/rern/RuneOS/blob/master/imagefile.md)  
+### Optional
+[**Create image file**](https://github.com/rern/RuneOS/blob/master/imagefile.md)  
 
 **Setup Wi-Fi auto-connect** (if not set during build)
 - On PC, Lunux or Windows
