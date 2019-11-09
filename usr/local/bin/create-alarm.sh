@@ -213,7 +213,9 @@ msgbox "
         Arch Linux Arm for \Z1Raspberry Pi $rpi\Z0\n\
                created successfully.
 " 8 58
-			   
+
+rm $0
+
 #----------------------------------------------------------------------------
 umount -l $BOOT
 umount -l $ROOT
