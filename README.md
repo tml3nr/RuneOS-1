@@ -107,14 +107,14 @@ create-rune.sh
 
 ---
 
-**Optional**
-- [Create image file](https://github.com/rern/RuneOS/blob/master/imagefile.md)
-- Setup Wi-Fi auto-connect (if not set during build)
-	- On PC, Lunux or Windows
-	- Create a file
-		- Name     : `wifi`
-		- Location : `BOOT` partition/drive
-		- Content  : (replace `"NAME` and `PASSWORD` with your Wi-Fi)
+Optional - [**Create image file**](https://github.com/rern/RuneOS/blob/master/imagefile.md)  
+
+**Setup Wi-Fi auto-connect** (if not set during build)
+- On PC, Lunux or Windows
+- Create a file
+	- Name     : `wifi`
+	- Location : `BOOT` partition/drive
+	- Content  : (replace `"NAME` and `PASSWORD` with your Wi-Fi)
 ```sh
 Interface=wlan0
 Connection=wireless
@@ -123,6 +123,5 @@ ESSID="NAME"
 Security=wpa
 Key=PASSWORD
 ```
-
-	- Move micro SD card back to Raspberry Pi
-	- Power on
+- Move micro SD card back to Raspberry Pi
+- Power on
