@@ -123,5 +123,6 @@ ESSID="NAME"
 Security=wpa
 Key=PASSWORD
 ```
+
 	- Move micro SD card back to Raspberry Pi
 	- Power on
