@@ -113,19 +113,10 @@ create-rune.sh
 **Setup Wi-Fi auto-connect** (if not set during build)
 - On Linux or Windows
 - Insert micro SD card
-- Create a new file:
-	- Name     : `wifi`
-	- Location : `BOOT` partition/drive
-	- Content  :
-		- Replace `"NAME` and `PASSWORD` with ones for your Wi-Fi
-		- If security of your Wi-Fi is `wep`, replace `wpa` as well.
-```sh
-Interface=wlan0
-Connection=wireless
-IP=dhcp
-ESSID="NAME"
-Security=wpa
-Key=PASSWORD
-```
+- In `BOOT`
+	- Open file `wifi0' with text editor
+	- Replace `"NAME` and `PASSWORD` with ones for your Wi-Fi
+	- If security of your Wi-Fi is `wep`, replace `wpa` as well.
+	- Save and rename `wifi0' to `wifi'
 - Move micro SD card to Raspberry Pi
 - Power on
