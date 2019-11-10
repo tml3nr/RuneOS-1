@@ -52,7 +52,7 @@ if ls $dirsystem/fstab-* &> /dev/null; then
 	files=( /srv/http/data/system/fstab-* )
 	for file in "${files[@]}"; do
 		cat $file >> /etc/fstab
-		mkdir -p "${file/fstab-}"
+		mkdir -p "/mnt/MPD/NAS/${file/fstab-}"
 	done
 fi
 # hostname
