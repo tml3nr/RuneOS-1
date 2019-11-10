@@ -48,11 +48,11 @@ fi
 if ls $dirsystem/fstab-* &> /dev/null; then
 	echo -e "\nRestore \e[36mNAS\e[m mounts ...\n"
 	sed -i '\|/mnt/MPD/NAS| d' /etc/fstab
-	rmdir /mnt/MPD/NAS/*
+	rmdir /mnt/MPD/NAS/* &> /dev/null
 	files=( /srv/http/data/system/fstab-* )
 	for file in "${files[@]}"; do
 		cat $file >> /etc/fstab
-		mkdir -p "/mnt/MPD/NAS/${file/fstab-}"
+		mkdir -p "/mnt/MPD/NAS/${file/*fstab-}"
 	done
 fi
 # hostname
